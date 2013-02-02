@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math"
 
-	gl "github.com/go3d/go-opengl/gogl"
+	gl "github.com/go3d/go-opengl/core"
 
 	ugo "github.com/metaleap/go-util"
 )

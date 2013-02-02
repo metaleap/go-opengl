@@ -6,7 +6,7 @@ import (
 	"math"
 	"reflect"
 
-	gl "github.com/go3d/go-opengl/gogl"
+	gl "github.com/go3d/go-opengl/core"
 )
 
 //	Represents a 2-dimensional texture image.
@@ -42,7 +42,7 @@ func (me *Texture2D) Init() {
 //	If me.MipMap.NumLevels is 0 (or just smaller than 1), then me.MaxNumMipLevels() is used.
 func (me *Texture2D) Recreate() {
 	me.onBeforeRecreate()
-	hasPixData := (me.PixelData.Ptr != gl.Pointer(nil))
+	hasPixData := (me.PixelData.Ptr != gl.Ptr(nil))
 	numLevels := me.MipMap.NumLevels
 	if numLevels < 1 {
 		numLevels = me.MaxNumMipLevels()
@@ -71,35 +71,35 @@ func (me *Texture2D) SetFromImage(img image.Image) (err error) {
 	case *image.Alpha:
 		me.SizedInternalFormat = gl.R8
 		me.PixelData.Format = gl.RED
-		me.PixelData.Ptr = gl.Pointer(&pic.Pix[0])
+		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
 	case *image.Alpha16:
 		me.SizedInternalFormat = gl.R16
 		me.PixelData.Format = gl.RED
-		me.PixelData.Ptr = gl.Pointer(&pic.Pix[0])
+		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
 	case *image.Gray:
 		me.SizedInternalFormat = gl.R8
 		me.PixelData.Format = gl.RED
-		me.PixelData.Ptr = gl.Pointer(&pic.Pix[0])
+		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
 	case *image.Gray16:
 		me.SizedInternalFormat = gl.R16
 		me.PixelData.Format = gl.RED
-		me.PixelData.Ptr = gl.Pointer(&pic.Pix[0])
+		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
 	case *image.NRGBA:
 		me.SizedInternalFormat = gl.RGBA8
 		me.PixelData.Format = gl.RGBA
-		me.PixelData.Ptr = gl.Pointer(&pic.Pix[0])
+		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
 	case *image.NRGBA64:
 		me.SizedInternalFormat = gl.RGBA16
 		me.PixelData.Format = gl.RGBA
-		me.PixelData.Ptr = gl.Pointer(&pic.Pix[0])
+		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
 	case *image.RGBA:
 		me.SizedInternalFormat = gl.RGBA8
 		me.PixelData.Format = gl.RGBA
-		me.PixelData.Ptr = gl.Pointer(&pic.Pix[0])
+		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
 	case *image.RGBA64:
 		me.SizedInternalFormat = gl.RGBA16
 		me.PixelData.Format = gl.RGBA
-		me.PixelData.Ptr = gl.Pointer(&pic.Pix[0])
+		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
 	default:
 		err = fmt.Errorf("Unsupported image.Image type (%v) for use as OpenGL texture", reflect.TypeOf(pic))
 	}

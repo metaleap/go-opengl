@@ -1,7 +1,7 @@
 package glutil
 
 import (
-	gl "github.com/go3d/go-opengl/gogl"
+	gl "github.com/go3d/go-opengl/core"
 	ustr "github.com/metaleap/go-util/str"
 )
 
@@ -33,13 +33,13 @@ func (_ Utils) Extension(name string) bool {
 //	Returns the specified OpenGL string.
 //	Example: GlStr(gl.VENDOR) = "NVIDIA Corporation"
 func (_ Utils) Str(name gl.Enum) string {
-	return gl.GoStringUb(gl.GetString(name))
+	return gl.Util.StringFromUbyte(gl.GetString(name))
 }
 
 //	Returns the specified OpenGL string at the specified index.
 //	For example, GlStri(gl.EXTENSIONS, 0) returns the name of the "first" of all supported extensions.
 func (_ Utils) Stri(name gl.Enum, i gl.Uint) string {
-	return gl.GoStringUb(gl.GetStringi(name, i))
+	return gl.Util.StringFromUbyte(gl.GetStringi(name, i))
 }
 
 //	Returns the specified integer as returned by gl.GetIntegerv().

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	gl "github.com/go3d/go-opengl/gogl"
+	gl "github.com/go3d/go-opengl/core"
 )
 
 //	Represents an OpenGL shader object.
@@ -145,8 +145,8 @@ func (me *Shader) SetSource(source string, defines map[string]interface{}) (err 
 	lines[i] = "#line 1\n"
 	lines[i+1] = source
 	joined := strings.Join(lines, "")
-	src := gl.GLStringArray(lines...)
-	defer gl.GLStringArrayFree(src)
+	src := gl.Util.CStringArray(lines...)
+	defer gl.Util.CStringArrayFree(src)
 	gl.ShaderSource(me.GlHandle, gl.Sizei(len(src)), &src[0], nil)
 	err = LastError("Shader'%s'.SetSource('%s')", me.Name, joined)
 	return

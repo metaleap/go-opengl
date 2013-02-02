@@ -3,7 +3,7 @@ package glutil
 import (
 	"fmt"
 
-	gl "github.com/go3d/go-opengl/gogl"
+	gl "github.com/go3d/go-opengl/core"
 	ugo "github.com/metaleap/go-util"
 )
 
@@ -119,8 +119,8 @@ func (me *Program) Link() (err error) {
 }
 
 func (me *Program) locationAttr(attrName string) gl.Uint {
-	s := gl.GLString(attrName)
-	defer gl.GLStringFree(s)
+	s := gl.Util.CString(attrName)
+	defer gl.Util.CStringFree(s)
 	l := gl.GetAttribLocation(me.GlHandle, s)
 	if l < 0 {
 		return shaderAttrInvalidLoc
@@ -129,8 +129,8 @@ func (me *Program) locationAttr(attrName string) gl.Uint {
 }
 
 func (me *Program) locationUnif(unifName string) gl.Int {
-	s := gl.GLString(unifName)
-	defer gl.GLStringFree(s)
+	s := gl.Util.CString(unifName)
+	defer gl.Util.CStringFree(s)
 	return gl.GetUniformLocation(me.GlHandle, s)
 }
 
@@ -194,15 +194,15 @@ func (me *Program) Validate() (err error) {
 
 func shaderProgInfoLog(name string, glHandle gl.Uint, shader bool) (infoLog string) {
 	const l gl.Sizei = 256
-	s := gl.GLStringAlloc(l)
-	defer gl.GLStringFree(s)
+	s := gl.Util.CStringAlloc(l)
+	defer gl.Util.CStringFree(s)
 	if shader {
 		gl.GetShaderInfoLog(glHandle, l, nil, s)
 	} else {
 		gl.GetProgramInfoLog(glHandle, l, nil, s)
 	}
 	if err := LastError("%s'%s'.InfoLog()", ugo.Ifs(shader, "Shader", "Program"), name); err == nil {
-		infoLog = gl.GoString(s)
+		infoLog = gl.Util.StringFromChar(s)
 	} else {
 		infoLog = err.Error()
 	}

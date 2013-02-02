@@ -1,7 +1,7 @@
 package glutil
 
 import (
-	gl "github.com/go3d/go-opengl/gogl"
+	gl "github.com/go3d/go-opengl/core"
 )
 
 //	Represents an OpenGL vertex array object (NOT the legacy OpenGL "vertex arrays", but what is commonly abbreviated as VAO).
@@ -75,11 +75,11 @@ type VertexAttribPointer struct {
 
 	//	Specifies a offset of the first component of the first generic vertex attribute in the array
 	//	in the data store of the Buffer currently bound to the gl.ARRAY_BUFFER target.
-	Offset gl.Pointer
+	Offset gl.Ptr
 }
 
 //	Initializes and returns a new VertexAttribPointer with the specified values.
-func NewVertexAttribPointer(name string, loc gl.Uint, size gl.Int, stride gl.Sizei, offset gl.Pointer) (me *VertexAttribPointer) {
+func NewVertexAttribPointer(name string, loc gl.Uint, size gl.Int, stride gl.Sizei, offset gl.Ptr) (me *VertexAttribPointer) {
 	me = &VertexAttribPointer{Type: gl.FLOAT, Normalized: gl.FALSE, Loc: loc, Name: name, Size: size, Stride: stride, Offset: offset}
 	return
 }

@@ -1,12 +1,12 @@
 package glutil
 
 import (
-	gl "github.com/go3d/go-opengl/gogl"
+	gl "github.com/go3d/go-opengl/core"
 )
 
 //	Encapsulates an OpenGL framebuffer object.
 type Framebuffer struct {
-	//	Set in Create(), this is either gl.DRAW_FRAMEBUFFER, gl.READ_FRAMEBUFFER or gl.FRAMEBUFFER
+	//	Set in Create(), this is either gl.READ_FRAMEBUFFER or gl.FRAMEBUFFER
 	GlTarget gl.Enum
 
 	//	The OpenGL handle to this framebuffer object.
@@ -42,9 +42,9 @@ func (me *Framebuffer) BindTexture(index int) {
 }
 
 //	Creates this Framebuffer in OpenGL sized as specified.
-func (me *Framebuffer) Create(width, height gl.Sizei, draw, read bool) {
+func (me *Framebuffer) Create(width, height gl.Sizei, read bool) {
 	me.width, me.height = width, height
-	me.GlTarget = Typed.Ifb(draw, read, gl.DRAW_FRAMEBUFFER, gl.READ_FRAMEBUFFER, gl.FRAMEBUFFER)
+	me.GlTarget = Typed.Ife(read, gl.READ_FRAMEBUFFER, gl.FRAMEBUFFER)
 	gl.GenFramebuffers(1, &me.GlHandle)
 	for _, tex := range me.rendertextures {
 		me.reinitTexture(tex)

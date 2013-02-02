@@ -45,7 +45,7 @@
 			<div class="expanded">
 				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
 				<p>
-OpenGL (3.3 or higher ONLY!) utilities and a few sane slim wrappers (without going full-on &#34;OO&#34;-overboard) for Go (using the GoGL [ <a href="http://github.com/chsc/gogl">http://github.com/chsc/gogl</a> ] bindings).
+OpenGL (3.3 or higher ONLY!) utilities and a few sane slim wrappers (without going full-on &#34;OO&#34;-overboard) for Go (using the GL Core Profile 3.3+ [ <a href="http://github.com/go3d/go-opengl/core/">http://github.com/go3d/go-opengl/core/</a> ] bindings).
 </p>
 
 			</div>
@@ -141,7 +141,7 @@ OpenGL (3.3 or higher ONLY!) utilities and a few sane slim wrappers (without goi
 					<dd>&nbsp; &nbsp; <a href="#Buffer.Map">func (me *Buffer) Map(read, write bool)</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#Buffer.Recreate">func (me *Buffer) Recreate(newGlTarget gl.Enum, sizeInBytes gl.Sizeiptr, initialData gl.Pointer, usageHint gl.Enum)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#Buffer.Recreate">func (me *Buffer) Recreate(newGlTarget gl.Enum, sizeInBytes gl.Sizeiptr, initialData gl.Ptr, usageHint gl.Enum)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#Buffer.Unbind">func (me *Buffer) Unbind()</a></dd>
@@ -150,7 +150,7 @@ OpenGL (3.3 or higher ONLY!) utilities and a few sane slim wrappers (without goi
 					<dd>&nbsp; &nbsp; <a href="#Buffer.Unmap">func (me *Buffer) Unmap()</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#Buffer.Update">func (me *Buffer) Update(offset gl.Intptr, size gl.Sizeiptr, data gl.Pointer)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#Buffer.Update">func (me *Buffer) Update(offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr)</a></dd>
 				
 			
 				
@@ -170,7 +170,7 @@ OpenGL (3.3 or higher ONLY!) utilities and a few sane slim wrappers (without goi
 					<dd>&nbsp; &nbsp; <a href="#Framebuffer.BindTexture">func (me *Framebuffer) BindTexture(index int)</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#Framebuffer.Create">func (me *Framebuffer) Create(width, height gl.Sizei, draw, read bool)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#Framebuffer.Create">func (me *Framebuffer) Create(width, height gl.Sizei, read bool)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#Framebuffer.Dispose">func (me *Framebuffer) Dispose()</a></dd>
@@ -721,7 +721,7 @@ OpenGL (3.3 or higher ONLY!) utilities and a few sane slim wrappers (without goi
 				<dd><a href="#VertexAttribPointer">type VertexAttribPointer</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#NewVertexAttribPointer">func NewVertexAttribPointer(name string, loc gl.Uint, size gl.Int, stride gl.Sizei, offset gl.Pointer) (me *VertexAttribPointer)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#NewVertexAttribPointer">func NewVertexAttribPointer(name string, loc gl.Uint, size gl.Int, stride gl.Sizei, offset gl.Ptr) (me *VertexAttribPointer)</a></dd>
 				
 				
 			
@@ -1154,8 +1154,8 @@ Maps to the client&#39;s address space the entire data store of whatever buffer 
 				
 			
 				
-				<h3 id="Buffer.Recreate">func (*Buffer) <a href="/target/gl-buffer.go?s=4844:4959#L120">Recreate</a></h3>
-				<pre>func (me *Buffer) Recreate(newGlTarget gl.Enum, sizeInBytes gl.Sizeiptr, initialData gl.Pointer, usageHint gl.Enum)</pre>
+				<h3 id="Buffer.Recreate">func (*Buffer) <a href="/target/gl-buffer.go?s=4844:4955#L120">Recreate</a></h3>
+				<pre>func (me *Buffer) Recreate(newGlTarget gl.Enum, sizeInBytes gl.Sizeiptr, initialData gl.Ptr, usageHint gl.Enum)</pre>
 				<p>
 Deletes this buffer object if applicable, generates it anew, and allocates its data store as specified,
 populating it with the specified initialData if any. GlTarget is changed to newGlTarget unless 0 is specified.
@@ -1165,7 +1165,7 @@ populating it with the specified initialData if any. GlTarget is changed to newG
 				
 			
 				
-				<h3 id="Buffer.Unbind">func (*Buffer) <a href="/target/gl-buffer.go?s=5308:5334#L138">Unbind</a></h3>
+				<h3 id="Buffer.Unbind">func (*Buffer) <a href="/target/gl-buffer.go?s=5304:5330#L138">Unbind</a></h3>
 				<pre>func (me *Buffer) Unbind()</pre>
 				<p>
 Unbinds whatever buffer object is currently bound to me.GlTarget.
@@ -1175,7 +1175,7 @@ Unbinds whatever buffer object is currently bound to me.GlTarget.
 				
 			
 				
-				<h3 id="Buffer.Unmap">func (*Buffer) <a href="/target/gl-buffer.go?s=5429:5454#L143">Unmap</a></h3>
+				<h3 id="Buffer.Unmap">func (*Buffer) <a href="/target/gl-buffer.go?s=5425:5450#L143">Unmap</a></h3>
 				<pre>func (me *Buffer) Unmap()</pre>
 				<p>
 Convenience short-hand for gl.UnmapBuffer(me.GlTarget)
@@ -1185,8 +1185,8 @@ Convenience short-hand for gl.UnmapBuffer(me.GlTarget)
 				
 			
 				
-				<h3 id="Buffer.Update">func (*Buffer) <a href="/target/gl-buffer.go?s=5581:5658#L148">Update</a></h3>
-				<pre>func (me *Buffer) Update(offset gl.Intptr, size gl.Sizeiptr, data gl.Pointer)</pre>
+				<h3 id="Buffer.Update">func (*Buffer) <a href="/target/gl-buffer.go?s=5577:5650#L148">Update</a></h3>
+				<pre>func (me *Buffer) Update(offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr)</pre>
 				<p>
 Buffers the specified data into this buffer object&#39;s data store at the specified offset.
 </p>
@@ -1197,9 +1197,9 @@ Buffers the specified data into this buffer object&#39;s data store at the speci
 		
 			
 			
-			<h2 id="Framebuffer">type <a href="/target/gl-framebuffer.go?s=111:500#L1">Framebuffer</a></h2>
+			<h2 id="Framebuffer">type <a href="/target/gl-framebuffer.go?s=111:479#L1">Framebuffer</a></h2>
 			<pre>type Framebuffer struct {
-    <span class="comment">//	Set in Create(), this is either gl.DRAW_FRAMEBUFFER, gl.READ_FRAMEBUFFER or gl.FRAMEBUFFER</span>
+    <span class="comment">//	Set in Create(), this is either gl.READ_FRAMEBUFFER or gl.FRAMEBUFFER</span>
     GlTarget gl.Enum
 
     <span class="comment">//	The OpenGL handle to this framebuffer object.</span>
@@ -1222,7 +1222,7 @@ Encapsulates an OpenGL framebuffer object.
 
 			
 				
-				<h3 id="Framebuffer.AttachRenderbuffer">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=562:642#L13">AttachRenderbuffer</a></h3>
+				<h3 id="Framebuffer.AttachRenderbuffer">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=541:621#L13">AttachRenderbuffer</a></h3>
 				<pre>func (me *Framebuffer) AttachRenderbuffer(renderbuffer *FramebufferRenderbuffer)</pre>
 				<p>
 Attaches the specified renderbuffer to this Framebuffer.
@@ -1232,7 +1232,7 @@ Attaches the specified renderbuffer to this Framebuffer.
 				
 			
 				
-				<h3 id="Framebuffer.AttachRendertexture">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=806:883#L19">AttachRendertexture</a></h3>
+				<h3 id="Framebuffer.AttachRendertexture">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=785:862#L19">AttachRendertexture</a></h3>
 				<pre>func (me *Framebuffer) AttachRendertexture(texture *FramebufferRendertexture)</pre>
 				<p>
 Attaches the specified render texture to this Framebuffer.
@@ -1242,7 +1242,7 @@ Attaches the specified render texture to this Framebuffer.
 				
 			
 				
-				<h3 id="Framebuffer.Bind">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1006:1035#L25">Bind</a></h3>
+				<h3 id="Framebuffer.Bind">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=985:1014#L25">Bind</a></h3>
 				<pre>func (me *Framebuffer) Bind()</pre>
 				<p>
 Binds this framebuffer object.
@@ -1252,7 +1252,7 @@ Binds this framebuffer object.
 				
 			
 				
-				<h3 id="Framebuffer.BindTexture">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1181:1226#L30">BindTexture</a></h3>
+				<h3 id="Framebuffer.BindTexture">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1160:1205#L30">BindTexture</a></h3>
 				<pre>func (me *Framebuffer) BindTexture(index int)</pre>
 				<p>
 Binds the (zero-based) Nth FramebufferRendertexture that was attached to this Framebuffer.
@@ -1262,8 +1262,8 @@ Binds the (zero-based) Nth FramebufferRendertexture that was attached to this Fr
 				
 			
 				
-				<h3 id="Framebuffer.Create">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1323:1393#L35">Create</a></h3>
-				<pre>func (me *Framebuffer) Create(width, height gl.Sizei, draw, read bool)</pre>
+				<h3 id="Framebuffer.Create">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1302:1366#L35">Create</a></h3>
+				<pre>func (me *Framebuffer) Create(width, height gl.Sizei, read bool)</pre>
 				<p>
 Creates this Framebuffer in OpenGL sized as specified.
 </p>
@@ -1272,7 +1272,7 @@ Creates this Framebuffer in OpenGL sized as specified.
 				
 			
 				
-				<h3 id="Framebuffer.Dispose">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1799:1831#L48">Dispose</a></h3>
+				<h3 id="Framebuffer.Dispose">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1745:1777#L48">Dispose</a></h3>
 				<pre>func (me *Framebuffer) Dispose()</pre>
 				<p>
 Deletes this Framebuffer and all attached render textures and render buffers from OpenGL.
@@ -1282,7 +1282,7 @@ Deletes this Framebuffer and all attached render textures and render buffers fro
 				
 			
 				
-				<h3 id="Framebuffer.Resize">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=2955:3008#L91">Resize</a></h3>
+				<h3 id="Framebuffer.Resize">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=2901:2954#L91">Resize</a></h3>
 				<pre>func (me *Framebuffer) Resize(width, height gl.Sizei)</pre>
 				<p>
 Resizes this Framebuffer and all attached render textures and render buffers.
@@ -1292,7 +1292,7 @@ Resizes this Framebuffer and all attached render textures and render buffers.
 				
 			
 				
-				<h3 id="Framebuffer.Status">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3336:3375#L104">Status</a></h3>
+				<h3 id="Framebuffer.Status">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3282:3321#L104">Status</a></h3>
 				<pre>func (me *Framebuffer) Status() gl.Enum</pre>
 				<p>
 The current status of this Framebuffer as returned by gl.CheckFramebufferStatus().
@@ -1302,7 +1302,7 @@ The current status of this Framebuffer as returned by gl.CheckFramebufferStatus(
 				
 			
 				
-				<h3 id="Framebuffer.Unbind">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3562:3593#L110">Unbind</a></h3>
+				<h3 id="Framebuffer.Unbind">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3508:3539#L110">Unbind</a></h3>
 				<pre>func (me *Framebuffer) Unbind()</pre>
 				<p>
 Unbinds whatever Framebuffer is currently bound, and binds the
@@ -1315,7 +1315,7 @@ Unbinds whatever Framebuffer is currently bound, and binds the
 		
 			
 			
-			<h2 id="FramebufferRenderbuffer">type <a href="/target/gl-framebuffer.go?s=3703:4040#L115">FramebufferRenderbuffer</a></h2>
+			<h2 id="FramebufferRenderbuffer">type <a href="/target/gl-framebuffer.go?s=3649:3986#L115">FramebufferRenderbuffer</a></h2>
 			<pre>type FramebufferRenderbuffer struct {
     <span class="comment">//	The attachment point of this render buffer.</span>
     <span class="comment">//	Defaults to gl.DEPTH_STENCIL_ATTACHMENT.</span>
@@ -1343,7 +1343,7 @@ Represents a Renderbuffer that can be attached to a Framebuffer.
 
 			
 				
-				<h3 id="NewFramebufferRenderbuffer">func <a href="/target/gl-framebuffer.go?s=4123:4186#L131">NewFramebufferRenderbuffer</a></h3>
+				<h3 id="NewFramebufferRenderbuffer">func <a href="/target/gl-framebuffer.go?s=4069:4132#L131">NewFramebufferRenderbuffer</a></h3>
 				<pre>func NewFramebufferRenderbuffer() (me *FramebufferRenderbuffer)</pre>
 				<p>
 Initializes a new FramebufferRenderbuffer with default values and returns it.
@@ -1354,7 +1354,7 @@ Initializes a new FramebufferRenderbuffer with default values and returns it.
 
 			
 				
-				<h3 id="FramebufferRenderbuffer.Bind">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4372:4413#L137">Bind</a></h3>
+				<h3 id="FramebufferRenderbuffer.Bind">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4318:4359#L137">Bind</a></h3>
 				<pre>func (me *FramebufferRenderbuffer) Bind()</pre>
 				<p>
 Binds this render buffer object.
@@ -1364,7 +1364,7 @@ Binds this render buffer object.
 				
 			
 				
-				<h3 id="FramebufferRenderbuffer.Unbind">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4671:4714#L149">Unbind</a></h3>
+				<h3 id="FramebufferRenderbuffer.Unbind">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4617:4660#L149">Unbind</a></h3>
 				<pre>func (me *FramebufferRenderbuffer) Unbind()</pre>
 				<p>
 Unbinds whatever render buffer object is currently bound, if any.
@@ -1376,7 +1376,7 @@ Unbinds whatever render buffer object is currently bound, if any.
 		
 			
 			
-			<h2 id="FramebufferRendertexture">type <a href="/target/gl-framebuffer.go?s=4837:5046#L154">FramebufferRendertexture</a></h2>
+			<h2 id="FramebufferRendertexture">type <a href="/target/gl-framebuffer.go?s=4783:4992#L154">FramebufferRendertexture</a></h2>
 			<pre>type FramebufferRendertexture struct {
     <span class="comment">//	The texture object being rendered to.</span>
     Texture2D
@@ -1398,7 +1398,7 @@ Represents a render-to-texture object that can be attached to a Framebuffer.
 
 			
 				
-				<h3 id="NewFramebufferRendertexture">func <a href="/target/gl-framebuffer.go?s=5158:5238#L164">NewFramebufferRendertexture</a></h3>
+				<h3 id="NewFramebufferRendertexture">func <a href="/target/gl-framebuffer.go?s=5104:5184#L164">NewFramebufferRendertexture</a></h3>
 				<pre>func NewFramebufferRendertexture(rectTarget bool) (me *FramebufferRendertexture)</pre>
 				<p>
 Initializes --but does not Recreate()-- a new FramebufferRendertexture with default values and returns it.
@@ -1626,7 +1626,7 @@ checking gl.LINK_STATUS and obtaining gl.GetProgramInfoLog().
 				
 			
 				
-				<h3 id="Program.ParamInt">func (*Program) <a href="/target/gl-program.go?s=3880:3934#L128">ParamInt</a></h3>
+				<h3 id="Program.ParamInt">func (*Program) <a href="/target/gl-program.go?s=3896:3950#L128">ParamInt</a></h3>
 				<pre>func (me *Program) ParamInt(pname gl.Enum) (iv gl.Int)</pre>
 				<p>
 Convenience short-hand for gl.GetProgramiv.
@@ -1636,7 +1636,7 @@ Convenience short-hand for gl.GetProgramiv.
 				
 			
 				
-				<h3 id="Program.SetAttrLocations">func (*Program) <a href="/target/gl-program.go?s=4330:4398#L136">SetAttrLocations</a></h3>
+				<h3 id="Program.SetAttrLocations">func (*Program) <a href="/target/gl-program.go?s=4346:4414#L136">SetAttrLocations</a></h3>
 				<pre>func (me *Program) SetAttrLocations(attrNames ...string) (err error)</pre>
 				<p>
 Stores the locations for the specified vertex-attributes in the AttrLocs field.
@@ -1648,7 +1648,7 @@ err is the result of LastError() after each call to gl.GetAttribLocation(), the 
 				
 			
 				
-				<h3 id="Program.SetUnifLocations">func (*Program) <a href="/target/gl-program.go?s=5043:5111#L154">SetUnifLocations</a></h3>
+				<h3 id="Program.SetUnifLocations">func (*Program) <a href="/target/gl-program.go?s=5059:5127#L154">SetUnifLocations</a></h3>
 				<pre>func (me *Program) SetUnifLocations(unifNames ...string) (err error)</pre>
 				<p>
 Stores the locations for the specified uniforms in the UnifLocs field.
@@ -1660,7 +1660,7 @@ err is the result of LastError() after each call to gl.GetUniformLocation(), the
 				
 			
 				
-				<h3 id="Program.Use">func (*Program) <a href="/target/gl-program.go?s=5494:5518#L170">Use</a></h3>
+				<h3 id="Program.Use">func (*Program) <a href="/target/gl-program.go?s=5510:5534#L170">Use</a></h3>
 				<pre>func (me *Program) Use()</pre>
 				<p>
 Installs this program object as part of current rendering state.
@@ -1670,7 +1670,7 @@ Installs this program object as part of current rendering state.
 				
 			
 				
-				<h3 id="Program.Validate">func (*Program) <a href="/target/gl-program.go?s=5722:5763#L176">Validate</a></h3>
+				<h3 id="Program.Validate">func (*Program) <a href="/target/gl-program.go?s=5738:5779#L176">Validate</a></h3>
 				<pre>func (me *Program) Validate() (err error)</pre>
 				<p>
 Validates this program object. This is a convenience short-hand for calling gl.ValidateProgram(),
@@ -2808,7 +2808,7 @@ If me.MipMap.NumLevels is 0 (or just smaller than 1), then me.MaxNumMipLevels() 
 				
 			
 				
-				<h3 id="Texture2D.SetFromImage">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=2253:2315#L56">SetFromImage</a></h3>
+				<h3 id="Texture2D.SetFromImage">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=2249:2311#L56">SetFromImage</a></h3>
 				<pre>func (me *Texture2D) SetFromImage(img image.Image) (err error)</pre>
 				<p>
 Prepares this Texture2D for uploading the specified Image via Recreate().
@@ -2822,7 +2822,7 @@ me.PixelData.Type, me.PixelData.Format, me.PixelData.Ptr, me.Width, me.Height, m
 		
 			
 			
-			<h2 id="TextureBase">type <a href="/target/gl-texture.go?s=244:1834#L3">TextureBase</a></h2>
+			<h2 id="TextureBase">type <a href="/target/gl-texture.go?s=244:1826#L3">TextureBase</a></h2>
 			<pre>type TextureBase struct {
     <span class="comment">//	The OpenGL handle for this texture object.</span>
     <span class="comment">//	This is 0 before calling Recreate() and after calling Dispose().</span>
@@ -2864,8 +2864,8 @@ me.PixelData.Type, me.PixelData.Format, me.PixelData.Ptr, me.Width, me.Height, m
         Type gl.Enum
 
         <span class="comment">//	Points to the first pixel of the data stream to be uploaded</span>
-        <span class="comment">//	by Recreate(), if any. Defaults to gl.Pointer(nil).</span>
-        Ptr gl.Pointer
+        <span class="comment">//	by Recreate(), if any. Defaults to gl.Ptr(nil).</span>
+        Ptr gl.Ptr
     }
 }</pre>
 			
@@ -2880,7 +2880,7 @@ me.PixelData.Type, me.PixelData.Format, me.PixelData.Ptr, me.Width, me.Height, m
 
 			
 				
-				<h3 id="TextureBase.Bind">func (*TextureBase) <a href="/target/gl-texture.go?s=1866:1895#L50">Bind</a></h3>
+				<h3 id="TextureBase.Bind">func (*TextureBase) <a href="/target/gl-texture.go?s=1858:1887#L50">Bind</a></h3>
 				<pre>func (me *TextureBase) Bind()</pre>
 				<p>
 Binds this texture object.
@@ -2890,7 +2890,7 @@ Binds this texture object.
 				
 			
 				
-				<h3 id="TextureBase.Dispose">func (*TextureBase) <a href="/target/gl-texture.go?s=1987:2019#L55">Dispose</a></h3>
+				<h3 id="TextureBase.Dispose">func (*TextureBase) <a href="/target/gl-texture.go?s=1979:2011#L55">Dispose</a></h3>
 				<pre>func (me *TextureBase) Dispose()</pre>
 				<p>
 Deletes this texture object from OpenGL.
@@ -3080,7 +3080,7 @@ Sets the swizzle that will be applied to the R, G, B and A components of a texel
 				
 			
 				
-				<h3 id="TextureBase.Unbind">func (*TextureBase) <a href="/target/gl-texture.go?s=2761:2792#L90">Unbind</a></h3>
+				<h3 id="TextureBase.Unbind">func (*TextureBase) <a href="/target/gl-texture.go?s=2749:2780#L90">Unbind</a></h3>
 				<pre>func (me *TextureBase) Unbind()</pre>
 				<p>
 Unbinds whatever texture is currently bound.
@@ -3205,7 +3205,7 @@ Example: GlStr(gl.VENDOR) = &#34;NVIDIA Corporation&#34;
 				
 			
 				
-				<h3 id="Utils.Stri">func (Utils) <a href="/target/utils.go?s=1648:1699#L31">Stri</a></h3>
+				<h3 id="Utils.Stri">func (Utils) <a href="/target/utils.go?s=1658:1709#L31">Stri</a></h3>
 				<pre>func (_ Utils) Stri(name gl.Enum, i gl.Uint) string</pre>
 				<p>
 Returns the specified OpenGL string at the specified index.
@@ -3216,7 +3216,7 @@ For example, GlStri(gl.EXTENSIONS, 0) returns the name of the &#34;first&#34; of
 				
 			
 				
-				<h3 id="Utils.Val">func (Utils) <a href="/target/utils.go?s=1865:1910#L37">Val</a></h3>
+				<h3 id="Utils.Val">func (Utils) <a href="/target/utils.go?s=1885:1930#L37">Val</a></h3>
 				<pre>func (_ Utils) Val(name gl.Enum) (val gl.Int)</pre>
 				<p>
 Returns the specified integer as returned by gl.GetIntegerv().
@@ -3227,7 +3227,7 @@ Example: numExts := GlVal(gl.NUM_EXTENSIONS)
 				
 			
 				
-				<h3 id="Utils.Vals">func (Utils) <a href="/target/utils.go?s=2021:2078#L43">Vals</a></h3>
+				<h3 id="Utils.Vals">func (Utils) <a href="/target/utils.go?s=2041:2098#L43">Vals</a></h3>
 				<pre>func (_ Utils) Vals(name gl.Enum, n uint) (vals []gl.Int)</pre>
 				<p>
 Returns the specified n integers as returned by gl.GetIntegerv().
@@ -3312,7 +3312,7 @@ Unbinds whatever vertex array object is currently bound.
 		
 			
 			
-			<h2 id="VertexAttribPointer">type <a href="/target/gl-vertex-array.go?s=1477:2333#L45">VertexAttribPointer</a></h2>
+			<h2 id="VertexAttribPointer">type <a href="/target/gl-vertex-array.go?s=1477:2329#L45">VertexAttribPointer</a></h2>
 			<pre>type VertexAttribPointer struct {
     <span class="comment">//	The name of the vertex attribute in a Program.AttrLocs hash-table.</span>
     Name string
@@ -3336,7 +3336,7 @@ Unbinds whatever vertex array object is currently bound.
 
     <span class="comment">//	Specifies a offset of the first component of the first generic vertex attribute in the array</span>
     <span class="comment">//	in the data store of the Buffer currently bound to the gl.ARRAY_BUFFER target.</span>
-    Offset gl.Pointer
+    Offset gl.Ptr
 }</pre>
 			<p>
 Encapsulates vertex attribute information used by VertexArray.Setup() to enable that vertex attribute.
@@ -3351,8 +3351,8 @@ Encapsulates vertex attribute information used by VertexArray.Setup() to enable 
 
 			
 				
-				<h3 id="NewVertexAttribPointer">func <a href="/target/gl-vertex-array.go?s=2415:2543#L72">NewVertexAttribPointer</a></h3>
-				<pre>func NewVertexAttribPointer(name string, loc gl.Uint, size gl.Int, stride gl.Sizei, offset gl.Pointer) (me *VertexAttribPointer)</pre>
+				<h3 id="NewVertexAttribPointer">func <a href="/target/gl-vertex-array.go?s=2411:2535#L72">NewVertexAttribPointer</a></h3>
+				<pre>func NewVertexAttribPointer(name string, loc gl.Uint, size gl.Int, stride gl.Sizei, offset gl.Ptr) (me *VertexAttribPointer)</pre>
 				<p>
 Initializes and returns a new VertexAttribPointer with the specified values.
 </p>

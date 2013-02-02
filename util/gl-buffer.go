@@ -1,7 +1,7 @@
 package glutil
 
 import (
-	gl "github.com/go3d/go-opengl/gogl"
+	gl "github.com/go3d/go-opengl/core"
 )
 
 //	Represents an OpenGL buffer object.
@@ -127,7 +127,7 @@ func (me *Buffer) Map(read, write bool) {
 
 //	Deletes this buffer object if applicable, generates it anew, and allocates its data store as specified,
 //	populating it with the specified initialData if any. GlTarget is changed to newGlTarget unless 0 is specified.
-func (me *Buffer) Recreate(newGlTarget gl.Enum, sizeInBytes gl.Sizeiptr, initialData gl.Pointer, usageHint gl.Enum) {
+func (me *Buffer) Recreate(newGlTarget gl.Enum, sizeInBytes gl.Sizeiptr, initialData gl.Ptr, usageHint gl.Enum) {
 	if me.GlTarget != 0 {
 		me.Unbind()
 	}
@@ -155,6 +155,6 @@ func (me *Buffer) Unmap() {
 }
 
 //	Buffers the specified data into this buffer object's data store at the specified offset.
-func (me *Buffer) Update(offset gl.Intptr, size gl.Sizeiptr, data gl.Pointer) {
+func (me *Buffer) Update(offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr) {
 	gl.BufferSubData(me.GlTarget, offset, size, data)
 }

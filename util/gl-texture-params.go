@@ -1,7 +1,7 @@
 package glutil
 
 import (
-	gl "github.com/go3d/go-opengl/gogl"
+	gl "github.com/go3d/go-opengl/core"
 )
 
 //	Returns the index of the lowest defined mipmap level. Defaults to 0.

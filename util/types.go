@@ -1,7 +1,7 @@
 package glutil
 
 import (
-	gl "github.com/go3d/go-opengl/gogl"
+	gl "github.com/go3d/go-opengl/core"
 
 	unum "github.com/metaleap/go-util/num"
 )

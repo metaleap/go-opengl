@@ -3,11 +3,9 @@ package main
 import (
 	"fmt"
 	"runtime"
-	"strings"
 
-	//	gl "github.com/chsc/gogl/gl42"
 	glfw "github.com/go-gl/glfw"
-	gl "github.com/go3d/go-opengl/gogl"
+	gl "github.com/go3d/go-opengl/core"
 )
 
 type geometry struct {
@@ -18,8 +16,17 @@ type geometry struct {
 }
 
 const (
-	srcVertShader = "in vec3 aPos; void main () { gl_Position = vec4(aPos, 1.0); }"
-	srcFragShader = "out vec4 oColor; void main () { oColor = vec4(0.0, 0.6, 0.9, 1.0); }"
+	srcVertShader = `#version 150 core
+in vec3 aPos;
+void main() {
+	gl_Position = vec4(aPos, 1.0);
+}`
+
+	srcFragShader = `#version 150 core
+out vec4 oColor;
+void main() {
+	oColor = vec4(0.0, 0.6, 0.9, 1.0);
+}`
 )
 
 var (
@@ -36,8 +43,8 @@ func compileShaders() (err error) {
 	makeShader := func(stage gl.Enum, src string) (shader gl.Uint) {
 		shader = gl.CreateShader(stage)
 		logLastGlError("gl.CreateShader()")
-		glStr := gl.GLStringArray(src)
-		defer gl.GLStringArrayFree(glStr)
+		glStr := gl.Util.CStringArray(src)
+		defer gl.Util.CStringArrayFree(glStr)
 		gl.ShaderSource(shader, gl.Sizei(len(glStr)), &glStr[0], nil)
 		logLastGlError("gl.ShaderSource()")
 		gl.CompileShader(shader)
@@ -47,10 +54,10 @@ func compileShaders() (err error) {
 		return
 	}
 
-	glFragShader := makeShader(gl.FRAGMENT_SHADER, srcFragShader)
-	defer gl.DeleteShader(glFragShader)
 	glVertShader := makeShader(gl.VERTEX_SHADER, srcVertShader)
 	defer gl.DeleteShader(glVertShader)
+	glFragShader := makeShader(gl.FRAGMENT_SHADER, srcFragShader)
+	defer gl.DeleteShader(glFragShader)
 
 	shaderProg = gl.CreateProgram()
 	for stageName, shader := range map[string]gl.Uint{"vert": glVertShader, "frag": glFragShader} {
@@ -64,8 +71,8 @@ func compileShaders() (err error) {
 		panic("Program linking failed...")
 	}
 
-	glAttName := gl.GLString("aPos")
-	defer gl.GLStringFree(glAttName)
+	glAttName := gl.Util.CString("aPos")
+	defer gl.Util.CStringFree(glAttName)
 	progPosAttrLoc = gl.Uint(gl.GetAttribLocation(shaderProg, glAttName))
 	logLastGlError("gl.GetAttribLocation()")
 
@@ -113,8 +120,8 @@ func uploadGeometry(mesh *geometry) {
 	gl.GenBuffers(1, &mesh.glVertBuf)
 	gl.BindBuffer(gl.ARRAY_BUFFER, mesh.glVertBuf)
 	gl.EnableVertexAttribArray(progPosAttrLoc)
-	gl.VertexAttribPointer(progPosAttrLoc, 3, gl.FLOAT, gl.FALSE, 0, gl.Pointer(nil))
-	gl.BufferData(gl.ARRAY_BUFFER, gl.Sizeiptr(4*len(mesh.glVerts)), gl.Pointer(&mesh.glVerts[0]), gl.STATIC_DRAW)
+	gl.VertexAttribPointer(progPosAttrLoc, 3, gl.FLOAT, gl.FALSE, 0, gl.Ptr(nil))
+	gl.BufferData(gl.ARRAY_BUFFER, gl.Sizeiptr(4*len(mesh.glVerts)), gl.Ptr(&mesh.glVerts[0]), gl.STATIC_DRAW)
 	gl.BindBuffer(gl.ARRAY_BUFFER, 0)
 	gl.BindVertexArray(0)
 }
@@ -145,8 +152,8 @@ func main() {
 	}
 	defer glfw.CloseWindow()
 	glfw.Enable(glfw.StickyKeys)
-	if err = gl.Init(); (err != nil) && (strings.Index(err.Error(), "VERSION_") < 0) {
-		panic(err)
+	if !gl.Util.Init() {
+		panic("Failed to initialize at least OpenGL 3.2 or higher.")
 	}
 	defer logLastGlError("(post loop)")
 	gl.ClearColor(0.3, 0.1, 0.0, 1.0)

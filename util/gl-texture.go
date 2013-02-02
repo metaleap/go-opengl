@@ -1,7 +1,7 @@
 package glutil
 
 import (
-	gl "github.com/go3d/go-opengl/gogl"
+	gl "github.com/go3d/go-opengl/core"
 )
 
 //	Implemented by specialized texture types such as Texture2D.
@@ -51,8 +51,8 @@ type TextureBase struct {
 		Type gl.Enum
 
 		//	Points to the first pixel of the data stream to be uploaded
-		//	by Recreate(), if any. Defaults to gl.Pointer(nil).
-		Ptr gl.Pointer
+		//	by Recreate(), if any. Defaults to gl.Ptr(nil).
+		Ptr gl.Ptr
 	}
 }
 
@@ -76,7 +76,7 @@ func (me *TextureBase) immutable() bool {
 func (me *TextureBase) init() {
 	me.MipMap.AutoGen, me.Immutable = true, Support.Textures.Immutable
 	me.SizedInternalFormat = gl.RGBA8
-	me.PixelData.Ptr = gl.Pointer(nil)
+	me.PixelData.Ptr = gl.Ptr(nil)
 	me.PixelData.Format = gl.RGBA
 	me.PixelData.Type = gl.UNSIGNED_BYTE
 }
