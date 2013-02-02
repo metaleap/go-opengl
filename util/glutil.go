@@ -124,40 +124,9 @@ func Init() {
 	setSupportInfos()
 }
 
-//	If any OpenGL errors have accumulated since LastError() was last called, returns a Go error for the first in that queue of accumulated errors.
-//	Unless nil, the returned err includes the specified formatted message plus a string representation of the GL error category, for example: "GL_OUT_OF_MEMORY".
-func LastError(stepFmt string, stepFmtArgs ...interface{}) (err error) {
-	if errEnum := gl.GetError(); errEnum != 0 {
-		if len(stepFmtArgs) > 0 {
-			stepFmt = sfmt(stepFmt, stepFmtArgs...)
-		}
-		errStr := "GL ERR: "
-		switch errEnum {
-		case gl.INVALID_ENUM:
-			errStr += "GL_INVALID_ENUM"
-		case gl.INVALID_VALUE:
-			errStr += "GL_INVALID_VALUE"
-		case gl.INVALID_OPERATION:
-			errStr += "GL_INVALID_OPERATION"
-		case gl.OUT_OF_MEMORY:
-			errStr += "GL_OUT_OF_MEMORY"
-		case gl.INVALID_FRAMEBUFFER_OPERATION:
-			errStr += "GL_INVALID_FRAMEBUFFER_OPERATION"
-		case gl.STACK_OVERFLOW:
-			errStr += "GL_STACK_OVERFLOW"
-		case gl.STACK_UNDERFLOW:
-			errStr += "GL_STACK_UNDERFLOW"
-		default:
-			errStr += sfmt("GOGL_ERROR_%v", errEnum)
-		}
-		err = fmt.Errorf("%s\t%s", errStr, stepFmt)
-	}
-	return
-}
-
 //	log.Println()s the error returned by LastError(), if any.
 func LogLastError(stepFmt string, stepFmtArgs ...interface{}) {
-	ugo.LogError(LastError(stepFmt, stepFmtArgs...))
+	ugo.LogError(gl.Util.Error(stepFmt, stepFmtArgs...))
 }
 
 func setSupportInfos() {
@@ -173,7 +142,7 @@ func setSupportInfos() {
 
 	//	Sampling limits
 	if Gl.Extension("texture_filter_anisotropic") {
-		gl.GetFloatv(max_texture_max_anisotropy_ext, &Support.Textures.MaxFilterAnisotropy)
+		gl.GetFloatv(gl.MAX_TEXTURE_MAX_ANISOTROPY_EXT, &Support.Textures.MaxFilterAnisotropy)
 	}
 	gl.GetFloatv(gl.MAX_TEXTURE_LOD_BIAS, &Support.Textures.MaxMipLoadBias)
 

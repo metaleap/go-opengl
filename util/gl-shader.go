@@ -2,7 +2,6 @@ package glutil
 
 import (
 	"fmt"
-	"strings"
 
 	gl "github.com/go3d/go-opengl/core"
 )
@@ -31,7 +30,7 @@ func NewShader(name string, glStage gl.Enum) (me *Shader) {
 //	If Support.Glsl.Shaders.ComputeStage is true, initializes and returns --but does not Create()-- a new Shader for the gl.COMPUTE_SHADER Stage with the specified name.
 func NewComputeShader(name string) (me *Shader) {
 	if Support.Glsl.Shaders.ComputeStage {
-		// me = NewShader(name, gl.COMPUTE_SHADER)
+		me = NewShader(name, gl.COMPUTE_SHADER)
 	}
 	return
 }
@@ -78,8 +77,8 @@ func (me *Shader) Compile() (err error) {
 	if gl.CompileShader(me.GlHandle); me.ParamInt(gl.COMPILE_STATUS) == gl.FALSE {
 		sn := "UnknownStage"
 		switch me.Stage {
-		// case gl.COMPUTE_SHADER:
-		// 	sn="Compute"
+		case gl.COMPUTE_SHADER:
+			sn = "Compute"
 		case gl.FRAGMENT_SHADER:
 			sn = "Fragment"
 		case gl.GEOMETRY_SHADER:
@@ -144,10 +143,8 @@ func (me *Shader) SetSource(source string, defines map[string]interface{}) (err 
 	}
 	lines[i] = "#line 1\n"
 	lines[i+1] = source
-	joined := strings.Join(lines, "")
 	src := gl.Util.CStringArray(lines...)
 	defer gl.Util.CStringArrayFree(src)
-	gl.ShaderSource(me.GlHandle, gl.Sizei(len(src)), &src[0], nil)
-	err = LastError("Shader'%s'.SetSource('%s')", me.Name, joined)
+	err = gl.Try.ShaderSource(me.GlHandle, gl.Sizei(len(src)), &src[0], nil)
 	return
 }

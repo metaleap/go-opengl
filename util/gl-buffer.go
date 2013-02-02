@@ -47,7 +47,7 @@ func NewCopyWriteBuffer() *Buffer {
 //	If Support.Buffers.DispatchIndirect is true, initializes and returns --but does not Recreate()-- a new Buffer initialized with a GlTarget of gl.DISPATCH_INDIRECT_BUFFER.
 func NewDispatchIndirectBuffer() (me *Buffer) {
 	if Support.Buffers.DispatchIndirect {
-		// me = NewBuffer(gl.DISPATCH_INDIRECT_BUFFER)
+		me = NewBuffer(gl.DISPATCH_INDIRECT_BUFFER)
 	}
 	return
 }
@@ -75,7 +75,7 @@ func NewPixelUnpackBuffer() *Buffer {
 //	If Support.Buffers.ShaderStorage is true, initializes and returns --but does not Recreate()-- a new Buffer initialized with a GlTarget of gl.SHADER_STORAGE_BUFFER.
 func NewShaderStorageBuffer() (me *Buffer) {
 	if Support.Buffers.ShaderStorage {
-		// me = NewBuffer(gl.SHADER_STORAGE_BUFFER)
+		me = NewBuffer(gl.SHADER_STORAGE_BUFFER)
 	}
 	return
 }

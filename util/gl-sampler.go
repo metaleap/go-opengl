@@ -4,11 +4,6 @@ import (
 	gl "github.com/go3d/go-opengl/core"
 )
 
-const (
-	texture_max_anisotropy_ext     = 0x84FE
-	max_texture_max_anisotropy_ext = 0x84FF
-)
-
 //	Stores sampling parameters for texture accesses.
 type Sampler struct {
 	//	The OpenGL handle to this sampler object.
@@ -117,7 +112,7 @@ func (me Sampler) SetFilterMag(val gl.Int) {
 //	isn't activated for this Sampler, else a value between 1 and Support.Textures.MaxFilterAnisotropy.
 func (me Sampler) FilterMaxAnisotropy() (val gl.Float) {
 	if Support.Textures.MaxFilterAnisotropy > 0 {
-		val = me.ParamFloat(texture_max_anisotropy_ext)
+		val = me.ParamFloat(gl.TEXTURE_MAX_ANISOTROPY_EXT)
 	}
 	return
 }
@@ -125,7 +120,7 @@ func (me Sampler) FilterMaxAnisotropy() (val gl.Float) {
 //	Sets filtering anisotropy, if supported. val will be clamped between 1 and Support.Textures.MaxFilterAnisotropy. Only a val greater than 1 will activate anisotropic filtering.
 func (me Sampler) SetFilterMaxAnisotropy(val gl.Float) {
 	if Support.Textures.MaxFilterAnisotropy > 0 {
-		me.SetParamFloat(texture_max_anisotropy_ext, Typed.Clamp(val, 1, Support.Textures.MaxFilterAnisotropy))
+		me.SetParamFloat(gl.TEXTURE_MAX_ANISOTROPY_EXT, Typed.Clamp(val, 1, Support.Textures.MaxFilterAnisotropy))
 	}
 }
 
