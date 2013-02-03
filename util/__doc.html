@@ -141,13 +141,13 @@ OpenGL (3.3 or higher ONLY!) utilities and a few sane slim wrappers (without goi
 					<dd>&nbsp; &nbsp; <a href="#Buffer.Recreate">func (me *Buffer) Recreate(newGlTarget gl.Enum, sizeInBytes gl.Sizeiptr, initialData gl.Ptr, usageHint gl.Enum)</a></dd>
 				
 					
+					<dd>&nbsp; &nbsp; <a href="#Buffer.SubData">func (me *Buffer) SubData(offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr) (err error)</a></dd>
+				
+					
 					<dd>&nbsp; &nbsp; <a href="#Buffer.Unbind">func (me *Buffer) Unbind()</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#Buffer.Unmap">func (me *Buffer) Unmap()</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="#Buffer.Update">func (me *Buffer) Update(offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr)</a></dd>
 				
 			
 				
@@ -1154,6 +1154,16 @@ populating it with the specified initialData if any. GlTarget is changed to newG
 				
 			
 				
+				<h3 id="Buffer.SubData">func (*Buffer) <a href="/target/gl-buffer.go?s=5571:5657#L148">SubData</a></h3>
+				<pre>func (me *Buffer) SubData(offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr) (err error)</pre>
+				<p>
+Buffers the specified data into this buffer object&#39;s data store at the specified offset.
+</p>
+
+				
+				
+			
+				
 				<h3 id="Buffer.Unbind">func (*Buffer) <a href="/target/gl-buffer.go?s=5298:5324#L138">Unbind</a></h3>
 				<pre>func (me *Buffer) Unbind()</pre>
 				<p>
@@ -1168,16 +1178,6 @@ Unbinds whatever buffer object is currently bound to me.GlTarget.
 				<pre>func (me *Buffer) Unmap()</pre>
 				<p>
 Convenience short-hand for gl.UnmapBuffer(me.GlTarget)
-</p>
-
-				
-				
-			
-				
-				<h3 id="Buffer.Update">func (*Buffer) <a href="/target/gl-buffer.go?s=5571:5644#L148">Update</a></h3>
-				<pre>func (me *Buffer) Update(offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr)</pre>
-				<p>
-Buffers the specified data into this buffer object&#39;s data store at the specified offset.
 </p>
 
 				

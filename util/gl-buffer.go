@@ -155,6 +155,6 @@ func (me *Buffer) Unmap() {
 }
 
 //	Buffers the specified data into this buffer object's data store at the specified offset.
-func (me *Buffer) Update(offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr) {
+func (me *Buffer) SubData(offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr) {
 	gl.BufferSubData(me.GlTarget, offset, size, data)
 }
