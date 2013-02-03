@@ -18,7 +18,7 @@ This OpenGL binding differs from GoGL's bindings as follows:
 
 - deprecated/removed API functions/enums are not included (though seems like the newest GoGL can also skip these)
 - does not include "compatibility profile"-only functions/enums (GoGL can also gen core-only bindings but their gl42 pre-made pkg wasn't, last I checked)
-- support for GL features up to 4.3 (~~GoGL is currently at 4.2~~)
+- support for GL features up to 4.3 (GoGL was at 4.2 when I made this)
 - has select GL extensions (those deemed worthy of support in go:ngine) included in the binding package without needing to generate/build/link additional *ext*, *arb*, etc. binding packages.
 - Init() and stolen-from-GoGL utility functions moved to a *Util* struct: so every exported (non-method) function is a direct CGO binding function. (Just minor cosmetics really.)
 - added to *Util*: EnumName(), ErrorFlags(), Error() methods
@@ -39,6 +39,6 @@ cmd:
 ====
 
 
-- gen-opengl-bindings: can be used to generate  OpenGL bindings like the above **core** package
-- opengl-minimal-app: a "minimal" program using OpenGL core profile to draw a triangle and a quad, to test the above binding with GLFW
-- gogl-minimal-app: same but with the GoGL (gl42) binding
+- **gen-opengl-bindings**: can be used to generate  OpenGL bindings like the above **core** package
+- **opengl-minimal-app**: a "minimal" program using OpenGL core profile to draw a triangle and a quad, to test the above binding with GLFW
+- **gogl-minimal-app**: same but with the GoGL (gl42) binding

@@ -141,7 +141,7 @@ OpenGL (3.3 or higher ONLY!) utilities and a few sane slim wrappers (without goi
 					<dd>&nbsp; &nbsp; <a href="#Buffer.Recreate">func (me *Buffer) Recreate(newGlTarget gl.Enum, sizeInBytes gl.Sizeiptr, initialData gl.Ptr, usageHint gl.Enum)</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#Buffer.SubData">func (me *Buffer) SubData(offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr) (err error)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#Buffer.SubData">func (me *Buffer) SubData(offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#Buffer.Unbind">func (me *Buffer) Unbind()</a></dd>
@@ -1154,8 +1154,8 @@ populating it with the specified initialData if any. GlTarget is changed to newG
 				
 			
 				
-				<h3 id="Buffer.SubData">func (*Buffer) <a href="/target/gl-buffer.go?s=5571:5657#L148">SubData</a></h3>
-				<pre>func (me *Buffer) SubData(offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr) (err error)</pre>
+				<h3 id="Buffer.SubData">func (*Buffer) <a href="/target/gl-buffer.go?s=5571:5645#L148">SubData</a></h3>
+				<pre>func (me *Buffer) SubData(offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr)</pre>
 				<p>
 Buffers the specified data into this buffer object&#39;s data store at the specified offset.
 </p>
@@ -2774,7 +2774,7 @@ Initializes --but does not Recreate()-- a new Texture2D, calls its Init() method
 
 			
 				
-				<h3 id="Texture2D.Init">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=842:869#L24">Init</a></h3>
+				<h3 id="Texture2D.Init">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=568:595#L19">Init</a></h3>
 				<pre>func (me *Texture2D) Init()</pre>
 				<p>
 Sets GlTarget to gl.TEXTURE_2D and initializes TextureBase with defaults.
@@ -2784,7 +2784,7 @@ Sets GlTarget to gl.TEXTURE_2D and initializes TextureBase with defaults.
 				
 			
 				
-				<h3 id="Texture2D.MaxNumMipLevels">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=628:675#L19">MaxNumMipLevels</a></h3>
+				<h3 id="Texture2D.MaxNumMipLevels">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=790:837#L25">MaxNumMipLevels</a></h3>
 				<pre>func (me *Texture2D) MaxNumMipLevels() gl.Sizei</pre>
 				<p>
 Returns the maximum number of possible MIP map levels for this 2-dimensional texture image according to its current Width and Height.
@@ -2794,7 +2794,7 @@ Returns the maximum number of possible MIP map levels for this 2-dimensional tex
 				
 			
 				
-				<h3 id="Texture2D.Recreate">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=1236:1267#L33">Recreate</a></h3>
+				<h3 id="Texture2D.Recreate">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=1234:1265#L33">Recreate</a></h3>
 				<pre>func (me *Texture2D) Recreate()</pre>
 				<p>
 Deletes and (re)creates the texture object based on its current params.
@@ -2807,7 +2807,7 @@ If me.MipMap.NumLevels is 0 (or just smaller than 1), then me.MaxNumMipLevels() 
 				
 			
 				
-				<h3 id="Texture2D.SetFromImage">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=2249:2311#L56">SetFromImage</a></h3>
+				<h3 id="Texture2D.SetFromImage">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=2247:2309#L56">SetFromImage</a></h3>
 				<pre>func (me *Texture2D) SetFromImage(img image.Image) (err error)</pre>
 				<p>
 Prepares this Texture2D for uploading the specified Image via Recreate().

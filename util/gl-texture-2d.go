@@ -25,15 +25,15 @@ func NewTexture2D() (me *Texture2D) {
 	return
 }
 
-//	Returns the maximum number of possible MIP map levels for this 2-dimensional texture image according to its current Width and Height.
-func (me *Texture2D) MaxNumMipLevels() gl.Sizei {
-	return gl.Sizei(maxNumOfTexture2DMipLevels(float64(me.Width), float64(me.Height)))
-}
-
 //	Sets GlTarget to gl.TEXTURE_2D and initializes TextureBase with defaults.
 func (me *Texture2D) Init() {
 	me.GlTarget = gl.TEXTURE_2D
 	me.TextureBase.init()
+}
+
+//	Returns the maximum number of possible MIP map levels for this 2-dimensional texture image according to its current Width and Height.
+func (me *Texture2D) MaxNumMipLevels() gl.Sizei {
+	return gl.Sizei(texture2DMaxNumMipLevels(float64(me.Width), float64(me.Height)))
 }
 
 //	Deletes and (re)creates the texture object based on its current params.
@@ -107,6 +107,6 @@ func (me *Texture2D) SetFromImage(img image.Image) (err error) {
 }
 
 //	Returns the maximum number of possible MIP map levels for a 2-dimensional texture image with the specified width and height.
-func maxNumOfTexture2DMipLevels(width, height float64) float64 {
+func texture2DMaxNumMipLevels(width, height float64) float64 {
 	return math.Log2(math.Max(width, height)) + 1
 }
