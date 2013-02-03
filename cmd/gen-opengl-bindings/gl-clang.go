@@ -183,12 +183,12 @@ func (_ GlUtil) ErrorFlags() (flags []Enum) {
 }
 
 //	If any errors have been recorded since the last (direct or indirect) GetError() call, returns a single error value informing on those and including the specified message, if any.
-func (_ GlUtil) Error(msgFmt string, fmtArgs ... interface{}) (err error) {
+func (_ GlUtil) Error(msgFmt string, fmtArgs ...interface{}) (err error) {
 	if flags := Util.ErrorFlags(); len(flags) > 0 {
 		for _, e := range flags {
 			msgFmt = Util.EnumName(e) + " " + msgFmt
 		}
-		err = fmt.Errorf(msgFmt, fmtArgs)
+		err = fmt.Errorf(msgFmt, fmtArgs...)
 	}
 	return
 }
@@ -211,8 +211,8 @@ func (_ GlUtil) Init() bool {
 		args, ret := "", ""
 		for i, fp := range fun.params {
 			fpgtPtr := strings.HasSuffix(fp.typeRef.g, "Ptr")
-			src.add("%s %s", saneName(fp.name), strings.Replace(ustr.Ifs(ustr.IsOneOf(fp.kind, "array", "reference") && !fpgtPtr, "*"+fp.typeRef.g, fp.typeRef.g), "***", "**", -1))
-			args += saneName(fp.name)
+			src.add("%s %s", fp.saneName, strings.Replace(ustr.Ifs(ustr.IsOneOf(fp.kind, "array", "reference") && !fpgtPtr, "*"+fp.typeRef.g, fp.typeRef.g), "***", "**", -1))
+			args += fp.saneName
 			if i < len(fun.params)-1 {
 				src.add(", ")
 				args += ", "

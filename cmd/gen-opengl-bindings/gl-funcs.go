@@ -17,9 +17,9 @@ type glFunc struct {
 }
 
 type glFuncParam struct {
-	name, kind, compute string
-	typeRef             glTypeRef
-	input               bool
+	name, kind, compute, saneName string
+	typeRef                       glTypeRef
+	input                         bool
 }
 
 func (me *glFunc) makeCgo() {
@@ -40,14 +40,14 @@ func (me *glFunc) makeCgo() {
 
 	me.clang.wrapper = sfmt("%s call%s(", me.retType.c, me.name)
 	for i, fp = range me.params {
-		me.clang.wrapper += sfmt("%s %s", ustr.Ifs(ustr.IsOneOf(fp.kind, "array", "reference"), fp.typeRef.c+"*", fp.typeRef.c), saneName(fp.name))
+		me.clang.wrapper += sfmt("%s %s", ustr.Ifs(ustr.IsOneOf(fp.kind, "array", "reference"), fp.typeRef.c+"*", fp.typeRef.c), fp.saneName)
 		if i < len(me.params)-1 {
 			me.clang.wrapper += ", "
 		}
 	}
 	me.clang.wrapper += sfmt(") { %s (*ptrgl%s)(", ustr.Ifs(me.retType.c == "void", "", "return"), me.name)
 	for i, fp = range me.params {
-		me.clang.wrapper += saneName(fp.name)
+		me.clang.wrapper += fp.saneName
 		if i < len(me.params)-1 {
 			me.clang.wrapper += ", "
 		}
@@ -85,7 +85,7 @@ func (me *glPack) makeFuncs() {
 		src.add("func %s(", fun.name)
 		for i, fp = range fun.params {
 			fpgtPtr = strings.HasSuffix(fp.typeRef.g, "Ptr")
-			src.add("%s %s", saneName(fp.name), strings.Replace(ustr.Ifs(ustr.IsOneOf(fp.kind, "array", "reference") && !fpgtPtr, "*"+fp.typeRef.g, fp.typeRef.g), "***", "**", -1))
+			src.add("%s %s", fp.saneName, strings.Replace(ustr.Ifs(ustr.IsOneOf(fp.kind, "array", "reference") && !fpgtPtr, "*"+fp.typeRef.g, fp.typeRef.g), "***", "**", -1))
 			if i < len(fun.params)-1 {
 				src.add(", ")
 			}
@@ -98,9 +98,11 @@ func (me *glPack) makeFuncs() {
 		for i, fp = range fun.params {
 			fpgtPtr = fp.typeRef.g == "Ptr"
 			if fp.typeRef.c == "GLchar* const" {
-				src.add("(**C.GLchar)(unsafe.Pointer(%s))", saneName(fp.name))
+				src.add("(**C.GLchar)(unsafe.Pointer(%s))", fp.saneName)
+			} else if fp.typeRef.c == "GLDEBUGPROC" {
+				src.add("(*[0]byte)(%s)", fp.saneName)
 			} else {
-				src.add("(%s%s)(%s)", ustr.Ifs(ustr.IsOneOf(fp.kind, "array", "reference") && !fpgtPtr, "*", ""), ustr.Ifs(strings.HasSuffix(fp.typeRef.g, "Ptr"), "unsafe.Pointer", "C."+fp.typeRef.c), saneName(fp.name))
+				src.add("(%s%s)(%s)", ustr.Ifs(ustr.IsOneOf(fp.kind, "array", "reference") && !fpgtPtr, "*", ""), ustr.Ifs(strings.HasSuffix(fp.typeRef.g, "Ptr"), "unsafe.Pointer", "C."+fp.typeRef.c), fp.saneName)
 			}
 			if i < len(fun.params)-1 {
 				src.add(", ")
@@ -118,28 +120,24 @@ func (me *glPack) makeFuncs() {
 
 func xmlWalkFuncs() {
 	var (
-		skip  bool
 		total int
 		fun   *glFunc
 		param *glFuncParam
 	)
 	xmlWalkDoc("function", func(xn *xmlx.Node) {
 		total++
-		if skip = false; !isLegacy(xn) {
+		if !isLegacy(xn) {
 			fun = &glFunc{name: xas(xn, "name"), ver: xas(xn, "version"), cat: xas(xn, "category"), ext: xas(xn, "extension")}
 			fun.retType.set(xas(xn, "return"))
 			for _, pn := range xn.SelectNodes(xmlns, "param") {
 				param = &glFuncParam{name: xas(pn, "name"), kind: xas(pn, "kind"), compute: xas(pn, "compute"), input: xas(pn, "input") != "false"}
+				param.saneName = saneName(param.name)
 				if param.typeRef.set(xas(pn, "type")); len(param.typeRef.g) == 0 {
 					param.typeRef.g = "Ptr"
 				}
-				if fun.params = append(fun.params, param); param.typeRef.c == "GLDEBUGPROC" {
-					skip = true
-				}
+				fun.params = append(fun.params, param)
 			}
-			if !skip {
-				allFuncs[fun.name] = fun
-			}
+			allFuncs[fun.name] = fun
 		}
 	})
 	println(sfmt("Picked %v/%v GL functions.", len(allFuncs), total))

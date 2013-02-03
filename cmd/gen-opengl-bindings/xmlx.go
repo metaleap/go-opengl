@@ -32,6 +32,20 @@ func xmlWalkDocN(onNode nodeFunc, names ...string) {
 	}
 }
 
+func xmlWalkExts() {
+	if cfg.genExtsAll {
+		i, exts := 0, map[string]bool{}
+		xmlWalkDoc("ext", func(xn *xmlx.Node) {
+			exts[xas(xn, "name")] = true
+		})
+		cfg.genExts = make([]string, len(exts))
+		for ext, _ := range exts {
+			cfg.genExts[i] = ext
+			i++
+		}
+	}
+}
+
 func xas(xn *xmlx.Node, name string) string {
 	return xn.As("", name)
 }

@@ -18,7 +18,9 @@ func (me *glTypeRef) set(ref string) {
 }
 
 var (
-	typeMapCGo = map[string]string{}
+	typeMapCGo = map[string]string{
+		"GLDEBUGPROC": "Ptr",
+	}
 	typeMapGoC = map[string]string{
 		"Enum":     "C.GLenum",
 		"Boolean":  "C.GLboolean",

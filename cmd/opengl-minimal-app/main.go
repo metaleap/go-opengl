@@ -8,6 +8,14 @@ import (
 	gl "github.com/go3d/go-opengl/core"
 )
 
+var (
+	useStrictCoreProfile       = (runtime.GOOS == "darwin")
+	faceTri, faceQuad          = &geometry{}, &geometry{}
+	isFirstLoop                = true
+	lastErr                    error
+	shaderProg, progPosAttrLoc gl.Uint
+)
+
 type geometry struct {
 	glVerts          []gl.Float
 	glNumVerts       gl.Sizei
@@ -27,14 +35,6 @@ out vec4 oColor;
 void main() {
 	oColor = vec4(0.0, 0.6, 0.9, 1.0);
 }`
-)
-
-var (
-	faceTri, faceQuad          = &geometry{}, &geometry{}
-	useStrictCoreProfile       = (runtime.GOOS == "darwin")
-	isFirstLoop                = true
-	lastErr                    error
-	shaderProg, progPosAttrLoc gl.Uint
 )
 
 func compileShaders() (err error) {
@@ -127,9 +127,12 @@ func uploadGeometry(mesh *geometry) {
 }
 
 func logLastGlError(step string) {
-	if errNum := gl.GetError(); errNum != 0 {
-		fmt.Printf("ERR %v at step %v\n", errNum, step)
+	if err := gl.Util.Error(step); err != nil {
+		fmt.Println(err.Error())
 	}
+	// if errNum := gl.GetError(); errNum != 0 {
+	// 	fmt.Printf("ERR %v at step %v\n", errNum, step)
+	// }
 }
 
 func main() {
@@ -201,5 +204,5 @@ func main() {
 		}
 		isFirstLoop = false
 	}
-
+	logLastGlError("post-loop")
 }

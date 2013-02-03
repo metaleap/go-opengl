@@ -5,7 +5,7 @@ import (
 	"runtime"
 	"strings"
 
-	gl "github.com/chsc/gogl/gl42"
+	gl "github.com/chsc/gogl/gl43"
 	glfw "github.com/go-gl/glfw"
 )
 
@@ -202,5 +202,5 @@ func main() {
 		}
 		isFirstLoop = false
 	}
-
+	logLastGlError("post-loop")
 }

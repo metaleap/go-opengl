@@ -9,15 +9,23 @@ import (
 )
 
 type glEnum struct {
+	legacy              bool
 	name, ref, val, ver string
 	exts                []string
+}
+
+func (me *glEnum) finalVal() (val string) {
+	if val = me.val; len(val) == 0 && len(me.ref) > 0 {
+		val = allEnums[me.ref].finalVal()
+	}
+	return
 }
 
 func (me *glPack) makeEnums() {
 	var src glPackSrc
 	src.addLn("import \"fmt\"")
 	for name, enum := range allEnums {
-		if len(enum.exts) == 0 || len(enum.ver) > 0 || ustr.IsAnyInSlice(cfg.genExts, enum.exts...) {
+		if (!enum.legacy) && (len(enum.exts) == 0 || len(enum.ver) > 0 || ustr.IsAnyInSlice(cfg.genExts, enum.exts...)) {
 			me.enums[name] = enum
 		}
 	}
@@ -45,12 +53,12 @@ func (_ GlUtil) EnumName(enum Enum) (name string) {
 	switch enum {`)
 	for _, enum := range me.enums {
 		if isEarlyEnum(enum.name) {
-			enumsDone[toUi(enum.val)] = true
+			enumsDone[toUi(enum.finalVal())] = true
 			src.addLn("\tcase %s:\n\t\tname = \"GL_%s\"", enum.name, enum.name)
 		}
 	}
 	for _, enum := range me.enums {
-		if ui := toUi(enum.val); !enumsDone[ui] {
+		if ui := toUi(enum.finalVal()); !enumsDone[ui] {
 			enumsDone[ui] = true
 			src.addLn("\tcase %s:\n\t\tname = \"GL_%s\"", enum.name, enum.name)
 		}
@@ -69,17 +77,15 @@ func xmlWalkEnums() {
 	xmlWalkDoc("enum", func(xn *xmlx.Node) {
 		total++
 		// checkForUnknownAtts(xn, "name", "version", "value", "deprecated", "removed", "ref")
-		if !isLegacy(xn) {
-			enum := &glEnum{name: xas(xn, "name"), ref: xas(xn, "ref"), ver: xas(xn, "version"), val: xas(xn, "value")}
-			if len(enum.ver) == 0 {
-				for _, extNode := range xn.SelectNodes(xmlns, "ext") {
-					if extName := xas(extNode, "name"); len(extName) > 0 {
-						enum.exts = append(enum.exts, extName)
-					}
+		enum := &glEnum{name: xas(xn, "name"), ref: xas(xn, "ref"), ver: xas(xn, "version"), val: xas(xn, "value"), legacy: isLegacy(xn)}
+		if len(enum.ver) == 0 {
+			for _, extNode := range xn.SelectNodes(xmlns, "ext") {
+				if extName := xas(extNode, "name"); len(extName) > 0 {
+					enum.exts = append(enum.exts, extName)
 				}
 			}
-			allEnums[enum.name] = enum
 		}
+		allEnums[enum.name] = enum
 	})
 	println(sfmt("Picked %v/%v GL enums.", len(allEnums), total))
 }
