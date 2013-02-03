@@ -245,7 +245,7 @@ OpenGL (3.3 or higher ONLY!) utilities and a few sane slim wrappers (without goi
 					<dd>&nbsp; &nbsp; <a href="#Program.CompileAndLinkShaders">func (me *Program) CompileAndLinkShaders(compute, fragment, geometry, tessCtl, tessEval, vertex string, defines map[string]interface{}) (err error)</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#Program.Create">func (me *Program) Create()</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#Program.Create">func (me *Program) Create() (err error)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#Program.Dispose">func (me *Program) Dispose()</a></dd>
@@ -537,13 +537,13 @@ OpenGL (3.3 or higher ONLY!) utilities and a few sane slim wrappers (without goi
 				
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#Shader.AttachTo">func (me *Shader) AttachTo(prog *Program)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#Shader.AttachTo">func (me *Shader) AttachTo(prog *Program) error</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#Shader.Compile">func (me *Shader) Compile() (err error)</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#Shader.Create">func (me *Shader) Create()</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#Shader.Create">func (me *Shader) Create() (err error)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#Shader.DetachFrom">func (me *Shader) DetachFrom(prog *Program)</a></dd>
@@ -559,6 +559,9 @@ OpenGL (3.3 or higher ONLY!) utilities and a few sane slim wrappers (without goi
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#Shader.SetSource">func (me *Shader) SetSource(source string, defines map[string]interface{}) (err error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Shader.StageName">func (me *Shader) StageName() (sn string)</a></dd>
 				
 			
 				
@@ -906,7 +909,7 @@ Fully populates all fields and sub-fields in the Support package global.
 		
 			
 			
-			<h2 id="LogLastError">func <a href="/target/glutil.go?s=4630:4691#L124">LogLastError</a></h2>
+			<h2 id="LogLastError">func <a href="/target/glutil.go?s=4191:4252#L118">LogLastError</a></h2>
 			<pre>func LogLastError(stepFmt string, stepFmtArgs ...interface{})</pre>
 			<p>
 log.Println()s the error returned by LastError(), if any.
@@ -916,7 +919,7 @@ log.Println()s the error returned by LastError(), if any.
 		
 			
 			
-			<h2 id="VersionMajorMinor">func <a href="/target/glutil.go?s=6671:6723#L189">VersionMajorMinor</a></h2>
+			<h2 id="VersionMajorMinor">func <a href="/target/glutil.go?s=6232:6284#L183">VersionMajorMinor</a></h2>
 			<pre>func VersionMajorMinor(v float64) (major, minor int)</pre>
 			<p>
 Returns the major and minor parts of the specified version number.
@@ -926,7 +929,7 @@ Returns the major and minor parts of the specified version number.
 		
 			
 			
-			<h2 id="VersionMatch">func <a href="/target/glutil.go?s=6954:6987#L197">VersionMatch</a></h2>
+			<h2 id="VersionMatch">func <a href="/target/glutil.go?s=6515:6548#L191">VersionMatch</a></h2>
 			<pre>func VersionMatch(v float64) bool</pre>
 			<p>
 Returns true if GlVersion is greater than or equal to v.
@@ -1551,8 +1554,8 @@ Creates and compiles Shader stages for the specified sources (and defines) and l
 				
 			
 				
-				<h3 id="Program.Create">func (*Program) <a href="/target/gl-program.go?s=2317:2344#L72">Create</a></h3>
-				<pre>func (me *Program) Create()</pre>
+				<h3 id="Program.Create">func (*Program) <a href="/target/gl-program.go?s=2395:2434#L76">Create</a></h3>
+				<pre>func (me *Program) Create() (err error)</pre>
 				<p>
 Creates this program object in OpenGL.
 </p>
@@ -1561,7 +1564,7 @@ Creates this program object in OpenGL.
 				
 			
 				
-				<h3 id="Program.Dispose">func (*Program) <a href="/target/gl-program.go?s=2442:2470#L78">Dispose</a></h3>
+				<h3 id="Program.Dispose">func (*Program) <a href="/target/gl-program.go?s=2549:2577#L83">Dispose</a></h3>
 				<pre>func (me *Program) Dispose()</pre>
 				<p>
 Deletes this program object from OpenGL.
@@ -1571,7 +1574,7 @@ Deletes this program object from OpenGL.
 				
 			
 				
-				<h3 id="Program.HasAttr">func (*Program) <a href="/target/gl-program.go?s=2636:2685#L86">HasAttr</a></h3>
+				<h3 id="Program.HasAttr">func (*Program) <a href="/target/gl-program.go?s=2743:2792#L91">HasAttr</a></h3>
 				<pre>func (me *Program) HasAttr(name string) (ok bool)</pre>
 				<p>
 Returns true if the specified attribute name is present as a key in me.AttrLocs.
@@ -1581,7 +1584,7 @@ Returns true if the specified attribute name is present as a key in me.AttrLocs.
 				
 			
 				
-				<h3 id="Program.HasUnif">func (*Program) <a href="/target/gl-program.go?s=2808:2857#L92">HasUnif</a></h3>
+				<h3 id="Program.HasUnif">func (*Program) <a href="/target/gl-program.go?s=2915:2964#L97">HasUnif</a></h3>
 				<pre>func (me *Program) HasUnif(name string) (ok bool)</pre>
 				<p>
 Returns true if the specified uniform name is present as a key in me.UnifLocs.
@@ -1591,7 +1594,7 @@ Returns true if the specified uniform name is present as a key in me.UnifLocs.
 				
 			
 				
-				<h3 id="Program.InfoLog">func (*Program) <a href="/target/gl-program.go?s=2990:3025#L98">InfoLog</a></h3>
+				<h3 id="Program.InfoLog">func (*Program) <a href="/target/gl-program.go?s=3097:3132#L103">InfoLog</a></h3>
 				<pre>func (me *Program) InfoLog() string</pre>
 				<p>
 Retrieves and returns the content of the current OpenGL info-log for this shader object.
@@ -1601,7 +1604,7 @@ Retrieves and returns the content of the current OpenGL info-log for this shader
 				
 			
 				
-				<h3 id="Program.Link">func (*Program) <a href="/target/gl-program.go?s=3244:3281#L104">Link</a></h3>
+				<h3 id="Program.Link">func (*Program) <a href="/target/gl-program.go?s=3351:3388#L109">Link</a></h3>
 				<pre>func (me *Program) Link() (err error)</pre>
 				<p>
 Links this program object. This is a convenience short-hand for calling gl.LinkProgram(),
@@ -1612,7 +1615,7 @@ checking gl.LINK_STATUS and obtaining gl.GetProgramInfoLog().
 				
 			
 				
-				<h3 id="Program.ParamInt">func (*Program) <a href="/target/gl-program.go?s=3896:3950#L128">ParamInt</a></h3>
+				<h3 id="Program.ParamInt">func (*Program) <a href="/target/gl-program.go?s=4003:4057#L133">ParamInt</a></h3>
 				<pre>func (me *Program) ParamInt(pname gl.Enum) (iv gl.Int)</pre>
 				<p>
 Convenience short-hand for gl.GetProgramiv.
@@ -1622,7 +1625,7 @@ Convenience short-hand for gl.GetProgramiv.
 				
 			
 				
-				<h3 id="Program.SetAttrLocations">func (*Program) <a href="/target/gl-program.go?s=4346:4414#L136">SetAttrLocations</a></h3>
+				<h3 id="Program.SetAttrLocations">func (*Program) <a href="/target/gl-program.go?s=4453:4521#L141">SetAttrLocations</a></h3>
 				<pre>func (me *Program) SetAttrLocations(attrNames ...string) (err error)</pre>
 				<p>
 Stores the locations for the specified vertex-attributes in the AttrLocs field.
@@ -1634,7 +1637,7 @@ err is the result of LastError() after each call to gl.GetAttribLocation(), the 
 				
 			
 				
-				<h3 id="Program.SetUnifLocations">func (*Program) <a href="/target/gl-program.go?s=5063:5131#L154">SetUnifLocations</a></h3>
+				<h3 id="Program.SetUnifLocations">func (*Program) <a href="/target/gl-program.go?s=5170:5238#L159">SetUnifLocations</a></h3>
 				<pre>func (me *Program) SetUnifLocations(unifNames ...string) (err error)</pre>
 				<p>
 Stores the locations for the specified uniforms in the UnifLocs field.
@@ -1646,7 +1649,7 @@ err is the result of LastError() after each call to gl.GetUniformLocation(), the
 				
 			
 				
-				<h3 id="Program.Use">func (*Program) <a href="/target/gl-program.go?s=5518:5542#L170">Use</a></h3>
+				<h3 id="Program.Use">func (*Program) <a href="/target/gl-program.go?s=5625:5649#L175">Use</a></h3>
 				<pre>func (me *Program) Use()</pre>
 				<p>
 Installs this program object as part of current rendering state.
@@ -1656,7 +1659,7 @@ Installs this program object as part of current rendering state.
 				
 			
 				
-				<h3 id="Program.Validate">func (*Program) <a href="/target/gl-program.go?s=5746:5787#L176">Validate</a></h3>
+				<h3 id="Program.Validate">func (*Program) <a href="/target/gl-program.go?s=5853:5894#L181">Validate</a></h3>
 				<pre>func (me *Program) Validate() (err error)</pre>
 				<p>
 Validates this program object. This is a convenience short-hand for calling gl.ValidateProgram(),
@@ -1747,7 +1750,7 @@ If an error occurs, this method returns it immediately; otherwise, dur contains 
 				
 			
 				
-				<h3 id="ProgramManager.Reset">func (*ProgramManager) <a href="/target/program-manager.go?s=3841:3874#L92">Reset</a></h3>
+				<h3 id="ProgramManager.Reset">func (*ProgramManager) <a href="/target/program-manager.go?s=3859:3892#L92">Reset</a></h3>
 				<pre>func (me *ProgramManager) Reset()</pre>
 				<p>
 Allocates/re-initializes all maps in me (Programs, Defines, RawSources) as new empty maps.
@@ -2622,8 +2625,8 @@ Initializes and returns --but does not Create()-- a new Shader for the gl.VERTEX
 
 			
 				
-				<h3 id="Shader.AttachTo">func (*Shader) <a href="/target/gl-shader.go?s=2457:2498#L60">AttachTo</a></h3>
-				<pre>func (me *Shader) AttachTo(prog *Program)</pre>
+				<h3 id="Shader.AttachTo">func (*Shader) <a href="/target/gl-shader.go?s=2457:2504#L60">AttachTo</a></h3>
+				<pre>func (me *Shader) AttachTo(prog *Program) error</pre>
 				<p>
 Attaches this shader object to the specified program object.
 </p>
@@ -2632,7 +2635,7 @@ Attaches this shader object to the specified program object.
 				
 			
 				
-				<h3 id="Shader.Compile">func (*Shader) <a href="/target/gl-shader.go?s=2713:2752#L66">Compile</a></h3>
+				<h3 id="Shader.Compile">func (*Shader) <a href="/target/gl-shader.go?s=2914:2953#L71">Compile</a></h3>
 				<pre>func (me *Shader) Compile() (err error)</pre>
 				<p>
 Compiles this shader object. This is a convenience short-hand for calling gl.CompileShader(),
@@ -2643,8 +2646,8 @@ checking gl.COMPILE_STATUS and obtaining gl.GetShaderInfoLog().
 				
 			
 				
-				<h3 id="Shader.Create">func (*Shader) <a href="/target/gl-shader.go?s=3301:3327#L89">Create</a></h3>
-				<pre>func (me *Shader) Create()</pre>
+				<h3 id="Shader.Create">func (*Shader) <a href="/target/gl-shader.go?s=3181:3219#L79">Create</a></h3>
+				<pre>func (me *Shader) Create() (err error)</pre>
 				<p>
 Creates this shader object in OpenGL.
 </p>
@@ -2653,7 +2656,7 @@ Creates this shader object in OpenGL.
 				
 			
 				
-				<h3 id="Shader.DetachFrom">func (*Shader) <a href="/target/gl-shader.go?s=3454:3497#L95">DetachFrom</a></h3>
+				<h3 id="Shader.DetachFrom">func (*Shader) <a href="/target/gl-shader.go?s=3363:3406#L86">DetachFrom</a></h3>
 				<pre>func (me *Shader) DetachFrom(prog *Program)</pre>
 				<p>
 Detaches this shader object from the specified program object.
@@ -2663,7 +2666,7 @@ Detaches this shader object from the specified program object.
 				
 			
 				
-				<h3 id="Shader.Dispose">func (*Shader) <a href="/target/gl-shader.go?s=3591:3618#L100">Dispose</a></h3>
+				<h3 id="Shader.Dispose">func (*Shader) <a href="/target/gl-shader.go?s=3500:3527#L91">Dispose</a></h3>
 				<pre>func (me *Shader) Dispose()</pre>
 				<p>
 Deletes this shader object from OpenGL.
@@ -2673,7 +2676,7 @@ Deletes this shader object from OpenGL.
 				
 			
 				
-				<h3 id="Shader.InfoLog">func (*Shader) <a href="/target/gl-shader.go?s=3791:3825#L108">InfoLog</a></h3>
+				<h3 id="Shader.InfoLog">func (*Shader) <a href="/target/gl-shader.go?s=3700:3734#L99">InfoLog</a></h3>
 				<pre>func (me *Shader) InfoLog() string</pre>
 				<p>
 Retrieves and returns the content of the current OpenGL info-log for this shader object.
@@ -2683,7 +2686,7 @@ Retrieves and returns the content of the current OpenGL info-log for this shader
 				
 			
 				
-				<h3 id="Shader.ParamInt">func (*Shader) <a href="/target/gl-shader.go?s=3931:3984#L113">ParamInt</a></h3>
+				<h3 id="Shader.ParamInt">func (*Shader) <a href="/target/gl-shader.go?s=3840:3893#L104">ParamInt</a></h3>
 				<pre>func (me *Shader) ParamInt(pname gl.Enum) (iv gl.Int)</pre>
 				<p>
 Convenience short-hand for gl.GetShaderiv.
@@ -2693,12 +2696,22 @@ Convenience short-hand for gl.GetShaderiv.
 				
 			
 				
-				<h3 id="Shader.SetSource">func (*Shader) <a href="/target/gl-shader.go?s=4264:4350#L121">SetSource</a></h3>
+				<h3 id="Shader.SetSource">func (*Shader) <a href="/target/gl-shader.go?s=4173:4259#L112">SetSource</a></h3>
 				<pre>func (me *Shader) SetSource(source string, defines map[string]interface{}) (err error)</pre>
 				<p>
 Replaces the GLSL source code in this shader object with source,
 prepending a #version (core) directive with the current Support.Glsl.Version.Num
 and #define directives for all specified name-value pairs in defines.
+</p>
+
+				
+				
+			
+				
+				<h3 id="Shader.StageName">func (*Shader) <a href="/target/gl-shader.go?s=2668:2709#L65">StageName</a></h3>
+				<pre>func (me *Shader) StageName() (sn string)</pre>
+				<p>
+Returns the name of this shader&#39;s stage, for example &#34;GL_VERTEX_SHADER&#34;, &#34;GL_COMPUTE_SHADER&#34;, etc.
 </p>
 
 				

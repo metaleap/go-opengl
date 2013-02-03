@@ -52,7 +52,9 @@ func (me *Program) CompileAndLinkShaders(compute, fragment, geometry, tessCtl, t
 	} {
 		if len(source) > 0 {
 			if shader = ctor(me.Name); shader != nil {
-				shader.Create()
+				if err = shader.Create(); err != nil {
+					return
+				}
 				defer shader.Dispose()
 				if err = shader.SetSource(source, defines); err != nil {
 					return
@@ -69,7 +71,9 @@ func (me *Program) CompileAndLinkShaders(compute, fragment, geometry, tessCtl, t
 		return
 	}
 	for _, shader = range allShaders {
-		shader.AttachTo(me)
+		if err = shader.AttachTo(me); err != nil {
+			return
+		}
 		defer shader.DetachFrom(me)
 	}
 	if err = me.Link(); err != nil {
@@ -79,9 +83,10 @@ func (me *Program) CompileAndLinkShaders(compute, fragment, geometry, tessCtl, t
 }
 
 //	Creates this program object in OpenGL.
-func (me *Program) Create() {
+func (me *Program) Create() (err error) {
 	me.Dispose()
-	me.GlHandle = gl.CreateProgram()
+	err, me.GlHandle = gl.Try.CreateProgram()
+	return
 }
 
 //	Deletes this program object from OpenGL.
@@ -192,6 +197,16 @@ func (me *Program) Validate() (err error) {
 	return
 }
 
+//	Returns true if the specified loc is a valid vertex-attribute location.
+func progIsAttrLocation(loc gl.Uint) bool {
+	return (loc >= 0) && (loc < shaderAttrInvalidLoc)
+}
+
+//	Returns true if the specified loc is a valid uniform location.
+func progIsUnifLocation(loc gl.Int) bool {
+	return loc >= 0
+}
+
 func shaderProgInfoLog(name string, glHandle gl.Uint, shader bool) (infoLog string) {
 	const l gl.Sizei = 256
 	s := gl.Util.CStringAlloc(l)
@@ -207,14 +222,4 @@ func shaderProgInfoLog(name string, glHandle gl.Uint, shader bool) (infoLog stri
 		infoLog = err.Error()
 	}
 	return
-}
-
-//	Returns true if the specified loc is a valid vertex-attribute location.
-func progIsAttrLocation(loc gl.Uint) bool {
-	return (loc >= 0) && (loc < shaderAttrInvalidLoc)
-}
-
-//	Returns true if the specified loc is a valid uniform location.
-func progIsUnifLocation(loc gl.Int) bool {
-	return loc >= 0
 }

@@ -67,38 +67,29 @@ func NewVertexShader(name string) *Shader {
 }
 
 //	Attaches this shader object to the specified program object.
-func (me *Shader) AttachTo(prog *Program) {
-	gl.AttachShader(prog.GlHandle, me.GlHandle)
+func (me *Shader) AttachTo(prog *Program) error {
+	return gl.Try.AttachShader(prog.GlHandle, me.GlHandle)
+}
+
+//	Returns the name of this shader's stage, for example "GL_VERTEX_SHADER", "GL_COMPUTE_SHADER", etc.
+func (me *Shader) StageName() (sn string) {
+	return gl.Util.EnumName(me.Stage)
 }
 
 //	Compiles this shader object. This is a convenience short-hand for calling gl.CompileShader(),
 //	checking gl.COMPILE_STATUS and obtaining gl.GetShaderInfoLog().
 func (me *Shader) Compile() (err error) {
 	if gl.CompileShader(me.GlHandle); me.ParamInt(gl.COMPILE_STATUS) == gl.FALSE {
-		sn := "UnknownStage"
-		switch me.Stage {
-		case gl.COMPUTE_SHADER:
-			sn = "Compute"
-		case gl.FRAGMENT_SHADER:
-			sn = "Fragment"
-		case gl.GEOMETRY_SHADER:
-			sn = "Geometry"
-		case gl.TESS_CONTROL_SHADER:
-			sn = "TessCtl"
-		case gl.TESS_EVALUATION_SHADER:
-			sn = "TessEval"
-		case gl.VERTEX_SHADER:
-			sn = "Vertex"
-		}
-		err = fmt.Errorf("%sShader'%s'.Compile() error: %s\n", sn, me.Name, me.InfoLog())
+		err = fmt.Errorf("%s'%s'.Compile() error: %s\n", me.StageName(), me.Name, me.InfoLog())
 	}
 	return
 }
 
 //	Creates this shader object in OpenGL.
-func (me *Shader) Create() {
+func (me *Shader) Create() (err error) {
 	me.Dispose()
-	me.GlHandle = gl.CreateShader(me.Stage)
+	err, me.GlHandle = gl.Try.CreateShader(me.Stage)
+	return
 }
 
 //	Detaches this shader object from the specified program object.

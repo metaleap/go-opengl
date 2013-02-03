@@ -174,29 +174,6 @@ func (_ GlUtil) PtrOffset(p Ptr, o uintptr) Ptr {
 	return Ptr(uintptr(p) + o)
 }
 
-//	Returns a string representation for the specified GL error flag.
-func (_ GlUtil) ErrorFlagName(flag Enum) (name string) {
-	switch flag {
-		case INVALID_ENUM:
-			name = "GL_INVALID_ENUM"
-		case INVALID_VALUE:
-			name = "GL_INVALID_VALUE"
-		case INVALID_OPERATION:
-			name = "GL_INVALID_OPERATION"
-		case OUT_OF_MEMORY:
-			name = "GL_OUT_OF_MEMORY"
-		case INVALID_FRAMEBUFFER_OPERATION:
-			name = "GL_INVALID_FRAMEBUFFER_OPERATION"
-		case STACK_OVERFLOW:
-			name = "GL_STACK_OVERFLOW"
-		case STACK_UNDERFLOW:
-			name = "GL_STACK_UNDERFLOW"
-		default:
-			name = fmt.Sprintf("GL_ERRCODE_%%v", flag)
-	}
-	return
-}
-
 //	Returns all error flags collected from GetError() until the latter yields NO_ERROR.
 func (_ GlUtil) ErrorFlags() (flags []Enum) {
 	for e := GetError(); e != NO_ERROR; e = GetError() {
@@ -209,7 +186,7 @@ func (_ GlUtil) ErrorFlags() (flags []Enum) {
 func (_ GlUtil) Error(msgFmt string, fmtArgs ... interface{}) (err error) {
 	if flags := Util.ErrorFlags(); len(flags) > 0 {
 		for _, e := range flags {
-			msgFmt = Util.ErrorFlagName(e) + " " + msgFmt
+			msgFmt = Util.EnumName(e) + " " + msgFmt
 		}
 		err = fmt.Errorf(msgFmt, fmtArgs)
 	}

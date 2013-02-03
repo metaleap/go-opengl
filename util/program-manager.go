@@ -82,7 +82,9 @@ func (me *ProgramManager) MakeProgramsFromRawSources(forceAll bool, forceSome ..
 		}
 		if prog == nil {
 			prog = NewProgram(name)
-			prog.Create()
+			if err = prog.Create(); err != nil {
+				return
+			}
 		}
 		if err = prog.CompileAndLinkShaders(rs.Compute[name], rs.Fragment[name], rs.Geometry[name], rs.TessCtl[name], rs.TessEval[name], rs.Vertex[name], me.Defines); err != nil {
 			prog.Dispose()
@@ -91,16 +93,14 @@ func (me *ProgramManager) MakeProgramsFromRawSources(forceAll bool, forceSome ..
 			me.Programs[name] = prog
 		}
 	}
-	if err == nil {
-		dur = time.Now().Sub(timeStart)
-	}
+	dur = time.Now().Sub(timeStart)
 	return
 }
 
 //	Allocates/re-initializes all maps in me (Programs, Defines, RawSources) as new empty maps.
 //	Also deletes all existing me.Programs (if any) from OpenGL.
 func (me *ProgramManager) Reset() {
-	if len(me.Programs) > 0 {
+	if me.Programs != nil {
 		for _, prog := range me.Programs {
 			prog.Dispose()
 		}
