@@ -40,24 +40,26 @@ func (me *Texture2D) MaxNumMipLevels() gl.Sizei {
 //	Uploads the image data at me.PixelData.Ptr, if any.
 //	Generates the MIP map if me.MipMap.AutoGen is true and me.MipMap.NumLevels isn't 1.
 //	If me.MipMap.NumLevels is 0 (or just smaller than 1), then me.MaxNumMipLevels() is used.
-func (me *Texture2D) Recreate() {
-	me.onBeforeRecreate()
-	hasPixData := (me.PixelData.Ptr != gl.Ptr(nil))
-	numLevels := me.MipMap.NumLevels
-	if numLevels < 1 {
-		numLevels = me.MaxNumMipLevels()
-	}
-	if me.immutable() {
-		if gl.TexStorage2D(me.GlTarget, numLevels, me.SizedInternalFormat, me.Width, me.Height); hasPixData {
-			gl.TexSubImage2D(me.GlTarget, 0, 0, 0, me.Width, me.Height, me.PixelData.Format, me.PixelData.Type, me.PixelData.Ptr)
+func (me *Texture2D) Recreate() (err error) {
+	err = me.onBeforeRecreate()
+	defer me.onAfterRecreate()
+	if err == nil {
+		hasPixData, numLevels := (me.PixelData.Ptr != gl.Ptr(nil)), me.MipMap.NumLevels
+		if numLevels < 1 {
+			numLevels = me.MaxNumMipLevels()
 		}
-	} else {
-		gl.TexImage2D(me.GlTarget, 0, gl.Int(me.SizedInternalFormat), me.Width, me.Height, 0, me.PixelData.Format, me.PixelData.Type, me.PixelData.Ptr)
+		if me.immutable() {
+			if err = gl.Try.TexStorage2D(me.GlTarget, numLevels, me.SizedInternalFormat, me.Width, me.Height); hasPixData && (err == nil) {
+				err = gl.Try.TexSubImage2D(me.GlTarget, 0, 0, 0, me.Width, me.Height, me.PixelData.Format, me.PixelData.Type, me.PixelData.Ptr)
+			}
+		} else {
+			err = gl.Try.TexImage2D(me.GlTarget, 0, gl.Int(me.SizedInternalFormat), me.Width, me.Height, 0, me.PixelData.Format, me.PixelData.Type, me.PixelData.Ptr)
+		}
+		if (err == nil) && hasPixData && me.MipMap.AutoGen && (me.GlTarget != gl.TEXTURE_RECTANGLE) {
+			err = gl.Try.GenerateMipmap(me.GlTarget)
+		}
 	}
-	if hasPixData && me.MipMap.AutoGen && (me.GlTarget != gl.TEXTURE_RECTANGLE) {
-		gl.GenerateMipmap(me.GlTarget)
-	}
-	me.onAfterRecreate()
+	return
 }
 
 //	Prepares this Texture2D for uploading the specified Image via Recreate().

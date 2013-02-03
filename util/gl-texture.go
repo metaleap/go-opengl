@@ -7,7 +7,7 @@ import (
 //	Implemented by specialized texture types such as Texture2D.
 type Texture interface {
 	//	Deletes and (re)creates the texture object based on its current params.
-	Recreate()
+	Recreate() error
 }
 
 type TextureBase struct {
@@ -85,15 +85,18 @@ func (me *TextureBase) onAfterRecreate() {
 	me.Unbind()
 }
 
-func (me *TextureBase) onBeforeRecreate() {
+func (me *TextureBase) onBeforeRecreate() (err error) {
 	if me.immutable() {
 		me.Unbind()
 		me.Dispose()
-		gl.GenTextures(1, &me.GlHandle)
+		err = gl.Try.GenTextures(1, &me.GlHandle)
 	} else if me.GlHandle == 0 {
-		gl.GenTextures(1, &me.GlHandle)
+		err = gl.Try.GenTextures(1, &me.GlHandle)
 	}
-	me.Bind()
+	if err == nil {
+		me.Bind()
+	}
+	return
 }
 
 //	Unbinds whatever texture is currently bound.

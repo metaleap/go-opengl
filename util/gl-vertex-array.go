@@ -17,9 +17,10 @@ func (me *VertexArray) Bind() {
 }
 
 //	(Re-)Creates this vertex-array object.
-func (me *VertexArray) Create() {
+func (me *VertexArray) Create() (err error) {
 	me.Dispose()
-	gl.GenVertexArrays(1, &me.GlHandle)
+	err = gl.Try.GenVertexArrays(1, &me.GlHandle)
+	return
 }
 
 //	Deletes this vertex array object.
@@ -31,7 +32,7 @@ func (me *VertexArray) Dispose() {
 }
 
 //	Sets up this vertex array object, associating it with the specified buffer objects and enabling the specified vertex attributes for it.
-func (me *VertexArray) Setup(atts []*VertexAttribPointer, bufs ...*Buffer) {
+func (me *VertexArray) Setup(atts []*VertexAttribPointer, bufs ...*Buffer) (err error) {
 	me.Bind()
 	for _, buf := range bufs {
 		buf.Bind()
@@ -44,6 +45,8 @@ func (me *VertexArray) Setup(atts []*VertexAttribPointer, bufs ...*Buffer) {
 	for _, buf := range bufs {
 		buf.Unbind()
 	}
+	err = gl.Util.Error("VertexArray.Setup()")
+	return
 }
 
 //	Unbinds whatever vertex array object is currently bound.

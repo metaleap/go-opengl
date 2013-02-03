@@ -127,7 +127,7 @@ func (me *Buffer) Map(read, write bool) {
 
 //	Deletes this buffer object if applicable, generates it anew, and allocates its data store as specified,
 //	populating it with the specified initialData if any. GlTarget is changed to newGlTarget unless 0 is specified.
-func (me *Buffer) Recreate(newGlTarget gl.Enum, sizeInBytes gl.Sizeiptr, initialData gl.Ptr, usageHint gl.Enum) {
+func (me *Buffer) Recreate(newGlTarget gl.Enum, sizeInBytes gl.Sizeiptr, initialData gl.Ptr, usageHint gl.Enum) (err error) {
 	if me.GlTarget != 0 {
 		me.Unbind()
 	}
@@ -137,11 +137,13 @@ func (me *Buffer) Recreate(newGlTarget gl.Enum, sizeInBytes gl.Sizeiptr, initial
 	if me.GlTarget != 0 {
 		me.Unbind()
 		me.Dispose()
-		gl.GenBuffers(1, &me.GlHandle)
-		me.Bind()
-		gl.BufferData(me.GlTarget, sizeInBytes, initialData, usageHint)
-		me.Unbind()
+		if err = gl.Try.GenBuffers(1, &me.GlHandle); err == nil {
+			me.Bind()
+			err = gl.Try.BufferData(me.GlTarget, sizeInBytes, initialData, usageHint)
+			me.Unbind()
+		}
 	}
+	return
 }
 
 //	Unbinds whatever buffer object is currently bound to me.GlTarget.
@@ -155,6 +157,7 @@ func (me *Buffer) Unmap() {
 }
 
 //	Buffers the specified data into this buffer object's data store at the specified offset.
-func (me *Buffer) SubData(offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr) {
-	gl.BufferSubData(me.GlTarget, offset, size, data)
+func (me *Buffer) SubData(offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr) (err error) {
+	err = gl.Try.BufferSubData(me.GlTarget, offset, size, data)
+	return
 }
