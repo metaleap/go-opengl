@@ -13,8 +13,8 @@ type version struct {
 }
 
 var (
-	insaneKeywords = []string{"func", "type", "near", "far", "string", "range"}
-	vers           = map[string]*version{}
+	cOrGoKeywords = []string{"func", "type", "near", "far", "string", "range"}
+	vers          = map[string]*version{}
 )
 
 func parseVersion(dotted string) (ver *version) {
@@ -25,7 +25,7 @@ func parseVersion(dotted string) (ver *version) {
 }
 
 func saneName(name string) (sane string) {
-	if sane = name; ustr.IsInSlice(insaneKeywords, sane) {
+	if sane = name; ustr.IsInSlice(cOrGoKeywords, sane) {
 		sane += "_"
 	}
 	return

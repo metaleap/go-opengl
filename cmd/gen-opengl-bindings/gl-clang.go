@@ -90,8 +90,8 @@ func (me *glPack) makeCgo() {
 	for _, fun := range me.funcs {
 		src.addLn("// \tptrgl%s = coreGetProcAddress(\"gl%s\");", fun.name, fun.name)
 	}
-	src.addLn("// /* a quick-and-dirty way to determine if (at least) 3.2 core profile (or higher) is provided: */")
-	src.addLn("// \treturn ((ptrglFramebufferTexture == NULL) ? 0 : 1);")
+	src.addLn("// /* a cheap way to determine if (at least) v%s core profile (or higher) seems to be supported: */", *flagMinVer)
+	src.addLn("// \treturn ((ptrgl%s == NULL) ? 0 : 1);", *flagProcAddr)
 	src.addLn("// }")
 	src.addLn(`import "C"
 import "fmt"

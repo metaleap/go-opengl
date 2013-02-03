@@ -16,11 +16,12 @@ If you need an OpenGL binding, you may first want to try [the pre-generated GoGL
 
 This OpenGL binding differs from GoGL's bindings as follows:
 
-- deprecated/removed API functions/enums are not included
-- does not include "compatibility profile"-only functions/enums
+- deprecated/removed API functions/enums are not included (though seems like the newest GoGL can also skip these)
+- does not include "compatibility profile"-only functions/enums (GoGL can also gen core-only bindings but their gl42 pre-made pkg wasn't)
 - support for GL features up to 4.3 (GoGL is currently at 4.2)
-- has select GL extensions included in the binding package without needing to build/link additional ext packages.
-- utility functions moved to a *Util* struct
+- has select GL extensions (those deemed worthy of support in go:ngine) included in the binding package without needing to generate/build/link additional *ext*, *arb*, etc. binding packages.
+- Init() and utility functions moved to a *Util* struct: so every exported (non-method) function is a direct CGO binding function.
+- a few bare-bones methods for GL errors in  *Util*: ErrorFlags(), ErrorFlagName() and Error().
 - runtime checking for individual function availability via a *Supports* struct
 - function wrappers that check for GL errors and return Go errors via a *Try* struct
 
