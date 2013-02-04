@@ -23,7 +23,9 @@ func (me *glEnum) finalVal() (val string) {
 
 func (me *glPack) makeEnums() {
 	var src glPackSrc
-	src.addLn("import \"fmt\"")
+	if *flagTry {
+		src.addLn("import \"fmt\"")
+	}
 	for name, enum := range allEnums {
 		if (!enum.legacy) && (len(enum.exts) == 0 || len(enum.ver) > 0 || ustr.IsAnyInSlice(cfg.genExts, enum.exts...)) {
 			me.enums[name] = enum
@@ -47,28 +49,30 @@ func (me *glPack) makeEnums() {
 	isEarlyEnum := func(name string) bool {
 		return (strings.HasSuffix(name, "_SHADER") && strings.Count(name, "_") <= 2) || ustr.IsOneOf(name, "INVALID_ENUM", "INVALID_VALUE", "INVALID_OPERATION", "OUT_OF_MEMORY", "INVALID_FRAMEBUFFER_OPERATION", "STACK_OVERFLOW", "STACK_UNDERFLOW")
 	}
-	src.addLn(`
+	if *flagTry {
+		src.addLn(`
 //	Returns the name of the specified Enum. Not recommended in a real-time loop.
 func (_ GlUtil) EnumName(enum Enum) (name string) {
 	switch enum {`)
-	for _, enum := range me.enums {
-		if isEarlyEnum(enum.name) {
-			enumsDone[toUi(enum.finalVal())] = true
-			src.addLn("\tcase %s:\n\t\tname = \"GL_%s\"", enum.name, enum.name)
+		for _, enum := range me.enums {
+			if isEarlyEnum(enum.name) {
+				enumsDone[toUi(enum.finalVal())] = true
+				src.addLn("\tcase %s:\n\t\tname = \"GL_%s\"", enum.name, enum.name)
+			}
 		}
-	}
-	for _, enum := range me.enums {
-		if ui := toUi(enum.finalVal()); !enumsDone[ui] {
-			enumsDone[ui] = true
-			src.addLn("\tcase %s:\n\t\tname = \"GL_%s\"", enum.name, enum.name)
+		for _, enum := range me.enums {
+			if ui := toUi(enum.finalVal()); !enumsDone[ui] {
+				enumsDone[ui] = true
+				src.addLn("\tcase %s:\n\t\tname = \"GL_%s\"", enum.name, enum.name)
+			}
 		}
-	}
-	src.addLn(`	default:
+		src.addLn(`	default:
 		name = fmt.Sprintf("GL_ENUM_%%v", enum)
 	}
 	return
 }
 `)
+	}
 	me.sources["enums"] = src
 }
 

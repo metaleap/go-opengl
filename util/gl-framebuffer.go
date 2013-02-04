@@ -1,4 +1,4 @@
-package glutil
+package ugl
 
 import (
 	gl "github.com/go3d/go-opengl/core"

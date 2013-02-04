@@ -2,8 +2,6 @@ package main
 
 import (
 	"strings"
-
-	ustr "github.com/metaleap/go-util/str"
 )
 
 func (me *glPack) makeCgo() {
@@ -84,7 +82,9 @@ func (me *glPack) makeCgo() {
 	src.addLn("// ")
 	for _, fun := range me.funcs {
 		src.addLn("// %s", fun.clang.wrapper)
-		src.addLn("// %s", fun.clang.supporter)
+		if *flagSupports {
+			src.addLn("// %s", fun.clang.supporter)
+		}
 	}
 	src.addLn("// int coreGetProcAddresses() {")
 	for _, fun := range me.funcs {
@@ -94,7 +94,6 @@ func (me *glPack) makeCgo() {
 	src.addLn("// \treturn ((ptrgl%s == NULL) ? 0 : 1);", *flagProcAddr)
 	src.addLn("// }")
 	src.addLn(`import "C"
-import "fmt"
 import "unsafe"
 
 type (`)
@@ -102,23 +101,29 @@ type (`)
 		src.addLn("\t%s %s", gt, ct)
 	}
 	src.addLn(")")
-	src.addLn(`
+	if *flagSupports {
+		src.addLn(`
 //	Provides methods indicating whether a given GL function can be called within the current GL context.
 type GlSupport struct {}
 
+//	Provides methods indicating whether a given GL function can be called within the current GL context.
+var Supports GlSupport
+`)
+	}
+	if *flagTry {
+		src.addLn(`
 //	Provides method wrappers that call GL functions and check for any errors immediately afterwards.
 //	Not recommended for use in a real-time loop, but useful for "dirty debugging" or one-off/setup tasks.
 type GlTry struct {}
 
-//	Provides utility methods for working with this OpenGL binding package.
-type GlUtil struct {}
-
-//	Provides methods indicating whether a given GL function can be called within the current GL context.
-var Supports GlSupport
-
 //	Provides method wrappers that call GL functions and check for any errors immediately afterwards.
 //	Not recommended for use in a real-time loop, but useful for "dirty debugging" or one-off/setup tasks.
 var Try GlTry
+`)
+	}
+	src.addLn(`
+//	Provides utility methods for working with this OpenGL binding package.
+type GlUtil struct {}
 
 //	Provides utility methods for working with this OpenGL binding package.
 var Util GlUtil
@@ -182,6 +187,15 @@ func (_ GlUtil) ErrorFlags() (flags []Enum) {
 	return
 }
 
+//	Initializes this OpenGL binding after having created your GL context (with SDL, GLFW or in some other way).
+func (_ GlUtil) Init() bool {
+	return (C.coreGetProcAddresses() == 1)
+}
+`)
+	if *flagTry {
+		src.addLn(`
+import "fmt"
+
 //	If any errors have been recorded since the last (direct or indirect) GetError() call, returns a single error value informing on those and including the specified message, if any.
 func (_ GlUtil) Error(msgFmt string, fmtArgs ...interface{}) (err error) {
 	if flags := Util.ErrorFlags(); len(flags) > 0 {
@@ -192,47 +206,21 @@ func (_ GlUtil) Error(msgFmt string, fmtArgs ...interface{}) (err error) {
 	}
 	return
 }
-
-//	Initializes this OpenGL binding after having created your GL context (with SDL, GLFW or in some other way).
-func (_ GlUtil) Init() bool {
-	return (C.coreGetProcAddresses() == 1)
-}
-
 `)
-	for _, fun := range me.funcs {
-		src.addLn("//\tReturns whether the current GL context supports calling the %s() function.", fun.name)
-		src.addLn(`func (_ GlSupport) %s () bool {
+	}
+	if *flagSupports {
+		for _, fun := range me.funcs {
+			src.addLn("//\tReturns whether the current GL context supports calling the %s() function.", fun.name)
+			src.addLn(`func (_ GlSupport) %s () bool {
 	return C.cancall%s() == 1
 }
 `, fun.name, fun.name)
-
-		src.addLn("//\tIf Supports.%s() is true, calls %s() and yields the err returned by Util.Error(), if any.", fun.name, fun.name)
-		src.add("func (_ GlTry) %s(", fun.name)
-		args, ret := "", ""
-		for i, fp := range fun.params {
-			fpgtPtr := strings.HasSuffix(fp.typeRef.g, "Ptr")
-			src.add("%s %s", fp.saneName, strings.Replace(ustr.Ifs(ustr.IsOneOf(fp.kind, "array", "reference") && !fpgtPtr, "*"+fp.typeRef.g, fp.typeRef.g), "***", "**", -1))
-			args += fp.saneName
-			if i < len(fun.params)-1 {
-				src.add(", ")
-				args += ", "
-			}
 		}
-		src.add(") (err error")
-		if len(fun.retType.g) > 0 {
-			ret = "tryRetVal__ = "
-			src.add(", tryRetVal__ %v", fun.retType.g)
-		}
-		src.add(") {")
-		src.addLn(`
-	if !Supports.%s() {
-		err = fmt.Errorf("%s() function call not supported by current GL context.")
-	} else {
-		%s%s(%s)
-		err = Util.Error("%s()")
 	}
-	return`, fun.name, fun.name, ret, fun.name, args, fun.name)
-		src.addLn("}\n")
+	if *flagTry {
+		for _, fun := range me.funcs {
+			me.makeTryFunc(&src, fun, "", "Util.")
+		}
 	}
 	me.sources["funcs"] = src + me.sources["funcs"]
 }

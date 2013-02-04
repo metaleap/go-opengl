@@ -1,4 +1,4 @@
-package glutil
+package ugl
 
 import (
 	"fmt"
@@ -85,7 +85,7 @@ func (me *Program) CompileAndLinkShaders(compute, fragment, geometry, tessCtl, t
 //	Creates this program object in OpenGL.
 func (me *Program) Create() (err error) {
 	me.Dispose()
-	err, me.GlHandle = gl.Try.CreateProgram()
+	err, me.GlHandle = Try.CreateProgram()
 	return
 }
 
@@ -153,7 +153,7 @@ func (me *Program) SetAttrLocations(attrNames ...string) (err error) {
 	for _, attrName := range attrNames {
 		if len(attrName) > 0 {
 			loc = me.locationAttr(attrName)
-			if err = gl.Util.Error("Program'%s'.SetAttrLocations('%s')", me.Name, attrName); err != nil {
+			if err = Util.Error("Program'%s'.SetAttrLocations('%s')", me.Name, attrName); err != nil {
 				return
 			} else if progIsAttrLocation(loc) {
 				me.AttrLocs[attrName] = loc
@@ -171,7 +171,7 @@ func (me *Program) SetUnifLocations(unifNames ...string) (err error) {
 	for _, unifName := range unifNames {
 		if len(unifName) > 0 {
 			loc = me.locationUnif(unifName)
-			if err = gl.Util.Error("Program'%s'.SetUnifLocations('%s')", me.Name, unifName); err != nil {
+			if err = Util.Error("Program'%s'.SetUnifLocations('%s')", me.Name, unifName); err != nil {
 				return
 			} else if progIsUnifLocation(loc) {
 				me.UnifLocs[unifName] = loc
@@ -216,7 +216,7 @@ func shaderProgInfoLog(name string, glHandle gl.Uint, shader bool) (infoLog stri
 	} else {
 		gl.GetProgramInfoLog(glHandle, l, nil, s)
 	}
-	if err := gl.Util.Error("%s'%s'.InfoLog()", ugo.Ifs(shader, "Shader", "Program"), name); err == nil {
+	if err := Util.Error("%s'%s'.InfoLog()", ugo.Ifs(shader, "Shader", "Program"), name); err == nil {
 		infoLog = gl.Util.StringFromChar(s)
 	} else {
 		infoLog = err.Error()

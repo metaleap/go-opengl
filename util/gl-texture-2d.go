@@ -1,4 +1,4 @@
-package glutil
+package ugl
 
 import (
 	"fmt"
@@ -49,14 +49,14 @@ func (me *Texture2D) Recreate() (err error) {
 			numLevels = me.MaxNumMipLevels()
 		}
 		if me.immutable() {
-			if err = gl.Try.TexStorage2D(me.GlTarget, numLevels, me.SizedInternalFormat, me.Width, me.Height); hasPixData && (err == nil) {
-				err = gl.Try.TexSubImage2D(me.GlTarget, 0, 0, 0, me.Width, me.Height, me.PixelData.Format, me.PixelData.Type, me.PixelData.Ptr)
+			if err = Try.TexStorage2D(me.GlTarget, numLevels, me.SizedInternalFormat, me.Width, me.Height); hasPixData && (err == nil) {
+				err = Try.TexSubImage2D(me.GlTarget, 0, 0, 0, me.Width, me.Height, me.PixelData.Format, me.PixelData.Type, me.PixelData.Ptr)
 			}
 		} else {
-			err = gl.Try.TexImage2D(me.GlTarget, 0, gl.Int(me.SizedInternalFormat), me.Width, me.Height, 0, me.PixelData.Format, me.PixelData.Type, me.PixelData.Ptr)
+			err = Try.TexImage2D(me.GlTarget, 0, gl.Int(me.SizedInternalFormat), me.Width, me.Height, 0, me.PixelData.Format, me.PixelData.Type, me.PixelData.Ptr)
 		}
 		if (err == nil) && hasPixData && me.MipMap.AutoGen && (me.GlTarget != gl.TEXTURE_RECTANGLE) {
-			err = gl.Try.GenerateMipmap(me.GlTarget)
+			err = Try.GenerateMipmap(me.GlTarget)
 		}
 	}
 	return

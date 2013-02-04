@@ -1,4 +1,4 @@
-package glutil
+package ugl
 
 import (
 	gl "github.com/go3d/go-opengl/core"
@@ -19,7 +19,7 @@ func (me *VertexArray) Bind() {
 //	(Re-)Creates this vertex-array object.
 func (me *VertexArray) Create() (err error) {
 	me.Dispose()
-	err = gl.Try.GenVertexArrays(1, &me.GlHandle)
+	err = Try.GenVertexArrays(1, &me.GlHandle)
 	return
 }
 
@@ -45,7 +45,7 @@ func (me *VertexArray) Setup(atts []*VertexAttribPointer, bufs ...*Buffer) (err 
 	for _, buf := range bufs {
 		buf.Unbind()
 	}
-	err = gl.Util.Error("VertexArray.Setup()")
+	err = Util.Error("VertexArray.Setup()")
 	return
 }
 

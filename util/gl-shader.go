@@ -1,4 +1,4 @@
-package glutil
+package ugl
 
 import (
 	"fmt"
@@ -68,12 +68,12 @@ func NewVertexShader(name string) *Shader {
 
 //	Attaches this shader object to the specified program object.
 func (me *Shader) AttachTo(prog *Program) error {
-	return gl.Try.AttachShader(prog.GlHandle, me.GlHandle)
+	return Try.AttachShader(prog.GlHandle, me.GlHandle)
 }
 
 //	Returns the name of this shader's stage, for example "GL_VERTEX_SHADER", "GL_COMPUTE_SHADER", etc.
 func (me *Shader) StageName() (sn string) {
-	return gl.Util.EnumName(me.Stage)
+	return Util.EnumName(me.Stage)
 }
 
 //	Compiles this shader object. This is a convenience short-hand for calling gl.CompileShader(),
@@ -88,7 +88,7 @@ func (me *Shader) Compile() (err error) {
 //	Creates this shader object in OpenGL.
 func (me *Shader) Create() (err error) {
 	me.Dispose()
-	err, me.GlHandle = gl.Try.CreateShader(me.Stage)
+	err, me.GlHandle = Try.CreateShader(me.Stage)
 	return
 }
 
@@ -136,6 +136,6 @@ func (me *Shader) SetSource(source string, defines map[string]interface{}) (err 
 	lines[i+1] = source
 	src := gl.Util.CStringArray(lines...)
 	defer gl.Util.CStringArrayFree(src)
-	err = gl.Try.ShaderSource(me.GlHandle, gl.Sizei(len(src)), &src[0], nil)
+	err = Try.ShaderSource(me.GlHandle, gl.Sizei(len(src)), &src[0], nil)
 	return
 }

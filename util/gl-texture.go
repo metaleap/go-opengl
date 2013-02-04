@@ -1,4 +1,4 @@
-package glutil
+package ugl
 
 import (
 	gl "github.com/go3d/go-opengl/core"
@@ -89,9 +89,9 @@ func (me *TextureBase) onBeforeRecreate() (err error) {
 	if me.immutable() {
 		me.Unbind()
 		me.Dispose()
-		err = gl.Try.GenTextures(1, &me.GlHandle)
+		err = Try.GenTextures(1, &me.GlHandle)
 	} else if me.GlHandle == 0 {
-		err = gl.Try.GenTextures(1, &me.GlHandle)
+		err = Try.GenTextures(1, &me.GlHandle)
 	}
 	if err == nil {
 		me.Bind()

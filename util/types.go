@@ -1,4 +1,4 @@
-package glutil
+package ugl
 
 import (
 	gl "github.com/go3d/go-opengl/core"
@@ -61,8 +61,7 @@ func (me *GlMat4) Load(mat *unum.Mat4) {
 	me[3], me[7], me[11], me[15] = gl.Float(mat[3]), gl.Float(mat[7]), gl.Float(mat[11]), gl.Float(mat[15])
 }
 
-//	A singleton type, only used for the package-global glutil.Typed variable.
-//	Provides access to miscellaneous type-specific OpenGL / GoGL functionality.
+//	A singleton type, only used for the package-global ugl.Typed variable.
 type TypeUtils struct {
 }
 

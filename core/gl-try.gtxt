@@ -1,0 +1,91 @@
+//	Calls AttachShader() and yields the err returned by Util.Error(), if any.
+func (_ GlTry) AttachShader(program gl.Uint, shader gl.Uint) (err error) {
+	AttachShader(program, shader)
+	err = Gl.Error("AttachShader()")
+	return
+}
+
+//	Calls BufferData() and yields the err returned by Util.Error(), if any.
+func (_ GlTry) BufferData(target gl.Enum, size gl.Sizeiptr, data gl.Ptr, usage gl.Enum) (err error) {
+	BufferData(target, size, data, usage)
+	err = Gl.Error("BufferData()")
+	return
+}
+
+//	Calls BufferSubData() and yields the err returned by Util.Error(), if any.
+func (_ GlTry) BufferSubData(target gl.Enum, offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr) (err error) {
+	BufferSubData(target, offset, size, data)
+	err = Gl.Error("BufferSubData()")
+	return
+}
+
+//	Calls CreateProgram() and yields the err returned by Util.Error(), if any.
+func (_ GlTry) CreateProgram() (err error, tryRetVal__ gl.Uint) {
+	tryRetVal__ = CreateProgram()
+	err = Gl.Error("CreateProgram()")
+	return
+}
+
+//	Calls CreateShader() and yields the err returned by Util.Error(), if any.
+func (_ GlTry) CreateShader(type_ gl.Enum) (err error, tryRetVal__ gl.Uint) {
+	tryRetVal__ = CreateShader(type_)
+	err = Gl.Error("CreateShader()")
+	return
+}
+
+//	Calls GenBuffers() and yields the err returned by Util.Error(), if any.
+func (_ GlTry) GenBuffers(n gl.Sizei, buffers *gl.Uint) (err error) {
+	GenBuffers(n, buffers)
+	err = Gl.Error("GenBuffers()")
+	return
+}
+
+//	Calls GenerateMipmap() and yields the err returned by Util.Error(), if any.
+func (_ GlTry) GenerateMipmap(target gl.Enum) (err error) {
+	GenerateMipmap(target)
+	err = Gl.Error("GenerateMipmap()")
+	return
+}
+
+//	Calls GenTextures() and yields the err returned by Util.Error(), if any.
+func (_ GlTry) GenTextures(n gl.Sizei, textures *gl.Uint) (err error) {
+	GenTextures(n, textures)
+	err = Gl.Error("GenTextures()")
+	return
+}
+
+//	Calls GenVertexArrays() and yields the err returned by Util.Error(), if any.
+func (_ GlTry) GenVertexArrays(n gl.Sizei, arrays *gl.Uint) (err error) {
+	GenVertexArrays(n, arrays)
+	err = Gl.Error("GenVertexArrays()")
+	return
+}
+
+//	Calls ShaderSource() and yields the err returned by Util.Error(), if any.
+func (_ GlTry) ShaderSource(shader gl.Uint, count gl.Sizei, string_ **gl.Char, length *gl.Int) (err error) {
+	ShaderSource(shader, count, string_, length)
+	err = Gl.Error("ShaderSource()")
+	return
+}
+
+//	Calls TexImage2D() and yields the err returned by Util.Error(), if any.
+func (_ GlTry) TexImage2D(target gl.Enum, level gl.Int, internalformat gl.Int, width gl.Sizei, height gl.Sizei, border gl.Int, format gl.Enum, type_ gl.Enum, pixels gl.Ptr) (err error) {
+	TexImage2D(target, level, internalformat, width, height, border, format, type_, pixels)
+	err = Gl.Error("TexImage2D()")
+	return
+}
+
+//	Calls TexStorage2D() and yields the err returned by Util.Error(), if any.
+func (_ GlTry) TexStorage2D(target gl.Enum, levels gl.Sizei, internalformat gl.Enum, width gl.Sizei, height gl.Sizei) (err error) {
+	TexStorage2D(target, levels, internalformat, width, height)
+	err = Gl.Error("TexStorage2D()")
+	return
+}
+
+//	Calls TexSubImage2D() and yields the err returned by Util.Error(), if any.
+func (_ GlTry) TexSubImage2D(target gl.Enum, level gl.Int, xoffset gl.Int, yoffset gl.Int, width gl.Sizei, height gl.Sizei, format gl.Enum, type_ gl.Enum, pixels gl.Ptr) (err error) {
+	TexSubImage2D(target, level, xoffset, yoffset, width, height, format, type_, pixels)
+	err = Gl.Error("TexSubImage2D()")
+	return
+}
+

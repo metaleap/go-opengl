@@ -1,4 +1,4 @@
-package glutil
+package ugl
 
 import (
 	"fmt"
@@ -14,13 +14,16 @@ var (
 	//	(This does not imply they're all supported by the current client-side GPU.)
 	KnownVersions = []float64{3.3, 4.0, 4.1, 4.2, 4.3}
 
-	//	Provides access to miscellaneous OpenGL / GoGL functionality.
-	Gl Utils
+	//	Provides access to miscellaneous GL functionality.
+	Util GlUtil
 
-	//	Provides access to miscellaneous type-specific OpenGL / GoGL functionality.
+	//	Provides access to miscellaneous type-specific GL functionality.
 	Typed TypeUtils
 
-	//	After you have called glutil.Init() upon successful OpenGL context creation and GoGL initialization,
+	//	Provides methods that each wrap a GL function call and immediately check for GL errors to be returned as Go errors.
+	Try GlTry
+
+	//	After you have called ugl.Init() upon successful OpenGL context creation and GL binding initialization,
 	//	contains information on what the currently active OpenGL profile supports.
 	Support struct {
 		//	Informs on whether certain buffer types are supported by the current OpenGL context.
@@ -36,7 +39,7 @@ var (
 		}
 
 		//	All extensions supported by the current OpenGL context.
-		//	Useful for casual inspection, but to query for the presence of a specific extension, always use Gl.Extension(name)
+		//	Useful for casual inspection, but to query for the presence of a specific extension, always use Util.Extension(name)
 		Extensions []string
 
 		//	Information on the OpenGL version of the current OpenGL context.
@@ -126,7 +129,7 @@ func Init() {
 
 //	log.Println()s the error returned by LastError(), if any.
 func LogLastError(stepFmt string, stepFmtArgs ...interface{}) {
-	ugo.LogError(gl.Util.Error(stepFmt, stepFmtArgs...))
+	ugo.LogError(Util.Error(stepFmt, stepFmtArgs...))
 }
 
 func setSupportInfos() {
@@ -136,12 +139,12 @@ func setSupportInfos() {
 	Support.Extensions = make([]string, num)
 	if num > 0 {
 		for i := gl.Int(0); i < num; i++ {
-			Support.Extensions[i] = Gl.Stri(gl.EXTENSIONS, gl.Uint(i))
+			Support.Extensions[i] = Util.Stri(gl.EXTENSIONS, gl.Uint(i))
 		}
 	}
 
 	//	Sampling limits
-	if Gl.Extension("texture_filter_anisotropic") {
+	if Util.Extension("texture_filter_anisotropic") {
 		gl.GetFloatv(gl.MAX_TEXTURE_MAX_ANISOTROPY_EXT, &Support.Textures.MaxFilterAnisotropy)
 	}
 	gl.GetFloatv(gl.MAX_TEXTURE_LOD_BIAS, &Support.Textures.MaxMipLoadBias)
@@ -166,7 +169,7 @@ func setVersion() {
 	glVer.Num, glslVer.Num = 0.0, 0
 	glVer.Is33, glVer.Is40, glVer.Is41, glVer.Is42, glVer.Is43 = false, false, false, false, false
 	glslVer.Is330, glslVer.Is400, glslVer.Is410, glslVer.Is420, glslVer.Is430 = false, false, false, false, false
-	if glVer.MajorMinor, glVer.Num = ugo.ParseVersion(Gl.Str(gl.VERSION)); glVer.Num > 0 {
+	if glVer.MajorMinor, glVer.Num = ugo.ParseVersion(Util.Str(gl.VERSION)); glVer.Num > 0 {
 		if glVer.Num >= 3.3 {
 			glVer.Is33, glslVer.Num, glslVer.Is330 = true, 330, true
 		}

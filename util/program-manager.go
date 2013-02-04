@@ -1,4 +1,4 @@
-package glutil
+package ugl
 
 import (
 	"time"

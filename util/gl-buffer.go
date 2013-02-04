@@ -1,4 +1,4 @@
-package glutil
+package ugl
 
 import (
 	gl "github.com/go3d/go-opengl/core"
@@ -137,9 +137,9 @@ func (me *Buffer) Recreate(newGlTarget gl.Enum, sizeInBytes gl.Sizeiptr, initial
 	if me.GlTarget != 0 {
 		me.Unbind()
 		me.Dispose()
-		if err = gl.Try.GenBuffers(1, &me.GlHandle); err == nil {
+		if err = Try.GenBuffers(1, &me.GlHandle); err == nil {
 			me.Bind()
-			err = gl.Try.BufferData(me.GlTarget, sizeInBytes, initialData, usageHint)
+			err = Try.BufferData(me.GlTarget, sizeInBytes, initialData, usageHint)
 			me.Unbind()
 		}
 	}
@@ -158,6 +158,6 @@ func (me *Buffer) Unmap() {
 
 //	Buffers the specified data into this buffer object's data store at the specified offset.
 func (me *Buffer) SubData(offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr) (err error) {
-	err = gl.Try.BufferSubData(me.GlTarget, offset, size, data)
+	err = Try.BufferSubData(me.GlTarget, offset, size, data)
 	return
 }

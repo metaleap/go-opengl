@@ -36,7 +36,9 @@ func (me *glFunc) makeCgo() {
 	}
 	me.clang.entry += ");"
 
-	me.clang.supporter = sfmt("int cancall%s() { return ((ptrgl%s == NULL) ? 0 : 1); }", me.name, me.name)
+	if *flagSupports {
+		me.clang.supporter = sfmt("int cancall%s() { return ((ptrgl%s == NULL) ? 0 : 1); }", me.name, me.name)
+	}
 
 	me.clang.wrapper = sfmt("%s call%s(", me.retType.c, me.name)
 	for i, fp = range me.params {
