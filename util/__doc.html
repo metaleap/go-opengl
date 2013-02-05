@@ -173,7 +173,7 @@ OpenGL (3.3 or higher ONLY!) utilities and a few sane slim wrappers (without goi
 					<dd>&nbsp; &nbsp; <a href="#Framebuffer.Dispose">func (me *Framebuffer) Dispose()</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#Framebuffer.Resize">func (me *Framebuffer) Resize(width, height gl.Sizei)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#Framebuffer.Resize">func (me *Framebuffer) Resize(width, height gl.Sizei) (resized bool)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#Framebuffer.Status">func (me *Framebuffer) Status() gl.Enum</a></dd>
@@ -1326,8 +1326,8 @@ Deletes this Framebuffer and all attached render textures and render buffers fro
 				
 			
 				
-				<h3 id="Framebuffer.Resize">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=2898:2951#L91">Resize</a></h3>
-				<pre>func (me *Framebuffer) Resize(width, height gl.Sizei)</pre>
+				<h3 id="Framebuffer.Resize">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=2898:2966#L91">Resize</a></h3>
+				<pre>func (me *Framebuffer) Resize(width, height gl.Sizei) (resized bool)</pre>
 				<p>
 Resizes this Framebuffer and all attached render textures and render buffers.
 </p>
@@ -1336,7 +1336,7 @@ Resizes this Framebuffer and all attached render textures and render buffers.
 				
 			
 				
-				<h3 id="Framebuffer.Status">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3279:3318#L104">Status</a></h3>
+				<h3 id="Framebuffer.Status">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3321:3360#L105">Status</a></h3>
 				<pre>func (me *Framebuffer) Status() gl.Enum</pre>
 				<p>
 The current status of this Framebuffer as returned by gl.CheckFramebufferStatus().
@@ -1346,7 +1346,7 @@ The current status of this Framebuffer as returned by gl.CheckFramebufferStatus(
 				
 			
 				
-				<h3 id="Framebuffer.Unbind">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3505:3536#L110">Unbind</a></h3>
+				<h3 id="Framebuffer.Unbind">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3547:3578#L111">Unbind</a></h3>
 				<pre>func (me *Framebuffer) Unbind()</pre>
 				<p>
 Unbinds whatever Framebuffer is currently bound, and binds the
@@ -1359,7 +1359,7 @@ Unbinds whatever Framebuffer is currently bound, and binds the
 		
 			
 			
-			<h2 id="FramebufferRenderbuffer">type <a href="/target/gl-framebuffer.go?s=3646:3983#L115">FramebufferRenderbuffer</a></h2>
+			<h2 id="FramebufferRenderbuffer">type <a href="/target/gl-framebuffer.go?s=3688:4025#L116">FramebufferRenderbuffer</a></h2>
 			<pre>type FramebufferRenderbuffer struct {
     <span class="comment">//	The attachment point of this render buffer.</span>
     <span class="comment">//	Defaults to gl.DEPTH_STENCIL_ATTACHMENT.</span>
@@ -1387,7 +1387,7 @@ Represents a Renderbuffer that can be attached to a Framebuffer.
 
 			
 				
-				<h3 id="NewFramebufferRenderbuffer">func <a href="/target/gl-framebuffer.go?s=4066:4129#L131">NewFramebufferRenderbuffer</a></h3>
+				<h3 id="NewFramebufferRenderbuffer">func <a href="/target/gl-framebuffer.go?s=4108:4171#L132">NewFramebufferRenderbuffer</a></h3>
 				<pre>func NewFramebufferRenderbuffer() (me *FramebufferRenderbuffer)</pre>
 				<p>
 Initializes a new FramebufferRenderbuffer with default values and returns it.
@@ -1398,7 +1398,7 @@ Initializes a new FramebufferRenderbuffer with default values and returns it.
 
 			
 				
-				<h3 id="FramebufferRenderbuffer.Bind">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4315:4356#L137">Bind</a></h3>
+				<h3 id="FramebufferRenderbuffer.Bind">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4357:4398#L138">Bind</a></h3>
 				<pre>func (me *FramebufferRenderbuffer) Bind()</pre>
 				<p>
 Binds this render buffer object.
@@ -1408,7 +1408,7 @@ Binds this render buffer object.
 				
 			
 				
-				<h3 id="FramebufferRenderbuffer.Unbind">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4614:4657#L149">Unbind</a></h3>
+				<h3 id="FramebufferRenderbuffer.Unbind">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4656:4699#L150">Unbind</a></h3>
 				<pre>func (me *FramebufferRenderbuffer) Unbind()</pre>
 				<p>
 Unbinds whatever render buffer object is currently bound, if any.
@@ -1420,7 +1420,7 @@ Unbinds whatever render buffer object is currently bound, if any.
 		
 			
 			
-			<h2 id="FramebufferRendertexture">type <a href="/target/gl-framebuffer.go?s=4780:4989#L154">FramebufferRendertexture</a></h2>
+			<h2 id="FramebufferRendertexture">type <a href="/target/gl-framebuffer.go?s=4822:5031#L155">FramebufferRendertexture</a></h2>
 			<pre>type FramebufferRendertexture struct {
     <span class="comment">//	The texture object being rendered to.</span>
     Texture2D
@@ -1442,7 +1442,7 @@ Represents a render-to-texture object that can be attached to a Framebuffer.
 
 			
 				
-				<h3 id="NewFramebufferRendertexture">func <a href="/target/gl-framebuffer.go?s=5101:5181#L164">NewFramebufferRendertexture</a></h3>
+				<h3 id="NewFramebufferRendertexture">func <a href="/target/gl-framebuffer.go?s=5143:5223#L165">NewFramebufferRendertexture</a></h3>
 				<pre>func NewFramebufferRendertexture(rectTarget bool) (me *FramebufferRendertexture)</pre>
 				<p>
 Initializes --but does not Recreate()-- a new FramebufferRendertexture with default values and returns it.
@@ -1681,11 +1681,11 @@ Calls gl.TexSubImage2D() and yields the err returned by Util.Error(), if any.
 		
 			
 			
-			<h2 id="GlUtil">type <a href="/target/utils.go?s=181:203#L1">GlUtil</a></h2>
+			<h2 id="GlUtil">type <a href="/target/utils.go?s=183:205#L1">GlUtil</a></h2>
 			<pre>type GlUtil struct {
 }</pre>
 			<p>
-A singleton type, only used for the package-global ugl.Gl variable.
+A singleton type, only used for the package-global ugl.Util variable.
 </p>
 
 
@@ -1699,7 +1699,7 @@ A singleton type, only used for the package-global ugl.Gl variable.
 
 			
 				
-				<h3 id="GlUtil.ConnInfo">func (GlUtil) <a href="/target/utils.go?s=429:462#L6">ConnInfo</a></h3>
+				<h3 id="GlUtil.ConnInfo">func (GlUtil) <a href="/target/utils.go?s=431:464#L6">ConnInfo</a></h3>
 				<pre>func (_ GlUtil) ConnInfo() string</pre>
 				<p>
 Returns an OpenGL connection-info string of the format &#34;OpenGL {version} @ {vendor} {renderer} (GLSL: {version})&#34;
@@ -1710,21 +1710,21 @@ Example: &#34;OpenGL 4.2.0 @ NVIDIA Corporation Quadro 5010M/PCIe/SSE2 (GLSL: 4.
 				
 			
 				
-				<h3 id="GlUtil.EnumName">func (GlUtil) <a href="/target/utils.go?s=618:670#L10">EnumName</a></h3>
+				<h3 id="GlUtil.EnumName">func (GlUtil) <a href="/target/utils.go?s=620:672#L10">EnumName</a></h3>
 				<pre>func (_ GlUtil) EnumName(enum gl.Enum) (name string)</pre>
 				
 				
 				
 			
 				
-				<h3 id="GlUtil.Error">func (GlUtil) <a href="/target/utils.go?s=1506:1578#L44">Error</a></h3>
+				<h3 id="GlUtil.Error">func (GlUtil) <a href="/target/utils.go?s=1508:1580#L44">Error</a></h3>
 				<pre>func (_ GlUtil) Error(msgFmt string, fmtArgs ...interface{}) (err error)</pre>
 				
 				
 				
 			
 				
-				<h3 id="GlUtil.Extension">func (GlUtil) <a href="/target/utils.go?s=2127:2170#L56">Extension</a></h3>
+				<h3 id="GlUtil.Extension">func (GlUtil) <a href="/target/utils.go?s=2129:2172#L56">Extension</a></h3>
 				<pre>func (_ GlUtil) Extension(name string) bool</pre>
 				<p>
 Returns true if the specified extension (ignoring upper/lower-case) is supported by the current OpenGL context, as per the global Support.Extensions variable.
@@ -1735,7 +1735,7 @@ If the extension uses a well-known prefix contained in KnownExtensionPrefixes, i
 				
 			
 				
-				<h3 id="GlUtil.Str">func (GlUtil) <a href="/target/utils.go?s=2488:2528#L70">Str</a></h3>
+				<h3 id="GlUtil.Str">func (GlUtil) <a href="/target/utils.go?s=2490:2530#L70">Str</a></h3>
 				<pre>func (_ GlUtil) Str(name gl.Enum) string</pre>
 				<p>
 Returns the specified OpenGL string.
@@ -1746,7 +1746,7 @@ Example: GlStr(gl.VENDOR) = &#34;NVIDIA Corporation&#34;
 				
 			
 				
-				<h3 id="GlUtil.Stri">func (GlUtil) <a href="/target/utils.go?s=2751:2803#L76">Stri</a></h3>
+				<h3 id="GlUtil.Stri">func (GlUtil) <a href="/target/utils.go?s=2753:2805#L76">Stri</a></h3>
 				<pre>func (_ GlUtil) Stri(name gl.Enum, i gl.Uint) string</pre>
 				<p>
 Returns the specified OpenGL string at the specified index.
@@ -1757,7 +1757,7 @@ For example, GlStri(gl.EXTENSIONS, 0) returns the name of the &#34;first&#34; of
 				
 			
 				
-				<h3 id="GlUtil.Val">func (GlUtil) <a href="/target/utils.go?s=2979:3025#L82">Val</a></h3>
+				<h3 id="GlUtil.Val">func (GlUtil) <a href="/target/utils.go?s=2981:3027#L82">Val</a></h3>
 				<pre>func (_ GlUtil) Val(name gl.Enum) (val gl.Int)</pre>
 				<p>
 Returns the specified integer as returned by gl.GetIntegerv().
@@ -1768,7 +1768,7 @@ Example: numExts := GlVal(gl.NUM_EXTENSIONS)
 				
 			
 				
-				<h3 id="GlUtil.Vals">func (GlUtil) <a href="/target/utils.go?s=3136:3194#L88">Vals</a></h3>
+				<h3 id="GlUtil.Vals">func (GlUtil) <a href="/target/utils.go?s=3138:3196#L88">Vals</a></h3>
 				<pre>func (_ GlUtil) Vals(name gl.Enum, n uint) (vals []gl.Int)</pre>
 				<p>
 Returns the specified n integers as returned by gl.GetIntegerv().

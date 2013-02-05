@@ -98,8 +98,8 @@ func (me *Framebuffer) reinitTexture(tex *FramebufferRendertexture) {
 }
 
 //	Resizes this Framebuffer and all attached render textures and render buffers.
-func (me *Framebuffer) Resize(width, height gl.Sizei) {
-	if (me.width != width) || (me.height != height) {
+func (me *Framebuffer) Resize(width, height gl.Sizei) (resized bool) {
+	if resized = (me.width != width) || (me.height != height); resized {
 		me.width, me.height = width, height
 		for _, tex := range me.rendertextures {
 			me.reinitTexture(tex)
@@ -108,6 +108,7 @@ func (me *Framebuffer) Resize(width, height gl.Sizei) {
 			me.reinitRenderbuffer(rb)
 		}
 	}
+	return
 }
 
 //	The current status of this Framebuffer as returned by gl.CheckFramebufferStatus().
