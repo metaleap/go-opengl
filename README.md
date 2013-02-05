@@ -1,14 +1,14 @@
 go-opengl
 =========
 
-Go packages for working with OpenGL:
+Go packages for working with OpenGL. While more or less adequate for general use, they're being developed in conjunction with [**go:ngine**](http://github.com/go3d/go-ngine) and thus are often slightly tweaked or optimized for **go:ngine**'s usage needs and patterns.
 
 
 core:
 =====
 
 
-A (very) [GoGL](https://github.com/chsc/gogl)-like OpenGL binding for [go:ngine](http://github.com/go3d/go-ngine).
+A (very) [**GoGL**](https://github.com/chsc/gogl)-like OpenGL binding for [**go:ngine**](http://github.com/go3d/go-ngine).
 
 - includes strictly only GL core profile functionality from version 3.3 onwards (up until 4.3) -- note, this does not mean that a core profile context is *required*, although it is probably advisable on any current-gen GPU with recent drivers
 - no compatibility-profile functionality or any that was deprecated or removed in 3.3 or before
@@ -32,6 +32,6 @@ cmd:
 ====
 
 
-- **opengl-minimal-app**: a "minimal" program using OpenGL core profile to draw a triangle and a quad, to test the above **core** GL binding package with [GLFW](https://github.com/go-gl/glfw)
+- **opengl-minimal-app**: a "minimal" program using OpenGL core profile to draw a triangle and a quad, to test the above **core** GL binding package with [**GLFW**](https://github.com/go-gl/glfw)
 - **gogl-minimal-app**: same but with the GoGL (gl43) binding
 - **gen-opengl-bindings**: used to generate the above **core** GL binding package
