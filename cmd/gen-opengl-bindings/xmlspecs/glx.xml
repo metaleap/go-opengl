@@ -105,6 +105,7 @@
 		<ext name="NV_multisample_coverage" />
 		<ext name="AMD_gpu_association" />
 		<ext name="EXT_create_context_es2_profile" />
+		<ext name="EXT_create_context_es_profile" />
 		<ext name="EXT_swap_control_tear" />
 		<ext name="EXT_buffer_age" />
 	</extensions>
@@ -684,6 +685,9 @@
 		</enum>
 		<enum name="CONTEXT_ES2_PROFILE_BIT_EXT" value="0x00000004" >
 			<ext name="EXT_create_context_es2_profile" />
+		</enum>
+		<enum name="CONTEXT_ES_PROFILE_BIT_EXT" value="0x00000004" >
+			<ext name="EXT_create_context_es_profile" />
 		</enum>
 		<enum name="LATE_SWAPS_TEAR_EXT" value="0x20F3" >
 			<ext name="EXT_swap_control_tear" />

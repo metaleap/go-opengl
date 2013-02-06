@@ -1,0 +1,259 @@
+datatypes xsd = "http://www.w3.org/2001/XMLSchema-datatypes"
+namespace a = "http://relaxng.org/ns/compatibility/annotations/1.0"
+namespace gl = "http://www.opengl.org/registry/"
+
+
+start = gl.rootelements
+
+## Root and direct child elements.
+div
+{
+    gl.rootelements = 
+        gl.specification
+     
+    gl.specification =
+        ## The specification itself.
+        element gl:specification { gl.specification.contents }
+        
+    gl.specification.contents =
+        gl.specification.attributes, gl.typemap, gl.extensions, gl.enumerations, gl.functions
+        
+    gl.specification.attributes =
+        gl.specification.name.attribute,
+        gl.specification.specversion.attribute,
+        gl.specification.fileversion.attribute
+
+
+    gl.typemap =
+        ## The list of types and their associated language-specific versions.
+        element gl:typemap { gl.typemap.contents }
+        
+    gl.typemap.contents =
+        gl.type-def+
+
+
+    gl.extensions = 
+        ## The comprehensive list of all extensions.
+        element gl:extensions { gl.extensions.contents }
+        
+    gl.extensions.contents =
+        gl.ext+
+        
+    
+    gl.enumerations =
+        ## The comprehensive list of all enumerators.
+        element gl:enumerations { gl.enumerations.contents }
+        
+    gl.enumerations.contents =
+        gl.enum+
+        
+    
+    gl.functions =
+        ## The comprehensive list of all function definitions.
+        element gl:functions { gl.functions.contents }
+        
+    gl.functions.contents =
+        gl.passthru?,
+        gl.property-defs,
+        gl.function-defs
+}
+
+## Typemap elements.
+div
+{
+    gl.type-def =
+        element gl:type-def { gl.type-def.contents }
+
+    gl.type-def.contents =
+        gl.type-def.attributes
+        
+    gl.type-def.attributes =
+        gl.type-def.typename.attribute,
+        gl.type-def.C-lang.attribute
+}
+
+## Extensions elements.
+div
+{
+    gl.ext =
+        element gl:ext { gl.ext.contents }
+        
+    gl.ext.contents =
+        gl.ext.attributes
+        
+    gl.ext.attributes =
+        gl.ext.name.attribute
+}
+
+## Enumerators elements.
+div
+{
+    gl.enum =
+        element gl:enum { gl.enum.contents }
+        
+    gl.enum.contents =
+        gl.enum.attributes, gl.enum.ext*
+        
+    gl.enum.attributes =
+        gl.enum.name.attribute,
+        (gl.enum.value.attribute | gl.enum.ref.attribute),
+        gl.enum.version.attribute?,
+        gl.enum.deprecated.attribute?,
+        gl.enum.removed.attribute?
+        
+    gl.enum.ext =
+        element gl:ext { gl.enum.ext.contents }
+        
+    gl.enum.ext.contents =
+        gl.enum.ext.attributes
+        
+    gl.enum.ext.attributes =
+        gl.enum.ext.name.attribute
+}
+
+## Function elements
+div
+{
+    gl.passthru =
+        element gl:passthru { gl.passthru.contents }
+        
+    gl.passthru.contents =
+        text
+        
+    gl.property-defs =
+        element gl:property-defs { gl.property-defs.contents }
+
+    gl.property-defs.contents =
+        gl.property+
+        
+    gl.property =
+        element gl:property { gl.property.contents }
+    
+    gl.property.contents =
+        gl.property.name.attribute,
+        ( gl.property.any.attribute | gl.property.value+ )
+        
+    gl.property.value =
+        element gl:value { gl.property.value.contents }
+
+    gl.property.value.contents =
+        text
+
+    gl.function-defs =
+        element gl:function-defs { gl.function-defs.contents }
+
+    gl.function-defs.contents =
+        gl.function+
+
+    gl.function =
+        element gl:function { gl.function.contents }
+        
+    gl.function.contents =
+        gl.function.name.attribute,
+        gl.function.return.attribute,
+        gl.function.property.attribute*,
+        gl.function.param*
+        
+    gl.function.param =
+        element gl:param { gl.function.param.contents }
+        
+    gl.function.param.contents =
+        gl.param.name.attribute,
+        gl.param.kind.attribute,
+        gl.param.type.attribute,
+        gl.param.input.attribute,
+        gl.param.compute.attribute?
+}
+
+
+## Attributes
+div
+{
+    gl.specification.name.attribute =
+        attribute name {text}
+    
+    gl.specification.specversion.attribute =
+        attribute specversion {openglversion}
+
+    gl.specification.fileversion.attribute =
+        attribute fileversion {xsd:string {pattern = "\d+\.\d+\.\d+"}}
+
+    gl.type-def.typename.attribute =
+        attribute typename {text}
+
+    gl.type-def.C-lang.attribute =
+        attribute C-lang {text}
+
+    gl.ext.name.attribute =
+        attribute name {nondigitidentifier}
+
+    gl.enum.name.attribute =
+        attribute name {nondigitidentifier}
+
+    gl.enum.value.attribute =
+        attribute value {xsd:unsignedInt | xsd:string {pattern = "0x[\dabcdefABCDEF]+"}}
+
+    gl.enum.ref.attribute =
+        attribute ref {text}
+
+    gl.enum.version.attribute =
+        attribute version {openglversion}
+
+    gl.enum.deprecated.attribute =
+        attribute deprecated {openglversion}
+
+    gl.enum.removed.attribute =
+        attribute removed {openglversion}
+
+    gl.enum.ext.name.attribute =
+        attribute name {nondigitidentifier}
+
+    gl.property.name.attribute =
+        attribute name {text}
+
+    gl.property.any.attribute =
+        attribute any {"true"}
+
+    gl.property.value.attribute =
+        attribute value {text}
+
+    gl.function.name.attribute =
+        attribute name {identifier}
+
+    gl.function.return.attribute =
+        attribute return {text}
+
+    gl.function.property.attribute =
+        attribute * - (return | name) {text}
+
+    gl.param.name.attribute =
+        attribute name {identifier}
+
+    gl.param.kind.attribute =
+        attribute kind {"value" | "array" | "reference"}
+
+    gl.param.type.attribute =
+        attribute type {text}
+
+    gl.param.input.attribute =
+        attribute input {xsd:boolean}
+
+    gl.param.compute.attribute =
+        attribute compute {text}
+
+}
+
+## Helpers
+div
+{
+    openglversion =
+        xsd:decimal {pattern = "\d+\.\d+"}
+        
+    nondigitidentifier =
+        xsd:string {pattern = "[\w_]+"}
+        
+    identifier =
+        xsd:string {pattern = "\i\c*"}
+}
+
+

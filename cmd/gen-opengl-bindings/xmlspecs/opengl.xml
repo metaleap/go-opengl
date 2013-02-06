@@ -24869,60 +24869,60 @@ typedef GLintptr GLvdpauSurfaceNV;
 				<param name="face" kind="value" type="StencilFaceDirection" input="true" />
 				<param name="value" kind="value" type="UInt32" input="true" />
 			</function>
-			<function name="GetTextureHandleNV" return="UInt64" offset="?" dlflags="notlistable" category="NV_bindless_texture" glxsingle="?" version="4.0" glxflags="ignore" >
+			<function name="GetTextureHandleNV" return="UInt64" offset="?" category="NV_bindless_texture" dlflags="notlistable" glxsingle="?" glxflags="ignore" >
 				<param name="texture" kind="value" type="UInt32" input="true" />
 			</function>
-			<function name="GetTextureSamplerHandleNV" return="UInt64" offset="?" dlflags="notlistable" category="NV_bindless_texture" glxsingle="?" version="4.0" glxflags="ignore" >
+			<function name="GetTextureSamplerHandleNV" return="UInt64" offset="?" category="NV_bindless_texture" dlflags="notlistable" glxsingle="?" glxflags="ignore" >
 				<param name="texture" kind="value" type="UInt32" input="true" />
 				<param name="sampler" kind="value" type="UInt32" input="true" />
 			</function>
-			<function name="MakeTextureHandleResidentNV" return="void" offset="?" glxropcode="?" category="NV_bindless_texture" version="4.0" glxflags="ignore" >
+			<function name="MakeTextureHandleResidentNV" return="void" offset="?" glxropcode="?" category="NV_bindless_texture" glxflags="ignore" >
 				<param name="handle" kind="value" type="UInt64" input="true" />
 			</function>
-			<function name="MakeTextureHandleNonResidentNV" return="void" offset="?" glxropcode="?" category="NV_bindless_texture" version="4.0" glxflags="ignore" >
+			<function name="MakeTextureHandleNonResidentNV" return="void" offset="?" glxropcode="?" category="NV_bindless_texture" glxflags="ignore" >
 				<param name="handle" kind="value" type="UInt64" input="true" />
 			</function>
-			<function name="GetImageHandleNV" return="UInt64" offset="?" dlflags="notlistable" category="NV_bindless_texture" glxsingle="?" version="4.0" glxflags="ignore" >
+			<function name="GetImageHandleNV" return="UInt64" offset="?" category="NV_bindless_texture" dlflags="notlistable" glxsingle="?" glxflags="ignore" >
 				<param name="texture" kind="value" type="UInt32" input="true" />
 				<param name="level" kind="value" type="Int32" input="true" />
 				<param name="layered" kind="value" type="Boolean" input="true" />
 				<param name="layer" kind="value" type="Int32" input="true" />
 				<param name="format" kind="value" type="GLenum" input="true" />
 			</function>
-			<function name="MakeImageHandleResidentNV" return="void" offset="?" glxropcode="?" category="NV_bindless_texture" version="4.0" glxflags="ignore" >
+			<function name="MakeImageHandleResidentNV" return="void" offset="?" glxropcode="?" category="NV_bindless_texture" glxflags="ignore" >
 				<param name="handle" kind="value" type="UInt64" input="true" />
 				<param name="access" kind="value" type="GLenum" input="true" />
 			</function>
-			<function name="MakeImageHandleNonResidentNV" return="void" offset="?" glxropcode="?" category="NV_bindless_texture" version="4.0" glxflags="ignore" >
+			<function name="MakeImageHandleNonResidentNV" return="void" offset="?" glxropcode="?" category="NV_bindless_texture" glxflags="ignore" >
 				<param name="handle" kind="value" type="UInt64" input="true" />
 			</function>
-			<function name="UniformHandleui64NV" return="void" offset="?" glxropcode="?" category="NV_bindless_texture" version="4.0" glxflags="ignore" >
+			<function name="UniformHandleui64NV" return="void" offset="?" glxropcode="?" category="NV_bindless_texture" glxflags="ignore" >
 				<param name="location" kind="value" type="Int32" input="true" />
 				<param name="value" kind="value" type="UInt64" input="true" />
 			</function>
-			<function name="UniformHandleui64vNV" return="void" offset="?" glxropcode="?" category="NV_bindless_texture" version="4.0" glxflags="ignore" >
+			<function name="UniformHandleui64vNV" return="void" offset="?" glxropcode="?" category="NV_bindless_texture" glxflags="ignore" >
 				<param name="location" kind="value" type="Int32" input="true" />
 				<param name="count" kind="value" type="SizeI" input="true" />
 				<param name="value" kind="array" type="UInt64" input="true" compute="[count]" />
 			</function>
-			<function name="ProgramUniformHandleui64NV" return="void" offset="?" glxropcode="?" category="NV_bindless_texture" version="4.0" glxflags="ignore" >
+			<function name="ProgramUniformHandleui64NV" return="void" offset="?" glxropcode="?" category="NV_bindless_texture" glxflags="ignore" >
 				<param name="program" kind="value" type="UInt32" input="true" />
 				<param name="location" kind="value" type="Int32" input="true" />
 				<param name="value" kind="value" type="UInt64" input="true" />
 			</function>
-			<function name="ProgramUniformHandleui64vNV" return="void" offset="?" glxropcode="?" category="NV_bindless_texture" version="4.0" glxflags="ignore" >
+			<function name="ProgramUniformHandleui64vNV" return="void" offset="?" glxropcode="?" category="NV_bindless_texture" glxflags="ignore" >
 				<param name="program" kind="value" type="UInt32" input="true" />
 				<param name="location" kind="value" type="Int32" input="true" />
 				<param name="count" kind="value" type="SizeI" input="true" />
 				<param name="values" kind="array" type="UInt64" input="true" compute="[count]" />
 			</function>
-			<function name="IsTextureHandleResidentNV" return="Boolean" offset="?" glxropcode="?" category="NV_bindless_texture" version="4.0" glxflags="ignore" >
+			<function name="IsTextureHandleResidentNV" return="Boolean" offset="?" glxropcode="?" category="NV_bindless_texture" glxflags="ignore" >
 				<param name="handle" kind="value" type="UInt64" input="true" />
 			</function>
-			<function name="IsImageHandleResidentNV" return="Boolean" offset="?" glxropcode="?" category="NV_bindless_texture" version="4.0" glxflags="ignore" >
+			<function name="IsImageHandleResidentNV" return="Boolean" offset="?" glxropcode="?" category="NV_bindless_texture" glxflags="ignore" >
 				<param name="handle" kind="value" type="UInt64" input="true" />
 			</function>
-			<function name="TexStorageSparseAMD" return="void" offset="?" glxropcode="?" category="AMD_sparse_texture" version="4.3" glxflags="ignore" >
+			<function name="TexStorageSparseAMD" return="void" offset="?" glxropcode="?" category="AMD_sparse_texture" glxflags="ignore" >
 				<param name="target" kind="value" type="GLenum" input="true" />
 				<param name="internalFormat" kind="value" type="GLenum" input="true" />
 				<param name="width" kind="value" type="SizeI" input="true" />
@@ -24931,7 +24931,7 @@ typedef GLintptr GLvdpauSurfaceNV;
 				<param name="layers" kind="value" type="SizeI" input="true" />
 				<param name="flags" kind="value" type="GLbitfield" input="true" />
 			</function>
-			<function name="TextureStorageSparseAMD" return="void" offset="?" glxropcode="?" category="AMD_sparse_texture" version="4.3" glxflags="ignore" >
+			<function name="TextureStorageSparseAMD" return="void" offset="?" glxropcode="?" category="AMD_sparse_texture" glxflags="ignore" >
 				<param name="texture" kind="value" type="UInt32" input="true" />
 				<param name="target" kind="value" type="GLenum" input="true" />
 				<param name="internalFormat" kind="value" type="GLenum" input="true" />
