@@ -17,7 +17,7 @@ func checkForUnknownAtts(xn *xmlx.Node, knownAttNames ...string) {
 
 func isLegacy(xn *xmlx.Node) bool {
 	asp, asd, asr := xas(xn, "profile"), xas(xn, "deprecated"), xas(xn, "removed")
-	return asp == "compatibility" || (len(asd) > 0 && asd <= cfg.minVer.dotted) || (len(asr) > 0 && asr <= cfg.minVer.dotted)
+	return asp == "compatibility" || (len(asd) > 0 /*&& asd <= cfg.minVer.dotted*/) || (len(asr) > 0 /*&& asr <= cfg.minVer.dotted*/)
 }
 
 func xmlWalkDoc(nodeName string, onNode nodeFunc) {

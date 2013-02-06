@@ -44,7 +44,7 @@ var (
 )
 
 func main() {
-	if true {
+	if false {
 		cfg.altTryFile.only, cfg.altTryFile.pkgName = true, "glutil"
 		cfg.altTryFile.funcs = []string{"AttachShader", "BufferData", "BufferSubData", "CreateProgram", "CreateShader", "GenBuffers", "GenerateMipmap", "GenTextures", "GenVertexArrays", "ShaderSource", "TexImage2D", "TexStorage2D", "TexSubImage2D"}
 		cfg.altTryFile.outPath = ugo.GopathSrcGithub("go3d", "go-opengl", "util", "-gen-try.go")

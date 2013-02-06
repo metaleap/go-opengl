@@ -44,7 +44,7 @@ func (me *Framebuffer) BindTexture(index int) {
 //	Creates this Framebuffer in OpenGL sized as specified.
 func (me *Framebuffer) Create(width, height gl.Sizei, read bool) {
 	me.width, me.height = width, height
-	me.GlTarget = Typed.Ife(read, gl.READ_FRAMEBUFFER, gl.FRAMEBUFFER)
+	me.GlTarget = Typed.Ife(read, gl.READ_FRAMEBUFFER, gl.DRAW_FRAMEBUFFER)
 	gl.GenFramebuffers(1, &me.GlHandle)
 	for _, tex := range me.rendertextures {
 		me.reinitTexture(tex)

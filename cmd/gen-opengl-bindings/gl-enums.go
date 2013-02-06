@@ -77,11 +77,14 @@ func (_ GlUtil) EnumName(enum Enum) (name string) {
 }
 
 func xmlWalkEnums() {
-	total := 0
+	total, num := 0, 0
 	xmlWalkDoc("enum", func(xn *xmlx.Node) {
 		total++
 		// checkForUnknownAtts(xn, "name", "version", "value", "deprecated", "removed", "ref")
 		enum := &glEnum{name: xas(xn, "name"), ref: xas(xn, "ref"), ver: xas(xn, "version"), val: xas(xn, "value"), legacy: isLegacy(xn)}
+		if !enum.legacy {
+			num++
+		}
 		if len(enum.ver) == 0 {
 			for _, extNode := range xn.SelectNodes(xmlns, "ext") {
 				if extName := xas(extNode, "name"); len(extName) > 0 {
@@ -91,5 +94,5 @@ func xmlWalkEnums() {
 		}
 		allEnums[enum.name] = enum
 	})
-	println(sfmt("Picked %v/%v GL enums.", len(allEnums), total))
+	println(sfmt("Picked %v/%v GL enums.", num, total))
 }
