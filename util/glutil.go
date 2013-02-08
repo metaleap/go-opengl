@@ -129,7 +129,9 @@ func Init() {
 
 //	log.Println()s the error returned by LastError(), if any.
 func LogLastError(stepFmt string, stepFmtArgs ...interface{}) {
-	ugo.LogError(Util.Error(stepFmt, stepFmtArgs...))
+	if err := Util.Error(stepFmt, stepFmtArgs...); err != nil {
+		ugo.LogError(err)
+	}
 }
 
 func setSupportInfos() {

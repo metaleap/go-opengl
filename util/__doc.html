@@ -992,7 +992,7 @@ log.Println()s the error returned by LastError(), if any.
 		
 			
 			
-			<h2 id="VersionMajorMinor">func <a href="/target/glutil.go?s=6350:6402#L186">VersionMajorMinor</a></h2>
+			<h2 id="VersionMajorMinor">func <a href="/target/glutil.go?s=6383:6435#L188">VersionMajorMinor</a></h2>
 			<pre>func VersionMajorMinor(v float64) (major, minor int)</pre>
 			<p>
 Returns the major and minor parts of the specified version number.
@@ -1002,7 +1002,7 @@ Returns the major and minor parts of the specified version number.
 		
 			
 			
-			<h2 id="VersionMatch">func <a href="/target/glutil.go?s=6633:6666#L194">VersionMatch</a></h2>
+			<h2 id="VersionMatch">func <a href="/target/glutil.go?s=6666:6699#L196">VersionMatch</a></h2>
 			<pre>func VersionMatch(v float64) bool</pre>
 			<p>
 Returns true if GlVersion is greater than or equal to v.
@@ -2916,7 +2916,7 @@ a symbolic constant. The initial value is gl.REPEAT.
 		
 			
 			
-			<h2 id="Shader">type <a href="/target/gl-shader.go?s=109:526#L1">Shader</a></h2>
+			<h2 id="Shader">type <a href="/target/gl-shader.go?s=120:560#L1">Shader</a></h2>
 			<pre>type Shader struct {
     <span class="comment">//	The OpenGL handle to the underlying shader object.</span>
     <span class="comment">//	This is 0 before calling Create() and after calling Dispose().</span>
@@ -2929,6 +2929,7 @@ a symbolic constant. The initial value is gl.REPEAT.
     <span class="comment">//	The shader stage provided by this shader,</span>
     <span class="comment">//	such as for example gl.FRAGMENT_SHADER, gl.VERTEX_SHADER, etc.</span>
     Stage gl.Enum
+    <span class="comment">// contains filtered or unexported fields</span>
 }</pre>
 			<p>
 Represents an OpenGL shader object.
@@ -2943,7 +2944,7 @@ Represents an OpenGL shader object.
 
 			
 				
-				<h3 id="NewComputeShader">func <a href="/target/gl-shader.go?s=918:965#L21">NewComputeShader</a></h3>
+				<h3 id="NewComputeShader">func <a href="/target/gl-shader.go?s=952:999#L24">NewComputeShader</a></h3>
 				<pre>func NewComputeShader(name string) (me *Shader)</pre>
 				<p>
 If Support.Glsl.Shaders.ComputeStage is true, initializes and returns --but does not Create()-- a new Shader for the gl.COMPUTE_SHADER Stage with the specified name.
@@ -2952,7 +2953,7 @@ If Support.Glsl.Shaders.ComputeStage is true, initializes and returns --but does
 				
 			
 				
-				<h3 id="NewFragmentShader">func <a href="/target/gl-shader.go?s=1188:1231#L29">NewFragmentShader</a></h3>
+				<h3 id="NewFragmentShader">func <a href="/target/gl-shader.go?s=1222:1265#L32">NewFragmentShader</a></h3>
 				<pre>func NewFragmentShader(name string) *Shader</pre>
 				<p>
 Initializes and returns --but does not Create()-- a new Shader for the gl.FRAGMENT_SHADER Stage with the specified name.
@@ -2961,7 +2962,7 @@ Initializes and returns --but does not Create()-- a new Shader for the gl.FRAGME
 				
 			
 				
-				<h3 id="NewGeometryShader">func <a href="/target/gl-shader.go?s=1405:1448#L34">NewGeometryShader</a></h3>
+				<h3 id="NewGeometryShader">func <a href="/target/gl-shader.go?s=1439:1482#L37">NewGeometryShader</a></h3>
 				<pre>func NewGeometryShader(name string) *Shader</pre>
 				<p>
 Initializes and returns --but does not Create()-- a new Shader for the gl.GEOMETRY_SHADER Stage with the specified name.
@@ -2970,7 +2971,7 @@ Initializes and returns --but does not Create()-- a new Shader for the gl.GEOMET
 				
 			
 				
-				<h3 id="NewShader">func <a href="/target/gl-shader.go?s=636:693#L15">NewShader</a></h3>
+				<h3 id="NewShader">func <a href="/target/gl-shader.go?s=670:727#L18">NewShader</a></h3>
 				<pre>func NewShader(name string, glStage gl.Enum) (me *Shader)</pre>
 				<p>
 Initializes and returns --but does not Create()-- a new Shader with the specified name and shader stage.
@@ -2979,7 +2980,7 @@ Initializes and returns --but does not Create()-- a new Shader with the specifie
 				
 			
 				
-				<h3 id="NewTessCtlShader">func <a href="/target/gl-shader.go?s=1678:1725#L39">NewTessCtlShader</a></h3>
+				<h3 id="NewTessCtlShader">func <a href="/target/gl-shader.go?s=1712:1759#L42">NewTessCtlShader</a></h3>
 				<pre>func NewTessCtlShader(name string) (me *Shader)</pre>
 				<p>
 If Support.Glsl.Shaders.TessellationStages is true, initializes and returns --but does not Create()-- a new Shader for the gl.TESS_CONTROL_SHADER Stage with the specified name.
@@ -2988,7 +2989,7 @@ If Support.Glsl.Shaders.TessellationStages is true, initializes and returns --bu
 				
 			
 				
-				<h3 id="NewTessEvalShader">func <a href="/target/gl-shader.go?s=2018:2066#L47">NewTessEvalShader</a></h3>
+				<h3 id="NewTessEvalShader">func <a href="/target/gl-shader.go?s=2052:2100#L50">NewTessEvalShader</a></h3>
 				<pre>func NewTessEvalShader(name string) (me *Shader)</pre>
 				<p>
 If Support.Glsl.Shaders.TessellationStages is true, initializes and returns --but does not Create()-- a new Shader for the gl.TESS_EVALUATION_SHADER Stage with the specified name.
@@ -2997,7 +2998,7 @@ If Support.Glsl.Shaders.TessellationStages is true, initializes and returns --bu
 				
 			
 				
-				<h3 id="NewVertexShader">func <a href="/target/gl-shader.go?s=2301:2342#L55">NewVertexShader</a></h3>
+				<h3 id="NewVertexShader">func <a href="/target/gl-shader.go?s=2335:2376#L58">NewVertexShader</a></h3>
 				<pre>func NewVertexShader(name string) *Shader</pre>
 				<p>
 Initializes and returns --but does not Create()-- a new Shader for the gl.VERTEX_SHADER Stage with the specified name.
@@ -3008,7 +3009,7 @@ Initializes and returns --but does not Create()-- a new Shader for the gl.VERTEX
 
 			
 				
-				<h3 id="Shader.AttachTo">func (*Shader) <a href="/target/gl-shader.go?s=2454:2501#L60">AttachTo</a></h3>
+				<h3 id="Shader.AttachTo">func (*Shader) <a href="/target/gl-shader.go?s=2488:2535#L63">AttachTo</a></h3>
 				<pre>func (me *Shader) AttachTo(prog *Program) error</pre>
 				<p>
 Attaches this shader object to the specified program object.
@@ -3018,7 +3019,7 @@ Attaches this shader object to the specified program object.
 				
 			
 				
-				<h3 id="Shader.Compile">func (*Shader) <a href="/target/gl-shader.go?s=2905:2944#L71">Compile</a></h3>
+				<h3 id="Shader.Compile">func (*Shader) <a href="/target/gl-shader.go?s=2939:2978#L74">Compile</a></h3>
 				<pre>func (me *Shader) Compile() (err error)</pre>
 				<p>
 Compiles this shader object. This is a convenience short-hand for calling gl.CompileShader(),
@@ -3029,7 +3030,7 @@ checking gl.COMPILE_STATUS and obtaining gl.GetShaderInfoLog().
 				
 			
 				
-				<h3 id="Shader.Create">func (*Shader) <a href="/target/gl-shader.go?s=3172:3210#L79">Create</a></h3>
+				<h3 id="Shader.Create">func (*Shader) <a href="/target/gl-shader.go?s=3262:3300#L83">Create</a></h3>
 				<pre>func (me *Shader) Create() (err error)</pre>
 				<p>
 Creates this shader object in OpenGL.
@@ -3039,7 +3040,7 @@ Creates this shader object in OpenGL.
 				
 			
 				
-				<h3 id="Shader.DetachFrom">func (*Shader) <a href="/target/gl-shader.go?s=3351:3394#L86">DetachFrom</a></h3>
+				<h3 id="Shader.DetachFrom">func (*Shader) <a href="/target/gl-shader.go?s=3441:3484#L90">DetachFrom</a></h3>
 				<pre>func (me *Shader) DetachFrom(prog *Program)</pre>
 				<p>
 Detaches this shader object from the specified program object.
@@ -3049,7 +3050,7 @@ Detaches this shader object from the specified program object.
 				
 			
 				
-				<h3 id="Shader.Dispose">func (*Shader) <a href="/target/gl-shader.go?s=3488:3515#L91">Dispose</a></h3>
+				<h3 id="Shader.Dispose">func (*Shader) <a href="/target/gl-shader.go?s=3578:3605#L95">Dispose</a></h3>
 				<pre>func (me *Shader) Dispose()</pre>
 				<p>
 Deletes this shader object from OpenGL.
@@ -3059,7 +3060,7 @@ Deletes this shader object from OpenGL.
 				
 			
 				
-				<h3 id="Shader.InfoLog">func (*Shader) <a href="/target/gl-shader.go?s=3688:3722#L99">InfoLog</a></h3>
+				<h3 id="Shader.InfoLog">func (*Shader) <a href="/target/gl-shader.go?s=3778:3812#L103">InfoLog</a></h3>
 				<pre>func (me *Shader) InfoLog() string</pre>
 				<p>
 Retrieves and returns the content of the current OpenGL info-log for this shader object.
@@ -3069,7 +3070,7 @@ Retrieves and returns the content of the current OpenGL info-log for this shader
 				
 			
 				
-				<h3 id="Shader.ParamInt">func (*Shader) <a href="/target/gl-shader.go?s=3828:3881#L104">ParamInt</a></h3>
+				<h3 id="Shader.ParamInt">func (*Shader) <a href="/target/gl-shader.go?s=3918:3971#L108">ParamInt</a></h3>
 				<pre>func (me *Shader) ParamInt(pname gl.Enum) (iv gl.Int)</pre>
 				<p>
 Convenience short-hand for gl.GetShaderiv.
@@ -3079,7 +3080,7 @@ Convenience short-hand for gl.GetShaderiv.
 				
 			
 				
-				<h3 id="Shader.SetSource">func (*Shader) <a href="/target/gl-shader.go?s=4161:4247#L112">SetSource</a></h3>
+				<h3 id="Shader.SetSource">func (*Shader) <a href="/target/gl-shader.go?s=4251:4337#L116">SetSource</a></h3>
 				<pre>func (me *Shader) SetSource(source string, defines map[string]interface{}) (err error)</pre>
 				<p>
 Replaces the GLSL source code in this shader object with source,
@@ -3091,7 +3092,7 @@ and #define directives for all specified name-value pairs in defines.
 				
 			
 				
-				<h3 id="Shader.StageName">func (*Shader) <a href="/target/gl-shader.go?s=2662:2703#L65">StageName</a></h3>
+				<h3 id="Shader.StageName">func (*Shader) <a href="/target/gl-shader.go?s=2696:2737#L68">StageName</a></h3>
 				<pre>func (me *Shader) StageName() (sn string)</pre>
 				<p>
 Returns the name of this shader&#39;s stage, for example &#34;GL_VERTEX_SHADER&#34;, &#34;GL_COMPUTE_SHADER&#34;, etc.
