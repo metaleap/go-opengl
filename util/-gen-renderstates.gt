@@ -5,14 +5,18 @@ var rs__N__ bool
 //	Disables __D__ only if it is currently enabled.
 func (me RenderStates) Disable__N__() {
 	if rs__N__ {
-		me.ForceDisable__N__()
+		// me.ForceDisable__N__()
+		rs__N__ = false
+		gl.Disable(gl.__E__)
 	}
 }
 
 //	Enables __D__ only if it is currently disabled.
 func (me RenderStates) Enable__N__() {
 	if !rs__N__ {
-		me.ForceEnable__N__()
+		// me.ForceEnable__N__()
+		rs__N__ = true
+		gl.Enable(gl.__E__)
 	}
 }
 
@@ -29,19 +33,31 @@ func (_ RenderStates) ForceEnable__N__() {
 }
 
 //	Activates or deactivates __D__.
-func (me RenderStates) Set__N__(__N__ bool) {
-	if __N__ {
-		me.Enable__N__()
-	} else {
-		me.Disable__N__()
+func (me RenderStates) Set__N__(new__N__ bool) {
+	// if __N__ {
+	// 	me.Enable__N__()
+	// } else {
+	// 	me.Disable__N__()
+	// }
+	if rs__N__ != new__N__ {
+		if rs__N__ = new__N__; rs__N__ {
+			gl.Enable(gl.__E__)
+		} else {
+			gl.Disable(gl.__E__)
+		}
 	}
 }
 
 //	Toggles __D__.
 func (me RenderStates) Toggle__N__() {
-	if rs__N__ {
-		me.ForceDisable__N__()
+	// if rs__N__ {
+	// 	me.ForceDisable__N__()
+	// } else {
+	// 	me.ForceEnable__N__()
+	// }
+	if rs__N__ = !rs__N__; rs__N__ {
+		gl.Enable(gl.__E__)
 	} else {
-		me.ForceEnable__N__()
+		gl.Disable(gl.__E__)
 	}
 }
