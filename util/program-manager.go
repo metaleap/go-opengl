@@ -8,6 +8,7 @@ import (
 
 //	A simple container to collect multiple program objects by name and compile them all in one go.
 //	Prior to using a ProgramManager, you need to call its Reset() method to allocate/initialize its map fields.
+//	After using a ProgramManager, Reset() cleans up and deletes resources allocated by it.
 type ProgramManager struct {
 	//	These name-value pairs are prepended to shader sources
 	//	as #define directives in MakeProgramsFromRawSources().

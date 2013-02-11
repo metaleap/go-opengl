@@ -4,11 +4,10 @@ import (
 	"fmt"
 
 	gl "github.com/go3d/go-opengl/core"
-	ugo "github.com/metaleap/go-util"
 )
 
 const (
-	shaderAttrInvalidLoc gl.Uint = 4294967295
+	progAttrInvalidLoc gl.Uint = 4294967295
 )
 
 //	Represents an OpenGL program object.
@@ -128,7 +127,7 @@ func (me *Program) locationAttr(attrName string) gl.Uint {
 	defer gl.Util.CStringFree(s)
 	l := gl.GetAttribLocation(me.GlHandle, s)
 	if l < 0 {
-		return shaderAttrInvalidLoc
+		return progAttrInvalidLoc
 	}
 	return gl.Uint(l)
 }
@@ -153,7 +152,7 @@ func (me *Program) SetAttrLocations(attrNames ...string) (err error) {
 	for _, attrName := range attrNames {
 		if len(attrName) > 0 {
 			loc = me.locationAttr(attrName)
-			if err = Util.Error("Program'%s'.SetAttrLocations('%s')", me.Name, attrName); err != nil {
+			if err = Util.LastError("Program'%s'.SetAttrLocations('%s')", me.Name, attrName); err != nil {
 				return
 			} else if progIsAttrLocation(loc) {
 				me.AttrLocs[attrName] = loc
@@ -171,7 +170,7 @@ func (me *Program) SetUnifLocations(unifNames ...string) (err error) {
 	for _, unifName := range unifNames {
 		if len(unifName) > 0 {
 			loc = me.locationUnif(unifName)
-			if err = Util.Error("Program'%s'.SetUnifLocations('%s')", me.Name, unifName); err != nil {
+			if err = Util.LastError("Program'%s'.SetUnifLocations('%s')", me.Name, unifName); err != nil {
 				return
 			} else if progIsUnifLocation(loc) {
 				me.UnifLocs[unifName] = loc
@@ -199,27 +198,10 @@ func (me *Program) Validate() (err error) {
 
 //	Returns true if the specified loc is a valid vertex-attribute location.
 func progIsAttrLocation(loc gl.Uint) bool {
-	return (loc >= 0) && (loc < shaderAttrInvalidLoc)
+	return (loc >= 0) && (loc < progAttrInvalidLoc)
 }
 
 //	Returns true if the specified loc is a valid uniform location.
 func progIsUnifLocation(loc gl.Int) bool {
 	return loc >= 0
-}
-
-func shaderProgInfoLog(name string, glHandle gl.Uint, shader bool) (infoLog string) {
-	const l gl.Sizei = 256
-	s := gl.Util.CStringAlloc(l)
-	defer gl.Util.CStringFree(s)
-	if shader {
-		gl.GetShaderInfoLog(glHandle, l, nil, s)
-	} else {
-		gl.GetProgramInfoLog(glHandle, l, nil, s)
-	}
-	if err := Util.Error("%s'%s'.InfoLog()", ugo.Ifs(shader, "Shader", "Program"), name); err == nil {
-		infoLog = gl.Util.StringFromChar(s)
-	} else {
-		infoLog = err.Error()
-	}
-	return
 }

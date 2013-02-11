@@ -17,6 +17,8 @@ func (_ GlUtil) ConnInfo() string {
 	return sfmt("OpenGL %v @ %v %v (GLSL: %v)", Util.Str(gl.VERSION), Util.Str(gl.VENDOR), Util.Str(gl.RENDERER), Util.Str(gl.SHADING_LANGUAGE_VERSION))
 }
 
+//	Returns the name of the specified enum. Out of the over 1290 possible enum values, currently only supports
+//	error codes and shader stages.
 func (_ GlUtil) EnumName(enum gl.Enum) (name string) {
 	switch enum {
 	case gl.INVALID_ENUM:
@@ -51,7 +53,9 @@ func (_ GlUtil) EnumName(enum gl.Enum) (name string) {
 	return
 }
 
-func (_ GlUtil) Error(msgFmt string, fmtArgs ...interface{}) (err error) {
+//	If the GL error flag is currently set, returns an error with the specified
+//	message and the GL error flag(s).
+func (_ GlUtil) LastError(msgFmt string, fmtArgs ...interface{}) (err error) {
 	if flags := gl.Util.ErrorFlags(); len(flags) > 0 {
 		for _, e := range flags {
 			msgFmt = Util.EnumName(e) + " " + msgFmt

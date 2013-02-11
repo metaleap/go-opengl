@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	gl "github.com/go3d/go-opengl/core"
+	ugo "github.com/metaleap/go-util"
 )
 
 //	Represents an OpenGL shader object.
@@ -48,7 +49,7 @@ func NewGeometryShader(name string) *Shader {
 	return NewShader(name, gl.GEOMETRY_SHADER)
 }
 
-//	If Support.Glsl.Shaders.TessellationStages is true, initializes and returns --but does not Create()-- a new Shader for the gl.TESS_CONTROL_SHADER Stage with the specified name.
+//	If Support.Glsl.Shaders.TessellationStages is true, initializes and returns --but does not Create()-- a new Shader for the gl.TESS_CONTROL_SHADER ("Hull") Stage with the specified name.
 func NewTessCtlShader(name string) (me *Shader) {
 	if Support.Glsl.Shaders.TessellationStages {
 		me = NewShader(name, gl.TESS_CONTROL_SHADER)
@@ -56,7 +57,7 @@ func NewTessCtlShader(name string) (me *Shader) {
 	return
 }
 
-//	If Support.Glsl.Shaders.TessellationStages is true, initializes and returns --but does not Create()-- a new Shader for the gl.TESS_EVALUATION_SHADER Stage with the specified name.
+//	If Support.Glsl.Shaders.TessellationStages is true, initializes and returns --but does not Create()-- a new Shader for the gl.TESS_EVALUATION_SHADER ("Domain") Stage with the specified name.
 func NewTessEvalShader(name string) (me *Shader) {
 	if Support.Glsl.Shaders.TessellationStages {
 		me = NewShader(name, gl.TESS_EVALUATION_SHADER)
@@ -142,5 +143,22 @@ func (me *Shader) SetSource(source string, defines map[string]interface{}) (err 
 	src := gl.Util.CStringArray(lines...)
 	defer gl.Util.CStringArrayFree(src)
 	err = Try.ShaderSource(me.GlHandle, gl.Sizei(len(src)), &src[0], nil)
+	return
+}
+
+func shaderProgInfoLog(name string, glHandle gl.Uint, shader bool) (infoLog string) {
+	const l gl.Sizei = 256
+	s := gl.Util.CStringAlloc(l)
+	defer gl.Util.CStringFree(s)
+	if shader {
+		gl.GetShaderInfoLog(glHandle, l, nil, s)
+	} else {
+		gl.GetProgramInfoLog(glHandle, l, nil, s)
+	}
+	if err := Util.LastError("%s'%s'.InfoLog()", ugo.Ifs(shader, "Shader", "Program"), name); err == nil {
+		infoLog = gl.Util.StringFromChar(s)
+	} else {
+		infoLog = err.Error()
+	}
 	return
 }

@@ -10,6 +10,7 @@ type Texture interface {
 	Recreate() error
 }
 
+//	Embedded by specialized texture types such as Texture2D.
 type TextureBase struct {
 	//	The OpenGL handle for this texture object.
 	//	This is 0 before calling Recreate() and after calling Dispose().

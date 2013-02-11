@@ -45,7 +45,7 @@ func (me *VertexArray) Setup(atts []*VertexAttribPointer, bufs ...*Buffer) (err 
 	for _, buf := range bufs {
 		buf.Unbind()
 	}
-	err = Util.Error("VertexArray.Setup()")
+	err = Util.LastError("VertexArray.Setup()")
 	return
 }
 

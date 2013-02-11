@@ -81,7 +81,7 @@ func (me *glPack) makeTryFunc(src *glPackSrc, fun *glFunc, glPrefix, errPrefix s
 	src.add(") {")
 	src.addLn(`
 	%s%s(%s)
-	err = %sError("%s()")
+	err = %sLastError("%s()")
 	return`, ret, glPrefix+fun.name, args, errPrefix, glPrefix+fun.name)
 	src.addLn("}\n")
 }

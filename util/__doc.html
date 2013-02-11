@@ -45,7 +45,7 @@
 			<div class="expanded">
 				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
 				<p>
-OpenGL (3.3 or higher ONLY!) utilities and a few sane slim wrappers (without going full-on &#34;OO&#34;-overboard) for Go (using the GL Core Profile 3.3+ [ <a href="http://github.com/go3d/go-opengl/core/">http://github.com/go3d/go-opengl/core/</a> ] bindings).
+OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34;-overboard) for Go (using the GL Core Profile 3.3+ [ <a href="http://github.com/go3d/go-opengl/core/">http://github.com/go3d/go-opengl/core/</a> ] bindings).
 </p>
 
 			</div>
@@ -281,10 +281,10 @@ OpenGL (3.3 or higher ONLY!) utilities and a few sane slim wrappers (without goi
 					<dd>&nbsp; &nbsp; <a href="#GlUtil.EnumName">func (_ GlUtil) EnumName(enum gl.Enum) (name string)</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#GlUtil.Error">func (_ GlUtil) Error(msgFmt string, fmtArgs ...interface{}) (err error)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#GlUtil.Extension">func (_ GlUtil) Extension(name string) bool</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#GlUtil.Extension">func (_ GlUtil) Extension(name string) bool</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#GlUtil.LastError">func (_ GlUtil) LastError(msgFmt string, fmtArgs ...interface{}) (err error)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#GlUtil.Str">func (_ GlUtil) Str(name gl.Enum) string</a></dd>
@@ -823,17 +823,17 @@ OpenGL (3.3 or higher ONLY!) utilities and a few sane slim wrappers (without goi
 			
 				<a href="/target/gl-texture.go">gl-texture.go</a>
 			
-				<a href="/target/gl-vertex-array.go">gl-vertex-array.go</a>
+				<a href="/target/gl-util.go">gl-util.go</a>
 			
-				<a href="/target/glutil.go">glutil.go</a>
+				<a href="/target/gl-vertex-array.go">gl-vertex-array.go</a>
 			
 				<a href="/target/program-manager.go">program-manager.go</a>
 			
 				<a href="/target/render-states.gt.go">render-states.gt.go</a>
 			
-				<a href="/target/types.go">types.go</a>
+				<a href="/target/type-utils.go">type-utils.go</a>
 			
-				<a href="/target/utils.go">utils.go</a>
+				<a href="/target/ugl.go">ugl.go</a>
 			
 			</span>
 			</p>
@@ -857,7 +857,6 @@ OpenGL (3.3 or higher ONLY!) utilities and a few sane slim wrappers (without goi
 			
 				<pre>var (
     <span class="comment">//	All the known possible OpenGL core context versions that this package supports.</span>
-    <span class="comment">//	(This does not imply they&#39;re all supported by the current client-side GPU.)</span>
     KnownVersions = []float64{3.3, 4.0, 4.1, 4.2, 4.3}
 
     <span class="comment">//	Provides access to miscellaneous GL functionality.</span>
@@ -961,8 +960,8 @@ OpenGL (3.3 or higher ONLY!) utilities and a few sane slim wrappers (without goi
         }
     }
 
-    <span class="comment">//	Contains the well-known extension prefixes that can be omitted when querying the current OpenGL context via Extension()</span>
-    <span class="comment">//	NOTE: if you find a need to append a prefix not currently included here, please post it on GitHub Issues to have it included by default.</span>
+    <span class="comment">//	Contains the well-known extension prefixes that can be omitted</span>
+    <span class="comment">//	when querying the current OpenGL context via Util.Extension().</span>
     KnownExtensionPrefixes = []string{&#34;GL_3DFX_&#34;, &#34;GL_3DL_&#34;, &#34;GL_AMD_&#34;, &#34;GL_APPLE_&#34;, &#34;GL_ARB_&#34;, &#34;GL_ATI_&#34;, &#34;GL_EXT_&#34;, &#34;GL_GREMEDY_&#34;, &#34;GL_HP_&#34;, &#34;GL_I3D_&#34;, &#34;GL_IBM_&#34;, &#34;GL_INGR_&#34;, &#34;GL_INTEL_&#34;, &#34;GL_KHR_&#34;, &#34;GL_KTX_&#34;, &#34;GL_MESA_&#34;, &#34;GL_MESAX_&#34;, &#34;GL_NV_&#34;, &#34;GL_NVX_&#34;, &#34;GL_OES_&#34;, &#34;GL_OML_&#34;, &#34;GL_PGI_&#34;, &#34;GL_REND__&#34;, &#34;GL_S3_&#34;, &#34;GL_SGI_&#34;, &#34;GL_SGIS_&#34;, &#34;GL_SGIX_&#34;, &#34;GL_SUN_&#34;, &#34;GL_SUNX_&#34;, &#34;GL_WIN_&#34;, &#34;WGL_EXT_&#34;}
 )</pre>
 				
@@ -971,7 +970,7 @@ OpenGL (3.3 or higher ONLY!) utilities and a few sane slim wrappers (without goi
 		
 			
 			
-			<h2 id="Init">func <a href="/target/glutil.go?s=4195:4206#L115">Init</a></h2>
+			<h2 id="Init">func <a href="/target/ugl.go?s=3984:3995#L114">Init</a></h2>
 			<pre>func Init()</pre>
 			<p>
 DO call this immediately upon successful OpenGL context initialization to prepare this package for use.
@@ -982,17 +981,17 @@ Fully populates all fields and sub-fields in the Support package global.
 		
 			
 			
-			<h2 id="LogLastError">func <a href="/target/glutil.go?s=4306:4367#L121">LogLastError</a></h2>
+			<h2 id="LogLastError">func <a href="/target/ugl.go?s=4096:4157#L120">LogLastError</a></h2>
 			<pre>func LogLastError(stepFmt string, stepFmtArgs ...interface{})</pre>
 			<p>
-log.Println()s the error returned by LastError(), if any.
+log.Println()s the error returned by Util.Error(), if any.
 </p>
 
 			
 		
 			
 			
-			<h2 id="VersionMajorMinor">func <a href="/target/glutil.go?s=6383:6435#L188">VersionMajorMinor</a></h2>
+			<h2 id="VersionMajorMinor">func <a href="/target/ugl.go?s=6177:6229#L187">VersionMajorMinor</a></h2>
 			<pre>func VersionMajorMinor(v float64) (major, minor int)</pre>
 			<p>
 Returns the major and minor parts of the specified version number.
@@ -1002,7 +1001,7 @@ Returns the major and minor parts of the specified version number.
 		
 			
 			
-			<h2 id="VersionMatch">func <a href="/target/glutil.go?s=6666:6699#L196">VersionMatch</a></h2>
+			<h2 id="VersionMatch">func <a href="/target/ugl.go?s=6460:6493#L195">VersionMatch</a></h2>
 			<pre>func VersionMatch(v float64) bool</pre>
 			<p>
 Returns true if GlVersion is greater than or equal to v.
@@ -1473,7 +1472,7 @@ Initializes --but does not Recreate()-- a new FramebufferRendertexture with defa
 		
 			
 			
-			<h2 id="GlMat3">type <a href="/target/types.go?s=566:589#L18">GlMat3</a></h2>
+			<h2 id="GlMat3">type <a href="/target/type-utils.go?s=566:589#L18">GlMat3</a></h2>
 			<pre>type GlMat3 [9]gl.Float</pre>
 			<p>
 Represents a 3x3 matrix of 9 32-bit gl.Float values
@@ -1488,7 +1487,7 @@ Represents a 3x3 matrix of 9 32-bit gl.Float values
 
 			
 				
-				<h3 id="NewGlMat3">func <a href="/target/types.go?s=685:731#L21">NewGlMat3</a></h3>
+				<h3 id="NewGlMat3">func <a href="/target/type-utils.go?s=685:731#L21">NewGlMat3</a></h3>
 				<pre>func NewGlMat3(mat *unum.Mat3) (glMat *GlMat3)</pre>
 				<p>
 Instantiates and returns a new 3x3 matrix (32-bit) from the specified 3x3 matrix (64-bit).
@@ -1499,7 +1498,7 @@ Instantiates and returns a new 3x3 matrix (32-bit) from the specified 3x3 matrix
 
 			
 				
-				<h3 id="GlMat3.Load">func (*GlMat3) <a href="/target/types.go?s=891:929#L29">Load</a></h3>
+				<h3 id="GlMat3.Load">func (*GlMat3) <a href="/target/type-utils.go?s=891:929#L29">Load</a></h3>
 				<pre>func (me *GlMat3) Load(mat *unum.Mat3)</pre>
 				<p>
 Sets all values in this 3x3 matrix (32-bit) from the specified 3x3 matrix (64-bit).
@@ -1511,7 +1510,7 @@ Sets all values in this 3x3 matrix (32-bit) from the specified 3x3 matrix (64-bi
 		
 			
 			
-			<h2 id="GlMat4">type <a href="/target/types.go?s=1219:1243#L36">GlMat4</a></h2>
+			<h2 id="GlMat4">type <a href="/target/type-utils.go?s=1219:1243#L36">GlMat4</a></h2>
 			<pre>type GlMat4 [16]gl.Float</pre>
 			<p>
 Represents a 3x3 matrix of 16 32-bit gl.Float values
@@ -1526,7 +1525,7 @@ Represents a 3x3 matrix of 16 32-bit gl.Float values
 
 			
 				
-				<h3 id="NewGlMat4">func <a href="/target/types.go?s=1339:1385#L39">NewGlMat4</a></h3>
+				<h3 id="NewGlMat4">func <a href="/target/type-utils.go?s=1339:1385#L39">NewGlMat4</a></h3>
 				<pre>func NewGlMat4(mat *unum.Mat4) (glMat *GlMat4)</pre>
 				<p>
 Instantiates and returns a new 4x4 matrix (32-bit) from the specified 4x4 matrix (64-bit).
@@ -1537,7 +1536,7 @@ Instantiates and returns a new 4x4 matrix (32-bit) from the specified 4x4 matrix
 
 			
 				
-				<h3 id="GlMat4.Load">func (*GlMat4) <a href="/target/types.go?s=1545:1583#L47">Load</a></h3>
+				<h3 id="GlMat4.Load">func (*GlMat4) <a href="/target/type-utils.go?s=1545:1583#L47">Load</a></h3>
 				<pre>func (me *GlMat4) Load(mat *unum.Mat4)</pre>
 				<p>
 Sets all values in this 4x4 matrix (32-bit) from the specified 4x4 matrix (64-bit).
@@ -1549,11 +1548,12 @@ Sets all values in this 4x4 matrix (32-bit) from the specified 4x4 matrix (64-bi
 		
 			
 			
-			<h2 id="GlTry">type <a href="/target/-gen-try.go?s=134:155#L1">GlTry</a></h2>
+			<h2 id="GlTry">type <a href="/target/-gen-try.go?s=213:234#L1">GlTry</a></h2>
 			<pre>type GlTry struct {
 }</pre>
 			<p>
 A singleton type, only used for the package-global ugl.Try variable.
+(Methods generated with github.com/go3d/go-opengl/cmd/gen-opengl-bindings.)
 </p>
 
 
@@ -1567,130 +1567,130 @@ A singleton type, only used for the package-global ugl.Try variable.
 
 			
 				
-				<h3 id="GlTry.AttachShader">func (GlTry) <a href="/target/-gen-try.go?s=237:309#L2">AttachShader</a></h3>
+				<h3 id="GlTry.AttachShader">func (GlTry) <a href="/target/-gen-try.go?s=320:392#L3">AttachShader</a></h3>
 				<pre>func (_ GlTry) AttachShader(program gl.Uint, shader gl.Uint) (err error)</pre>
 				<p>
-Calls gl.AttachShader() and yields the err returned by Util.Error(), if any.
+Calls gl.AttachShader() and yields the err returned by Util.LastError(), if any.
 </p>
 
 				
 				
 			
 				
-				<h3 id="GlTry.BufferData">func (GlTry) <a href="/target/-gen-try.go?s=474:573#L9">BufferData</a></h3>
+				<h3 id="GlTry.BufferData">func (GlTry) <a href="/target/-gen-try.go?s=565:664#L10">BufferData</a></h3>
 				<pre>func (_ GlTry) BufferData(target gl.Enum, size gl.Sizeiptr, data gl.Ptr, usage gl.Enum) (err error)</pre>
 				<p>
-Calls gl.BufferData() and yields the err returned by Util.Error(), if any.
+Calls gl.BufferData() and yields the err returned by Util.LastError(), if any.
 </p>
 
 				
 				
 			
 				
-				<h3 id="GlTry.BufferSubData">func (GlTry) <a href="/target/-gen-try.go?s=747:852#L16">BufferSubData</a></h3>
+				<h3 id="GlTry.BufferSubData">func (GlTry) <a href="/target/-gen-try.go?s=846:951#L17">BufferSubData</a></h3>
 				<pre>func (_ GlTry) BufferSubData(target gl.Enum, offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr) (err error)</pre>
 				<p>
-Calls gl.BufferSubData() and yields the err returned by Util.Error(), if any.
+Calls gl.BufferSubData() and yields the err returned by Util.LastError(), if any.
 </p>
 
 				
 				
 			
 				
-				<h3 id="GlTry.CreateProgram">func (GlTry) <a href="/target/-gen-try.go?s=1033:1096#L23">CreateProgram</a></h3>
+				<h3 id="GlTry.CreateProgram">func (GlTry) <a href="/target/-gen-try.go?s=1140:1203#L24">CreateProgram</a></h3>
 				<pre>func (_ GlTry) CreateProgram() (err error, tryRetVal__ gl.Uint)</pre>
 				<p>
-Calls gl.CreateProgram() and yields the err returned by Util.Error(), if any.
+Calls gl.CreateProgram() and yields the err returned by Util.LastError(), if any.
 </p>
 
 				
 				
 			
 				
-				<h3 id="GlTry.CreateShader">func (GlTry) <a href="/target/-gen-try.go?s=1264:1339#L30">CreateShader</a></h3>
+				<h3 id="GlTry.CreateShader">func (GlTry) <a href="/target/-gen-try.go?s=1379:1454#L31">CreateShader</a></h3>
 				<pre>func (_ GlTry) CreateShader(type_ gl.Enum) (err error, tryRetVal__ gl.Uint)</pre>
 				<p>
-Calls gl.CreateShader() and yields the err returned by Util.Error(), if any.
+Calls gl.CreateShader() and yields the err returned by Util.LastError(), if any.
 </p>
 
 				
 				
 			
 				
-				<h3 id="GlTry.GenBuffers">func (GlTry) <a href="/target/-gen-try.go?s=1508:1575#L37">GenBuffers</a></h3>
+				<h3 id="GlTry.GenBuffers">func (GlTry) <a href="/target/-gen-try.go?s=1631:1698#L38">GenBuffers</a></h3>
 				<pre>func (_ GlTry) GenBuffers(n gl.Sizei, buffers *gl.Uint) (err error)</pre>
 				<p>
-Calls gl.GenBuffers() and yields the err returned by Util.Error(), if any.
+Calls gl.GenBuffers() and yields the err returned by Util.LastError(), if any.
 </p>
 
 				
 				
 			
 				
-				<h3 id="GlTry.GenTextures">func (GlTry) <a href="/target/-gen-try.go?s=1953:2022#L51">GenTextures</a></h3>
+				<h3 id="GlTry.GenTextures">func (GlTry) <a href="/target/-gen-try.go?s=2092:2161#L52">GenTextures</a></h3>
 				<pre>func (_ GlTry) GenTextures(n gl.Sizei, textures *gl.Uint) (err error)</pre>
 				<p>
-Calls gl.GenTextures() and yields the err returned by Util.Error(), if any.
+Calls gl.GenTextures() and yields the err returned by Util.LastError(), if any.
 </p>
 
 				
 				
 			
 				
-				<h3 id="GlTry.GenVertexArrays">func (GlTry) <a href="/target/-gen-try.go?s=2186:2257#L58">GenVertexArrays</a></h3>
+				<h3 id="GlTry.GenVertexArrays">func (GlTry) <a href="/target/-gen-try.go?s=2333:2404#L59">GenVertexArrays</a></h3>
 				<pre>func (_ GlTry) GenVertexArrays(n gl.Sizei, arrays *gl.Uint) (err error)</pre>
 				<p>
-Calls gl.GenVertexArrays() and yields the err returned by Util.Error(), if any.
+Calls gl.GenVertexArrays() and yields the err returned by Util.LastError(), if any.
 </p>
 
 				
 				
 			
 				
-				<h3 id="GlTry.GenerateMipmap">func (GlTry) <a href="/target/-gen-try.go?s=1735:1792#L44">GenerateMipmap</a></h3>
+				<h3 id="GlTry.GenerateMipmap">func (GlTry) <a href="/target/-gen-try.go?s=1866:1923#L45">GenerateMipmap</a></h3>
 				<pre>func (_ GlTry) GenerateMipmap(target gl.Enum) (err error)</pre>
 				<p>
-Calls gl.GenerateMipmap() and yields the err returned by Util.Error(), if any.
+Calls gl.GenerateMipmap() and yields the err returned by Util.LastError(), if any.
 </p>
 
 				
 				
 			
 				
-				<h3 id="GlTry.ShaderSource">func (GlTry) <a href="/target/-gen-try.go?s=2424:2530#L65">ShaderSource</a></h3>
+				<h3 id="GlTry.ShaderSource">func (GlTry) <a href="/target/-gen-try.go?s=2579:2685#L66">ShaderSource</a></h3>
 				<pre>func (_ GlTry) ShaderSource(shader gl.Uint, count gl.Sizei, string_ **gl.Char, length *gl.Int) (err error)</pre>
 				<p>
-Calls gl.ShaderSource() and yields the err returned by Util.Error(), if any.
+Calls gl.ShaderSource() and yields the err returned by Util.LastError(), if any.
 </p>
 
 				
 				
 			
 				
-				<h3 id="GlTry.TexImage2D">func (GlTry) <a href="/target/-gen-try.go?s=2710:2894#L72">TexImage2D</a></h3>
+				<h3 id="GlTry.TexImage2D">func (GlTry) <a href="/target/-gen-try.go?s=2873:3057#L73">TexImage2D</a></h3>
 				<pre>func (_ GlTry) TexImage2D(target gl.Enum, level gl.Int, internalformat gl.Int, width gl.Sizei, height gl.Sizei, border gl.Int, format gl.Enum, type_ gl.Enum, pixels gl.Ptr) (err error)</pre>
 				<p>
-Calls gl.TexImage2D() and yields the err returned by Util.Error(), if any.
+Calls gl.TexImage2D() and yields the err returned by Util.LastError(), if any.
 </p>
 
 				
 				
 			
 				
-				<h3 id="GlTry.TexStorage2D">func (GlTry) <a href="/target/-gen-try.go?s=3117:3246#L79">TexStorage2D</a></h3>
+				<h3 id="GlTry.TexStorage2D">func (GlTry) <a href="/target/-gen-try.go?s=3288:3417#L80">TexStorage2D</a></h3>
 				<pre>func (_ GlTry) TexStorage2D(target gl.Enum, levels gl.Sizei, internalformat gl.Enum, width gl.Sizei, height gl.Sizei) (err error)</pre>
 				<p>
-Calls gl.TexStorage2D() and yields the err returned by Util.Error(), if any.
+Calls gl.TexStorage2D() and yields the err returned by Util.LastError(), if any.
 </p>
 
 				
 				
 			
 				
-				<h3 id="GlTry.TexSubImage2D">func (GlTry) <a href="/target/-gen-try.go?s=3444:3625#L86">TexSubImage2D</a></h3>
+				<h3 id="GlTry.TexSubImage2D">func (GlTry) <a href="/target/-gen-try.go?s=3623:3804#L87">TexSubImage2D</a></h3>
 				<pre>func (_ GlTry) TexSubImage2D(target gl.Enum, level gl.Int, xoffset gl.Int, yoffset gl.Int, width gl.Sizei, height gl.Sizei, format gl.Enum, type_ gl.Enum, pixels gl.Ptr) (err error)</pre>
 				<p>
-Calls gl.TexSubImage2D() and yields the err returned by Util.Error(), if any.
+Calls gl.TexSubImage2D() and yields the err returned by Util.LastError(), if any.
 </p>
 
 				
@@ -1699,7 +1699,7 @@ Calls gl.TexSubImage2D() and yields the err returned by Util.Error(), if any.
 		
 			
 			
-			<h2 id="GlUtil">type <a href="/target/utils.go?s=183:205#L1">GlUtil</a></h2>
+			<h2 id="GlUtil">type <a href="/target/gl-util.go?s=183:205#L1">GlUtil</a></h2>
 			<pre>type GlUtil struct {
 }</pre>
 			<p>
@@ -1717,7 +1717,7 @@ A singleton type, only used for the package-global ugl.Util variable.
 
 			
 				
-				<h3 id="GlUtil.ConnInfo">func (GlUtil) <a href="/target/utils.go?s=431:464#L6">ConnInfo</a></h3>
+				<h3 id="GlUtil.ConnInfo">func (GlUtil) <a href="/target/gl-util.go?s=431:464#L6">ConnInfo</a></h3>
 				<pre>func (_ GlUtil) ConnInfo() string</pre>
 				<p>
 Returns an OpenGL connection-info string of the format &#34;OpenGL {version} @ {vendor} {renderer} (GLSL: {version})&#34;
@@ -1728,21 +1728,18 @@ Example: &#34;OpenGL 4.2.0 @ NVIDIA Corporation Quadro 5010M/PCIe/SSE2 (GLSL: 4.
 				
 			
 				
-				<h3 id="GlUtil.EnumName">func (GlUtil) <a href="/target/utils.go?s=620:672#L10">EnumName</a></h3>
+				<h3 id="GlUtil.EnumName">func (GlUtil) <a href="/target/gl-util.go?s=764:816#L12">EnumName</a></h3>
 				<pre>func (_ GlUtil) EnumName(enum gl.Enum) (name string)</pre>
-				
-				
-				
-			
-				
-				<h3 id="GlUtil.Error">func (GlUtil) <a href="/target/utils.go?s=1508:1580#L44">Error</a></h3>
-				<pre>func (_ GlUtil) Error(msgFmt string, fmtArgs ...interface{}) (err error)</pre>
-				
+				<p>
+Returns the name of the specified enum. Out of the over 1290 possible enum values, currently only supports
+error codes and shader stages.
+</p>
+
 				
 				
 			
 				
-				<h3 id="GlUtil.Extension">func (GlUtil) <a href="/target/utils.go?s=2129:2172#L56">Extension</a></h3>
+				<h3 id="GlUtil.Extension">func (GlUtil) <a href="/target/gl-util.go?s=2392:2435#L60">Extension</a></h3>
 				<pre>func (_ GlUtil) Extension(name string) bool</pre>
 				<p>
 Returns true if the specified extension (ignoring upper/lower-case) is supported by the current OpenGL context, as per the global Support.Extensions variable.
@@ -1753,7 +1750,18 @@ If the extension uses a well-known prefix contained in KnownExtensionPrefixes, i
 				
 			
 				
-				<h3 id="GlUtil.Str">func (GlUtil) <a href="/target/utils.go?s=2490:2530#L70">Str</a></h3>
+				<h3 id="GlUtil.LastError">func (GlUtil) <a href="/target/gl-util.go?s=1767:1843#L48">LastError</a></h3>
+				<pre>func (_ GlUtil) LastError(msgFmt string, fmtArgs ...interface{}) (err error)</pre>
+				<p>
+If the GL error flag is currently set, returns an error with the specified
+message and the GL error flag(s).
+</p>
+
+				
+				
+			
+				
+				<h3 id="GlUtil.Str">func (GlUtil) <a href="/target/gl-util.go?s=2753:2793#L74">Str</a></h3>
 				<pre>func (_ GlUtil) Str(name gl.Enum) string</pre>
 				<p>
 Returns the specified OpenGL string.
@@ -1764,7 +1772,7 @@ Example: GlStr(gl.VENDOR) = &#34;NVIDIA Corporation&#34;
 				
 			
 				
-				<h3 id="GlUtil.Stri">func (GlUtil) <a href="/target/utils.go?s=2753:2805#L76">Stri</a></h3>
+				<h3 id="GlUtil.Stri">func (GlUtil) <a href="/target/gl-util.go?s=3016:3068#L80">Stri</a></h3>
 				<pre>func (_ GlUtil) Stri(name gl.Enum, i gl.Uint) string</pre>
 				<p>
 Returns the specified OpenGL string at the specified index.
@@ -1775,7 +1783,7 @@ For example, GlStri(gl.EXTENSIONS, 0) returns the name of the &#34;first&#34; of
 				
 			
 				
-				<h3 id="GlUtil.Val">func (GlUtil) <a href="/target/utils.go?s=2981:3027#L82">Val</a></h3>
+				<h3 id="GlUtil.Val">func (GlUtil) <a href="/target/gl-util.go?s=3244:3290#L86">Val</a></h3>
 				<pre>func (_ GlUtil) Val(name gl.Enum) (val gl.Int)</pre>
 				<p>
 Returns the specified integer as returned by gl.GetIntegerv().
@@ -1786,7 +1794,7 @@ Example: numExts := GlVal(gl.NUM_EXTENSIONS)
 				
 			
 				
-				<h3 id="GlUtil.Vals">func (GlUtil) <a href="/target/utils.go?s=3138:3196#L88">Vals</a></h3>
+				<h3 id="GlUtil.Vals">func (GlUtil) <a href="/target/gl-util.go?s=3401:3459#L92">Vals</a></h3>
 				<pre>func (_ GlUtil) Vals(name gl.Enum, n uint) (vals []gl.Int)</pre>
 				<p>
 Returns the specified n integers as returned by gl.GetIntegerv().
@@ -1798,7 +1806,7 @@ Returns the specified n integers as returned by gl.GetIntegerv().
 		
 			
 			
-			<h2 id="GlVec4">type <a href="/target/types.go?s=327:350#L8">GlVec4</a></h2>
+			<h2 id="GlVec4">type <a href="/target/type-utils.go?s=327:350#L8">GlVec4</a></h2>
 			<pre>type GlVec4 [4]gl.Float</pre>
 			<p>
 Represents a quaternion or 4-dimensional vector (32-bit gl.Float components)
@@ -1815,7 +1823,7 @@ Represents a quaternion or 4-dimensional vector (32-bit gl.Float components)
 
 			
 				
-				<h3 id="GlVec4.Set">func (*GlVec4) <a href="/target/types.go?s=392:431#L11">Set</a></h3>
+				<h3 id="GlVec4.Set">func (*GlVec4) <a href="/target/type-utils.go?s=392:431#L11">Set</a></h3>
 				<pre>func (me *GlVec4) Set(vals ...gl.Float)</pre>
 				<p>
 Sets me to the first 4-or-less vals.
@@ -1827,7 +1835,7 @@ Sets me to the first 4-or-less vals.
 		
 			
 			
-			<h2 id="Program">type <a href="/target/gl-program.go?s=199:799#L5">Program</a></h2>
+			<h2 id="Program">type <a href="/target/gl-program.go?s=162:762#L4">Program</a></h2>
 			<pre>type Program struct {
     <span class="comment">//	The OpenGL handle to the underlying program object.</span>
     <span class="comment">//	This is 0 before calling Create() and after calling Dispose().</span>
@@ -1855,7 +1863,7 @@ Represents an OpenGL program object.
 
 			
 				
-				<h3 id="NewProgram">func <a href="/target/gl-program.go?s=893:935#L21">NewProgram</a></h3>
+				<h3 id="NewProgram">func <a href="/target/gl-program.go?s=856:898#L20">NewProgram</a></h3>
 				<pre>func NewProgram(name string) (me *Program)</pre>
 				<p>
 Initializes and returns --but does not Create()-- a new Program with the specified name.
@@ -1866,7 +1874,7 @@ Initializes and returns --but does not Create()-- a new Program with the specifi
 
 			
 				
-				<h3 id="Program.CompileAndLinkShaders">func (*Program) <a href="/target/gl-program.go?s=1158:1305#L27">CompileAndLinkShaders</a></h3>
+				<h3 id="Program.CompileAndLinkShaders">func (*Program) <a href="/target/gl-program.go?s=1121:1268#L26">CompileAndLinkShaders</a></h3>
 				<pre>func (me *Program) CompileAndLinkShaders(compute, fragment, geometry, tessCtl, tessEval, vertex string, defines map[string]interface{}) (err error)</pre>
 				<p>
 Creates and compiles Shader stages for the specified sources (and defines) and links them together in this Program.
@@ -1876,7 +1884,7 @@ Creates and compiles Shader stages for the specified sources (and defines) and l
 				
 			
 				
-				<h3 id="Program.Create">func (*Program) <a href="/target/gl-program.go?s=2392:2431#L76">Create</a></h3>
+				<h3 id="Program.Create">func (*Program) <a href="/target/gl-program.go?s=2355:2394#L75">Create</a></h3>
 				<pre>func (me *Program) Create() (err error)</pre>
 				<p>
 Creates this program object in OpenGL.
@@ -1886,7 +1894,7 @@ Creates this program object in OpenGL.
 				
 			
 				
-				<h3 id="Program.Dispose">func (*Program) <a href="/target/gl-program.go?s=2543:2571#L83">Dispose</a></h3>
+				<h3 id="Program.Dispose">func (*Program) <a href="/target/gl-program.go?s=2506:2534#L82">Dispose</a></h3>
 				<pre>func (me *Program) Dispose()</pre>
 				<p>
 Deletes this program object from OpenGL.
@@ -1896,7 +1904,7 @@ Deletes this program object from OpenGL.
 				
 			
 				
-				<h3 id="Program.HasAttr">func (*Program) <a href="/target/gl-program.go?s=2737:2786#L91">HasAttr</a></h3>
+				<h3 id="Program.HasAttr">func (*Program) <a href="/target/gl-program.go?s=2700:2749#L90">HasAttr</a></h3>
 				<pre>func (me *Program) HasAttr(name string) (ok bool)</pre>
 				<p>
 Returns true if the specified attribute name is present as a key in me.AttrLocs.
@@ -1906,7 +1914,7 @@ Returns true if the specified attribute name is present as a key in me.AttrLocs.
 				
 			
 				
-				<h3 id="Program.HasUnif">func (*Program) <a href="/target/gl-program.go?s=2909:2958#L97">HasUnif</a></h3>
+				<h3 id="Program.HasUnif">func (*Program) <a href="/target/gl-program.go?s=2872:2921#L96">HasUnif</a></h3>
 				<pre>func (me *Program) HasUnif(name string) (ok bool)</pre>
 				<p>
 Returns true if the specified uniform name is present as a key in me.UnifLocs.
@@ -1916,7 +1924,7 @@ Returns true if the specified uniform name is present as a key in me.UnifLocs.
 				
 			
 				
-				<h3 id="Program.InfoLog">func (*Program) <a href="/target/gl-program.go?s=3091:3126#L103">InfoLog</a></h3>
+				<h3 id="Program.InfoLog">func (*Program) <a href="/target/gl-program.go?s=3054:3089#L102">InfoLog</a></h3>
 				<pre>func (me *Program) InfoLog() string</pre>
 				<p>
 Retrieves and returns the content of the current OpenGL info-log for this shader object.
@@ -1926,7 +1934,7 @@ Retrieves and returns the content of the current OpenGL info-log for this shader
 				
 			
 				
-				<h3 id="Program.Link">func (*Program) <a href="/target/gl-program.go?s=3345:3382#L109">Link</a></h3>
+				<h3 id="Program.Link">func (*Program) <a href="/target/gl-program.go?s=3308:3345#L108">Link</a></h3>
 				<pre>func (me *Program) Link() (err error)</pre>
 				<p>
 Links this program object. This is a convenience short-hand for calling gl.LinkProgram(),
@@ -1937,7 +1945,7 @@ checking gl.LINK_STATUS and obtaining gl.GetProgramInfoLog().
 				
 			
 				
-				<h3 id="Program.ParamInt">func (*Program) <a href="/target/gl-program.go?s=3997:4051#L133">ParamInt</a></h3>
+				<h3 id="Program.ParamInt">func (*Program) <a href="/target/gl-program.go?s=3958:4012#L132">ParamInt</a></h3>
 				<pre>func (me *Program) ParamInt(pname gl.Enum) (iv gl.Int)</pre>
 				<p>
 Convenience short-hand for gl.GetProgramiv.
@@ -1947,7 +1955,7 @@ Convenience short-hand for gl.GetProgramiv.
 				
 			
 				
-				<h3 id="Program.SetAttrLocations">func (*Program) <a href="/target/gl-program.go?s=4447:4515#L141">SetAttrLocations</a></h3>
+				<h3 id="Program.SetAttrLocations">func (*Program) <a href="/target/gl-program.go?s=4408:4476#L140">SetAttrLocations</a></h3>
 				<pre>func (me *Program) SetAttrLocations(attrNames ...string) (err error)</pre>
 				<p>
 Stores the locations for the specified vertex-attributes in the AttrLocs field.
@@ -1959,7 +1967,7 @@ err is the result of LastError() after each call to gl.GetAttribLocation(), the 
 				
 			
 				
-				<h3 id="Program.SetUnifLocations">func (*Program) <a href="/target/gl-program.go?s=5161:5229#L159">SetUnifLocations</a></h3>
+				<h3 id="Program.SetUnifLocations">func (*Program) <a href="/target/gl-program.go?s=5126:5194#L158">SetUnifLocations</a></h3>
 				<pre>func (me *Program) SetUnifLocations(unifNames ...string) (err error)</pre>
 				<p>
 Stores the locations for the specified uniforms in the UnifLocs field.
@@ -1971,7 +1979,7 @@ err is the result of LastError() after each call to gl.GetUniformLocation(), the
 				
 			
 				
-				<h3 id="Program.Use">func (*Program) <a href="/target/gl-program.go?s=5613:5637#L175">Use</a></h3>
+				<h3 id="Program.Use">func (*Program) <a href="/target/gl-program.go?s=5582:5606#L174">Use</a></h3>
 				<pre>func (me *Program) Use()</pre>
 				<p>
 Installs this program object as part of current rendering state.
@@ -1981,7 +1989,7 @@ Installs this program object as part of current rendering state.
 				
 			
 				
-				<h3 id="Program.Validate">func (*Program) <a href="/target/gl-program.go?s=5841:5882#L181">Validate</a></h3>
+				<h3 id="Program.Validate">func (*Program) <a href="/target/gl-program.go?s=5810:5851#L180">Validate</a></h3>
 				<pre>func (me *Program) Validate() (err error)</pre>
 				<p>
 Validates this program object. This is a convenience short-hand for calling gl.ValidateProgram(),
@@ -1994,7 +2002,7 @@ checking gl.VALIDATE_STATUS and obtaining gl.GetProgramInfoLog().
 		
 			
 			
-			<h2 id="ProgramManager">type <a href="/target/program-manager.go?s=283:1498#L1">ProgramManager</a></h2>
+			<h2 id="ProgramManager">type <a href="/target/program-manager.go?s=373:1588#L2">ProgramManager</a></h2>
 			<pre>type ProgramManager struct {
     <span class="comment">//	These name-value pairs are prepended to shader sources</span>
     <span class="comment">//	as #define directives in MakeProgramsFromRawSources().</span>
@@ -2033,6 +2041,7 @@ checking gl.VALIDATE_STATUS and obtaining gl.GetProgramInfoLog().
 			<p>
 A simple container to collect multiple program objects by name and compile them all in one go.
 Prior to using a ProgramManager, you need to call its Reset() method to allocate/initialize its map fields.
+After using a ProgramManager, Reset() cleans up and deletes resources allocated by it.
 </p>
 
 
@@ -2046,7 +2055,7 @@ Prior to using a ProgramManager, you need to call its Reset() method to allocate
 
 			
 				
-				<h3 id="ProgramManager.CloneRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=1738:1818#L39">CloneRawSources</a></h3>
+				<h3 id="ProgramManager.CloneRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=1828:1908#L40">CloneRawSources</a></h3>
 				<pre>func (me *ProgramManager) CloneRawSources(srcName, dstName string) (cloned bool)</pre>
 				<p>
 Creates copies of all RawSources with srcName as dstName, and adds dstName to me.Names.
@@ -2057,7 +2066,7 @@ Typical use-case: compile an existing program anew but with different #defines (
 				
 			
 				
-				<h3 id="ProgramManager.MakeProgramsFromRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=2919:3038#L61">MakeProgramsFromRawSources</a></h3>
+				<h3 id="ProgramManager.MakeProgramsFromRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=3009:3128#L62">MakeProgramsFromRawSources</a></h3>
 				<pre>func (me *ProgramManager) MakeProgramsFromRawSources(forceAll bool, forceSome ...string) (dur time.Duration, err error)</pre>
 				<p>
 For each program name in me.Names: creates a new Program, compiles all Shader stages for that name in me.RawSources, and
@@ -2072,7 +2081,7 @@ If an error occurs, this method returns it immediately; otherwise, dur contains 
 				
 			
 				
-				<h3 id="ProgramManager.Reset">func (*ProgramManager) <a href="/target/program-manager.go?s=3856:3889#L92">Reset</a></h3>
+				<h3 id="ProgramManager.Reset">func (*ProgramManager) <a href="/target/program-manager.go?s=3946:3979#L93">Reset</a></h3>
 				<pre>func (me *ProgramManager) Reset()</pre>
 				<p>
 Allocates/re-initializes all maps in me (Programs, Defines, RawSources) as new empty maps.
@@ -2916,7 +2925,7 @@ a symbolic constant. The initial value is gl.REPEAT.
 		
 			
 			
-			<h2 id="Shader">type <a href="/target/gl-shader.go?s=120:560#L1">Shader</a></h2>
+			<h2 id="Shader">type <a href="/target/gl-shader.go?s=155:595#L2">Shader</a></h2>
 			<pre>type Shader struct {
     <span class="comment">//	The OpenGL handle to the underlying shader object.</span>
     <span class="comment">//	This is 0 before calling Create() and after calling Dispose().</span>
@@ -2944,7 +2953,7 @@ Represents an OpenGL shader object.
 
 			
 				
-				<h3 id="NewComputeShader">func <a href="/target/gl-shader.go?s=952:999#L24">NewComputeShader</a></h3>
+				<h3 id="NewComputeShader">func <a href="/target/gl-shader.go?s=987:1034#L25">NewComputeShader</a></h3>
 				<pre>func NewComputeShader(name string) (me *Shader)</pre>
 				<p>
 If Support.Glsl.Shaders.ComputeStage is true, initializes and returns --but does not Create()-- a new Shader for the gl.COMPUTE_SHADER Stage with the specified name.
@@ -2953,7 +2962,7 @@ If Support.Glsl.Shaders.ComputeStage is true, initializes and returns --but does
 				
 			
 				
-				<h3 id="NewFragmentShader">func <a href="/target/gl-shader.go?s=1222:1265#L32">NewFragmentShader</a></h3>
+				<h3 id="NewFragmentShader">func <a href="/target/gl-shader.go?s=1257:1300#L33">NewFragmentShader</a></h3>
 				<pre>func NewFragmentShader(name string) *Shader</pre>
 				<p>
 Initializes and returns --but does not Create()-- a new Shader for the gl.FRAGMENT_SHADER Stage with the specified name.
@@ -2962,7 +2971,7 @@ Initializes and returns --but does not Create()-- a new Shader for the gl.FRAGME
 				
 			
 				
-				<h3 id="NewGeometryShader">func <a href="/target/gl-shader.go?s=1439:1482#L37">NewGeometryShader</a></h3>
+				<h3 id="NewGeometryShader">func <a href="/target/gl-shader.go?s=1474:1517#L38">NewGeometryShader</a></h3>
 				<pre>func NewGeometryShader(name string) *Shader</pre>
 				<p>
 Initializes and returns --but does not Create()-- a new Shader for the gl.GEOMETRY_SHADER Stage with the specified name.
@@ -2971,7 +2980,7 @@ Initializes and returns --but does not Create()-- a new Shader for the gl.GEOMET
 				
 			
 				
-				<h3 id="NewShader">func <a href="/target/gl-shader.go?s=670:727#L18">NewShader</a></h3>
+				<h3 id="NewShader">func <a href="/target/gl-shader.go?s=705:762#L19">NewShader</a></h3>
 				<pre>func NewShader(name string, glStage gl.Enum) (me *Shader)</pre>
 				<p>
 Initializes and returns --but does not Create()-- a new Shader with the specified name and shader stage.
@@ -2980,25 +2989,25 @@ Initializes and returns --but does not Create()-- a new Shader with the specifie
 				
 			
 				
-				<h3 id="NewTessCtlShader">func <a href="/target/gl-shader.go?s=1712:1759#L42">NewTessCtlShader</a></h3>
+				<h3 id="NewTessCtlShader">func <a href="/target/gl-shader.go?s=1756:1803#L43">NewTessCtlShader</a></h3>
 				<pre>func NewTessCtlShader(name string) (me *Shader)</pre>
 				<p>
-If Support.Glsl.Shaders.TessellationStages is true, initializes and returns --but does not Create()-- a new Shader for the gl.TESS_CONTROL_SHADER Stage with the specified name.
+If Support.Glsl.Shaders.TessellationStages is true, initializes and returns --but does not Create()-- a new Shader for the gl.TESS_CONTROL_SHADER (&#34;Hull&#34;) Stage with the specified name.
 </p>
 
 				
 			
 				
-				<h3 id="NewTessEvalShader">func <a href="/target/gl-shader.go?s=2052:2100#L50">NewTessEvalShader</a></h3>
+				<h3 id="NewTessEvalShader">func <a href="/target/gl-shader.go?s=2107:2155#L51">NewTessEvalShader</a></h3>
 				<pre>func NewTessEvalShader(name string) (me *Shader)</pre>
 				<p>
-If Support.Glsl.Shaders.TessellationStages is true, initializes and returns --but does not Create()-- a new Shader for the gl.TESS_EVALUATION_SHADER Stage with the specified name.
+If Support.Glsl.Shaders.TessellationStages is true, initializes and returns --but does not Create()-- a new Shader for the gl.TESS_EVALUATION_SHADER (&#34;Domain&#34;) Stage with the specified name.
 </p>
 
 				
 			
 				
-				<h3 id="NewVertexShader">func <a href="/target/gl-shader.go?s=2335:2376#L58">NewVertexShader</a></h3>
+				<h3 id="NewVertexShader">func <a href="/target/gl-shader.go?s=2390:2431#L59">NewVertexShader</a></h3>
 				<pre>func NewVertexShader(name string) *Shader</pre>
 				<p>
 Initializes and returns --but does not Create()-- a new Shader for the gl.VERTEX_SHADER Stage with the specified name.
@@ -3009,7 +3018,7 @@ Initializes and returns --but does not Create()-- a new Shader for the gl.VERTEX
 
 			
 				
-				<h3 id="Shader.AttachTo">func (*Shader) <a href="/target/gl-shader.go?s=2488:2535#L63">AttachTo</a></h3>
+				<h3 id="Shader.AttachTo">func (*Shader) <a href="/target/gl-shader.go?s=2543:2590#L64">AttachTo</a></h3>
 				<pre>func (me *Shader) AttachTo(prog *Program) error</pre>
 				<p>
 Attaches this shader object to the specified program object.
@@ -3019,7 +3028,7 @@ Attaches this shader object to the specified program object.
 				
 			
 				
-				<h3 id="Shader.Compile">func (*Shader) <a href="/target/gl-shader.go?s=2939:2978#L74">Compile</a></h3>
+				<h3 id="Shader.Compile">func (*Shader) <a href="/target/gl-shader.go?s=2994:3033#L75">Compile</a></h3>
 				<pre>func (me *Shader) Compile() (err error)</pre>
 				<p>
 Compiles this shader object. This is a convenience short-hand for calling gl.CompileShader(),
@@ -3030,7 +3039,7 @@ checking gl.COMPILE_STATUS and obtaining gl.GetShaderInfoLog().
 				
 			
 				
-				<h3 id="Shader.Create">func (*Shader) <a href="/target/gl-shader.go?s=3262:3300#L83">Create</a></h3>
+				<h3 id="Shader.Create">func (*Shader) <a href="/target/gl-shader.go?s=3317:3355#L84">Create</a></h3>
 				<pre>func (me *Shader) Create() (err error)</pre>
 				<p>
 Creates this shader object in OpenGL.
@@ -3040,7 +3049,7 @@ Creates this shader object in OpenGL.
 				
 			
 				
-				<h3 id="Shader.DetachFrom">func (*Shader) <a href="/target/gl-shader.go?s=3441:3484#L90">DetachFrom</a></h3>
+				<h3 id="Shader.DetachFrom">func (*Shader) <a href="/target/gl-shader.go?s=3496:3539#L91">DetachFrom</a></h3>
 				<pre>func (me *Shader) DetachFrom(prog *Program)</pre>
 				<p>
 Detaches this shader object from the specified program object.
@@ -3050,7 +3059,7 @@ Detaches this shader object from the specified program object.
 				
 			
 				
-				<h3 id="Shader.Dispose">func (*Shader) <a href="/target/gl-shader.go?s=3578:3605#L95">Dispose</a></h3>
+				<h3 id="Shader.Dispose">func (*Shader) <a href="/target/gl-shader.go?s=3633:3660#L96">Dispose</a></h3>
 				<pre>func (me *Shader) Dispose()</pre>
 				<p>
 Deletes this shader object from OpenGL.
@@ -3060,7 +3069,7 @@ Deletes this shader object from OpenGL.
 				
 			
 				
-				<h3 id="Shader.InfoLog">func (*Shader) <a href="/target/gl-shader.go?s=3778:3812#L103">InfoLog</a></h3>
+				<h3 id="Shader.InfoLog">func (*Shader) <a href="/target/gl-shader.go?s=3833:3867#L104">InfoLog</a></h3>
 				<pre>func (me *Shader) InfoLog() string</pre>
 				<p>
 Retrieves and returns the content of the current OpenGL info-log for this shader object.
@@ -3070,7 +3079,7 @@ Retrieves and returns the content of the current OpenGL info-log for this shader
 				
 			
 				
-				<h3 id="Shader.ParamInt">func (*Shader) <a href="/target/gl-shader.go?s=3918:3971#L108">ParamInt</a></h3>
+				<h3 id="Shader.ParamInt">func (*Shader) <a href="/target/gl-shader.go?s=3973:4026#L109">ParamInt</a></h3>
 				<pre>func (me *Shader) ParamInt(pname gl.Enum) (iv gl.Int)</pre>
 				<p>
 Convenience short-hand for gl.GetShaderiv.
@@ -3080,7 +3089,7 @@ Convenience short-hand for gl.GetShaderiv.
 				
 			
 				
-				<h3 id="Shader.SetSource">func (*Shader) <a href="/target/gl-shader.go?s=4251:4337#L116">SetSource</a></h3>
+				<h3 id="Shader.SetSource">func (*Shader) <a href="/target/gl-shader.go?s=4306:4392#L117">SetSource</a></h3>
 				<pre>func (me *Shader) SetSource(source string, defines map[string]interface{}) (err error)</pre>
 				<p>
 Replaces the GLSL source code in this shader object with source,
@@ -3092,7 +3101,7 @@ and #define directives for all specified name-value pairs in defines.
 				
 			
 				
-				<h3 id="Shader.StageName">func (*Shader) <a href="/target/gl-shader.go?s=2696:2737#L68">StageName</a></h3>
+				<h3 id="Shader.StageName">func (*Shader) <a href="/target/gl-shader.go?s=2751:2792#L69">StageName</a></h3>
 				<pre>func (me *Shader) StageName() (sn string)</pre>
 				<p>
 Returns the name of this shader&#39;s stage, for example &#34;GL_VERTEX_SHADER&#34;, &#34;GL_COMPUTE_SHADER&#34;, etc.
@@ -3205,7 +3214,7 @@ me.PixelData.Type, me.PixelData.Format, me.PixelData.Ptr, me.Width, me.Height, m
 		
 			
 			
-			<h2 id="TextureBase">type <a href="/target/gl-texture.go?s=247:1829#L3">TextureBase</a></h2>
+			<h2 id="TextureBase">type <a href="/target/gl-texture.go?s=307:1889#L4">TextureBase</a></h2>
 			<pre>type TextureBase struct {
     <span class="comment">//	The OpenGL handle for this texture object.</span>
     <span class="comment">//	This is 0 before calling Recreate() and after calling Dispose().</span>
@@ -3251,7 +3260,10 @@ me.PixelData.Type, me.PixelData.Format, me.PixelData.Ptr, me.Width, me.Height, m
         Ptr gl.Ptr
     }
 }</pre>
-			
+			<p>
+Embedded by specialized texture types such as Texture2D.
+</p>
+
 
 			
 
@@ -3263,7 +3275,7 @@ me.PixelData.Type, me.PixelData.Format, me.PixelData.Ptr, me.Width, me.Height, m
 
 			
 				
-				<h3 id="TextureBase.Bind">func (*TextureBase) <a href="/target/gl-texture.go?s=1861:1890#L50">Bind</a></h3>
+				<h3 id="TextureBase.Bind">func (*TextureBase) <a href="/target/gl-texture.go?s=1921:1950#L51">Bind</a></h3>
 				<pre>func (me *TextureBase) Bind()</pre>
 				<p>
 Binds this texture object.
@@ -3273,7 +3285,7 @@ Binds this texture object.
 				
 			
 				
-				<h3 id="TextureBase.Dispose">func (*TextureBase) <a href="/target/gl-texture.go?s=1982:2014#L55">Dispose</a></h3>
+				<h3 id="TextureBase.Dispose">func (*TextureBase) <a href="/target/gl-texture.go?s=2042:2074#L56">Dispose</a></h3>
 				<pre>func (me *TextureBase) Dispose()</pre>
 				<p>
 Deletes this texture object from OpenGL.
@@ -3463,7 +3475,7 @@ Sets the swizzle that will be applied to the R, G, B and A components of a texel
 				
 			
 				
-				<h3 id="TextureBase.Unbind">func (*TextureBase) <a href="/target/gl-texture.go?s=2807:2838#L93">Unbind</a></h3>
+				<h3 id="TextureBase.Unbind">func (*TextureBase) <a href="/target/gl-texture.go?s=2867:2898#L94">Unbind</a></h3>
 				<pre>func (me *TextureBase) Unbind()</pre>
 				<p>
 Unbinds whatever texture is currently bound.
@@ -3475,7 +3487,7 @@ Unbinds whatever texture is currently bound.
 		
 			
 			
-			<h2 id="TypeUtils">type <a href="/target/types.go?s=2079:2104#L55">TypeUtils</a></h2>
+			<h2 id="TypeUtils">type <a href="/target/type-utils.go?s=2079:2104#L55">TypeUtils</a></h2>
 			<pre>type TypeUtils struct {
 }</pre>
 			<p>
@@ -3493,7 +3505,7 @@ A singleton type, only used for the package-global ugl.Typed variable.
 
 			
 				
-				<h3 id="TypeUtils.Clamp">func (TypeUtils) <a href="/target/types.go?s=2155:2212#L59">Clamp</a></h3>
+				<h3 id="TypeUtils.Clamp">func (TypeUtils) <a href="/target/type-utils.go?s=2155:2212#L59">Clamp</a></h3>
 				<pre>func (_ TypeUtils) Clamp(val, min, max gl.Float) gl.Float</pre>
 				<p>
 Clamps the specified val between min and max.
@@ -3503,7 +3515,7 @@ Clamps the specified val between min and max.
 				
 			
 				
-				<h3 id="TypeUtils.Ifb">func (TypeUtils) <a href="/target/types.go?s=2423:2504#L71">Ifb</a></h3>
+				<h3 id="TypeUtils.Ifb">func (TypeUtils) <a href="/target/type-utils.go?s=2423:2504#L71">Ifb</a></h3>
 				<pre>func (_ TypeUtils) Ifb(one, two bool, ifOne, ifTwo, ifBoth gl.Enum) (val gl.Enum)</pre>
 				<p>
 If one but not two, return ifOne. If two but not one, return ifTwo. Else, return ifBoth.
@@ -3513,7 +3525,7 @@ If one but not two, return ifOne. If two but not one, return ifTwo. Else, return
 				
 			
 				
-				<h3 id="TypeUtils.Ife">func (TypeUtils) <a href="/target/types.go?s=2679:2745#L83">Ife</a></h3>
+				<h3 id="TypeUtils.Ife">func (TypeUtils) <a href="/target/type-utils.go?s=2679:2745#L83">Ife</a></h3>
 				<pre>func (_ TypeUtils) Ife(cond bool, ifTrue, ifFalse gl.Enum) gl.Enum</pre>
 				<p>
 Returns ifTrue if cond is true, otherwise returns ifFalse.
@@ -3523,7 +3535,7 @@ Returns ifTrue if cond is true, otherwise returns ifFalse.
 				
 			
 				
-				<h3 id="TypeUtils.Ifi">func (TypeUtils) <a href="/target/types.go?s=2859:2923#L91">Ifi</a></h3>
+				<h3 id="TypeUtils.Ifi">func (TypeUtils) <a href="/target/type-utils.go?s=2859:2923#L91">Ifi</a></h3>
 				<pre>func (_ TypeUtils) Ifi(cond bool, ifTrue, ifFalse gl.Int) gl.Int</pre>
 				<p>
 Returns ifTrue if cond is true, otherwise returns ifFalse.
@@ -3596,7 +3608,7 @@ Sets up this vertex array object, associating it with the specified buffer objec
 				
 			
 				
-				<h3 id="VertexArray.Unbind">func (VertexArray) <a href="/target/gl-vertex-array.go?s=1398:1427#L43">Unbind</a></h3>
+				<h3 id="VertexArray.Unbind">func (VertexArray) <a href="/target/gl-vertex-array.go?s=1402:1431#L43">Unbind</a></h3>
 				<pre>func (_ VertexArray) Unbind()</pre>
 				<p>
 Unbinds whatever vertex array object is currently bound.
@@ -3608,7 +3620,7 @@ Unbinds whatever vertex array object is currently bound.
 		
 			
 			
-			<h2 id="VertexAttribPointer">type <a href="/target/gl-vertex-array.go?s=1562:2414#L48">VertexAttribPointer</a></h2>
+			<h2 id="VertexAttribPointer">type <a href="/target/gl-vertex-array.go?s=1566:2418#L48">VertexAttribPointer</a></h2>
 			<pre>type VertexAttribPointer struct {
     <span class="comment">//	The name of the vertex attribute in a Program.AttrLocs hash-table.</span>
     Name string
@@ -3647,7 +3659,7 @@ Encapsulates vertex attribute information used by VertexArray.Setup() to enable 
 
 			
 				
-				<h3 id="NewVertexAttribPointer">func <a href="/target/gl-vertex-array.go?s=2496:2620#L75">NewVertexAttribPointer</a></h3>
+				<h3 id="NewVertexAttribPointer">func <a href="/target/gl-vertex-array.go?s=2500:2624#L75">NewVertexAttribPointer</a></h3>
 				<pre>func NewVertexAttribPointer(name string, loc gl.Uint, size gl.Int, stride gl.Sizei, offset gl.Ptr) (me *VertexAttribPointer)</pre>
 				<p>
 Initializes and returns a new VertexAttribPointer with the specified values.
