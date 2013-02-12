@@ -6,6 +6,33 @@ import (
 	ustr "github.com/metaleap/go-util/str"
 )
 
+//	Used for ProgramManager.RawSources and ProgramManager.FinalRealSources.
+type ProgramSources struct {
+	//	Named shader sources for the Compute Shader stage.
+	Compute map[string]string
+
+	//	Named shader sources for the Fragment Shader stage.
+	Fragment map[string]string
+
+	//	Named shader sources for the Geometry Shader stage.
+	Geometry map[string]string
+
+	//	Named shader sources for the Tessellation Control Shader stage.
+	TessCtl map[string]string
+
+	//	Named shader sources for the Tessellation Evaluation Shader stage.
+	TessEval map[string]string
+
+	//	Named shader sources for the Vertex Shader stage.
+	Vertex map[string]string
+}
+
+func (me *ProgramSources) reset() {
+	for _, field := range []*map[string]string{&me.Compute, &me.Fragment, &me.Geometry, &me.TessCtl, &me.TessEval, &me.Vertex} {
+		*field = map[string]string{}
+	}
+}
+
 //	A simple container to collect multiple program objects by name and compile them all in one go.
 //	Prior to using a ProgramManager, you need to call its Reset() method to allocate/initialize its map fields.
 //	After using a ProgramManager, Reset() cleans up and deletes resources allocated by it.
@@ -24,25 +51,11 @@ type ProgramManager struct {
 
 	//	Shader sources to be linked to named programs by MakeProgramsFromRawSources(),
 	//	each to be associated with a name that is also in Names.
-	RawSources struct {
-		//	Named shader sources for the Compute Shader stage.
-		Compute map[string]string
+	RawSources ProgramSources
 
-		//	Named shader sources for the Fragment Shader stage.
-		Fragment map[string]string
-
-		//	Named shader sources for the Geometry Shader stage.
-		Geometry map[string]string
-
-		//	Named shader sources for the Tessellation Control Shader stage.
-		TessCtl map[string]string
-
-		//	Named shader sources for the Tessellation Evaluation Shader stage.
-		TessEval map[string]string
-
-		//	Named shader sources for the Vertex Shader stage.
-		Vertex map[string]string
-	}
+	//	Repopulated by each MakeProgramsFromRawSources() call, contains the actual
+	//	full GLSL source strings as sent to GL, including #define and #version directives.
+	FinalRealSources ProgramSources
 }
 
 //	Creates copies of all RawSources with srcName as dstName, and adds dstName to me.Names.
@@ -71,7 +84,10 @@ func (me *ProgramManager) CloneRawSources(srcName, dstName string) (cloned bool)
 //	If an error occurs, this method returns it immediately; otherwise, dur contains the total time taken to make all Programs.
 func (me *ProgramManager) MakeProgramsFromRawSources(forceAll bool, forceSome ...string) (dur time.Duration, err error) {
 	var prog *Program
+	var srcCx, srcFx, srcGx, srcHx, srcDx, srcVx, srcTmp string
+	var tmpMap *map[string]string
 	rs, timeStart, names := &me.RawSources, time.Now(), me.Names
+	me.FinalRealSources.reset()
 	if len(forceSome) > 0 {
 		names, forceAll = forceSome, true
 	}
@@ -87,11 +103,23 @@ func (me *ProgramManager) MakeProgramsFromRawSources(forceAll bool, forceSome ..
 				return
 			}
 		}
-		if err = prog.CompileAndLinkShaders(rs.Compute[name], rs.Fragment[name], rs.Geometry[name], rs.TessCtl[name], rs.TessEval[name], rs.Vertex[name], me.Defines); err != nil {
+		srcCx, srcFx, srcGx, srcHx, srcDx, srcVx = rs.Compute[name], rs.Fragment[name], rs.Geometry[name], rs.TessCtl[name], rs.TessEval[name], rs.Vertex[name]
+		if err = prog.CompileAndLinkShaders(&srcCx, &srcFx, &srcGx, &srcHx, &srcDx, &srcVx, me.Defines); err != nil {
 			prog.Dispose()
 			return
 		} else {
 			me.Programs[name] = prog
+			for tmpMap, srcTmp = range map[*map[string]string]string{
+				&me.FinalRealSources.Compute:  srcCx,
+				&me.FinalRealSources.Fragment: srcFx,
+				&me.FinalRealSources.Geometry: srcGx,
+				&me.FinalRealSources.TessCtl:  srcHx,
+				&me.FinalRealSources.TessEval: srcDx,
+				&me.FinalRealSources.Vertex:   srcVx,
+			} {
+				(*tmpMap)[name] = srcTmp
+			}
+
 		}
 	}
 	dur = time.Now().Sub(timeStart)
@@ -108,8 +136,6 @@ func (me *ProgramManager) Reset() {
 	}
 	me.Programs = map[string]*Program{}
 	me.Defines = map[string]interface{}{}
-	rs := &me.RawSources
-	for _, field := range []*map[string]string{&rs.Compute, &rs.Fragment, &rs.Geometry, &rs.TessCtl, &rs.TessEval, &rs.Vertex} {
-		*field = map[string]string{}
-	}
+	me.RawSources.reset()
+	me.FinalRealSources.reset()
 }

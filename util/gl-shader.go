@@ -21,8 +21,6 @@ type Shader struct {
 	//	The shader stage provided by this shader,
 	//	such as for example gl.FRAGMENT_SHADER, gl.VERTEX_SHADER, etc.
 	Stage gl.Enum
-
-	lastSetSource string
 }
 
 //	Initializes and returns --but does not Create()-- a new Shader with the specified name and shader stage.
@@ -85,7 +83,6 @@ func (me *Shader) StageName() (sn string) {
 func (me *Shader) Compile() (err error) {
 	if gl.CompileShader(me.GlHandle); me.ParamInt(gl.COMPILE_STATUS) == gl.FALSE {
 		err = fmt.Errorf("%s'%s'.Compile() error: %s\n", me.StageName(), me.Name, me.InfoLog())
-		println("\n\n==>\n" + me.lastSetSource + "\n<==\n\n")
 	}
 	return
 }
@@ -124,7 +121,7 @@ func (me *Shader) ParamInt(pname gl.Enum) (iv gl.Int) {
 //	Replaces the GLSL source code in this shader object with source,
 //	prepending a #version (core) directive with the current Support.Glsl.Version.Num
 //	and #define directives for all specified name-value pairs in defines.
-func (me *Shader) SetSource(source string, defines map[string]interface{}) (err error) {
+func (me *Shader) SetSource(source string, defines map[string]interface{}) (finalRealSrc string, err error) {
 	i, lines := 1, make([]string, (len(defines)*5)+3)
 	lines[0] = sfmt("#version %v core\n", Support.Glsl.Version.Num)
 	if len(defines) > 0 {
@@ -139,7 +136,7 @@ func (me *Shader) SetSource(source string, defines map[string]interface{}) (err 
 	}
 	lines[i] = "#line 1\n"
 	lines[i+1] = source
-	me.lastSetSource = strings.Join(lines, "")
+	finalRealSrc = strings.Join(lines, "")
 	src := gl.Util.CStringArray(lines...)
 	defer gl.Util.CStringArrayFree(src)
 	err = Try.ShaderSource(me.GlHandle, gl.Sizei(len(src)), &src[0], nil)

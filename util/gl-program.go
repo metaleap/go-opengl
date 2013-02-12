@@ -33,15 +33,18 @@ func NewProgram(name string) (me *Program) {
 }
 
 //	Creates and compiles Shader stages for the specified sources (and defines) and links them together in this Program.
-func (me *Program) CompileAndLinkShaders(compute, fragment, geometry, tessCtl, tessEval, vertex string, defines map[string]interface{}) (err error) {
+//	All sources are string pointers and WILL be modified by this method to contain the final real
+//	GLSL source string sent to GL as returned by Shader.SetSource(). This may aid diagnostics or be discarded,
+//	but a source string should not be re-sent to a subsequent compilation in that modified form.
+func (me *Program) CompileAndLinkShaders(compute, fragment, geometry, tessCtl, tessEval, vertex *string, defines map[string]interface{}) (err error) {
 	type shaderCtor func(string) *Shader
 	var (
 		ctor       shaderCtor
-		source     string
+		source     *string
 		shader     *Shader
 		allShaders []*Shader
 	)
-	for source, ctor = range map[string]shaderCtor{
+	for source, ctor = range map[*string]shaderCtor{
 		compute:  NewComputeShader,
 		fragment: NewFragmentShader,
 		geometry: NewGeometryShader,
@@ -49,13 +52,13 @@ func (me *Program) CompileAndLinkShaders(compute, fragment, geometry, tessCtl, t
 		tessEval: NewTessEvalShader,
 		vertex:   NewVertexShader,
 	} {
-		if len(source) > 0 {
+		if len(*source) > 0 {
 			if shader = ctor(me.Name); shader != nil {
 				if err = shader.Create(); err != nil {
 					return
 				}
 				defer shader.Dispose()
-				if err = shader.SetSource(source, defines); err != nil {
+				if *source, err = shader.SetSource(*source, defines); err != nil {
 					return
 				}
 				if err = shader.Compile(); err != nil {
