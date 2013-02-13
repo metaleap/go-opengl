@@ -36,11 +36,6 @@ func (me *Framebuffer) Bind() {
 	gl.BindFramebuffer(me.GlTarget, me.GlHandle)
 }
 
-//	Binds the (zero-based) Nth FramebufferRendertexture that was attached to this Framebuffer.
-func (me *Framebuffer) BindTexture(index int) {
-	me.rendertextures[index].Bind()
-}
-
 //	Creates this Framebuffer in OpenGL sized as specified.
 func (me *Framebuffer) Create(width, height gl.Sizei, read bool) {
 	me.width, me.height = width, height
@@ -95,6 +90,10 @@ func (me *Framebuffer) reinitTexture(tex *FramebufferRendertexture) {
 		gl.FramebufferTexture2D(me.GlTarget, tex.Attachment, tex.GlTarget, tex.GlHandle, 0)
 		me.Unbind()
 	}
+}
+
+func (me *Framebuffer) RenderTexture(index int) *FramebufferRendertexture {
+	return me.rendertextures[index]
 }
 
 //	Resizes this Framebuffer and all attached render textures and render buffers.

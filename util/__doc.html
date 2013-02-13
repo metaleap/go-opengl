@@ -164,13 +164,13 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 					<dd>&nbsp; &nbsp; <a href="#Framebuffer.Bind">func (me *Framebuffer) Bind()</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#Framebuffer.BindTexture">func (me *Framebuffer) BindTexture(index int)</a></dd>
-				
-					
 					<dd>&nbsp; &nbsp; <a href="#Framebuffer.Create">func (me *Framebuffer) Create(width, height gl.Sizei, read bool)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#Framebuffer.Dispose">func (me *Framebuffer) Dispose()</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Framebuffer.RenderTexture">func (me *Framebuffer) RenderTexture(index int) *FramebufferRendertexture</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#Framebuffer.Resize">func (me *Framebuffer) Resize(width, height gl.Sizei) (resized bool)</a></dd>
@@ -1318,17 +1318,7 @@ Binds this framebuffer object.
 				
 			
 				
-				<h3 id="Framebuffer.BindTexture">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1157:1202#L30">BindTexture</a></h3>
-				<pre>func (me *Framebuffer) BindTexture(index int)</pre>
-				<p>
-Binds the (zero-based) Nth FramebufferRendertexture that was attached to this Framebuffer.
-</p>
-
-				
-				
-			
-				
-				<h3 id="Framebuffer.Create">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1299:1363#L35">Create</a></h3>
+				<h3 id="Framebuffer.Create">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1121:1185#L30">Create</a></h3>
 				<pre>func (me *Framebuffer) Create(width, height gl.Sizei, read bool)</pre>
 				<p>
 Creates this Framebuffer in OpenGL sized as specified.
@@ -1338,7 +1328,7 @@ Creates this Framebuffer in OpenGL sized as specified.
 				
 			
 				
-				<h3 id="Framebuffer.Dispose">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1747:1779#L48">Dispose</a></h3>
+				<h3 id="Framebuffer.Dispose">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1569:1601#L43">Dispose</a></h3>
 				<pre>func (me *Framebuffer) Dispose()</pre>
 				<p>
 Deletes this Framebuffer and all attached render textures and render buffers from OpenGL.
@@ -1348,7 +1338,14 @@ Deletes this Framebuffer and all attached render textures and render buffers fro
 				
 			
 				
-				<h3 id="Framebuffer.Resize">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=2903:2971#L91">Resize</a></h3>
+				<h3 id="Framebuffer.RenderTexture">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=2644:2717#L85">RenderTexture</a></h3>
+				<pre>func (me *Framebuffer) RenderTexture(index int) *FramebufferRendertexture</pre>
+				
+				
+				
+			
+				
+				<h3 id="Framebuffer.Resize">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=2837:2905#L90">Resize</a></h3>
 				<pre>func (me *Framebuffer) Resize(width, height gl.Sizei) (resized bool)</pre>
 				<p>
 Resizes this Framebuffer and all attached render textures and render buffers.
@@ -1358,7 +1355,7 @@ Resizes this Framebuffer and all attached render textures and render buffers.
 				
 			
 				
-				<h3 id="Framebuffer.Status">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3326:3365#L105">Status</a></h3>
+				<h3 id="Framebuffer.Status">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3260:3299#L104">Status</a></h3>
 				<pre>func (me *Framebuffer) Status() gl.Enum</pre>
 				<p>
 The current status of this Framebuffer as returned by gl.CheckFramebufferStatus().
@@ -1368,7 +1365,7 @@ The current status of this Framebuffer as returned by gl.CheckFramebufferStatus(
 				
 			
 				
-				<h3 id="Framebuffer.Unbind">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3552:3583#L111">Unbind</a></h3>
+				<h3 id="Framebuffer.Unbind">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3486:3517#L110">Unbind</a></h3>
 				<pre>func (me *Framebuffer) Unbind()</pre>
 				<p>
 Unbinds whatever Framebuffer is currently bound, and binds the
@@ -1381,7 +1378,7 @@ Unbinds whatever Framebuffer is currently bound, and binds the
 		
 			
 			
-			<h2 id="FramebufferRenderbuffer">type <a href="/target/gl-framebuffer.go?s=3693:4030#L116">FramebufferRenderbuffer</a></h2>
+			<h2 id="FramebufferRenderbuffer">type <a href="/target/gl-framebuffer.go?s=3627:3964#L115">FramebufferRenderbuffer</a></h2>
 			<pre>type FramebufferRenderbuffer struct {
     <span class="comment">//	The attachment point of this render buffer.</span>
     <span class="comment">//	Defaults to gl.DEPTH_STENCIL_ATTACHMENT.</span>
@@ -1409,7 +1406,7 @@ Represents a Renderbuffer that can be attached to a Framebuffer.
 
 			
 				
-				<h3 id="NewFramebufferRenderbuffer">func <a href="/target/gl-framebuffer.go?s=4113:4176#L132">NewFramebufferRenderbuffer</a></h3>
+				<h3 id="NewFramebufferRenderbuffer">func <a href="/target/gl-framebuffer.go?s=4047:4110#L131">NewFramebufferRenderbuffer</a></h3>
 				<pre>func NewFramebufferRenderbuffer() (me *FramebufferRenderbuffer)</pre>
 				<p>
 Initializes a new FramebufferRenderbuffer with default values and returns it.
@@ -1420,7 +1417,7 @@ Initializes a new FramebufferRenderbuffer with default values and returns it.
 
 			
 				
-				<h3 id="FramebufferRenderbuffer.Bind">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4362:4403#L138">Bind</a></h3>
+				<h3 id="FramebufferRenderbuffer.Bind">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4296:4337#L137">Bind</a></h3>
 				<pre>func (me *FramebufferRenderbuffer) Bind()</pre>
 				<p>
 Binds this render buffer object.
@@ -1430,7 +1427,7 @@ Binds this render buffer object.
 				
 			
 				
-				<h3 id="FramebufferRenderbuffer.Unbind">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4661:4704#L150">Unbind</a></h3>
+				<h3 id="FramebufferRenderbuffer.Unbind">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4595:4638#L149">Unbind</a></h3>
 				<pre>func (me *FramebufferRenderbuffer) Unbind()</pre>
 				<p>
 Unbinds whatever render buffer object is currently bound, if any.
@@ -1442,7 +1439,7 @@ Unbinds whatever render buffer object is currently bound, if any.
 		
 			
 			
-			<h2 id="FramebufferRendertexture">type <a href="/target/gl-framebuffer.go?s=4827:5036#L155">FramebufferRendertexture</a></h2>
+			<h2 id="FramebufferRendertexture">type <a href="/target/gl-framebuffer.go?s=4761:4970#L154">FramebufferRendertexture</a></h2>
 			<pre>type FramebufferRendertexture struct {
     <span class="comment">//	The texture object being rendered to.</span>
     Texture2D
@@ -1464,7 +1461,7 @@ Represents a render-to-texture object that can be attached to a Framebuffer.
 
 			
 				
-				<h3 id="NewFramebufferRendertexture">func <a href="/target/gl-framebuffer.go?s=5148:5228#L165">NewFramebufferRendertexture</a></h3>
+				<h3 id="NewFramebufferRendertexture">func <a href="/target/gl-framebuffer.go?s=5082:5162#L164">NewFramebufferRendertexture</a></h3>
 				<pre>func NewFramebufferRendertexture(rectTarget bool) (me *FramebufferRendertexture)</pre>
 				<p>
 Initializes --but does not Recreate()-- a new FramebufferRendertexture with default values and returns it.
