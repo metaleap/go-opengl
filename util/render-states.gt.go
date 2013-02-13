@@ -30,7 +30,7 @@ type RenderStatesBag struct {
 type RenderStates struct {
 }
 
-//	Calls the applicable me.SetFoo() methods for all render states in bag (except those in Other).
+//	Calls the applicable me.SetFoo() methods for all render states in bag (except those in bag.Other).
 func (me RenderStates) Apply(bag *RenderStatesBag) {
 	me.SetBlending(bag.Blending)
 	me.SetDepthTest(bag.DepthTest)
@@ -60,7 +60,6 @@ var rsBlending bool
 //	Disables blending only if it is currently enabled.
 func (me RenderStates) DisableBlending() {
 	if rsBlending {
-		// me.ForceDisableBlending()
 		rsBlending = false
 		gl.Disable(gl.BLEND)
 	}
@@ -69,7 +68,6 @@ func (me RenderStates) DisableBlending() {
 //	Enables blending only if it is currently disabled.
 func (me RenderStates) EnableBlending() {
 	if !rsBlending {
-		// me.ForceEnableBlending()
 		rsBlending = true
 		gl.Enable(gl.BLEND)
 	}
@@ -89,11 +87,6 @@ func (_ RenderStates) ForceEnableBlending() {
 
 //	Activates or deactivates blending.
 func (me RenderStates) SetBlending(newBlending bool) {
-	// if Blending {
-	// 	me.EnableBlending()
-	// } else {
-	// 	me.DisableBlending()
-	// }
 	if rsBlending != newBlending {
 		if rsBlending = newBlending; rsBlending {
 			gl.Enable(gl.BLEND)
@@ -105,11 +98,6 @@ func (me RenderStates) SetBlending(newBlending bool) {
 
 //	Toggles blending.
 func (me RenderStates) ToggleBlending() {
-	// if rsBlending {
-	// 	me.ForceDisableBlending()
-	// } else {
-	// 	me.ForceEnableBlending()
-	// }
 	if rsBlending = !rsBlending; rsBlending {
 		gl.Enable(gl.BLEND)
 	} else {
@@ -124,7 +112,6 @@ var rsDepthTest bool
 //	Disables depth-testing only if it is currently enabled.
 func (me RenderStates) DisableDepthTest() {
 	if rsDepthTest {
-		// me.ForceDisableDepthTest()
 		rsDepthTest = false
 		gl.Disable(gl.DEPTH_TEST)
 	}
@@ -133,7 +120,6 @@ func (me RenderStates) DisableDepthTest() {
 //	Enables depth-testing only if it is currently disabled.
 func (me RenderStates) EnableDepthTest() {
 	if !rsDepthTest {
-		// me.ForceEnableDepthTest()
 		rsDepthTest = true
 		gl.Enable(gl.DEPTH_TEST)
 	}
@@ -153,11 +139,6 @@ func (_ RenderStates) ForceEnableDepthTest() {
 
 //	Activates or deactivates depth-testing.
 func (me RenderStates) SetDepthTest(newDepthTest bool) {
-	// if DepthTest {
-	// 	me.EnableDepthTest()
-	// } else {
-	// 	me.DisableDepthTest()
-	// }
 	if rsDepthTest != newDepthTest {
 		if rsDepthTest = newDepthTest; rsDepthTest {
 			gl.Enable(gl.DEPTH_TEST)
@@ -169,11 +150,6 @@ func (me RenderStates) SetDepthTest(newDepthTest bool) {
 
 //	Toggles depth-testing.
 func (me RenderStates) ToggleDepthTest() {
-	// if rsDepthTest {
-	// 	me.ForceDisableDepthTest()
-	// } else {
-	// 	me.ForceEnableDepthTest()
-	// }
 	if rsDepthTest = !rsDepthTest; rsDepthTest {
 		gl.Enable(gl.DEPTH_TEST)
 	} else {
@@ -188,7 +164,6 @@ var rsFaceCulling bool
 //	Disables face-culling only if it is currently enabled.
 func (me RenderStates) DisableFaceCulling() {
 	if rsFaceCulling {
-		// me.ForceDisableFaceCulling()
 		rsFaceCulling = false
 		gl.Disable(gl.CULL_FACE)
 	}
@@ -197,7 +172,6 @@ func (me RenderStates) DisableFaceCulling() {
 //	Enables face-culling only if it is currently disabled.
 func (me RenderStates) EnableFaceCulling() {
 	if !rsFaceCulling {
-		// me.ForceEnableFaceCulling()
 		rsFaceCulling = true
 		gl.Enable(gl.CULL_FACE)
 	}
@@ -217,11 +191,6 @@ func (_ RenderStates) ForceEnableFaceCulling() {
 
 //	Activates or deactivates face-culling.
 func (me RenderStates) SetFaceCulling(newFaceCulling bool) {
-	// if FaceCulling {
-	// 	me.EnableFaceCulling()
-	// } else {
-	// 	me.DisableFaceCulling()
-	// }
 	if rsFaceCulling != newFaceCulling {
 		if rsFaceCulling = newFaceCulling; rsFaceCulling {
 			gl.Enable(gl.CULL_FACE)
@@ -233,11 +202,6 @@ func (me RenderStates) SetFaceCulling(newFaceCulling bool) {
 
 //	Toggles face-culling.
 func (me RenderStates) ToggleFaceCulling() {
-	// if rsFaceCulling {
-	// 	me.ForceDisableFaceCulling()
-	// } else {
-	// 	me.ForceEnableFaceCulling()
-	// }
 	if rsFaceCulling = !rsFaceCulling; rsFaceCulling {
 		gl.Enable(gl.CULL_FACE)
 	} else {
@@ -252,7 +216,6 @@ var rsFramebufferSrgb bool
 //	Disables SRGB-framebuffer only if it is currently enabled.
 func (me RenderStates) DisableFramebufferSrgb() {
 	if rsFramebufferSrgb {
-		// me.ForceDisableFramebufferSrgb()
 		rsFramebufferSrgb = false
 		gl.Disable(gl.FRAMEBUFFER_SRGB)
 	}
@@ -261,7 +224,6 @@ func (me RenderStates) DisableFramebufferSrgb() {
 //	Enables SRGB-framebuffer only if it is currently disabled.
 func (me RenderStates) EnableFramebufferSrgb() {
 	if !rsFramebufferSrgb {
-		// me.ForceEnableFramebufferSrgb()
 		rsFramebufferSrgb = true
 		gl.Enable(gl.FRAMEBUFFER_SRGB)
 	}
@@ -281,11 +243,6 @@ func (_ RenderStates) ForceEnableFramebufferSrgb() {
 
 //	Activates or deactivates SRGB-framebuffer.
 func (me RenderStates) SetFramebufferSrgb(newFramebufferSrgb bool) {
-	// if FramebufferSrgb {
-	// 	me.EnableFramebufferSrgb()
-	// } else {
-	// 	me.DisableFramebufferSrgb()
-	// }
 	if rsFramebufferSrgb != newFramebufferSrgb {
 		if rsFramebufferSrgb = newFramebufferSrgb; rsFramebufferSrgb {
 			gl.Enable(gl.FRAMEBUFFER_SRGB)
@@ -297,11 +254,6 @@ func (me RenderStates) SetFramebufferSrgb(newFramebufferSrgb bool) {
 
 //	Toggles SRGB-framebuffer.
 func (me RenderStates) ToggleFramebufferSrgb() {
-	// if rsFramebufferSrgb {
-	// 	me.ForceDisableFramebufferSrgb()
-	// } else {
-	// 	me.ForceEnableFramebufferSrgb()
-	// }
 	if rsFramebufferSrgb = !rsFramebufferSrgb; rsFramebufferSrgb {
 		gl.Enable(gl.FRAMEBUFFER_SRGB)
 	} else {
@@ -316,7 +268,6 @@ var rsScissorTest bool
 //	Disables scissor-testing only if it is currently enabled.
 func (me RenderStates) DisableScissorTest() {
 	if rsScissorTest {
-		// me.ForceDisableScissorTest()
 		rsScissorTest = false
 		gl.Disable(gl.SCISSOR_TEST)
 	}
@@ -325,7 +276,6 @@ func (me RenderStates) DisableScissorTest() {
 //	Enables scissor-testing only if it is currently disabled.
 func (me RenderStates) EnableScissorTest() {
 	if !rsScissorTest {
-		// me.ForceEnableScissorTest()
 		rsScissorTest = true
 		gl.Enable(gl.SCISSOR_TEST)
 	}
@@ -345,11 +295,6 @@ func (_ RenderStates) ForceEnableScissorTest() {
 
 //	Activates or deactivates scissor-testing.
 func (me RenderStates) SetScissorTest(newScissorTest bool) {
-	// if ScissorTest {
-	// 	me.EnableScissorTest()
-	// } else {
-	// 	me.DisableScissorTest()
-	// }
 	if rsScissorTest != newScissorTest {
 		if rsScissorTest = newScissorTest; rsScissorTest {
 			gl.Enable(gl.SCISSOR_TEST)
@@ -361,11 +306,6 @@ func (me RenderStates) SetScissorTest(newScissorTest bool) {
 
 //	Toggles scissor-testing.
 func (me RenderStates) ToggleScissorTest() {
-	// if rsScissorTest {
-	// 	me.ForceDisableScissorTest()
-	// } else {
-	// 	me.ForceEnableScissorTest()
-	// }
 	if rsScissorTest = !rsScissorTest; rsScissorTest {
 		gl.Enable(gl.SCISSOR_TEST)
 	} else {
@@ -380,7 +320,6 @@ var rsStencilTest bool
 //	Disables stencil-testing only if it is currently enabled.
 func (me RenderStates) DisableStencilTest() {
 	if rsStencilTest {
-		// me.ForceDisableStencilTest()
 		rsStencilTest = false
 		gl.Disable(gl.STENCIL_TEST)
 	}
@@ -389,7 +328,6 @@ func (me RenderStates) DisableStencilTest() {
 //	Enables stencil-testing only if it is currently disabled.
 func (me RenderStates) EnableStencilTest() {
 	if !rsStencilTest {
-		// me.ForceEnableStencilTest()
 		rsStencilTest = true
 		gl.Enable(gl.STENCIL_TEST)
 	}
@@ -409,11 +347,6 @@ func (_ RenderStates) ForceEnableStencilTest() {
 
 //	Activates or deactivates stencil-testing.
 func (me RenderStates) SetStencilTest(newStencilTest bool) {
-	// if StencilTest {
-	// 	me.EnableStencilTest()
-	// } else {
-	// 	me.DisableStencilTest()
-	// }
 	if rsStencilTest != newStencilTest {
 		if rsStencilTest = newStencilTest; rsStencilTest {
 			gl.Enable(gl.STENCIL_TEST)
@@ -425,11 +358,6 @@ func (me RenderStates) SetStencilTest(newStencilTest bool) {
 
 //	Toggles stencil-testing.
 func (me RenderStates) ToggleStencilTest() {
-	// if rsStencilTest {
-	// 	me.ForceDisableStencilTest()
-	// } else {
-	// 	me.ForceEnableStencilTest()
-	// }
 	if rsStencilTest = !rsStencilTest; rsStencilTest {
 		gl.Enable(gl.STENCIL_TEST)
 	} else {
