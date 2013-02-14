@@ -10,14 +10,14 @@ var (
 
 //	Encapsulates a particular combination of render-states that RenderStates can Apply().
 type RenderStatesBag struct {
-	Blending        bool
-	DepthTest       bool
-	FaceCulling     bool
-	FramebufferSrgb bool
-	StencilTest     bool
-	ClearColor      GlVec4
-	Other           struct {
-		ClearBits gl.Bitfield
+	Blending    bool
+	DepthTest   bool
+	FaceCulling bool
+	StencilTest bool
+	ClearColor  GlVec4
+	Other       struct {
+		FramebufferSrgb bool
+		ClearBits       gl.Bitfield
 	}
 }
 
@@ -35,7 +35,6 @@ func (me RenderStates) Apply(bag *RenderStatesBag) {
 	me.SetBlending(bag.Blending)
 	me.SetDepthTest(bag.DepthTest)
 	me.SetFaceCulling(bag.FaceCulling)
-	me.SetFramebufferSrgb(bag.FramebufferSrgb)
 	me.SetStencilTest(bag.StencilTest)
 	me.SetClearColor(bag.ClearColor)
 }
@@ -105,8 +104,6 @@ func (me RenderStates) ToggleBlending() {
 	}
 }
 
-
-
 var rsDepthTest bool
 
 //	Disables depth-testing only if it is currently enabled.
@@ -156,8 +153,6 @@ func (me RenderStates) ToggleDepthTest() {
 		gl.Disable(gl.DEPTH_TEST)
 	}
 }
-
-
 
 var rsFaceCulling bool
 
@@ -209,8 +204,6 @@ func (me RenderStates) ToggleFaceCulling() {
 	}
 }
 
-
-
 var rsFramebufferSrgb bool
 
 //	Disables SRGB-framebuffer only if it is currently enabled.
@@ -261,8 +254,6 @@ func (me RenderStates) ToggleFramebufferSrgb() {
 	}
 }
 
-
-
 var rsScissorTest bool
 
 //	Disables scissor-testing only if it is currently enabled.
@@ -312,8 +303,6 @@ func (me RenderStates) ToggleScissorTest() {
 		gl.Disable(gl.SCISSOR_TEST)
 	}
 }
-
-
 
 var rsStencilTest bool
 

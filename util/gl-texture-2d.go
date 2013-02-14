@@ -71,9 +71,14 @@ func (me *Texture2D) SetFromImage(img image.Image, flipY, convertToLinear bool) 
 	me.Width, me.Height = gl.Sizei(img.Bounds().Dx()), gl.Sizei(img.Bounds().Dy())
 	me.MipMap.NumLevels = me.MaxNumMipLevels()
 	procPic := func(pic ugfx.Picture) ugfx.Picture {
-		if flipY {
-			cl := ugfx.CloneImage(img, false)
-			ugfx.FlipVertical(img, cl)
+		if flipY || convertToLinear {
+			cl := ugfx.CloneImage(img, !flipY)
+			if flipY {
+				ugfx.FlipVertical(img, cl)
+			}
+			if convertToLinear {
+				ugfx.SrgbToLinear(cl, cl)
+			}
 			pic = cl
 		}
 		return pic
