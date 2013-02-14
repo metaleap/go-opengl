@@ -105,8 +105,6 @@ func (me RenderStates) ToggleBlending() {
 	}
 }
 
-
-
 var rsDepthTest bool
 
 //	Disables depth-testing only if it is currently enabled.
@@ -156,8 +154,6 @@ func (me RenderStates) ToggleDepthTest() {
 		gl.Disable(gl.DEPTH_TEST)
 	}
 }
-
-
 
 var rsFaceCulling bool
 
@@ -209,8 +205,6 @@ func (me RenderStates) ToggleFaceCulling() {
 	}
 }
 
-
-
 var rsFramebufferSrgb bool
 
 //	Disables SRGB-framebuffer only if it is currently enabled.
@@ -261,8 +255,6 @@ func (me RenderStates) ToggleFramebufferSrgb() {
 	}
 }
 
-
-
 var rsScissorTest bool
 
 //	Disables scissor-testing only if it is currently enabled.
@@ -312,8 +304,6 @@ func (me RenderStates) ToggleScissorTest() {
 		gl.Disable(gl.SCISSOR_TEST)
 	}
 }
-
-
 
 var rsStencilTest bool
 
