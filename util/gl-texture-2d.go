@@ -7,7 +7,6 @@ import (
 	"reflect"
 
 	gl "github.com/go3d/go-opengl/core"
-	ugfx "github.com/metaleap/go-util/gfx"
 )
 
 //	Represents a 2-dimensional texture image.
@@ -66,61 +65,40 @@ func (me *Texture2D) Recreate() (err error) {
 //	Prepares this Texture2D for uploading the specified Image via Recreate().
 //	This sets all of the following fields to applicable values:
 //	me.PixelData.Type, me.PixelData.Format, me.PixelData.Ptr, me.Width, me.Height, me.MipMap.NumLevels, me.SizedInternalFormat
-func (me *Texture2D) SetFromImage(img image.Image, flipY, convertToLinear bool) (err error) {
+func (me *Texture2D) SetFromImage(img image.Image) (err error) {
 	me.PixelData.Type = gl.UNSIGNED_BYTE
 	me.Width, me.Height = gl.Sizei(img.Bounds().Dx()), gl.Sizei(img.Bounds().Dy())
 	me.MipMap.NumLevels = me.MaxNumMipLevels()
-	procPic := func(pic ugfx.Picture) ugfx.Picture {
-		if flipY || convertToLinear {
-			cl := ugfx.CloneImage(img, !flipY)
-			if flipY {
-				ugfx.FlipVertical(img, cl)
-			}
-			if convertToLinear {
-				ugfx.SrgbToLinear(cl, cl)
-			}
-			pic = cl
-		}
-		return pic
-	}
 	switch pic := img.(type) {
 	case *image.Alpha:
-		pic = procPic(pic).(*image.Alpha)
 		me.SizedInternalFormat = gl.R8
 		me.PixelData.Format = gl.RED
 		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
 	case *image.Alpha16:
-		pic = procPic(pic).(*image.Alpha16)
 		me.SizedInternalFormat = gl.R16
 		me.PixelData.Format = gl.RED
 		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
 	case *image.Gray:
-		pic = procPic(pic).(*image.Gray)
 		me.SizedInternalFormat = gl.R8
 		me.PixelData.Format = gl.RED
 		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
 	case *image.Gray16:
-		pic = procPic(pic).(*image.Gray16)
 		me.SizedInternalFormat = gl.R16
 		me.PixelData.Format = gl.RED
 		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
 	case *image.NRGBA:
-		pic = procPic(pic).(*image.NRGBA)
 		me.SizedInternalFormat = gl.RGBA8
 		me.PixelData.Format = gl.RGBA
 		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
 	case *image.NRGBA64:
-		pic = procPic(pic).(*image.NRGBA64)
 		me.SizedInternalFormat = gl.RGBA16
 		me.PixelData.Format = gl.RGBA
 		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
 	case *image.RGBA:
-		pic = procPic(pic).(*image.RGBA)
 		me.SizedInternalFormat = gl.RGBA8
 		me.PixelData.Format = gl.RGBA
 		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
 	case *image.RGBA64:
-		pic = procPic(pic).(*image.RGBA64)
 		me.SizedInternalFormat = gl.RGBA16
 		me.PixelData.Format = gl.RGBA
 		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])

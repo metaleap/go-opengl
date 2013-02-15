@@ -682,7 +682,7 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 					<dd>&nbsp; &nbsp; <a href="#Texture2D.Recreate">func (me *Texture2D) Recreate() (err error)</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#Texture2D.SetFromImage">func (me *Texture2D) SetFromImage(img image.Image, flipY, convertToLinear bool) (err error)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#Texture2D.SetFromImage">func (me *Texture2D) SetFromImage(img image.Image) (err error)</a></dd>
 				
 			
 				
@@ -2122,7 +2122,7 @@ Used for ProgramManager.RawSources and ProgramManager.FinalRealSources.
 		
 			
 			
-			<h2 id="RenderStates">type <a href="/target/render-states.gt.go?s=864:892#L20">RenderStates</a></h2>
+			<h2 id="RenderStates">type <a href="/target/render-states.gt.go?s=847:875#L20">RenderStates</a></h2>
 			<pre>type RenderStates struct {
 }</pre>
 			<p>
@@ -2146,7 +2146,7 @@ RenderStates instance -- being &#39;singleton&#39; in design, they all utilize t
 
 			
 				
-				<h3 id="RenderStates.Apply">func (RenderStates) <a href="/target/render-states.gt.go?s=996:1046#L24">Apply</a></h3>
+				<h3 id="RenderStates.Apply">func (RenderStates) <a href="/target/render-states.gt.go?s=979:1029#L24">Apply</a></h3>
 				<pre>func (me RenderStates) Apply(bag *RenderStatesBag)</pre>
 				<p>
 Calls the applicable me.SetFoo() methods for all render states in bag (except those in bag.Other).
@@ -2156,7 +2156,7 @@ Calls the applicable me.SetFoo() methods for all render states in bag (except th
 				
 			
 				
-				<h3 id="RenderStates.DisableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2025:2065#L51">DisableBlending</a></h3>
+				<h3 id="RenderStates.DisableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=1964:2004#L50">DisableBlending</a></h3>
 				<pre>func (me RenderStates) DisableBlending()</pre>
 				<p>
 Disables blending only if it is currently enabled.
@@ -2166,7 +2166,7 @@ Disables blending only if it is currently enabled.
 				
 			
 				
-				<h3 id="RenderStates.DisableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3013:3054#L103">DisableDepthTest</a></h3>
+				<h3 id="RenderStates.DisableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=2952:2993#L102">DisableDepthTest</a></h3>
 				<pre>func (me RenderStates) DisableDepthTest()</pre>
 				<p>
 Disables depth-testing only if it is currently enabled.
@@ -2176,7 +2176,7 @@ Disables depth-testing only if it is currently enabled.
 				
 			
 				
-				<h3 id="RenderStates.DisableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4088:4131#L155">DisableFaceCulling</a></h3>
+				<h3 id="RenderStates.DisableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4027:4070#L154">DisableFaceCulling</a></h3>
 				<pre>func (me RenderStates) DisableFaceCulling()</pre>
 				<p>
 Disables face-culling only if it is currently enabled.
@@ -2186,7 +2186,7 @@ Disables face-culling only if it is currently enabled.
 				
 			
 				
-				<h3 id="RenderStates.DisableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5200:5247#L207">DisableFramebufferSrgb</a></h3>
+				<h3 id="RenderStates.DisableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5139:5186#L206">DisableFramebufferSrgb</a></h3>
 				<pre>func (me RenderStates) DisableFramebufferSrgb()</pre>
 				<p>
 Disables SRGB-framebuffer only if it is currently enabled.
@@ -2196,7 +2196,7 @@ Disables SRGB-framebuffer only if it is currently enabled.
 				
 			
 				
-				<h3 id="RenderStates.DisableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=6467:6510#L259">DisableScissorTest</a></h3>
+				<h3 id="RenderStates.DisableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=6406:6449#L258">DisableScissorTest</a></h3>
 				<pre>func (me RenderStates) DisableScissorTest()</pre>
 				<p>
 Disables scissor-testing only if it is currently enabled.
@@ -2206,7 +2206,7 @@ Disables scissor-testing only if it is currently enabled.
 				
 			
 				
-				<h3 id="RenderStates.DisableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7613:7656#L311">DisableStencilTest</a></h3>
+				<h3 id="RenderStates.DisableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7552:7595#L310">DisableStencilTest</a></h3>
 				<pre>func (me RenderStates) DisableStencilTest()</pre>
 				<p>
 Disables stencil-testing only if it is currently enabled.
@@ -2216,7 +2216,7 @@ Disables stencil-testing only if it is currently enabled.
 				
 			
 				
-				<h3 id="RenderStates.EnableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2189:2228#L59">EnableBlending</a></h3>
+				<h3 id="RenderStates.EnableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2128:2167#L58">EnableBlending</a></h3>
 				<pre>func (me RenderStates) EnableBlending()</pre>
 				<p>
 Enables blending only if it is currently disabled.
@@ -2226,7 +2226,7 @@ Enables blending only if it is currently disabled.
 				
 			
 				
-				<h3 id="RenderStates.EnableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3190:3230#L111">EnableDepthTest</a></h3>
+				<h3 id="RenderStates.EnableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3129:3169#L110">EnableDepthTest</a></h3>
 				<pre>func (me RenderStates) EnableDepthTest()</pre>
 				<p>
 Enables depth-testing only if it is currently disabled.
@@ -2236,7 +2236,7 @@ Enables depth-testing only if it is currently disabled.
 				
 			
 				
-				<h3 id="RenderStates.EnableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4269:4311#L163">EnableFaceCulling</a></h3>
+				<h3 id="RenderStates.EnableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4208:4250#L162">EnableFaceCulling</a></h3>
 				<pre>func (me RenderStates) EnableFaceCulling()</pre>
 				<p>
 Enables face-culling only if it is currently disabled.
@@ -2246,7 +2246,7 @@ Enables face-culling only if it is currently disabled.
 				
 			
 				
-				<h3 id="RenderStates.EnableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5404:5450#L215">EnableFramebufferSrgb</a></h3>
+				<h3 id="RenderStates.EnableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5343:5389#L214">EnableFramebufferSrgb</a></h3>
 				<pre>func (me RenderStates) EnableFramebufferSrgb()</pre>
 				<p>
 Enables SRGB-framebuffer only if it is currently disabled.
@@ -2256,7 +2256,7 @@ Enables SRGB-framebuffer only if it is currently disabled.
 				
 			
 				
-				<h3 id="RenderStates.EnableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=6654:6696#L267">EnableScissorTest</a></h3>
+				<h3 id="RenderStates.EnableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=6593:6635#L266">EnableScissorTest</a></h3>
 				<pre>func (me RenderStates) EnableScissorTest()</pre>
 				<p>
 Enables scissor-testing only if it is currently disabled.
@@ -2266,7 +2266,7 @@ Enables scissor-testing only if it is currently disabled.
 				
 			
 				
-				<h3 id="RenderStates.EnableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7800:7842#L319">EnableStencilTest</a></h3>
+				<h3 id="RenderStates.EnableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7739:7781#L318">EnableStencilTest</a></h3>
 				<pre>func (me RenderStates) EnableStencilTest()</pre>
 				<p>
 Enables stencil-testing only if it is currently disabled.
@@ -2276,7 +2276,7 @@ Enables stencil-testing only if it is currently disabled.
 				
 			
 				
-				<h3 id="RenderStates.ForceClearColor">func (RenderStates) <a href="/target/render-states.gt.go?s=1318:1368#L34">ForceClearColor</a></h3>
+				<h3 id="RenderStates.ForceClearColor">func (RenderStates) <a href="/target/render-states.gt.go?s=1257:1307#L33">ForceClearColor</a></h3>
 				<pre>func (_ RenderStates) ForceClearColor(rgba GlVec4)</pre>
 				<p>
 Sets the OpenGL clear-color to the specified rgba.
@@ -2286,7 +2286,7 @@ Sets the OpenGL clear-color to the specified rgba.
 				
 			
 				
-				<h3 id="RenderStates.ForceDisableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2322:2366#L67">ForceDisableBlending</a></h3>
+				<h3 id="RenderStates.ForceDisableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2261:2305#L66">ForceDisableBlending</a></h3>
 				<pre>func (_ RenderStates) ForceDisableBlending()</pre>
 				<p>
 Deactivates blending.
@@ -2296,7 +2296,7 @@ Deactivates blending.
 				
 			
 				
-				<h3 id="RenderStates.ForceDisableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3336:3381#L119">ForceDisableDepthTest</a></h3>
+				<h3 id="RenderStates.ForceDisableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3275:3320#L118">ForceDisableDepthTest</a></h3>
 				<pre>func (_ RenderStates) ForceDisableDepthTest()</pre>
 				<p>
 Deactivates depth-testing.
@@ -2306,7 +2306,7 @@ Deactivates depth-testing.
 				
 			
 				
-				<h3 id="RenderStates.ForceDisableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4419:4466#L171">ForceDisableFaceCulling</a></h3>
+				<h3 id="RenderStates.ForceDisableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4358:4405#L170">ForceDisableFaceCulling</a></h3>
 				<pre>func (_ RenderStates) ForceDisableFaceCulling()</pre>
 				<p>
 Deactivates face-culling.
@@ -2316,7 +2316,7 @@ Deactivates face-culling.
 				
 			
 				
-				<h3 id="RenderStates.ForceDisableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5577:5628#L223">ForceDisableFramebufferSrgb</a></h3>
+				<h3 id="RenderStates.ForceDisableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5516:5567#L222">ForceDisableFramebufferSrgb</a></h3>
 				<pre>func (_ RenderStates) ForceDisableFramebufferSrgb()</pre>
 				<p>
 Deactivates SRGB-framebuffer.
@@ -2326,7 +2326,7 @@ Deactivates SRGB-framebuffer.
 				
 			
 				
-				<h3 id="RenderStates.ForceDisableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=6810:6857#L275">ForceDisableScissorTest</a></h3>
+				<h3 id="RenderStates.ForceDisableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=6749:6796#L274">ForceDisableScissorTest</a></h3>
 				<pre>func (_ RenderStates) ForceDisableScissorTest()</pre>
 				<p>
 Deactivates scissor-testing.
@@ -2336,7 +2336,7 @@ Deactivates scissor-testing.
 				
 			
 				
-				<h3 id="RenderStates.ForceDisableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7956:8003#L327">ForceDisableStencilTest</a></h3>
+				<h3 id="RenderStates.ForceDisableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7895:7942#L326">ForceDisableStencilTest</a></h3>
 				<pre>func (_ RenderStates) ForceDisableStencilTest()</pre>
 				<p>
 Deactivates stencil-testing.
@@ -2346,7 +2346,7 @@ Deactivates stencil-testing.
 				
 			
 				
-				<h3 id="RenderStates.ForceEnableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2437:2480#L73">ForceEnableBlending</a></h3>
+				<h3 id="RenderStates.ForceEnableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2376:2419#L72">ForceEnableBlending</a></h3>
 				<pre>func (_ RenderStates) ForceEnableBlending()</pre>
 				<p>
 Activates blending.
@@ -2356,7 +2356,7 @@ Activates blending.
 				
 			
 				
-				<h3 id="RenderStates.ForceEnableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3463:3507#L125">ForceEnableDepthTest</a></h3>
+				<h3 id="RenderStates.ForceEnableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3402:3446#L124">ForceEnableDepthTest</a></h3>
 				<pre>func (_ RenderStates) ForceEnableDepthTest()</pre>
 				<p>
 Activates depth-testing.
@@ -2366,7 +2366,7 @@ Activates depth-testing.
 				
 			
 				
-				<h3 id="RenderStates.ForceEnableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4548:4594#L177">ForceEnableFaceCulling</a></h3>
+				<h3 id="RenderStates.ForceEnableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4487:4533#L176">ForceEnableFaceCulling</a></h3>
 				<pre>func (_ RenderStates) ForceEnableFaceCulling()</pre>
 				<p>
 Activates face-culling.
@@ -2376,7 +2376,7 @@ Activates face-culling.
 				
 			
 				
-				<h3 id="RenderStates.ForceEnableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5725:5775#L229">ForceEnableFramebufferSrgb</a></h3>
+				<h3 id="RenderStates.ForceEnableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5664:5714#L228">ForceEnableFramebufferSrgb</a></h3>
 				<pre>func (_ RenderStates) ForceEnableFramebufferSrgb()</pre>
 				<p>
 Activates SRGB-framebuffer.
@@ -2386,7 +2386,7 @@ Activates SRGB-framebuffer.
 				
 			
 				
-				<h3 id="RenderStates.ForceEnableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=6945:6991#L281">ForceEnableScissorTest</a></h3>
+				<h3 id="RenderStates.ForceEnableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=6884:6930#L280">ForceEnableScissorTest</a></h3>
 				<pre>func (_ RenderStates) ForceEnableScissorTest()</pre>
 				<p>
 Activates scissor-testing.
@@ -2396,7 +2396,7 @@ Activates scissor-testing.
 				
 			
 				
-				<h3 id="RenderStates.ForceEnableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=8091:8137#L333">ForceEnableStencilTest</a></h3>
+				<h3 id="RenderStates.ForceEnableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=8030:8076#L332">ForceEnableStencilTest</a></h3>
 				<pre>func (_ RenderStates) ForceEnableStencilTest()</pre>
 				<p>
 Activates stencil-testing.
@@ -2406,7 +2406,7 @@ Activates stencil-testing.
 				
 			
 				
-				<h3 id="RenderStates.SetBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2564:2616#L79">SetBlending</a></h3>
+				<h3 id="RenderStates.SetBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2503:2555#L78">SetBlending</a></h3>
 				<pre>func (me RenderStates) SetBlending(newBlending bool)</pre>
 				<p>
 Activates or deactivates blending.
@@ -2416,7 +2416,7 @@ Activates or deactivates blending.
 				
 			
 				
-				<h3 id="RenderStates.SetClearColor">func (RenderStates) <a href="/target/render-states.gt.go?s=1558:1607#L40">SetClearColor</a></h3>
+				<h3 id="RenderStates.SetClearColor">func (RenderStates) <a href="/target/render-states.gt.go?s=1497:1546#L39">SetClearColor</a></h3>
 				<pre>func (me RenderStates) SetClearColor(rgba GlVec4)</pre>
 				<p>
 Sets the OpenGL clear-color if rgba differs from the currently cached value.
@@ -2426,7 +2426,7 @@ Sets the OpenGL clear-color if rgba differs from the currently cached value.
 				
 			
 				
-				<h3 id="RenderStates.SetDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3602:3656#L131">SetDepthTest</a></h3>
+				<h3 id="RenderStates.SetDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3541:3595#L130">SetDepthTest</a></h3>
 				<pre>func (me RenderStates) SetDepthTest(newDepthTest bool)</pre>
 				<p>
 Activates or deactivates depth-testing.
@@ -2436,7 +2436,7 @@ Activates or deactivates depth-testing.
 				
 			
 				
-				<h3 id="RenderStates.SetFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4689:4747#L183">SetFaceCulling</a></h3>
+				<h3 id="RenderStates.SetFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4628:4686#L182">SetFaceCulling</a></h3>
 				<pre>func (me RenderStates) SetFaceCulling(newFaceCulling bool)</pre>
 				<p>
 Activates or deactivates face-culling.
@@ -2446,7 +2446,7 @@ Activates or deactivates face-culling.
 				
 			
 				
-				<h3 id="RenderStates.SetFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5885:5951#L235">SetFramebufferSrgb</a></h3>
+				<h3 id="RenderStates.SetFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5824:5890#L234">SetFramebufferSrgb</a></h3>
 				<pre>func (me RenderStates) SetFramebufferSrgb(newFramebufferSrgb bool)</pre>
 				<p>
 Activates or deactivates SRGB-framebuffer.
@@ -2456,7 +2456,7 @@ Activates or deactivates SRGB-framebuffer.
 				
 			
 				
-				<h3 id="RenderStates.SetScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7092:7150#L287">SetScissorTest</a></h3>
+				<h3 id="RenderStates.SetScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7031:7089#L286">SetScissorTest</a></h3>
 				<pre>func (me RenderStates) SetScissorTest(newScissorTest bool)</pre>
 				<p>
 Activates or deactivates scissor-testing.
@@ -2466,7 +2466,7 @@ Activates or deactivates scissor-testing.
 				
 			
 				
-				<h3 id="RenderStates.SetStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=8238:8296#L339">SetStencilTest</a></h3>
+				<h3 id="RenderStates.SetStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=8177:8235#L338">SetStencilTest</a></h3>
 				<pre>func (me RenderStates) SetStencilTest(newStencilTest bool)</pre>
 				<p>
 Activates or deactivates stencil-testing.
@@ -2476,7 +2476,7 @@ Activates or deactivates stencil-testing.
 				
 			
 				
-				<h3 id="RenderStates.ToggleBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2784:2823#L90">ToggleBlending</a></h3>
+				<h3 id="RenderStates.ToggleBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2723:2762#L89">ToggleBlending</a></h3>
 				<pre>func (me RenderStates) ToggleBlending()</pre>
 				<p>
 Toggles blending.
@@ -2486,7 +2486,7 @@ Toggles blending.
 				
 			
 				
-				<h3 id="RenderStates.ToggleDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3844:3884#L142">ToggleDepthTest</a></h3>
+				<h3 id="RenderStates.ToggleDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3783:3823#L141">ToggleDepthTest</a></h3>
 				<pre>func (me RenderStates) ToggleDepthTest()</pre>
 				<p>
 Toggles depth-testing.
@@ -2496,7 +2496,7 @@ Toggles depth-testing.
 				
 			
 				
-				<h3 id="RenderStates.ToggleFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4942:4984#L194">ToggleFaceCulling</a></h3>
+				<h3 id="RenderStates.ToggleFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4881:4923#L193">ToggleFaceCulling</a></h3>
 				<pre>func (me RenderStates) ToggleFaceCulling()</pre>
 				<p>
 Toggles face-culling.
@@ -2506,7 +2506,7 @@ Toggles face-culling.
 				
 			
 				
-				<h3 id="RenderStates.ToggleFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=6184:6230#L246">ToggleFramebufferSrgb</a></h3>
+				<h3 id="RenderStates.ToggleFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=6123:6169#L245">ToggleFramebufferSrgb</a></h3>
 				<pre>func (me RenderStates) ToggleFramebufferSrgb()</pre>
 				<p>
 Toggles SRGB-framebuffer.
@@ -2516,7 +2516,7 @@ Toggles SRGB-framebuffer.
 				
 			
 				
-				<h3 id="RenderStates.ToggleScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7354:7396#L298">ToggleScissorTest</a></h3>
+				<h3 id="RenderStates.ToggleScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7293:7335#L297">ToggleScissorTest</a></h3>
 				<pre>func (me RenderStates) ToggleScissorTest()</pre>
 				<p>
 Toggles scissor-testing.
@@ -2526,7 +2526,7 @@ Toggles scissor-testing.
 				
 			
 				
-				<h3 id="RenderStates.ToggleStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=8500:8542#L350">ToggleStencilTest</a></h3>
+				<h3 id="RenderStates.ToggleStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=8439:8481#L349">ToggleStencilTest</a></h3>
 				<pre>func (me RenderStates) ToggleStencilTest()</pre>
 				<p>
 Toggles stencil-testing.
@@ -2538,16 +2538,16 @@ Toggles stencil-testing.
 		
 			
 			
-			<h2 id="RenderStatesBag">type <a href="/target/render-states.gt.go?s=181:399#L2">RenderStatesBag</a></h2>
+			<h2 id="RenderStatesBag">type <a href="/target/render-states.gt.go?s=181:382#L2">RenderStatesBag</a></h2>
 			<pre>type RenderStatesBag struct {
-    Blending        bool
-    DepthTest       bool
-    FaceCulling     bool
-    FramebufferSrgb bool
-    StencilTest     bool
-    ClearColor      GlVec4
-    Other           struct {
-        ClearBits gl.Bitfield
+    Blending    bool
+    DepthTest   bool
+    FaceCulling bool
+    StencilTest bool
+    ClearColor  GlVec4
+    Other       struct {
+        FramebufferSrgb bool
+        ClearBits       gl.Bitfield
     }
 }</pre>
 			<p>
@@ -3162,7 +3162,7 @@ Implemented by specialized texture types such as Texture2D.
 		
 			
 			
-			<h2 id="Texture2D">type <a href="/target/gl-texture-2d.go?s=183:347#L4">Texture2D</a></h2>
+			<h2 id="Texture2D">type <a href="/target/gl-texture-2d.go?s=143:307#L3">Texture2D</a></h2>
 			<pre>type Texture2D struct {
     <span class="comment">//	Common texture params</span>
     TextureBase
@@ -3183,7 +3183,7 @@ Represents a 2-dimensional texture image.
 
 			
 				
-				<h3 id="NewTexture2D">func <a href="/target/gl-texture-2d.go?s=449:484#L13">NewTexture2D</a></h3>
+				<h3 id="NewTexture2D">func <a href="/target/gl-texture-2d.go?s=409:444#L12">NewTexture2D</a></h3>
 				<pre>func NewTexture2D() (me *Texture2D)</pre>
 				<p>
 Initializes --but does not Recreate()-- a new Texture2D, calls its Init() method and returns it.
@@ -3194,7 +3194,7 @@ Initializes --but does not Recreate()-- a new Texture2D, calls its Init() method
 
 			
 				
-				<h3 id="Texture2D.Init">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=605:632#L20">Init</a></h3>
+				<h3 id="Texture2D.Init">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=565:592#L19">Init</a></h3>
 				<pre>func (me *Texture2D) Init()</pre>
 				<p>
 Sets GlTarget to gl.TEXTURE_2D and initializes TextureBase with defaults.
@@ -3204,7 +3204,7 @@ Sets GlTarget to gl.TEXTURE_2D and initializes TextureBase with defaults.
 				
 			
 				
-				<h3 id="Texture2D.MaxNumMipLevels">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=827:874#L26">MaxNumMipLevels</a></h3>
+				<h3 id="Texture2D.MaxNumMipLevels">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=787:834#L25">MaxNumMipLevels</a></h3>
 				<pre>func (me *Texture2D) MaxNumMipLevels() gl.Sizei</pre>
 				<p>
 Returns the maximum number of possible MIP map levels for this 2-dimensional texture image according to its current Width and Height.
@@ -3214,7 +3214,7 @@ Returns the maximum number of possible MIP map levels for this 2-dimensional tex
 				
 			
 				
-				<h3 id="Texture2D.Recreate">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=1271:1314#L34">Recreate</a></h3>
+				<h3 id="Texture2D.Recreate">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=1231:1274#L33">Recreate</a></h3>
 				<pre>func (me *Texture2D) Recreate() (err error)</pre>
 				<p>
 Deletes and (re)creates the texture object based on its current params.
@@ -3227,8 +3227,8 @@ If me.MipMap.NumLevels is 0 (or just smaller than 1), then me.MaxNumMipLevels() 
 				
 			
 				
-				<h3 id="Texture2D.SetFromImage">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=2408:2499#L59">SetFromImage</a></h3>
-				<pre>func (me *Texture2D) SetFromImage(img image.Image, flipY, convertToLinear bool) (err error)</pre>
+				<h3 id="Texture2D.SetFromImage">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=2368:2430#L58">SetFromImage</a></h3>
+				<pre>func (me *Texture2D) SetFromImage(img image.Image) (err error)</pre>
 				<p>
 Prepares this Texture2D for uploading the specified Image via Recreate().
 This sets all of the following fields to applicable values:
