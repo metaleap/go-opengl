@@ -1,8 +1,6 @@
 package ugl
 
 import (
-	"fmt"
-
 	gl "github.com/go3d/go-opengl/core"
 	ustr "github.com/metaleap/go-util/str"
 )
@@ -14,7 +12,7 @@ type GlUtil struct {
 //	Returns an OpenGL connection-info string of the format "OpenGL {version} @ {vendor} {renderer} (GLSL: {version})"
 //	Example: "OpenGL 4.2.0 @ NVIDIA Corporation Quadro 5010M/PCIe/SSE2 (GLSL: 4.20 NVIDIA via Cg compiler)"
 func (_ GlUtil) ConnInfo() string {
-	return sfmt("OpenGL %v @ %v %v (GLSL: %v)", Util.Str(gl.VERSION), Util.Str(gl.VENDOR), Util.Str(gl.RENDERER), Util.Str(gl.SHADING_LANGUAGE_VERSION))
+	return strf("OpenGL %v @ %v %v (GLSL: %v)", Util.Str(gl.VERSION), Util.Str(gl.VENDOR), Util.Str(gl.RENDERER), Util.Str(gl.SHADING_LANGUAGE_VERSION))
 }
 
 //	Returns the name of the specified enum. Out of the over 1290 possible enum values, currently only supports
@@ -48,7 +46,7 @@ func (_ GlUtil) EnumName(enum gl.Enum) (name string) {
 	case gl.VERTEX_SHADER:
 		name = "GL_VERTEX_SHADER"
 	default:
-		name = sfmt("GL_ENUM_%v", enum)
+		name = strf("GL_ENUM_%v", enum)
 	}
 	return
 }
@@ -60,7 +58,7 @@ func (_ GlUtil) LastError(msgFmt string, fmtArgs ...interface{}) (err error) {
 		for _, e := range flags {
 			msgFmt = Util.EnumName(e) + " " + msgFmt
 		}
-		err = fmt.Errorf(msgFmt, fmtArgs...)
+		err = errf(msgFmt, fmtArgs...)
 	}
 	return
 }

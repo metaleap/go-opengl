@@ -82,7 +82,7 @@ func (me *Shader) StageName() (sn string) {
 //	checking gl.COMPILE_STATUS and obtaining gl.GetShaderInfoLog().
 func (me *Shader) Compile() (err error) {
 	if gl.CompileShader(me.GlHandle); me.ParamInt(gl.COMPILE_STATUS) == gl.FALSE {
-		err = fmt.Errorf("%s'%s'.Compile() error: %s\n", me.StageName(), me.Name, me.InfoLog())
+		err = errf("%s'%s'.Compile() error: %s\n", me.StageName(), me.Name, me.InfoLog())
 	}
 	return
 }
@@ -123,7 +123,7 @@ func (me *Shader) ParamInt(pname gl.Enum) (iv gl.Int) {
 //	and #define directives for all specified name-value pairs in defines.
 func (me *Shader) SetSource(source string, defines map[string]interface{}) (finalRealSrc string, err error) {
 	i, lines := 1, make([]string, (len(defines)*5)+3)
-	lines[0] = sfmt("#version %v core\n", Support.Glsl.Version.Num)
+	lines[0] = strf("#version %v core\n", Support.Glsl.Version.Num)
 	if len(defines) > 0 {
 		for dk, dv := range defines {
 			lines[i+0] = "#define "

@@ -1,8 +1,6 @@
 package ugl
 
 import (
-	"fmt"
-
 	gl "github.com/go3d/go-opengl/core"
 )
 
@@ -69,7 +67,7 @@ func (me *Program) CompileAndLinkShaders(compute, fragment, geometry, tessCtl, t
 		}
 	}
 	if len(allShaders) == 0 {
-		err = fmt.Errorf("Program'%s'.CompileAndLinkShaders() -- no shaders specified.", me.Name)
+		err = errf("Program'%s'.CompileAndLinkShaders() -- no shaders specified.", me.Name)
 		return
 	}
 	for _, shader = range allShaders {
@@ -120,7 +118,7 @@ func (me *Program) InfoLog() string {
 //	checking gl.LINK_STATUS and obtaining gl.GetProgramInfoLog().
 func (me *Program) Link() (err error) {
 	if gl.LinkProgram(me.GlHandle); me.ParamInt(gl.LINK_STATUS) == gl.FALSE {
-		err = fmt.Errorf("Program'%s'.Link() error: %s\n", me.Name, me.InfoLog())
+		err = errf("Program'%s'.Link() error: %s\n", me.Name, me.InfoLog())
 	}
 	return
 }
@@ -193,7 +191,7 @@ func (me *Program) Use() {
 func (me *Program) Validate() (err error) {
 	if gl.ValidateProgram(me.GlHandle); me.ParamInt(gl.VALIDATE_STATUS) == gl.FALSE {
 		if infoLog := me.InfoLog(); len(infoLog) > 0 {
-			err = fmt.Errorf("Program'%s'.Validate() error: %s\n", me.Name, infoLog)
+			err = errf("Program'%s'.Validate() error: %s\n", me.Name, infoLog)
 		}
 	}
 	return

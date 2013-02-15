@@ -1,6 +1,9 @@
 package ugl
 
 import (
+	"image"
+	"reflect"
+
 	gl "github.com/go3d/go-opengl/core"
 )
 
@@ -51,9 +54,10 @@ type TextureBase struct {
 		//	gl.TexSubImageNN(). Defaults to gl.UNSIGNED_BYTE.
 		Type gl.Enum
 
-		//	Points to the first pixel of the data stream to be uploaded
-		//	by Recreate(), if any. Defaults to gl.Ptr(nil).
-		Ptr gl.Ptr
+		//	Pointers (one per sub-image) to the first pixel
+		//	of the data stream to be uploaded by Recreate().
+		//	Initially defaults to []gl.Ptr { gl.Ptr(nil) }
+		Ptrs []gl.Ptr
 	}
 }
 
@@ -77,9 +81,9 @@ func (me *TextureBase) immutable() bool {
 func (me *TextureBase) init() {
 	me.MipMap.AutoGen, me.Immutable = true, Support.Textures.Immutable
 	me.SizedInternalFormat = gl.RGBA8
-	me.PixelData.Ptr = gl.Ptr(nil)
 	me.PixelData.Format = gl.RGBA
 	me.PixelData.Type = gl.UNSIGNED_BYTE
+	me.PixelData.Ptrs = []gl.Ptr{gl.Ptr(nil)}
 }
 
 func (me *TextureBase) onAfterRecreate() {
@@ -96,6 +100,55 @@ func (me *TextureBase) onBeforeRecreate() (err error) {
 	}
 	if err == nil {
 		me.Bind()
+	}
+	return
+}
+
+func (me *TextureBase) prepFromImages(images ...image.Image) (err error) {
+	pixData := &me.PixelData
+	pixData.Type = gl.UNSIGNED_BYTE
+	if len(pixData.Ptrs) < len(images) {
+		nuPtrs := make([]gl.Ptr, len(images))
+		copy(nuPtrs, pixData.Ptrs)
+		pixData.Ptrs = nuPtrs
+	}
+	for i, img := range images {
+		switch pic := img.(type) {
+		case *image.Alpha:
+			me.SizedInternalFormat = gl.R8
+			pixData.Format = gl.RED
+			pixData.Ptrs[i] = gl.Ptr(&pic.Pix[0])
+		case *image.Alpha16:
+			me.SizedInternalFormat = gl.R16
+			pixData.Format = gl.RED
+			pixData.Ptrs[i] = gl.Ptr(&pic.Pix[0])
+		case *image.Gray:
+			me.SizedInternalFormat = gl.R8
+			pixData.Format = gl.RED
+			pixData.Ptrs[i] = gl.Ptr(&pic.Pix[0])
+		case *image.Gray16:
+			me.SizedInternalFormat = gl.R16
+			pixData.Format = gl.RED
+			pixData.Ptrs[i] = gl.Ptr(&pic.Pix[0])
+		case *image.NRGBA:
+			me.SizedInternalFormat = gl.RGBA8
+			pixData.Format = gl.RGBA
+			pixData.Ptrs[i] = gl.Ptr(&pic.Pix[0])
+		case *image.NRGBA64:
+			me.SizedInternalFormat = gl.RGBA16
+			pixData.Format = gl.RGBA
+			pixData.Ptrs[i] = gl.Ptr(&pic.Pix[0])
+		case *image.RGBA:
+			me.SizedInternalFormat = gl.RGBA8
+			pixData.Format = gl.RGBA
+			pixData.Ptrs[i] = gl.Ptr(&pic.Pix[0])
+		case *image.RGBA64:
+			me.SizedInternalFormat = gl.RGBA16
+			pixData.Format = gl.RGBA
+			pixData.Ptrs[i] = gl.Ptr(&pic.Pix[0])
+		default:
+			err = errf("Unsupported image.Image type (%v) for use as OpenGL texture", reflect.TypeOf(pic))
+		}
 	}
 	return
 }

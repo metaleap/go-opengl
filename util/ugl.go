@@ -189,7 +189,11 @@ func setVersion() {
 	}
 }
 
-func sfmt(format string, args ...interface{}) string {
+func errf(format string, args ...interface{}) error {
+	return fmt.Errorf(format, args...)
+}
+
+func strf(format string, args ...interface{}) string {
 	return fmt.Sprintf(format, args...)
 }
 

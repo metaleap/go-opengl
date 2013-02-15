@@ -1,10 +1,8 @@
 package ugl
 
 import (
-	"fmt"
 	"image"
 	"math"
-	"reflect"
 
 	gl "github.com/go3d/go-opengl/core"
 )
@@ -36,74 +34,38 @@ func (me *Texture2D) MaxNumMipLevels() gl.Sizei {
 	return gl.Sizei(texture2DMaxNumMipLevels(float64(me.Width), float64(me.Height)))
 }
 
+//	Prepares this Texture2D for uploading the specified Image via Recreate().
+//	This sets all of the following fields to applicable values:
+//	me.PixelData.Type, me.PixelData.Format, me.PixelData.Ptrs[0], me.Width, me.Height, me.MipMap.NumLevels, me.SizedInternalFormat
+func (me *Texture2D) PrepFromImage(img image.Image) (err error) {
+	me.Width, me.Height = gl.Sizei(img.Bounds().Dx()), gl.Sizei(img.Bounds().Dy())
+	me.MipMap.NumLevels = me.MaxNumMipLevels()
+	err = me.prepFromImages(img)
+	return
+}
+
 //	Deletes and (re)creates the texture object based on its current params.
-//	Uploads the image data at me.PixelData.Ptr, if any.
+//	Uploads the image data at me.PixelData.Ptrs[0], if any.
 //	Generates the MIP map if me.MipMap.AutoGen is true and me.MipMap.NumLevels isn't 1.
 //	If me.MipMap.NumLevels is 0 (or just smaller than 1), then me.MaxNumMipLevels() is used.
 func (me *Texture2D) Recreate() (err error) {
 	err = me.onBeforeRecreate()
 	defer me.onAfterRecreate()
 	if err == nil {
-		hasPixData, numLevels := (me.PixelData.Ptr != gl.Ptr(nil)), me.MipMap.NumLevels
+		hasPixData, numLevels := me.PixelData.Ptrs[0] != gl.Ptr(nil), me.MipMap.NumLevels
 		if numLevels < 1 {
 			numLevels = me.MaxNumMipLevels()
 		}
 		if me.immutable() {
 			if err = Try.TexStorage2D(me.GlTarget, numLevels, me.SizedInternalFormat, me.Width, me.Height); hasPixData && (err == nil) {
-				err = Try.TexSubImage2D(me.GlTarget, 0, 0, 0, me.Width, me.Height, me.PixelData.Format, me.PixelData.Type, me.PixelData.Ptr)
+				err = Try.TexSubImage2D(me.GlTarget, 0, 0, 0, me.Width, me.Height, me.PixelData.Format, me.PixelData.Type, me.PixelData.Ptrs[0])
 			}
 		} else {
-			err = Try.TexImage2D(me.GlTarget, 0, gl.Int(me.SizedInternalFormat), me.Width, me.Height, 0, me.PixelData.Format, me.PixelData.Type, me.PixelData.Ptr)
+			err = Try.TexImage2D(me.GlTarget, 0, gl.Int(me.SizedInternalFormat), me.Width, me.Height, 0, me.PixelData.Format, me.PixelData.Type, me.PixelData.Ptrs[0])
 		}
-		if (err == nil) && hasPixData && me.MipMap.AutoGen && (me.GlTarget != gl.TEXTURE_RECTANGLE) {
+		if (err == nil) && hasPixData && me.MipMap.AutoGen {
 			err = Try.GenerateMipmap(me.GlTarget)
 		}
-	}
-	return
-}
-
-//	Prepares this Texture2D for uploading the specified Image via Recreate().
-//	This sets all of the following fields to applicable values:
-//	me.PixelData.Type, me.PixelData.Format, me.PixelData.Ptr, me.Width, me.Height, me.MipMap.NumLevels, me.SizedInternalFormat
-func (me *Texture2D) SetFromImage(img image.Image) (err error) {
-	me.PixelData.Type = gl.UNSIGNED_BYTE
-	me.Width, me.Height = gl.Sizei(img.Bounds().Dx()), gl.Sizei(img.Bounds().Dy())
-	me.MipMap.NumLevels = me.MaxNumMipLevels()
-	switch pic := img.(type) {
-	case *image.Alpha:
-		me.SizedInternalFormat = gl.R8
-		me.PixelData.Format = gl.RED
-		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
-	case *image.Alpha16:
-		me.SizedInternalFormat = gl.R16
-		me.PixelData.Format = gl.RED
-		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
-	case *image.Gray:
-		me.SizedInternalFormat = gl.R8
-		me.PixelData.Format = gl.RED
-		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
-	case *image.Gray16:
-		me.SizedInternalFormat = gl.R16
-		me.PixelData.Format = gl.RED
-		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
-	case *image.NRGBA:
-		me.SizedInternalFormat = gl.RGBA8
-		me.PixelData.Format = gl.RGBA
-		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
-	case *image.NRGBA64:
-		me.SizedInternalFormat = gl.RGBA16
-		me.PixelData.Format = gl.RGBA
-		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
-	case *image.RGBA:
-		me.SizedInternalFormat = gl.RGBA8
-		me.PixelData.Format = gl.RGBA
-		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
-	case *image.RGBA64:
-		me.SizedInternalFormat = gl.RGBA16
-		me.PixelData.Format = gl.RGBA
-		me.PixelData.Ptr = gl.Ptr(&pic.Pix[0])
-	default:
-		err = fmt.Errorf("Unsupported image.Image type (%v) for use as OpenGL texture", reflect.TypeOf(pic))
 	}
 	return
 }

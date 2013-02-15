@@ -171,11 +171,9 @@ type FramebufferRendertexture struct {
 }
 
 //	Initializes --but does not Recreate()-- a new FramebufferRendertexture with default values and returns it.
-func NewFramebufferRendertexture(rectTarget bool) (me *FramebufferRendertexture) {
+func NewFramebufferRendertexture() (me *FramebufferRendertexture) {
 	me = &FramebufferRendertexture{Attachment: gl.COLOR_ATTACHMENT0}
-	if me.Texture2D.Init(); rectTarget {
-		me.Texture2D.GlTarget = gl.TEXTURE_RECTANGLE
-	}
+	me.Texture2D.Init()
 	me.Texture2D.SizedInternalFormat = gl.RGB8
 	me.Texture2D.PixelData.Format = gl.RGB
 	me.Texture2D.MipMap.AutoGen, me.Texture2D.MipMap.NumLevels = false, 1
