@@ -804,7 +804,7 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 					<dd>&nbsp; &nbsp; <a href="#VertexArray.Dispose">func (me *VertexArray) Dispose()</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#VertexArray.Setup">func (me *VertexArray) Setup(atts []*VertexAttribPointer, bufs ...*Buffer) (err error)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#VertexArray.Setup">func (me *VertexArray) Setup(prog *Program, atts []*VertexAttribPointer, bufs ...*Buffer) (err error)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#VertexArray.Unbind">func (_ VertexArray) Unbind()</a></dd>
@@ -814,7 +814,7 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 				<dd><a href="#VertexAttribPointer">type VertexAttribPointer</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#NewVertexAttribPointer">func NewVertexAttribPointer(name string, loc gl.Uint, size gl.Int, stride gl.Sizei, offset gl.Ptr) (me *VertexAttribPointer)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#NewVertexAttribPointer">func NewVertexAttribPointer(name string, size gl.Int, stride gl.Sizei, offset gl.Ptr) (me *VertexAttribPointer)</a></dd>
 				
 				
 			
@@ -3724,8 +3724,8 @@ Deletes this vertex array object.
 				
 			
 				
-				<h3 id="VertexArray.Setup">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=912:998#L25">Setup</a></h3>
-				<pre>func (me *VertexArray) Setup(atts []*VertexAttribPointer, bufs ...*Buffer) (err error)</pre>
+				<h3 id="VertexArray.Setup">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=912:1013#L25">Setup</a></h3>
+				<pre>func (me *VertexArray) Setup(prog *Program, atts []*VertexAttribPointer, bufs ...*Buffer) (err error)</pre>
 				<p>
 Sets up this vertex array object, associating it with the specified buffer objects and enabling the specified vertex attributes for it.
 </p>
@@ -3734,7 +3734,7 @@ Sets up this vertex array object, associating it with the specified buffer objec
 				
 			
 				
-				<h3 id="VertexArray.Unbind">func (VertexArray) <a href="/target/gl-vertex-array.go?s=1402:1431#L43">Unbind</a></h3>
+				<h3 id="VertexArray.Unbind">func (VertexArray) <a href="/target/gl-vertex-array.go?s=1517:1546#L49">Unbind</a></h3>
 				<pre>func (_ VertexArray) Unbind()</pre>
 				<p>
 Unbinds whatever vertex array object is currently bound.
@@ -3746,13 +3746,10 @@ Unbinds whatever vertex array object is currently bound.
 		
 			
 			
-			<h2 id="VertexAttribPointer">type <a href="/target/gl-vertex-array.go?s=1566:2418#L48">VertexAttribPointer</a></h2>
+			<h2 id="VertexAttribPointer">type <a href="/target/gl-vertex-array.go?s=1681:2444#L54">VertexAttribPointer</a></h2>
 			<pre>type VertexAttribPointer struct {
     <span class="comment">//	The name of the vertex attribute in a Program.AttrLocs hash-table.</span>
     Name string
-
-    <span class="comment">//	The location of the vertex attribute in a Program.AttrLocs hash-table.</span>
-    Loc gl.Uint
 
     <span class="comment">//	Specifies the number of components per generic vertex attribute. Must be 1, 2, 3, 4.</span>
     <span class="comment">//	Additionally, the symbolic constant GL_BGRA is accepted.</span>
@@ -3785,8 +3782,8 @@ Encapsulates vertex attribute information used by VertexArray.Setup() to enable 
 
 			
 				
-				<h3 id="NewVertexAttribPointer">func <a href="/target/gl-vertex-array.go?s=2500:2624#L75">NewVertexAttribPointer</a></h3>
-				<pre>func NewVertexAttribPointer(name string, loc gl.Uint, size gl.Int, stride gl.Sizei, offset gl.Ptr) (me *VertexAttribPointer)</pre>
+				<h3 id="NewVertexAttribPointer">func <a href="/target/gl-vertex-array.go?s=2526:2637#L78">NewVertexAttribPointer</a></h3>
+				<pre>func NewVertexAttribPointer(name string, size gl.Int, stride gl.Sizei, offset gl.Ptr) (me *VertexAttribPointer)</pre>
 				<p>
 Initializes and returns a new VertexAttribPointer with the specified values.
 </p>

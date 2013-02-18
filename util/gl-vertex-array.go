@@ -32,17 +32,23 @@ func (me *VertexArray) Dispose() {
 }
 
 //	Sets up this vertex array object, associating it with the specified buffer objects and enabling the specified vertex attributes for it.
-func (me *VertexArray) Setup(atts []*VertexAttribPointer, bufs ...*Buffer) (err error) {
+func (me *VertexArray) Setup(prog *Program, atts []*VertexAttribPointer, bufs ...*Buffer) (err error) {
+	var (
+		buf  *Buffer
+		aloc gl.Uint
+	)
 	me.Bind()
-	for _, buf := range bufs {
+	for _, buf = range bufs {
 		buf.Bind()
 	}
 	for _, attr := range atts {
-		gl.EnableVertexAttribArray(attr.Loc)
-		gl.VertexAttribPointer(attr.Loc, attr.Size, attr.Type, attr.Normalized, attr.Stride, attr.Offset)
+		if aloc = prog.AttrLocs[attr.Name]; prog.HasAttr(attr.Name) {
+			gl.EnableVertexAttribArray(aloc)
+			gl.VertexAttribPointer(aloc, attr.Size, attr.Type, attr.Normalized, attr.Stride, attr.Offset)
+		}
 	}
 	me.Unbind()
-	for _, buf := range bufs {
+	for _, buf = range bufs {
 		buf.Unbind()
 	}
 	err = Util.LastError("VertexArray.Setup()")
@@ -58,9 +64,6 @@ func (_ VertexArray) Unbind() {
 type VertexAttribPointer struct {
 	//	The name of the vertex attribute in a Program.AttrLocs hash-table.
 	Name string
-
-	//	The location of the vertex attribute in a Program.AttrLocs hash-table.
-	Loc gl.Uint
 
 	//	Specifies the number of components per generic vertex attribute. Must be 1, 2, 3, 4.
 	//	Additionally, the symbolic constant GL_BGRA is accepted.
@@ -82,7 +85,7 @@ type VertexAttribPointer struct {
 }
 
 //	Initializes and returns a new VertexAttribPointer with the specified values.
-func NewVertexAttribPointer(name string, loc gl.Uint, size gl.Int, stride gl.Sizei, offset gl.Ptr) (me *VertexAttribPointer) {
-	me = &VertexAttribPointer{Type: gl.FLOAT, Normalized: gl.FALSE, Loc: loc, Name: name, Size: size, Stride: stride, Offset: offset}
+func NewVertexAttribPointer(name string, size gl.Int, stride gl.Sizei, offset gl.Ptr) (me *VertexAttribPointer) {
+	me = &VertexAttribPointer{Type: gl.FLOAT, Normalized: gl.FALSE, Name: name, Size: size, Stride: stride, Offset: offset}
 	return
 }
