@@ -791,6 +791,11 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 				
 			
 				
+				<dd><a href="#UniformBuffer">type UniformBuffer</a></dd>
+				
+				
+			
+				
 				<dd><a href="#VertexArray">type VertexArray</a></dd>
 				
 				
@@ -849,6 +854,8 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 				<a href="/target/gl-texture-params.go">gl-texture-params.go</a>
 			
 				<a href="/target/gl-texture.go">gl-texture.go</a>
+			
+				<a href="/target/gl-uniform-buffer.go">gl-uniform-buffer.go</a>
 			
 				<a href="/target/gl-util.go">gl-util.go</a>
 			
@@ -3162,10 +3169,14 @@ Returns the name of this shader&#39;s stage, for example &#34;GL_VERTEX_SHADER&#
 		
 			
 			
-			<h2 id="Texture">type <a href="/target/gl-texture.go?s=146:266#L1">Texture</a></h2>
+			<h2 id="Texture">type <a href="/target/gl-texture.go?s=146:286#L1">Texture</a></h2>
 			<pre>type Texture interface {
+    Bind()
+
     <span class="comment">//	Deletes and (re)creates the texture object based on its current params.</span>
     Recreate() error
+
+    Unbind()
 }</pre>
 			<p>
 Implemented by specialized texture types such as Texture2D.
@@ -3263,7 +3274,7 @@ If me.MipMap.NumLevels is 0 (or just smaller than 1), then me.MaxNumMipLevels() 
 		
 			
 			
-			<h2 id="TextureBase">type <a href="/target/gl-texture.go?s=328:1954#L7">TextureBase</a></h2>
+			<h2 id="TextureBase">type <a href="/target/gl-texture.go?s=348:1974#L11">TextureBase</a></h2>
 			<pre>type TextureBase struct {
     <span class="comment">//	The OpenGL handle for this texture object.</span>
     <span class="comment">//	This is 0 before calling Recreate() and after calling Dispose().</span>
@@ -3325,7 +3336,7 @@ Embedded by specialized texture types such as Texture2D.
 
 			
 				
-				<h3 id="TextureBase.Bind">func (*TextureBase) <a href="/target/gl-texture.go?s=1986:2015#L55">Bind</a></h3>
+				<h3 id="TextureBase.Bind">func (*TextureBase) <a href="/target/gl-texture.go?s=2006:2035#L59">Bind</a></h3>
 				<pre>func (me *TextureBase) Bind()</pre>
 				<p>
 Binds this texture object.
@@ -3335,7 +3346,7 @@ Binds this texture object.
 				
 			
 				
-				<h3 id="TextureBase.Dispose">func (*TextureBase) <a href="/target/gl-texture.go?s=2107:2139#L60">Dispose</a></h3>
+				<h3 id="TextureBase.Dispose">func (*TextureBase) <a href="/target/gl-texture.go?s=2127:2159#L64">Dispose</a></h3>
 				<pre>func (me *TextureBase) Dispose()</pre>
 				<p>
 Deletes this texture object from OpenGL.
@@ -3525,7 +3536,7 @@ Sets the swizzle that will be applied to the R, G, B and A components of a texel
 				
 			
 				
-				<h3 id="TextureBase.Unbind">func (*TextureBase) <a href="/target/gl-texture.go?s=4405:4436#L147">Unbind</a></h3>
+				<h3 id="TextureBase.Unbind">func (*TextureBase) <a href="/target/gl-texture.go?s=4425:4456#L151">Unbind</a></h3>
 				<pre>func (me *TextureBase) Unbind()</pre>
 				<p>
 Unbinds whatever texture is currently bound.
@@ -3669,6 +3680,23 @@ Returns ifTrue if cond is true, otherwise returns ifFalse.
 
 				
 				
+			
+		
+			
+			
+			<h2 id="UniformBuffer">type <a href="/target/gl-uniform-buffer.go?s=13:42#L1">UniformBuffer</a></h2>
+			<pre>type UniformBuffer struct {
+}</pre>
+			
+
+			
+
+			
+
+			
+
+			
+
 			
 		
 			

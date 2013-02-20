@@ -9,8 +9,12 @@ import (
 
 //	Implemented by specialized texture types such as Texture2D.
 type Texture interface {
+	Bind()
+
 	//	Deletes and (re)creates the texture object based on its current params.
 	Recreate() error
+
+	Unbind()
 }
 
 //	Embedded by specialized texture types such as Texture2D.
