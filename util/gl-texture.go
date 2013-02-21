@@ -108,9 +108,10 @@ func (me *TextureBase) onBeforeRecreate() (err error) {
 	return
 }
 
-func (me *TextureBase) prepFromImages(images ...image.Image) (err error) {
+func (me *TextureBase) prepFromImages(bgra, uintRev bool, images ...image.Image) (err error) {
+	pfmt := Typed.Ife(bgra, gl.BGRA, gl.RGBA)
 	pixData := &me.PixelData
-	pixData.Type = gl.UNSIGNED_BYTE
+	pixData.Type = Typed.Ife(uintRev, gl.UNSIGNED_INT_8_8_8_8_REV, gl.UNSIGNED_BYTE)
 	if len(pixData.Ptrs) < len(images) {
 		nuPtrs := make([]gl.Ptr, len(images))
 		copy(nuPtrs, pixData.Ptrs)
@@ -136,19 +137,19 @@ func (me *TextureBase) prepFromImages(images ...image.Image) (err error) {
 			pixData.Ptrs[i] = gl.Ptr(&pic.Pix[0])
 		case *image.NRGBA:
 			me.SizedInternalFormat = gl.RGBA8
-			pixData.Format = gl.RGBA
+			pixData.Format = pfmt
 			pixData.Ptrs[i] = gl.Ptr(&pic.Pix[0])
 		case *image.NRGBA64:
 			me.SizedInternalFormat = gl.RGBA16
-			pixData.Format = gl.RGBA
+			pixData.Format = pfmt
 			pixData.Ptrs[i] = gl.Ptr(&pic.Pix[0])
 		case *image.RGBA:
 			me.SizedInternalFormat = gl.RGBA8
-			pixData.Format = gl.RGBA
+			pixData.Format = pfmt
 			pixData.Ptrs[i] = gl.Ptr(&pic.Pix[0])
 		case *image.RGBA64:
 			me.SizedInternalFormat = gl.RGBA16
-			pixData.Format = gl.RGBA
+			pixData.Format = pfmt
 			pixData.Ptrs[i] = gl.Ptr(&pic.Pix[0])
 		default:
 			err = errf("Unsupported image.Image type (%v) for use as OpenGL texture", reflect.TypeOf(pic))

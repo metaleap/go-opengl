@@ -34,13 +34,13 @@ func (me *TextureCube) MaxNumMipLevels() gl.Sizei {
 //	Prepares this TextureCube for uploading the specified Images via Recreate().
 //	This sets all of the following fields to applicable values:
 //	me.PixelData.Type, me.PixelData.Format, me.PixelData.Ptrs, me.Width, me.Height, me.MipMap.NumLevels, me.SizedInternalFormat
-func (me *TextureCube) PrepFromImages(images ...image.Image) (err error) {
+func (me *TextureCube) PrepFromImages(bgra, uintRev bool, images ...image.Image) (err error) {
 	if len(images) < 6 {
 		err = errf("TextureCube.PrepFromImages: expected 6 cube-faces, but only %v were supplied", len(images))
 	} else {
 		me.Width, me.Height = gl.Sizei(images[0].Bounds().Dx()), gl.Sizei(images[0].Bounds().Dy())
 		me.MipMap.NumLevels = me.MaxNumMipLevels()
-		err = me.prepFromImages(images...)
+		err = me.prepFromImages(bgra, uintRev, images...)
 	}
 	return
 }

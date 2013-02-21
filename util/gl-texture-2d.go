@@ -37,10 +37,10 @@ func (me *Texture2D) MaxNumMipLevels() gl.Sizei {
 //	Prepares this Texture2D for uploading the specified Image via Recreate().
 //	This sets all of the following fields to applicable values:
 //	me.PixelData.Type, me.PixelData.Format, me.PixelData.Ptrs[0], me.Width, me.Height, me.MipMap.NumLevels, me.SizedInternalFormat
-func (me *Texture2D) PrepFromImage(img image.Image) (err error) {
+func (me *Texture2D) PrepFromImage(bgra, uintRev bool, img image.Image) (err error) {
 	me.Width, me.Height = gl.Sizei(img.Bounds().Dx()), gl.Sizei(img.Bounds().Dy())
 	me.MipMap.NumLevels = me.MaxNumMipLevels()
-	err = me.prepFromImages(img)
+	err = me.prepFromImages(bgra, uintRev, img)
 	return
 }
 

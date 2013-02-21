@@ -679,7 +679,7 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 					<dd>&nbsp; &nbsp; <a href="#Texture2D.MaxNumMipLevels">func (me *Texture2D) MaxNumMipLevels() gl.Sizei</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#Texture2D.PrepFromImage">func (me *Texture2D) PrepFromImage(img image.Image) (err error)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#Texture2D.PrepFromImage">func (me *Texture2D) PrepFromImage(bgra, uintRev bool, img image.Image) (err error)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#Texture2D.Recreate">func (me *Texture2D) Recreate() (err error)</a></dd>
@@ -767,7 +767,7 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 					<dd>&nbsp; &nbsp; <a href="#TextureCube.MaxNumMipLevels">func (me *TextureCube) MaxNumMipLevels() gl.Sizei</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#TextureCube.PrepFromImages">func (me *TextureCube) PrepFromImages(images ...image.Image) (err error)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#TextureCube.PrepFromImages">func (me *TextureCube) PrepFromImages(bgra, uintRev bool, images ...image.Image) (err error)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#TextureCube.Recreate">func (me *TextureCube) Recreate() (err error)</a></dd>
@@ -788,11 +788,6 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#TypeUtils.Ifi">func (_ TypeUtils) Ifi(cond bool, ifTrue, ifFalse gl.Int) gl.Int</a></dd>
-				
-			
-				
-				<dd><a href="#UniformBuffer">type UniformBuffer</a></dd>
-				
 				
 			
 				
@@ -854,8 +849,6 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 				<a href="/target/gl-texture-params.go">gl-texture-params.go</a>
 			
 				<a href="/target/gl-texture.go">gl-texture.go</a>
-			
-				<a href="/target/gl-uniform-buffer.go">gl-uniform-buffer.go</a>
 			
 				<a href="/target/gl-util.go">gl-util.go</a>
 			
@@ -3247,8 +3240,8 @@ Returns the maximum number of possible MIP map levels for this 2-dimensional tex
 				
 			
 				
-				<h3 id="Texture2D.PrepFromImage">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=1174:1237#L30">PrepFromImage</a></h3>
-				<pre>func (me *Texture2D) PrepFromImage(img image.Image) (err error)</pre>
+				<h3 id="Texture2D.PrepFromImage">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=1174:1257#L30">PrepFromImage</a></h3>
+				<pre>func (me *Texture2D) PrepFromImage(bgra, uintRev bool, img image.Image) (err error)</pre>
 				<p>
 Prepares this Texture2D for uploading the specified Image via Recreate().
 This sets all of the following fields to applicable values:
@@ -3259,7 +3252,7 @@ me.PixelData.Type, me.PixelData.Format, me.PixelData.Ptrs[0], me.Width, me.Heigh
 				
 			
 				
-				<h3 id="Texture2D.Recreate">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=1718:1761#L41">Recreate</a></h3>
+				<h3 id="Texture2D.Recreate">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=1753:1796#L41">Recreate</a></h3>
 				<pre>func (me *Texture2D) Recreate() (err error)</pre>
 				<p>
 Deletes and (re)creates the texture object based on its current params.
@@ -3536,7 +3529,7 @@ Sets the swizzle that will be applied to the R, G, B and A components of a texel
 				
 			
 				
-				<h3 id="TextureBase.Unbind">func (*TextureBase) <a href="/target/gl-texture.go?s=4425:4456#L151">Unbind</a></h3>
+				<h3 id="TextureBase.Unbind">func (*TextureBase) <a href="/target/gl-texture.go?s=4525:4556#L152">Unbind</a></h3>
 				<pre>func (me *TextureBase) Unbind()</pre>
 				<p>
 Unbinds whatever texture is currently bound.
@@ -3597,8 +3590,8 @@ Returns the maximum number of possible MIP map levels for any of this cube-map&#
 				
 			
 				
-				<h3 id="TextureCube.PrepFromImages">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=1150:1222#L27">PrepFromImages</a></h3>
-				<pre>func (me *TextureCube) PrepFromImages(images ...image.Image) (err error)</pre>
+				<h3 id="TextureCube.PrepFromImages">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=1150:1242#L27">PrepFromImages</a></h3>
+				<pre>func (me *TextureCube) PrepFromImages(bgra, uintRev bool, images ...image.Image) (err error)</pre>
 				<p>
 Prepares this TextureCube for uploading the specified Images via Recreate().
 This sets all of the following fields to applicable values:
@@ -3609,7 +3602,7 @@ me.PixelData.Type, me.PixelData.Format, me.PixelData.Ptrs, me.Width, me.Height, 
 				
 			
 				
-				<h3 id="TextureCube.Recreate">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=1873:1918#L42">Recreate</a></h3>
+				<h3 id="TextureCube.Recreate">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=1908:1953#L42">Recreate</a></h3>
 				<pre>func (me *TextureCube) Recreate() (err error)</pre>
 				<p>
 Deletes and (re)creates the texture object based on its current params.
@@ -3680,23 +3673,6 @@ Returns ifTrue if cond is true, otherwise returns ifFalse.
 
 				
 				
-			
-		
-			
-			
-			<h2 id="UniformBuffer">type <a href="/target/gl-uniform-buffer.go?s=13:42#L1">UniformBuffer</a></h2>
-			<pre>type UniformBuffer struct {
-}</pre>
-			
-
-			
-
-			
-
-			
-
-			
-
 			
 		
 			
