@@ -151,6 +151,10 @@ func (me *TextureBase) prepFromImages(bgra, uintRev bool, images ...image.Image)
 			me.SizedInternalFormat = gl.RGBA16
 			pixData.Format = pfmt
 			pixData.Ptrs[i] = gl.Ptr(&pic.Pix[0])
+		case interface {
+			Pix() []byte
+		}:
+			pixData.Ptrs[i] = gl.Ptr(&pic.Pix()[0])
 		default:
 			err = errf("Unsupported image.Image type (%v) for use as OpenGL texture", reflect.TypeOf(pic))
 		}
@@ -206,9 +210,6 @@ func (me *TextureBase) subImage(glTarget gl.Enum, x, y gl.Int, width, height gl.
 			buf.Bind()
 			defer buf.Unbind()
 			pbo := buf.Map(true, true)
-			if pbo == nil {
-				panic(Util.LastError("Huh?"))
-			}
 			*pbo = gl.Ptr(ptr)
 			buf.Unmap()
 			err = Try.TexSubImage2D(glTarget, 0, x, y, width, height, me.PixelData.Format, me.PixelData.Type, PtrNil)
