@@ -14,6 +14,10 @@ const (
 	SizeOfGlUint gl.Sizeiptr = 4
 )
 
+var (
+	PtrNil = gl.Ptr(nil)
+)
+
 //	Represents a quaternion or 4-dimensional vector (32-bit gl.Float components)
 type GlVec4 [4]gl.Float
 

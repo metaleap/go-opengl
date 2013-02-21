@@ -49,40 +49,10 @@ func (me *TextureCube) PrepFromImages(bgra, uintRev bool, images ...image.Image)
 //	Uploads the image data pointed to in me.PixelData.Ptrs, if any.
 //	Generates the MIP map if me.MipMap.AutoGen is true and me.MipMap.NumLevels isn't 1.
 //	If me.MipMap.NumLevels is 0 (or just smaller than 1), then me.MaxNumMipLevels() is used.
-func (me *TextureCube) Recreate() (err error) {
-	err = me.onBeforeRecreate()
-	defer me.onAfterRecreate()
-	if err == nil {
-		var (
-			glTargets               [6]gl.Enum
-			hasPixData, hasAllFaces bool
-			i                       int
-		)
-		min, numLevels := int(gl.TEXTURE_CUBE_MAP_POSITIVE_X), me.MipMap.NumLevels
-		for i = 0; i < 6; i++ {
-			glTargets[i] = gl.Enum(min + i)
-		}
-		if numLevels < 1 {
-			numLevels = me.MaxNumMipLevels()
-		}
-		if me.immutable() {
-			err = Try.TexStorage2D(me.GlTarget, numLevels, me.SizedInternalFormat, me.Width, me.Height)
-		}
-		if hasAllFaces = true; err == nil {
-			for i = 0; i < 6; i++ {
-				if hasPixData = me.PixelData.Ptrs[i] != gl.Ptr(nil); !hasPixData {
-					hasAllFaces = false
-				}
-				if me.immutable() {
-					err = Try.TexSubImage2D(glTargets[i], 0, 0, 0, me.Width, me.Height, me.PixelData.Format, me.PixelData.Type, me.PixelData.Ptrs[i])
-				} else {
-					err = Try.TexImage2D(glTargets[i], 0, gl.Int(me.SizedInternalFormat), me.Width, me.Height, 0, me.PixelData.Format, me.PixelData.Type, me.PixelData.Ptrs[i])
-				}
-			}
-		}
-		if (err == nil) && hasAllFaces && me.MipMap.AutoGen {
-			err = Try.GenerateMipmap(me.GlTarget)
-		}
-	}
-	return
+func (me *TextureCube) Recreate() error {
+	return me.recreate(6, gl.TEXTURE_CUBE_MAP_POSITIVE_X, me.MaxNumMipLevels(), me.Width, me.Height)
+}
+
+func (me *TextureCube) SubImage(glTargetFace gl.Enum, x, y gl.Int, width, height gl.Sizei, ptr gl.Ptr) error {
+	return me.subImage(glTargetFace, x, y, width, height, ptr)
 }

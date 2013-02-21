@@ -48,26 +48,12 @@ func (me *Texture2D) PrepFromImage(bgra, uintRev bool, img image.Image) (err err
 //	Uploads the image data at me.PixelData.Ptrs[0], if any.
 //	Generates the MIP map if me.MipMap.AutoGen is true and me.MipMap.NumLevels isn't 1.
 //	If me.MipMap.NumLevels is 0 (or just smaller than 1), then me.MaxNumMipLevels() is used.
-func (me *Texture2D) Recreate() (err error) {
-	err = me.onBeforeRecreate()
-	defer me.onAfterRecreate()
-	if err == nil {
-		hasPixData, numLevels := me.PixelData.Ptrs[0] != gl.Ptr(nil), me.MipMap.NumLevels
-		if numLevels < 1 {
-			numLevels = me.MaxNumMipLevels()
-		}
-		if me.immutable() {
-			if err = Try.TexStorage2D(me.GlTarget, numLevels, me.SizedInternalFormat, me.Width, me.Height); hasPixData && (err == nil) {
-				err = Try.TexSubImage2D(me.GlTarget, 0, 0, 0, me.Width, me.Height, me.PixelData.Format, me.PixelData.Type, me.PixelData.Ptrs[0])
-			}
-		} else {
-			err = Try.TexImage2D(me.GlTarget, 0, gl.Int(me.SizedInternalFormat), me.Width, me.Height, 0, me.PixelData.Format, me.PixelData.Type, me.PixelData.Ptrs[0])
-		}
-		if (err == nil) && hasPixData && me.MipMap.AutoGen {
-			err = Try.GenerateMipmap(me.GlTarget)
-		}
-	}
-	return
+func (me *Texture2D) Recreate() error {
+	return me.recreate(1, me.GlTarget, me.MaxNumMipLevels(), me.Width, me.Height)
+}
+
+func (me *Texture2D) SubImage(x, y gl.Int, width, height gl.Sizei, ptr gl.Ptr) error {
+	return me.subImage(me.GlTarget, x, y, width, height, ptr)
 }
 
 //	Returns the maximum number of possible MIP map levels for a 2-dimensional texture image with the specified width and height.

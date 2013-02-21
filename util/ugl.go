@@ -111,6 +111,9 @@ var (
 			//	The maximum supported texture MIP-map LOD bias.
 			//	(The minimum would be the negative equivalent of this value.)
 			MaxMipLoadBias gl.Float
+
+			//	Defaults to true.
+			StreamUpdatesViaPixelBuffer bool
 		}
 	}
 
@@ -144,7 +147,8 @@ func setSupportInfos() {
 		}
 	}
 
-	//	Sampling limits
+	//	Sampling limits, textures
+	// Support.Textures.StreamUpdatesViaPixelBuffer = true
 	if Util.Extension("texture_filter_anisotropic") {
 		gl.GetFloatv(gl.MAX_TEXTURE_MAX_ANISOTROPY_EXT, &Support.Textures.MaxFilterAnisotropy)
 	}

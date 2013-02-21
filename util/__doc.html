@@ -135,7 +135,7 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 					<dd>&nbsp; &nbsp; <a href="#Buffer.Dispose">func (me *Buffer) Dispose()</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#Buffer.Map">func (me *Buffer) Map(read, write bool)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#Buffer.Map">func (me *Buffer) Map(read, write bool) *gl.Ptr</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#Buffer.Recreate">func (me *Buffer) Recreate(newGlTarget gl.Enum, sizeInBytes gl.Sizeiptr, initialData gl.Ptr, usageHint gl.Enum) (err error)</a></dd>
@@ -147,7 +147,7 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 					<dd>&nbsp; &nbsp; <a href="#Buffer.Unbind">func (me *Buffer) Unbind()</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#Buffer.Unmap">func (me *Buffer) Unmap()</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#Buffer.Unmap">func (me *Buffer) Unmap() gl.Boolean</a></dd>
 				
 			
 				
@@ -682,7 +682,10 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 					<dd>&nbsp; &nbsp; <a href="#Texture2D.PrepFromImage">func (me *Texture2D) PrepFromImage(bgra, uintRev bool, img image.Image) (err error)</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#Texture2D.Recreate">func (me *Texture2D) Recreate() (err error)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#Texture2D.Recreate">func (me *Texture2D) Recreate() error</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#Texture2D.SubImage">func (me *Texture2D) SubImage(x, y gl.Int, width, height gl.Sizei, ptr gl.Ptr) error</a></dd>
 				
 			
 				
@@ -770,7 +773,10 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 					<dd>&nbsp; &nbsp; <a href="#TextureCube.PrepFromImages">func (me *TextureCube) PrepFromImages(bgra, uintRev bool, images ...image.Image) (err error)</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#TextureCube.Recreate">func (me *TextureCube) Recreate() (err error)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#TextureCube.Recreate">func (me *TextureCube) Recreate() error</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#TextureCube.SubImage">func (me *TextureCube) SubImage(glTargetFace gl.Enum, x, y gl.Int, width, height gl.Sizei, ptr gl.Ptr) error</a></dd>
 				
 			
 				
@@ -984,6 +990,9 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
             <span class="comment">//	The maximum supported texture MIP-map LOD bias.</span>
             <span class="comment">//	(The minimum would be the negative equivalent of this value.)</span>
             MaxMipLoadBias gl.Float
+
+            <span class="comment">//	Defaults to true.</span>
+            StreamUpdatesViaPixelBuffer bool
         }
     }
 
@@ -993,11 +1002,16 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 )</pre>
 				
 			
+				<pre>var (
+    PtrNil = gl.Ptr(nil)
+)</pre>
+				
+			
 		
 		
 			
 			
-			<h2 id="Init">func <a href="/target/ugl.go?s=3984:3995#L114">Init</a></h2>
+			<h2 id="Init">func <a href="/target/ugl.go?s=4045:4056#L117">Init</a></h2>
 			<pre>func Init()</pre>
 			<p>
 DO call this immediately upon successful OpenGL context initialization to prepare this package for use.
@@ -1008,7 +1022,7 @@ Fully populates all fields and sub-fields in the Support package global.
 		
 			
 			
-			<h2 id="LogLastError">func <a href="/target/ugl.go?s=4096:4157#L120">LogLastError</a></h2>
+			<h2 id="LogLastError">func <a href="/target/ugl.go?s=4157:4218#L123">LogLastError</a></h2>
 			<pre>func LogLastError(stepFmt string, stepFmtArgs ...interface{})</pre>
 			<p>
 log.Println()s the error returned by Util.Error(), if any.
@@ -1018,7 +1032,7 @@ log.Println()s the error returned by Util.Error(), if any.
 		
 			
 			
-			<h2 id="VersionMajorMinor">func <a href="/target/ugl.go?s=6270:6322#L191">VersionMajorMinor</a></h2>
+			<h2 id="VersionMajorMinor">func <a href="/target/ugl.go?s=6397:6449#L195">VersionMajorMinor</a></h2>
 			<pre>func VersionMajorMinor(v float64) (major, minor int)</pre>
 			<p>
 Returns the major and minor parts of the specified version number.
@@ -1028,7 +1042,7 @@ Returns the major and minor parts of the specified version number.
 		
 			
 			
-			<h2 id="VersionMatch">func <a href="/target/ugl.go?s=6553:6586#L199">VersionMatch</a></h2>
+			<h2 id="VersionMatch">func <a href="/target/ugl.go?s=6680:6713#L203">VersionMatch</a></h2>
 			<pre>func VersionMatch(v float64) bool</pre>
 			<p>
 Returns true if GlVersion is greater than or equal to v.
@@ -1232,8 +1246,8 @@ Deletes this buffer object.
 				
 			
 				
-				<h3 id="Buffer.Map">func (*Buffer) <a href="/target/gl-buffer.go?s=4474:4513#L114">Map</a></h3>
-				<pre>func (me *Buffer) Map(read, write bool)</pre>
+				<h3 id="Buffer.Map">func (*Buffer) <a href="/target/gl-buffer.go?s=4474:4521#L114">Map</a></h3>
+				<pre>func (me *Buffer) Map(read, write bool) *gl.Ptr</pre>
 				<p>
 Maps to the client&#39;s address space the entire data store of whatever buffer object is currently bound to me.GlTarget.
 </p>
@@ -1242,7 +1256,7 @@ Maps to the client&#39;s address space the entire data store of whatever buffer 
 				
 			
 				
-				<h3 id="Buffer.Recreate">func (*Buffer) <a href="/target/gl-buffer.go?s=4835:4958#L120">Recreate</a></h3>
+				<h3 id="Buffer.Recreate">func (*Buffer) <a href="/target/gl-buffer.go?s=4850:4973#L120">Recreate</a></h3>
 				<pre>func (me *Buffer) Recreate(newGlTarget gl.Enum, sizeInBytes gl.Sizeiptr, initialData gl.Ptr, usageHint gl.Enum) (err error)</pre>
 				<p>
 Deletes this buffer object if applicable, generates it anew, and allocates its data store as specified,
@@ -1253,7 +1267,7 @@ populating it with the specified initialData if any. GlTarget is changed to newG
 				
 			
 				
-				<h3 id="Buffer.SubData">func (*Buffer) <a href="/target/gl-buffer.go?s=5626:5712#L150">SubData</a></h3>
+				<h3 id="Buffer.SubData">func (*Buffer) <a href="/target/gl-buffer.go?s=5659:5745#L150">SubData</a></h3>
 				<pre>func (me *Buffer) SubData(offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr) (err error)</pre>
 				<p>
 Buffers the specified data into this buffer object&#39;s data store at the specified offset.
@@ -1263,7 +1277,7 @@ Buffers the specified data into this buffer object&#39;s data store at the speci
 				
 			
 				
-				<h3 id="Buffer.Unbind">func (*Buffer) <a href="/target/gl-buffer.go?s=5353:5379#L140">Unbind</a></h3>
+				<h3 id="Buffer.Unbind">func (*Buffer) <a href="/target/gl-buffer.go?s=5368:5394#L140">Unbind</a></h3>
 				<pre>func (me *Buffer) Unbind()</pre>
 				<p>
 Unbinds whatever buffer object is currently bound to me.GlTarget.
@@ -1273,8 +1287,8 @@ Unbinds whatever buffer object is currently bound to me.GlTarget.
 				
 			
 				
-				<h3 id="Buffer.Unmap">func (*Buffer) <a href="/target/gl-buffer.go?s=5474:5499#L145">Unmap</a></h3>
-				<pre>func (me *Buffer) Unmap()</pre>
+				<h3 id="Buffer.Unmap">func (*Buffer) <a href="/target/gl-buffer.go?s=5489:5525#L145">Unmap</a></h3>
+				<pre>func (me *Buffer) Unmap() gl.Boolean</pre>
 				<p>
 Convenience short-hand for gl.UnmapBuffer(me.GlTarget)
 </p>
@@ -1496,7 +1510,7 @@ Initializes --but does not Recreate()-- a new FramebufferRendertexture with defa
 		
 			
 			
-			<h2 id="GlMat3">type <a href="/target/type-utils.go?s=566:589#L18">GlMat3</a></h2>
+			<h2 id="GlMat3">type <a href="/target/type-utils.go?s=597:620#L22">GlMat3</a></h2>
 			<pre>type GlMat3 [9]gl.Float</pre>
 			<p>
 Represents a 3x3 matrix of 9 32-bit gl.Float values
@@ -1511,7 +1525,7 @@ Represents a 3x3 matrix of 9 32-bit gl.Float values
 
 			
 				
-				<h3 id="NewGlMat3">func <a href="/target/type-utils.go?s=685:731#L21">NewGlMat3</a></h3>
+				<h3 id="NewGlMat3">func <a href="/target/type-utils.go?s=716:762#L25">NewGlMat3</a></h3>
 				<pre>func NewGlMat3(mat *unum.Mat3) (glMat *GlMat3)</pre>
 				<p>
 Instantiates and returns a new 3x3 matrix (32-bit) from the specified 3x3 matrix (64-bit).
@@ -1522,7 +1536,7 @@ Instantiates and returns a new 3x3 matrix (32-bit) from the specified 3x3 matrix
 
 			
 				
-				<h3 id="GlMat3.Load">func (*GlMat3) <a href="/target/type-utils.go?s=891:929#L29">Load</a></h3>
+				<h3 id="GlMat3.Load">func (*GlMat3) <a href="/target/type-utils.go?s=922:960#L33">Load</a></h3>
 				<pre>func (me *GlMat3) Load(mat *unum.Mat3)</pre>
 				<p>
 Sets all values in this 3x3 matrix (32-bit) from the specified 3x3 matrix (64-bit).
@@ -1534,7 +1548,7 @@ Sets all values in this 3x3 matrix (32-bit) from the specified 3x3 matrix (64-bi
 		
 			
 			
-			<h2 id="GlMat4">type <a href="/target/type-utils.go?s=1219:1243#L36">GlMat4</a></h2>
+			<h2 id="GlMat4">type <a href="/target/type-utils.go?s=1250:1274#L40">GlMat4</a></h2>
 			<pre>type GlMat4 [16]gl.Float</pre>
 			<p>
 Represents a 3x3 matrix of 16 32-bit gl.Float values
@@ -1549,7 +1563,7 @@ Represents a 3x3 matrix of 16 32-bit gl.Float values
 
 			
 				
-				<h3 id="NewGlMat4">func <a href="/target/type-utils.go?s=1339:1385#L39">NewGlMat4</a></h3>
+				<h3 id="NewGlMat4">func <a href="/target/type-utils.go?s=1370:1416#L43">NewGlMat4</a></h3>
 				<pre>func NewGlMat4(mat *unum.Mat4) (glMat *GlMat4)</pre>
 				<p>
 Instantiates and returns a new 4x4 matrix (32-bit) from the specified 4x4 matrix (64-bit).
@@ -1560,7 +1574,7 @@ Instantiates and returns a new 4x4 matrix (32-bit) from the specified 4x4 matrix
 
 			
 				
-				<h3 id="GlMat4.Load">func (*GlMat4) <a href="/target/type-utils.go?s=1545:1583#L47">Load</a></h3>
+				<h3 id="GlMat4.Load">func (*GlMat4) <a href="/target/type-utils.go?s=1576:1614#L51">Load</a></h3>
 				<pre>func (me *GlMat4) Load(mat *unum.Mat4)</pre>
 				<p>
 Sets all values in this 4x4 matrix (32-bit) from the specified 4x4 matrix (64-bit).
@@ -1830,7 +1844,7 @@ Returns the specified n integers as returned by gl.GetIntegerv().
 		
 			
 			
-			<h2 id="GlVec4">type <a href="/target/type-utils.go?s=327:350#L8">GlVec4</a></h2>
+			<h2 id="GlVec4">type <a href="/target/type-utils.go?s=358:381#L12">GlVec4</a></h2>
 			<pre>type GlVec4 [4]gl.Float</pre>
 			<p>
 Represents a quaternion or 4-dimensional vector (32-bit gl.Float components)
@@ -1847,7 +1861,7 @@ Represents a quaternion or 4-dimensional vector (32-bit gl.Float components)
 
 			
 				
-				<h3 id="GlVec4.Set">func (*GlVec4) <a href="/target/type-utils.go?s=392:431#L11">Set</a></h3>
+				<h3 id="GlVec4.Set">func (*GlVec4) <a href="/target/type-utils.go?s=423:462#L15">Set</a></h3>
 				<pre>func (me *GlVec4) Set(vals ...gl.Float)</pre>
 				<p>
 Sets me to the first 4-or-less vals.
@@ -3252,8 +3266,8 @@ me.PixelData.Type, me.PixelData.Format, me.PixelData.Ptrs[0], me.Width, me.Heigh
 				
 			
 				
-				<h3 id="Texture2D.Recreate">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=1753:1796#L41">Recreate</a></h3>
-				<pre>func (me *Texture2D) Recreate() (err error)</pre>
+				<h3 id="Texture2D.Recreate">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=1753:1790#L41">Recreate</a></h3>
+				<pre>func (me *Texture2D) Recreate() error</pre>
 				<p>
 Deletes and (re)creates the texture object based on its current params.
 Uploads the image data at me.PixelData.Ptrs[0], if any.
@@ -3264,10 +3278,17 @@ If me.MipMap.NumLevels is 0 (or just smaller than 1), then me.MaxNumMipLevels() 
 				
 				
 			
+				
+				<h3 id="Texture2D.SubImage">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=1875:1959#L45">SubImage</a></h3>
+				<pre>func (me *Texture2D) SubImage(x, y gl.Int, width, height gl.Sizei, ptr gl.Ptr) error</pre>
+				
+				
+				
+			
 		
 			
 			
-			<h2 id="TextureBase">type <a href="/target/gl-texture.go?s=348:1974#L11">TextureBase</a></h2>
+			<h2 id="TextureBase">type <a href="/target/gl-texture.go?s=348:1969#L11">TextureBase</a></h2>
 			<pre>type TextureBase struct {
     <span class="comment">//	The OpenGL handle for this texture object.</span>
     <span class="comment">//	This is 0 before calling Recreate() and after calling Dispose().</span>
@@ -3310,7 +3331,7 @@ If me.MipMap.NumLevels is 0 (or just smaller than 1), then me.MaxNumMipLevels() 
 
         <span class="comment">//	Pointers (one per sub-image) to the first pixel</span>
         <span class="comment">//	of the data stream to be uploaded by Recreate().</span>
-        <span class="comment">//	Initially defaults to []gl.Ptr { gl.Ptr(nil) }</span>
+        <span class="comment">//	Initially defaults to []gl.Ptr { PtrNil }</span>
         Ptrs []gl.Ptr
     }
 }</pre>
@@ -3329,7 +3350,7 @@ Embedded by specialized texture types such as Texture2D.
 
 			
 				
-				<h3 id="TextureBase.Bind">func (*TextureBase) <a href="/target/gl-texture.go?s=2006:2035#L59">Bind</a></h3>
+				<h3 id="TextureBase.Bind">func (*TextureBase) <a href="/target/gl-texture.go?s=2001:2030#L59">Bind</a></h3>
 				<pre>func (me *TextureBase) Bind()</pre>
 				<p>
 Binds this texture object.
@@ -3339,7 +3360,7 @@ Binds this texture object.
 				
 			
 				
-				<h3 id="TextureBase.Dispose">func (*TextureBase) <a href="/target/gl-texture.go?s=2127:2159#L64">Dispose</a></h3>
+				<h3 id="TextureBase.Dispose">func (*TextureBase) <a href="/target/gl-texture.go?s=2122:2154#L64">Dispose</a></h3>
 				<pre>func (me *TextureBase) Dispose()</pre>
 				<p>
 Deletes this texture object from OpenGL.
@@ -3529,7 +3550,7 @@ Sets the swizzle that will be applied to the R, G, B and A components of a texel
 				
 			
 				
-				<h3 id="TextureBase.Unbind">func (*TextureBase) <a href="/target/gl-texture.go?s=4525:4556#L152">Unbind</a></h3>
+				<h3 id="TextureBase.Unbind">func (*TextureBase) <a href="/target/gl-texture.go?s=6625:6656#L218">Unbind</a></h3>
 				<pre>func (me *TextureBase) Unbind()</pre>
 				<p>
 Unbinds whatever texture is currently bound.
@@ -3602,8 +3623,8 @@ me.PixelData.Type, me.PixelData.Format, me.PixelData.Ptrs, me.Width, me.Height, 
 				
 			
 				
-				<h3 id="TextureCube.Recreate">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=1908:1953#L42">Recreate</a></h3>
-				<pre>func (me *TextureCube) Recreate() (err error)</pre>
+				<h3 id="TextureCube.Recreate">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=1908:1947#L42">Recreate</a></h3>
+				<pre>func (me *TextureCube) Recreate() error</pre>
 				<p>
 Deletes and (re)creates the texture object based on its current params.
 Uploads the image data pointed to in me.PixelData.Ptrs, if any.
@@ -3614,10 +3635,17 @@ If me.MipMap.NumLevels is 0 (or just smaller than 1), then me.MaxNumMipLevels() 
 				
 				
 			
+				
+				<h3 id="TextureCube.SubImage">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=2051:2159#L46">SubImage</a></h3>
+				<pre>func (me *TextureCube) SubImage(glTargetFace gl.Enum, x, y gl.Int, width, height gl.Sizei, ptr gl.Ptr) error</pre>
+				
+				
+				
+			
 		
 			
 			
-			<h2 id="TypeUtils">type <a href="/target/type-utils.go?s=2079:2104#L55">TypeUtils</a></h2>
+			<h2 id="TypeUtils">type <a href="/target/type-utils.go?s=2110:2135#L59">TypeUtils</a></h2>
 			<pre>type TypeUtils struct {
 }</pre>
 			<p>
@@ -3635,7 +3663,7 @@ A singleton type, only used for the package-global ugl.Typed variable.
 
 			
 				
-				<h3 id="TypeUtils.Clamp">func (TypeUtils) <a href="/target/type-utils.go?s=2155:2212#L59">Clamp</a></h3>
+				<h3 id="TypeUtils.Clamp">func (TypeUtils) <a href="/target/type-utils.go?s=2186:2243#L63">Clamp</a></h3>
 				<pre>func (_ TypeUtils) Clamp(val, min, max gl.Float) gl.Float</pre>
 				<p>
 Clamps the specified val between min and max.
@@ -3645,7 +3673,7 @@ Clamps the specified val between min and max.
 				
 			
 				
-				<h3 id="TypeUtils.Ifb">func (TypeUtils) <a href="/target/type-utils.go?s=2423:2504#L71">Ifb</a></h3>
+				<h3 id="TypeUtils.Ifb">func (TypeUtils) <a href="/target/type-utils.go?s=2454:2535#L75">Ifb</a></h3>
 				<pre>func (_ TypeUtils) Ifb(one, two bool, ifOne, ifTwo, ifBoth gl.Enum) (val gl.Enum)</pre>
 				<p>
 If one but not two, return ifOne. If two but not one, return ifTwo. Else, return ifBoth.
@@ -3655,7 +3683,7 @@ If one but not two, return ifOne. If two but not one, return ifTwo. Else, return
 				
 			
 				
-				<h3 id="TypeUtils.Ife">func (TypeUtils) <a href="/target/type-utils.go?s=2679:2745#L83">Ife</a></h3>
+				<h3 id="TypeUtils.Ife">func (TypeUtils) <a href="/target/type-utils.go?s=2710:2776#L87">Ife</a></h3>
 				<pre>func (_ TypeUtils) Ife(cond bool, ifTrue, ifFalse gl.Enum) gl.Enum</pre>
 				<p>
 Returns ifTrue if cond is true, otherwise returns ifFalse.
@@ -3665,7 +3693,7 @@ Returns ifTrue if cond is true, otherwise returns ifFalse.
 				
 			
 				
-				<h3 id="TypeUtils.Ifi">func (TypeUtils) <a href="/target/type-utils.go?s=2859:2923#L91">Ifi</a></h3>
+				<h3 id="TypeUtils.Ifi">func (TypeUtils) <a href="/target/type-utils.go?s=2890:2954#L95">Ifi</a></h3>
 				<pre>func (_ TypeUtils) Ifi(cond bool, ifTrue, ifFalse gl.Int) gl.Int</pre>
 				<p>
 Returns ifTrue if cond is true, otherwise returns ifFalse.

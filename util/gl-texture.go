@@ -60,7 +60,7 @@ type TextureBase struct {
 
 		//	Pointers (one per sub-image) to the first pixel
 		//	of the data stream to be uploaded by Recreate().
-		//	Initially defaults to []gl.Ptr { gl.Ptr(nil) }
+		//	Initially defaults to []gl.Ptr { PtrNil }
 		Ptrs []gl.Ptr
 	}
 }
@@ -87,7 +87,7 @@ func (me *TextureBase) init() {
 	me.SizedInternalFormat = gl.RGBA8
 	me.PixelData.Format = gl.RGBA
 	me.PixelData.Type = gl.UNSIGNED_BYTE
-	me.PixelData.Ptrs = []gl.Ptr{gl.Ptr(nil)}
+	me.PixelData.Ptrs = []gl.Ptr{PtrNil}
 }
 
 func (me *TextureBase) onAfterRecreate() {
@@ -155,6 +155,72 @@ func (me *TextureBase) prepFromImages(bgra, uintRev bool, images ...image.Image)
 			err = errf("Unsupported image.Image type (%v) for use as OpenGL texture", reflect.TypeOf(pic))
 		}
 	}
+	return
+}
+
+func (me *TextureBase) recreate(numTargets int, initialTarget gl.Enum, maxNumMipLevels, width, height gl.Sizei) (err error) {
+	err = me.onBeforeRecreate()
+	defer me.onAfterRecreate()
+	if err == nil {
+		var (
+			glTargets               []gl.Enum
+			hasPixData, hasAllFaces bool
+			i                       int
+		)
+		min, numLevels := int(initialTarget), me.MipMap.NumLevels
+		glTargets = make([]gl.Enum, numTargets)
+		for i = 0; i < numTargets; i++ {
+			glTargets[i] = gl.Enum(min + i)
+		}
+		if numLevels < 1 {
+			numLevels = maxNumMipLevels
+		}
+		if me.immutable() {
+			err = Try.TexStorage2D(me.GlTarget, numLevels, me.SizedInternalFormat, width, height)
+		}
+		if hasAllFaces = true; err == nil {
+			for i = 0; i < numTargets; i++ {
+				if hasPixData = me.PixelData.Ptrs[i] != PtrNil; !hasPixData {
+					hasAllFaces = false
+				}
+				if me.immutable() {
+					err = me.subImage(glTargets[i], 0, 0, width, height, me.PixelData.Ptrs[i])
+				} else {
+					err = me.texImage(glTargets[i], width, height, me.PixelData.Ptrs[i])
+				}
+			}
+		}
+		if (err == nil) && hasAllFaces && me.MipMap.AutoGen {
+			err = Try.GenerateMipmap(me.GlTarget)
+		}
+	}
+	return
+}
+
+func (me *TextureBase) subImage(glTarget gl.Enum, x, y gl.Int, width, height gl.Sizei, ptr gl.Ptr) (err error) {
+	if ptr != PtrNil {
+		if Support.Textures.StreamUpdatesViaPixelBuffer {
+			buf := NewPixelUnpackBuffer()
+			defer buf.Dispose()
+			buf.Recreate(0, gl.Sizeiptr(width*height*4), PtrNil, gl.STREAM_DRAW)
+			buf.Bind()
+			defer buf.Unbind()
+			pbo := buf.Map(true, true)
+			if pbo == nil {
+				panic(Util.LastError("Huh?"))
+			}
+			*pbo = gl.Ptr(ptr)
+			buf.Unmap()
+			err = Try.TexSubImage2D(glTarget, 0, x, y, width, height, me.PixelData.Format, me.PixelData.Type, PtrNil)
+		} else {
+			err = Try.TexSubImage2D(glTarget, 0, x, y, width, height, me.PixelData.Format, me.PixelData.Type, ptr)
+		}
+	}
+	return
+}
+
+func (me *TextureBase) texImage(glTarget gl.Enum, width, height gl.Sizei, ptr gl.Ptr) (err error) {
+	err = Try.TexImage2D(glTarget, 0, gl.Int(me.SizedInternalFormat), width, height, 0, me.PixelData.Format, me.PixelData.Type, ptr)
 	return
 }
 

@@ -121,8 +121,8 @@ func (me *Buffer) Dispose() {
 }
 
 //	Maps to the client's address space the entire data store of whatever buffer object is currently bound to me.GlTarget.
-func (me *Buffer) Map(read, write bool) {
-	gl.MapBuffer(me.GlTarget, Typed.Ifb(read, write, gl.READ_ONLY, gl.WRITE_ONLY, gl.READ_WRITE))
+func (me *Buffer) Map(read, write bool) *gl.Ptr {
+	return gl.MapBuffer(me.GlTarget, Typed.Ifb(read, write, gl.READ_ONLY, gl.WRITE_ONLY, gl.READ_WRITE))
 }
 
 //	Deletes this buffer object if applicable, generates it anew, and allocates its data store as specified,
@@ -152,8 +152,8 @@ func (me *Buffer) Unbind() {
 }
 
 //	Convenience short-hand for gl.UnmapBuffer(me.GlTarget)
-func (me *Buffer) Unmap() {
-	gl.UnmapBuffer(me.GlTarget)
+func (me *Buffer) Unmap() gl.Boolean {
+	return gl.UnmapBuffer(me.GlTarget)
 }
 
 //	Buffers the specified data into this buffer object's data store at the specified offset.
