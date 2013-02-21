@@ -109,8 +109,8 @@ func (me *TextureBase) onBeforeRecreate() (err error) {
 }
 
 func (me *TextureBase) prepFromImages(bgra, uintRev bool, images ...image.Image) (err error) {
-	pfmt := Typed.Ife(bgra, gl.BGRA, gl.RGBA)
-	pixData := &me.PixelData
+	pixData, pfmt := &me.PixelData, Typed.Ife(bgra, gl.BGRA, gl.RGBA)
+	pixData.Format = pfmt
 	pixData.Type = Typed.Ife(uintRev, gl.UNSIGNED_INT_8_8_8_8_REV, gl.UNSIGNED_BYTE)
 	if len(pixData.Ptrs) < len(images) {
 		nuPtrs := make([]gl.Ptr, len(images))
