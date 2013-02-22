@@ -104,22 +104,21 @@ func (me *ProgramManager) MakeProgramsFromRawSources(forceAll bool, forceSome ..
 			}
 		}
 		srcCx, srcFx, srcGx, srcHx, srcDx, srcVx = rs.Compute[name], rs.Fragment[name], rs.Geometry[name], rs.TessCtl[name], rs.TessEval[name], rs.Vertex[name]
+		for tmpMap, srcTmp = range map[*map[string]string]string{
+			&me.FinalRealSources.Compute:  srcCx,
+			&me.FinalRealSources.Fragment: srcFx,
+			&me.FinalRealSources.Geometry: srcGx,
+			&me.FinalRealSources.TessCtl:  srcHx,
+			&me.FinalRealSources.TessEval: srcDx,
+			&me.FinalRealSources.Vertex:   srcVx,
+		} {
+			(*tmpMap)[name] = srcTmp
+		}
 		if err = prog.CompileAndLinkShaders(&srcCx, &srcFx, &srcGx, &srcHx, &srcDx, &srcVx, me.Defines); err != nil {
 			prog.Dispose()
 			return
 		} else {
 			me.Programs[name] = prog
-			for tmpMap, srcTmp = range map[*map[string]string]string{
-				&me.FinalRealSources.Compute:  srcCx,
-				&me.FinalRealSources.Fragment: srcFx,
-				&me.FinalRealSources.Geometry: srcGx,
-				&me.FinalRealSources.TessCtl:  srcHx,
-				&me.FinalRealSources.TessEval: srcDx,
-				&me.FinalRealSources.Vertex:   srcVx,
-			} {
-				(*tmpMap)[name] = srcTmp
-			}
-
 		}
 	}
 	dur = time.Now().Sub(timeStart)

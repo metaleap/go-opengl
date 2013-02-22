@@ -18,6 +18,14 @@ var (
 	PtrNil = gl.Ptr(nil)
 )
 
+type GlVec3 [3]gl.Float
+
+func (me *GlVec3) Set(vals ...gl.Float) {
+	for i := 0; (i < len(me)) && (i < len(vals)); i++ {
+		me[i] = vals[i]
+	}
+}
+
 //	Represents a quaternion or 4-dimensional vector (32-bit gl.Float components)
 type GlVec4 [4]gl.Float
 

@@ -22,11 +22,20 @@ type Program struct {
 
 	//	All uniforms and their locations mapped for this program object (after the SetUnifLocations() method has been called).
 	UnifLocs map[string]gl.Int
+
+	unifCache struct {
+		loc gl.Int
+		ok  bool
+		c1i map[gl.Int]gl.Int
+		c1f map[gl.Int]gl.Float
+	}
 }
 
 //	Initializes and returns --but does not Create()-- a new Program with the specified name.
 func NewProgram(name string) (me *Program) {
 	me = &Program{Name: name, AttrLocs: map[string]gl.Uint{}, UnifLocs: map[string]gl.Int{}}
+	me.unifCache.c1i = map[gl.Int]gl.Int{}
+	me.unifCache.c1f = map[gl.Int]gl.Float{}
 	return
 }
 
@@ -179,6 +188,32 @@ func (me *Program) SetUnifLocations(unifNames ...string) (err error) {
 		}
 	}
 	return
+}
+
+func (me *Program) Uniform1i(name string, v0 gl.Int) {
+	if me.unifCache.loc, me.unifCache.ok = me.UnifLocs[name]; me.unifCache.ok && me.unifCache.c1i[me.unifCache.loc] != v0 {
+		me.unifCache.c1i[me.unifCache.loc] = v0
+		gl.Uniform1i(me.unifCache.loc, v0)
+	}
+}
+
+func (me *Program) Uniform1f(name string, v0 gl.Float) {
+	if me.unifCache.loc, me.unifCache.ok = me.UnifLocs[name]; me.unifCache.ok && me.unifCache.c1f[me.unifCache.loc] != v0 {
+		me.unifCache.c1f[me.unifCache.loc] = v0
+		gl.Uniform1f(me.unifCache.loc, v0)
+	}
+}
+
+func (me *Program) Uniform3fv(name string, count gl.Sizei, value *gl.Float) {
+	if me.unifCache.loc, me.unifCache.ok = me.UnifLocs[name]; me.unifCache.ok {
+		gl.Uniform3fv(me.unifCache.loc, count, value)
+	}
+}
+
+func (me *Program) UniformMatrix4fv(name string, count gl.Sizei, transpose gl.Boolean, value *gl.Float) {
+	if me.unifCache.loc, me.unifCache.ok = me.UnifLocs[name]; me.unifCache.ok {
+		gl.UniformMatrix4fv(me.unifCache.loc, count, transpose, value)
+	}
 }
 
 //	Installs this program object as part of current rendering state.
