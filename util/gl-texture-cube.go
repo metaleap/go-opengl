@@ -8,7 +8,10 @@ import (
 
 //	Represents six 2-dimensional texture images of equal dimensions.
 type TextureCube struct {
+	//	Common texture params
 	TextureBase
+
+	//	Width and height of mip-level 0 for all 6 cube-faces.
 	Width, Height gl.Sizei
 }
 
@@ -53,6 +56,7 @@ func (me *TextureCube) Recreate() error {
 	return me.recreate(6, gl.TEXTURE_CUBE_MAP_POSITIVE_X, me.MaxNumMipLevels(), me.Width, me.Height)
 }
 
+//	Updates the specified portion of the specified cube-face image with the specified pixel data.
 func (me *TextureCube) SubImage(glTargetFace gl.Enum, x, y gl.Int, width, height gl.Sizei, ptr gl.Ptr) error {
 	return me.subImage(glTargetFace, x, y, width, height, ptr)
 }

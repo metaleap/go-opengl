@@ -18,15 +18,17 @@ var (
 	PtrNil = gl.Ptr(nil)
 )
 
+//	Represents a 3-dimensional vector (32-bit per component)
 type GlVec3 [3]gl.Float
 
+//	Sets me to the first 3-or-less vals.
 func (me *GlVec3) Set(vals ...gl.Float) {
 	for i := 0; (i < len(me)) && (i < len(vals)); i++ {
 		me[i] = vals[i]
 	}
 }
 
-//	Represents a quaternion or 4-dimensional vector (32-bit gl.Float components)
+//	Represents a quaternion or 4-dimensional vector (32-bit per component)
 type GlVec4 [4]gl.Float
 
 //	Sets me to the first 4-or-less vals.

@@ -92,6 +92,7 @@ func (me *Framebuffer) reinitTexture(tex *FramebufferRendertexture) {
 	}
 }
 
+//	Returns the FramebufferRendertexture attached to me at the specified index.
 func (me *Framebuffer) RenderTexture(index int) *FramebufferRendertexture {
 	return me.rendertextures[index]
 }

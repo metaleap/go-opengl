@@ -52,6 +52,7 @@ func (me *Texture2D) Recreate() error {
 	return me.recreate(1, me.GlTarget, me.MaxNumMipLevels(), me.Width, me.Height)
 }
 
+//	Updates the specified portion of this texture image with the specified pixel data.
 func (me *Texture2D) SubImage(x, y gl.Int, width, height gl.Sizei, ptr gl.Ptr) error {
 	return me.subImage(me.GlTarget, x, y, width, height, ptr)
 }

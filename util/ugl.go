@@ -112,7 +112,7 @@ var (
 			//	(The minimum would be the negative equivalent of this value.)
 			MaxMipLoadBias gl.Float
 
-			//	Defaults to true.
+			//	Experimental.
 			StreamUpdatesViaPixelBuffer bool
 		}
 	}
