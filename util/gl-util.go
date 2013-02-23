@@ -7,16 +7,7 @@ import (
 
 //	A singleton type, only used for the package-global ugl.Util variable.
 type GlUtil struct {
-	activeTexImgUnit int
-}
-
-//	If texImgUnit is different than the currently active texture image unit,
-//	calls gl.ActiveTexture(gl.TEXTURE0 + texImgUnit)
-func (_ GlUtil) ActiveTexture(texImgUnit int) {
-	if texImgUnit != Util.activeTexImgUnit {
-		Util.activeTexImgUnit = texImgUnit
-		gl.ActiveTexture(gl.Enum(gl.TEXTURE0 + texImgUnit))
-	}
+	activeTexImgUnit gl.Enum
 }
 
 //	Returns an OpenGL connection-info string of the format "OpenGL {version} @ {vendor} {renderer} (GLSL: {version})"
@@ -61,18 +52,6 @@ func (_ GlUtil) EnumName(enum gl.Enum) (name string) {
 	return
 }
 
-//	If the GL error flag is currently set, returns an error with the specified
-//	message and the GL error flag(s).
-func (_ GlUtil) LastError(msgFmt string, fmtArgs ...interface{}) (err error) {
-	if flags := gl.Util.ErrorFlags(); len(flags) > 0 {
-		for _, e := range flags {
-			msgFmt = Util.EnumName(e) + " " + msgFmt
-		}
-		err = errf(msgFmt, fmtArgs...)
-	}
-	return
-}
-
 //	Returns true if the specified extension (ignoring upper/lower-case) is supported by the current OpenGL context, as per the global Support.Extensions variable.
 //	If the extension uses a well-known prefix contained in KnownExtensionPrefixes, it can be omitted, ie. you can just specify "texture_filter_anisotropic" instead of "GL_EXT_texture_filter_anisotropic".
 func (_ GlUtil) Extension(name string) bool {
@@ -85,6 +64,26 @@ func (_ GlUtil) Extension(name string) bool {
 		}
 	}
 	return false
+}
+
+//	If the GL error flag is currently set, returns an error with the specified
+//	message and the GL error flag(s).
+func (_ GlUtil) LastError(msgFmt string, fmtArgs ...interface{}) (err error) {
+	if flags := gl.Util.ErrorFlags(); len(flags) > 0 {
+		for _, e := range flags {
+			msgFmt = Util.EnumName(e) + " " + msgFmt
+		}
+		err = errf(msgFmt, fmtArgs...)
+	}
+	return
+}
+
+//	If texImgUnit is different than the currently active texture image unit, activates it.
+func (_ GlUtil) SetActiveTextureUnit(texImgUnit gl.Enum) {
+	if texImgUnit != Util.activeTexImgUnit {
+		Util.activeTexImgUnit = texImgUnit
+		gl.ActiveTexture(texImgUnit)
+	}
 }
 
 //	Returns the specified OpenGL string.

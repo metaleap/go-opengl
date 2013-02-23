@@ -275,9 +275,6 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 				
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#GlUtil.ActiveTexture">func (_ GlUtil) ActiveTexture(texImgUnit int)</a></dd>
-				
-					
 					<dd>&nbsp; &nbsp; <a href="#GlUtil.ConnInfo">func (_ GlUtil) ConnInfo() string</a></dd>
 				
 					
@@ -288,6 +285,9 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#GlUtil.LastError">func (_ GlUtil) LastError(msgFmt string, fmtArgs ...interface{}) (err error)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlUtil.SetActiveTextureUnit">func (_ GlUtil) SetActiveTextureUnit(texImgUnit gl.Enum)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#GlUtil.Str">func (_ GlUtil) Str(name gl.Enum) string</a></dd>
@@ -820,6 +820,20 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 				
 			
 				
+				<dd><a href="#UniformBlock">type UniformBlock</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#NewUniformBlock">func NewUniformBlock(name string) (me *UniformBlock)</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#UniformBlock.Create">func (me *UniformBlock) Create()</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#UniformBlock.Dispose">func (me *UniformBlock) Dispose()</a></dd>
+				
+			
+				
 				<dd><a href="#VertexArray">type VertexArray</a></dd>
 				
 				
@@ -878,6 +892,8 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 				<a href="/target/gl-texture-params.go">gl-texture-params.go</a>
 			
 				<a href="/target/gl-texture.go">gl-texture.go</a>
+			
+				<a href="/target/gl-uniform-block.go">gl-uniform-block.go</a>
 			
 				<a href="/target/gl-util.go">gl-util.go</a>
 			
@@ -1763,7 +1779,7 @@ Calls gl.TexSubImage2D() and yields the err returned by Util.LastError(), if any
 		
 			
 			
-			<h2 id="GlUtil">type <a href="/target/gl-util.go?s=175:219#L1">GlUtil</a></h2>
+			<h2 id="GlUtil">type <a href="/target/gl-util.go?s=175:223#L1">GlUtil</a></h2>
 			<pre>type GlUtil struct {
     <span class="comment">// contains filtered or unexported fields</span>
 }</pre>
@@ -1782,18 +1798,7 @@ A singleton type, only used for the package-global ugl.Util variable.
 
 			
 				
-				<h3 id="GlUtil.ActiveTexture">func (GlUtil) <a href="/target/gl-util.go?s=349:394#L5">ActiveTexture</a></h3>
-				<pre>func (_ GlUtil) ActiveTexture(texImgUnit int)</pre>
-				<p>
-If texImgUnit is different than the currently active texture image unit,
-calls gl.ActiveTexture(gl.TEXTURE0 + texImgUnit)
-</p>
-
-				
-				
-			
-				
-				<h3 id="GlUtil.ConnInfo">func (GlUtil) <a href="/target/gl-util.go?s=760:793#L14">ConnInfo</a></h3>
+				<h3 id="GlUtil.ConnInfo">func (GlUtil) <a href="/target/gl-util.go?s=449:482#L5">ConnInfo</a></h3>
 				<pre>func (_ GlUtil) ConnInfo() string</pre>
 				<p>
 Returns an OpenGL connection-info string of the format &#34;OpenGL {version} @ {vendor} {renderer} (GLSL: {version})&#34;
@@ -1804,7 +1809,7 @@ Example: &#34;OpenGL 4.2.0 @ NVIDIA Corporation Quadro 5010M/PCIe/SSE2 (GLSL: 4.
 				
 			
 				
-				<h3 id="GlUtil.EnumName">func (GlUtil) <a href="/target/gl-util.go?s=1093:1145#L20">EnumName</a></h3>
+				<h3 id="GlUtil.EnumName">func (GlUtil) <a href="/target/gl-util.go?s=782:834#L11">EnumName</a></h3>
 				<pre>func (_ GlUtil) EnumName(enum gl.Enum) (name string)</pre>
 				<p>
 Returns the name of the specified enum. Out of the over 1290 possible enum values, currently only supports
@@ -1815,7 +1820,7 @@ error codes and shader stages.
 				
 			
 				
-				<h3 id="GlUtil.Extension">func (GlUtil) <a href="/target/gl-util.go?s=2715:2758#L68">Extension</a></h3>
+				<h3 id="GlUtil.Extension">func (GlUtil) <a href="/target/gl-util.go?s=2035:2078#L47">Extension</a></h3>
 				<pre>func (_ GlUtil) Extension(name string) bool</pre>
 				<p>
 Returns true if the specified extension (ignoring upper/lower-case) is supported by the current OpenGL context, as per the global Support.Extensions variable.
@@ -1826,7 +1831,7 @@ If the extension uses a well-known prefix contained in KnownExtensionPrefixes, i
 				
 			
 				
-				<h3 id="GlUtil.LastError">func (GlUtil) <a href="/target/gl-util.go?s=2096:2172#L56">LastError</a></h3>
+				<h3 id="GlUtil.LastError">func (GlUtil) <a href="/target/gl-util.go?s=2419:2495#L61">LastError</a></h3>
 				<pre>func (_ GlUtil) LastError(msgFmt string, fmtArgs ...interface{}) (err error)</pre>
 				<p>
 If the GL error flag is currently set, returns an error with the specified
@@ -1837,7 +1842,17 @@ message and the GL error flag(s).
 				
 			
 				
-				<h3 id="GlUtil.Str">func (GlUtil) <a href="/target/gl-util.go?s=3076:3116#L82">Str</a></h3>
+				<h3 id="GlUtil.SetActiveTextureUnit">func (GlUtil) <a href="/target/gl-util.go?s=2763:2819#L72">SetActiveTextureUnit</a></h3>
+				<pre>func (_ GlUtil) SetActiveTextureUnit(texImgUnit gl.Enum)</pre>
+				<p>
+If texImgUnit is different than the currently active texture image unit, activates it.
+</p>
+
+				
+				
+			
+				
+				<h3 id="GlUtil.Str">func (GlUtil) <a href="/target/gl-util.go?s=3030:3070#L81">Str</a></h3>
 				<pre>func (_ GlUtil) Str(name gl.Enum) string</pre>
 				<p>
 Returns the specified OpenGL string.
@@ -1848,7 +1863,7 @@ Example: GlStr(gl.VENDOR) = &#34;NVIDIA Corporation&#34;
 				
 			
 				
-				<h3 id="GlUtil.Stri">func (GlUtil) <a href="/target/gl-util.go?s=3339:3391#L88">Stri</a></h3>
+				<h3 id="GlUtil.Stri">func (GlUtil) <a href="/target/gl-util.go?s=3293:3345#L87">Stri</a></h3>
 				<pre>func (_ GlUtil) Stri(name gl.Enum, i gl.Uint) string</pre>
 				<p>
 Returns the specified OpenGL string at the specified index.
@@ -1859,7 +1874,7 @@ For example, GlStri(gl.EXTENSIONS, 0) returns the name of the &#34;first&#34; of
 				
 			
 				
-				<h3 id="GlUtil.Val">func (GlUtil) <a href="/target/gl-util.go?s=3567:3613#L94">Val</a></h3>
+				<h3 id="GlUtil.Val">func (GlUtil) <a href="/target/gl-util.go?s=3521:3567#L93">Val</a></h3>
 				<pre>func (_ GlUtil) Val(name gl.Enum) (val gl.Int)</pre>
 				<p>
 Returns the specified integer as returned by gl.GetIntegerv().
@@ -1870,7 +1885,7 @@ Example: numExts := GlVal(gl.NUM_EXTENSIONS)
 				
 			
 				
-				<h3 id="GlUtil.Vals">func (GlUtil) <a href="/target/gl-util.go?s=3724:3782#L100">Vals</a></h3>
+				<h3 id="GlUtil.Vals">func (GlUtil) <a href="/target/gl-util.go?s=3678:3736#L99">Vals</a></h3>
 				<pre>func (_ GlUtil) Vals(name gl.Enum, n uint) (vals []gl.Int)</pre>
 				<p>
 Returns the specified n integers as returned by gl.GetIntegerv().
@@ -2153,7 +2168,7 @@ checking gl.VALIDATE_STATUS and obtaining gl.GetProgramInfoLog().
 		
 			
 			
-			<h2 id="ProgramManager">type <a href="/target/program-manager.go?s=1208:2085#L29">ProgramManager</a></h2>
+			<h2 id="ProgramManager">type <a href="/target/program-manager.go?s=373:1297#L2">ProgramManager</a></h2>
 			<pre>type ProgramManager struct {
     <span class="comment">//	These name-value pairs are prepended to shader sources</span>
     <span class="comment">//	as #define directives in MakeProgramsFromRawSources().</span>
@@ -2167,13 +2182,17 @@ checking gl.VALIDATE_STATUS and obtaining gl.GetProgramInfoLog().
     <span class="comment">//	To be populated by the MakeProgramsFromRawSources() method.</span>
     Programs map[string]*Program
 
-    <span class="comment">//	Shader sources to be linked to named programs by MakeProgramsFromRawSources(),</span>
-    <span class="comment">//	each to be associated with a name that is also in Names.</span>
-    RawSources ProgramSources
+    Sources struct {
+        <span class="comment">//	Shader sources to be linked to named programs by MakeProgramsFromRawSources(),</span>
+        <span class="comment">//	each to be associated with a name that is also in Names.</span>
+        In ProgramSources
 
-    <span class="comment">//	Repopulated by each MakeProgramsFromRawSources() call, contains the actual</span>
-    <span class="comment">//	full GLSL source strings as sent to GL, including #define and #version directives.</span>
-    FinalRealSources ProgramSources
+        <span class="comment">//	Repopulated by each MakeProgramsFromRawSources() call, contains the actual</span>
+        <span class="comment">//	full GLSL source strings as sent to GL, including #define and #version directives.</span>
+        Out ProgramSources
+    }
+
+    UniformBlocks map[string]*UniformBlock
 }</pre>
 			<p>
 A simple container to collect multiple program objects by name and compile them all in one go.
@@ -2192,7 +2211,7 @@ After using a ProgramManager, Reset() cleans up and deletes resources allocated 
 
 			
 				
-				<h3 id="ProgramManager.CloneRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=2325:2405#L53">CloneRawSources</a></h3>
+				<h3 id="ProgramManager.CloneRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=1537:1617#L30">CloneRawSources</a></h3>
 				<pre>func (me *ProgramManager) CloneRawSources(srcName, dstName string) (cloned bool)</pre>
 				<p>
 Creates copies of all RawSources with srcName as dstName, and adds dstName to me.Names.
@@ -2203,7 +2222,7 @@ Typical use-case: compile an existing program anew but with different #defines (
 				
 			
 				
-				<h3 id="ProgramManager.MakeProgramsFromRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=3506:3625#L75">MakeProgramsFromRawSources</a></h3>
+				<h3 id="ProgramManager.MakeProgramsFromRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=2718:2837#L52">MakeProgramsFromRawSources</a></h3>
 				<pre>func (me *ProgramManager) MakeProgramsFromRawSources(forceAll bool, forceSome ...string) (dur time.Duration, err error)</pre>
 				<p>
 For each program name in me.Names: creates a new Program, compiles all Shader stages for that name in me.RawSources, and
@@ -2218,7 +2237,7 @@ If an error occurs, this method returns it immediately; otherwise, dur contains 
 				
 			
 				
-				<h3 id="ProgramManager.Reset">func (*ProgramManager) <a href="/target/program-manager.go?s=5000:5033#L120">Reset</a></h3>
+				<h3 id="ProgramManager.Reset">func (*ProgramManager) <a href="/target/program-manager.go?s=4177:4210#L97">Reset</a></h3>
 				<pre>func (me *ProgramManager) Reset()</pre>
 				<p>
 Allocates/re-initializes all maps in me (Programs, Defines, RawSources) as new empty maps.
@@ -2231,7 +2250,7 @@ Also deletes all existing me.Programs (if any) from OpenGL.
 		
 			
 			
-			<h2 id="ProgramSources">type <a href="/target/program-manager.go?s=149:708#L1">ProgramSources</a></h2>
+			<h2 id="ProgramSources">type <a href="/target/program-manager.go?s=4643:5202#L116">ProgramSources</a></h2>
 			<pre>type ProgramSources struct {
     <span class="comment">//	Named shader sources for the Compute Shader stage.</span>
     Compute map[string]string
@@ -3826,6 +3845,45 @@ Returns ifTrue if cond is true, otherwise returns ifFalse.
 		
 			
 			
+			<h2 id="UniformBlock">type <a href="/target/gl-uniform-block.go?s=62:120#L1">UniformBlock</a></h2>
+			<pre>type UniformBlock struct {
+    Buffer Buffer
+    Name   string
+}</pre>
+			
+
+			
+
+			
+
+			
+
+			
+				
+				<h3 id="NewUniformBlock">func <a href="/target/gl-uniform-block.go?s=122:174#L2">NewUniformBlock</a></h3>
+				<pre>func NewUniformBlock(name string) (me *UniformBlock)</pre>
+				
+				
+			
+
+			
+				
+				<h3 id="UniformBlock.Create">func (*UniformBlock) <a href="/target/gl-uniform-block.go?s=260:292#L8">Create</a></h3>
+				<pre>func (me *UniformBlock) Create()</pre>
+				
+				
+				
+			
+				
+				<h3 id="UniformBlock.Dispose">func (*UniformBlock) <a href="/target/gl-uniform-block.go?s=382:415#L13">Dispose</a></h3>
+				<pre>func (me *UniformBlock) Dispose()</pre>
+				
+				
+				
+			
+		
+			
+			
 			<h2 id="VertexArray">type <a href="/target/gl-vertex-array.go?s=188:351#L1">VertexArray</a></h2>
 			<pre>type VertexArray struct {
     <span class="comment">//	The OpenGL handle to this vertex array object.</span>
@@ -3877,17 +3935,18 @@ Deletes this vertex array object.
 				
 			
 				
-				<h3 id="VertexArray.Setup">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=912:1013#L25">Setup</a></h3>
+				<h3 id="VertexArray.Setup">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=958:1059#L26">Setup</a></h3>
 				<pre>func (me *VertexArray) Setup(prog *Program, atts []*VertexAttribPointer, bufs ...*Buffer) (err error)</pre>
 				<p>
-Sets up this vertex array object, associating it with the specified buffer objects and enabling the specified vertex attributes for it.
+Sets up this vertex array object. Unless atts are specified, prog can be be nil.
+To specify element/index buffer and vertex/attribute buffers (if applicable), pass them via bufs.
 </p>
 
 				
 				
 			
 				
-				<h3 id="VertexArray.Unbind">func (VertexArray) <a href="/target/gl-vertex-array.go?s=1517:1546#L49">Unbind</a></h3>
+				<h3 id="VertexArray.Unbind">func (VertexArray) <a href="/target/gl-vertex-array.go?s=1563:1592#L50">Unbind</a></h3>
 				<pre>func (_ VertexArray) Unbind()</pre>
 				<p>
 Unbinds whatever vertex array object is currently bound.
@@ -3899,7 +3958,7 @@ Unbinds whatever vertex array object is currently bound.
 		
 			
 			
-			<h2 id="VertexAttribPointer">type <a href="/target/gl-vertex-array.go?s=1681:2444#L54">VertexAttribPointer</a></h2>
+			<h2 id="VertexAttribPointer">type <a href="/target/gl-vertex-array.go?s=1727:2490#L55">VertexAttribPointer</a></h2>
 			<pre>type VertexAttribPointer struct {
     <span class="comment">//	The name of the vertex attribute in a Program.AttrLocs hash-table.</span>
     Name string
@@ -3935,7 +3994,7 @@ Encapsulates vertex attribute information used by VertexArray.Setup() to enable 
 
 			
 				
-				<h3 id="NewVertexAttribPointer">func <a href="/target/gl-vertex-array.go?s=2526:2637#L78">NewVertexAttribPointer</a></h3>
+				<h3 id="NewVertexAttribPointer">func <a href="/target/gl-vertex-array.go?s=2572:2683#L79">NewVertexAttribPointer</a></h3>
 				<pre>func NewVertexAttribPointer(name string, size gl.Int, stride gl.Sizei, offset gl.Ptr) (me *VertexAttribPointer)</pre>
 				<p>
 Initializes and returns a new VertexAttribPointer with the specified values.

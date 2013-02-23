@@ -31,7 +31,8 @@ func (me *VertexArray) Dispose() {
 	}
 }
 
-//	Sets up this vertex array object, associating it with the specified buffer objects and enabling the specified vertex attributes for it.
+//	Sets up this vertex array object. Unless atts are specified, prog can be be nil.
+//	To specify element/index buffer and vertex/attribute buffers (if applicable), pass them via bufs.
 func (me *VertexArray) Setup(prog *Program, atts []*VertexAttribPointer, bufs ...*Buffer) (err error) {
 	var (
 		buf  *Buffer
