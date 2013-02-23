@@ -275,6 +275,9 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 				
 				
 					
+					<dd>&nbsp; &nbsp; <a href="#GlUtil.ActiveTexture">func (_ GlUtil) ActiveTexture(texImgUnit int)</a></dd>
+				
+					
 					<dd>&nbsp; &nbsp; <a href="#GlUtil.ConnInfo">func (_ GlUtil) ConnInfo() string</a></dd>
 				
 					
@@ -1760,8 +1763,9 @@ Calls gl.TexSubImage2D() and yields the err returned by Util.LastError(), if any
 		
 			
 			
-			<h2 id="GlUtil">type <a href="/target/gl-util.go?s=175:197#L1">GlUtil</a></h2>
+			<h2 id="GlUtil">type <a href="/target/gl-util.go?s=175:219#L1">GlUtil</a></h2>
 			<pre>type GlUtil struct {
+    <span class="comment">// contains filtered or unexported fields</span>
 }</pre>
 			<p>
 A singleton type, only used for the package-global ugl.Util variable.
@@ -1778,7 +1782,18 @@ A singleton type, only used for the package-global ugl.Util variable.
 
 			
 				
-				<h3 id="GlUtil.ConnInfo">func (GlUtil) <a href="/target/gl-util.go?s=423:456#L4">ConnInfo</a></h3>
+				<h3 id="GlUtil.ActiveTexture">func (GlUtil) <a href="/target/gl-util.go?s=349:394#L5">ActiveTexture</a></h3>
+				<pre>func (_ GlUtil) ActiveTexture(texImgUnit int)</pre>
+				<p>
+If texImgUnit is different than the currently active texture image unit,
+calls gl.ActiveTexture(gl.TEXTURE0 + texImgUnit)
+</p>
+
+				
+				
+			
+				
+				<h3 id="GlUtil.ConnInfo">func (GlUtil) <a href="/target/gl-util.go?s=760:793#L14">ConnInfo</a></h3>
 				<pre>func (_ GlUtil) ConnInfo() string</pre>
 				<p>
 Returns an OpenGL connection-info string of the format &#34;OpenGL {version} @ {vendor} {renderer} (GLSL: {version})&#34;
@@ -1789,7 +1804,7 @@ Example: &#34;OpenGL 4.2.0 @ NVIDIA Corporation Quadro 5010M/PCIe/SSE2 (GLSL: 4.
 				
 			
 				
-				<h3 id="GlUtil.EnumName">func (GlUtil) <a href="/target/gl-util.go?s=756:808#L10">EnumName</a></h3>
+				<h3 id="GlUtil.EnumName">func (GlUtil) <a href="/target/gl-util.go?s=1093:1145#L20">EnumName</a></h3>
 				<pre>func (_ GlUtil) EnumName(enum gl.Enum) (name string)</pre>
 				<p>
 Returns the name of the specified enum. Out of the over 1290 possible enum values, currently only supports
@@ -1800,7 +1815,7 @@ error codes and shader stages.
 				
 			
 				
-				<h3 id="GlUtil.Extension">func (GlUtil) <a href="/target/gl-util.go?s=2378:2421#L58">Extension</a></h3>
+				<h3 id="GlUtil.Extension">func (GlUtil) <a href="/target/gl-util.go?s=2715:2758#L68">Extension</a></h3>
 				<pre>func (_ GlUtil) Extension(name string) bool</pre>
 				<p>
 Returns true if the specified extension (ignoring upper/lower-case) is supported by the current OpenGL context, as per the global Support.Extensions variable.
@@ -1811,7 +1826,7 @@ If the extension uses a well-known prefix contained in KnownExtensionPrefixes, i
 				
 			
 				
-				<h3 id="GlUtil.LastError">func (GlUtil) <a href="/target/gl-util.go?s=1759:1835#L46">LastError</a></h3>
+				<h3 id="GlUtil.LastError">func (GlUtil) <a href="/target/gl-util.go?s=2096:2172#L56">LastError</a></h3>
 				<pre>func (_ GlUtil) LastError(msgFmt string, fmtArgs ...interface{}) (err error)</pre>
 				<p>
 If the GL error flag is currently set, returns an error with the specified
@@ -1822,7 +1837,7 @@ message and the GL error flag(s).
 				
 			
 				
-				<h3 id="GlUtil.Str">func (GlUtil) <a href="/target/gl-util.go?s=2739:2779#L72">Str</a></h3>
+				<h3 id="GlUtil.Str">func (GlUtil) <a href="/target/gl-util.go?s=3076:3116#L82">Str</a></h3>
 				<pre>func (_ GlUtil) Str(name gl.Enum) string</pre>
 				<p>
 Returns the specified OpenGL string.
@@ -1833,7 +1848,7 @@ Example: GlStr(gl.VENDOR) = &#34;NVIDIA Corporation&#34;
 				
 			
 				
-				<h3 id="GlUtil.Stri">func (GlUtil) <a href="/target/gl-util.go?s=3002:3054#L78">Stri</a></h3>
+				<h3 id="GlUtil.Stri">func (GlUtil) <a href="/target/gl-util.go?s=3339:3391#L88">Stri</a></h3>
 				<pre>func (_ GlUtil) Stri(name gl.Enum, i gl.Uint) string</pre>
 				<p>
 Returns the specified OpenGL string at the specified index.
@@ -1844,7 +1859,7 @@ For example, GlStri(gl.EXTENSIONS, 0) returns the name of the &#34;first&#34; of
 				
 			
 				
-				<h3 id="GlUtil.Val">func (GlUtil) <a href="/target/gl-util.go?s=3230:3276#L84">Val</a></h3>
+				<h3 id="GlUtil.Val">func (GlUtil) <a href="/target/gl-util.go?s=3567:3613#L94">Val</a></h3>
 				<pre>func (_ GlUtil) Val(name gl.Enum) (val gl.Int)</pre>
 				<p>
 Returns the specified integer as returned by gl.GetIntegerv().
@@ -1855,7 +1870,7 @@ Example: numExts := GlVal(gl.NUM_EXTENSIONS)
 				
 			
 				
-				<h3 id="GlUtil.Vals">func (GlUtil) <a href="/target/gl-util.go?s=3387:3445#L90">Vals</a></h3>
+				<h3 id="GlUtil.Vals">func (GlUtil) <a href="/target/gl-util.go?s=3724:3782#L100">Vals</a></h3>
 				<pre>func (_ GlUtil) Vals(name gl.Enum, n uint) (vals []gl.Int)</pre>
 				<p>
 Returns the specified n integers as returned by gl.GetIntegerv().
