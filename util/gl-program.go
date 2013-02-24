@@ -24,8 +24,6 @@ type Program struct {
 	UnifLocs map[string]gl.Int
 
 	unif struct {
-		loc     gl.Int
-		ok      bool
 		cache1i map[gl.Int]gl.Int
 		cache1f map[gl.Int]gl.Float
 	}
@@ -193,32 +191,32 @@ func (me *Program) SetUnifLocations(unifNames ...string) (err error) {
 //	Convenience short-hand for gl.Uniform1i, if this Program contains
 //	the specified uniform and v0 differs from its current value.
 func (me *Program) Uniform1i(name string, v0 gl.Int) {
-	if me.unif.loc, me.unif.ok = me.UnifLocs[name]; me.unif.ok && me.unif.cache1i[me.unif.loc] != v0 {
-		me.unif.cache1i[me.unif.loc] = v0
-		gl.Uniform1i(me.unif.loc, v0)
+	if loc, ok := me.UnifLocs[name]; ok && me.unif.cache1i[loc] != v0 {
+		me.unif.cache1i[loc] = v0
+		gl.Uniform1i(loc, v0)
 	}
 }
 
 //	Convenience short-hand for gl.Uniform1f, if this Program contains
 //	the specified uniform and v0 differs from its current value.
 func (me *Program) Uniform1f(name string, v0 gl.Float) {
-	if me.unif.loc, me.unif.ok = me.UnifLocs[name]; me.unif.ok && me.unif.cache1f[me.unif.loc] != v0 {
-		me.unif.cache1f[me.unif.loc] = v0
-		gl.Uniform1f(me.unif.loc, v0)
+	if loc, ok := me.UnifLocs[name]; ok && me.unif.cache1f[loc] != v0 {
+		me.unif.cache1f[loc] = v0
+		gl.Uniform1f(loc, v0)
 	}
 }
 
 //	Convenience short-hand for gl.Uniform3fv, if this Program contains the specified uniform.
 func (me *Program) Uniform3fv(name string, count gl.Sizei, value *gl.Float) {
-	if me.unif.loc, me.unif.ok = me.UnifLocs[name]; me.unif.ok {
-		gl.Uniform3fv(me.unif.loc, count, value)
+	if loc, ok := me.UnifLocs[name]; ok {
+		gl.Uniform3fv(loc, count, value)
 	}
 }
 
 //	Convenience short-hand for gl.UniformMatrix4fv, if this Program contains the specified uniform.
 func (me *Program) UniformMatrix4fv(name string, count gl.Sizei, transpose gl.Boolean, value *gl.Float) {
-	if me.unif.loc, me.unif.ok = me.UnifLocs[name]; me.unif.ok {
-		gl.UniformMatrix4fv(me.unif.loc, count, transpose, value)
+	if loc, ok := me.UnifLocs[name]; ok {
+		gl.UniformMatrix4fv(loc, count, transpose, value)
 	}
 }
 
