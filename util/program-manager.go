@@ -16,7 +16,7 @@ type ProgramManager struct {
 
 	//	The names of the Programs in this ProgramManager.
 	//	The MakeProgramsFromRawSources() method uses this to populate the Programs hash-table
-	//	and to locate associated shaders in RawSources for each Program.
+	//	and to locate associated shaders in Sources.In for each Program.
 	Names []string
 
 	//	To be populated by the MakeProgramsFromRawSources() method.
@@ -35,7 +35,7 @@ type ProgramManager struct {
 	UniformBlocks map[string]*UniformBlock
 }
 
-//	Creates copies of all RawSources with srcName as dstName, and adds dstName to me.Names.
+//	Creates copies of all Sources.In with srcName as dstName, and adds dstName to me.Names.
 //	Typical use-case: compile an existing program anew but with different #defines (likely resulting in a different binary) under a different name.
 func (me *ProgramManager) CloneRawSources(srcName, dstName string) (cloned bool) {
 	if ustr.IsInSlice(me.Names, srcName) && !ustr.IsInSlice(me.Names, dstName) {
@@ -53,7 +53,7 @@ func (me *ProgramManager) CloneRawSources(srcName, dstName string) (cloned bool)
 	return
 }
 
-//	For each program name in me.Names: creates a new Program, compiles all Shader stages for that name in me.RawSources, and
+//	For each program name in me.Names: creates a new Program, compiles all Shader stages for that name in me.Sources.In, and
 //	links the Program with these compiled Shader stages. If successful, the Program is added to me.Programs under that name.
 //	If forceAll is true, a Program already existing under a name is deleted and recreated; otherwise, it is kept and not recreated.
 //	If forceSome has values, only those names (instead of all me.Names) are processed.
@@ -102,7 +102,7 @@ func (me *ProgramManager) MakeProgramsFromRawSources(forceAll bool, forceSome ..
 	return
 }
 
-//	Allocates/re-initializes all maps in me (Programs, Defines, RawSources) as new empty maps.
+//	Allocates/re-initializes all maps in me (Programs, Defines, Sources) as new empty maps.
 //	Also deletes all existing me.Programs (if any) from OpenGL.
 func (me *ProgramManager) Reset() {
 	if me.Programs != nil {
