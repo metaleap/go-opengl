@@ -203,6 +203,9 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 					<dd>&nbsp; &nbsp; <a href="#NewFramebufferRendertexture">func NewFramebufferRendertexture() (me *FramebufferRendertexture)</a></dd>
 				
 				
+					
+					<dd>&nbsp; &nbsp; <a href="#FramebufferRendertexture.Init">func (me *FramebufferRendertexture) Init()</a></dd>
+				
 			
 				
 				<dd><a href="#GlMat3">type GlMat3</a></dd>
@@ -1549,6 +1552,13 @@ Initializes --but does not Recreate()-- a new FramebufferRendertexture with defa
 			
 
 			
+				
+				<h3 id="FramebufferRendertexture.Init">func (*FramebufferRendertexture) <a href="/target/gl-framebuffer.go?s=5287:5329#L171">Init</a></h3>
+				<pre>func (me *FramebufferRendertexture) Init()</pre>
+				
+				
+				
+			
 		
 			
 			
@@ -2237,7 +2247,7 @@ If an error occurs, this method returns it immediately; otherwise, dur contains 
 				
 			
 				
-				<h3 id="ProgramManager.Reset">func (*ProgramManager) <a href="/target/program-manager.go?s=4788:4821#L114">Reset</a></h3>
+				<h3 id="ProgramManager.Reset">func (*ProgramManager) <a href="/target/program-manager.go?s=4174:4207#L97">Reset</a></h3>
 				<pre>func (me *ProgramManager) Reset()</pre>
 				<p>
 Allocates/re-initializes all maps in me (Programs, Defines, Sources) as new empty maps.
@@ -2250,7 +2260,7 @@ Also deletes all existing me.Programs (if any) from OpenGL.
 		
 			
 			
-			<h2 id="ProgramSources">type <a href="/target/program-manager.go?s=5254:5813#L133">ProgramSources</a></h2>
+			<h2 id="ProgramSources">type <a href="/target/program-manager.go?s=4640:5199#L116">ProgramSources</a></h2>
 			<pre>type ProgramSources struct {
     <span class="comment">//	Named shader sources for the Compute Shader stage.</span>
     Compute map[string]string
@@ -3305,10 +3315,12 @@ Returns the name of this shader&#39;s stage, for example &#34;GL_VERTEX_SHADER&#
 		
 			
 			
-			<h2 id="Texture">type <a href="/target/gl-texture.go?s=146:398#L1">Texture</a></h2>
+			<h2 id="Texture">type <a href="/target/gl-texture.go?s=146:410#L1">Texture</a></h2>
 			<pre>type Texture interface {
     <span class="comment">//	Binds this texture to current texture image unit.</span>
     Bind()
+
+    Dispose()
 
     <span class="comment">//	Deletes and (re)creates the texture object based on its current params.</span>
     Recreate() error
@@ -3422,7 +3434,7 @@ Updates the specified portion of this texture image with the specified pixel dat
 		
 			
 			
-			<h2 id="TextureBase">type <a href="/target/gl-texture.go?s=460:2081#L13">TextureBase</a></h2>
+			<h2 id="TextureBase">type <a href="/target/gl-texture.go?s=472:2093#L15">TextureBase</a></h2>
 			<pre>type TextureBase struct {
     <span class="comment">//	The OpenGL handle for this texture object.</span>
     <span class="comment">//	This is 0 before calling Recreate() and after calling Dispose().</span>
@@ -3484,7 +3496,7 @@ Embedded by specialized texture types such as Texture2D.
 
 			
 				
-				<h3 id="TextureBase.Bind">func (*TextureBase) <a href="/target/gl-texture.go?s=2113:2142#L61">Bind</a></h3>
+				<h3 id="TextureBase.Bind">func (*TextureBase) <a href="/target/gl-texture.go?s=2125:2154#L63">Bind</a></h3>
 				<pre>func (me *TextureBase) Bind()</pre>
 				<p>
 Binds this texture object.
@@ -3494,7 +3506,7 @@ Binds this texture object.
 				
 			
 				
-				<h3 id="TextureBase.Dispose">func (*TextureBase) <a href="/target/gl-texture.go?s=2234:2266#L66">Dispose</a></h3>
+				<h3 id="TextureBase.Dispose">func (*TextureBase) <a href="/target/gl-texture.go?s=2246:2278#L68">Dispose</a></h3>
 				<pre>func (me *TextureBase) Dispose()</pre>
 				<p>
 Deletes this texture object from OpenGL.
@@ -3684,7 +3696,7 @@ Sets the swizzle that will be applied to the R, G, B and A components of a texel
 				
 			
 				
-				<h3 id="TextureBase.Unbind">func (*TextureBase) <a href="/target/gl-texture.go?s=6783:6814#L221">Unbind</a></h3>
+				<h3 id="TextureBase.Unbind">func (*TextureBase) <a href="/target/gl-texture.go?s=6795:6826#L223">Unbind</a></h3>
 				<pre>func (me *TextureBase) Unbind()</pre>
 				<p>
 Unbinds whatever texture is currently bound.

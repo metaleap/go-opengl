@@ -12,6 +12,8 @@ type Texture interface {
 	//	Binds this texture to current texture image unit.
 	Bind()
 
+	Dispose()
+
 	//	Deletes and (re)creates the texture object based on its current params.
 	Recreate() error
 
