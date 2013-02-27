@@ -4,6 +4,8 @@ import (
 	gl "github.com/go3d/go-opengl/core"
 )
 
+var samplerBindings []gl.Uint
+
 //	Stores sampling parameters for texture accesses.
 type Sampler struct {
 	//	The OpenGL handle to this sampler object.
@@ -13,7 +15,10 @@ type Sampler struct {
 
 //	Binds this sampler object to the specified textureUnit.
 func (me Sampler) Bind(textureUnit gl.Uint) {
-	gl.BindSampler(textureUnit, me.GlHandle)
+	if samplerBindings[textureUnit] != me.GlHandle {
+		samplerBindings[textureUnit] = me.GlHandle
+		gl.BindSampler(textureUnit, me.GlHandle)
+	}
 }
 
 //	Creates this sampler object.
@@ -73,6 +78,7 @@ func (me Sampler) SetParamInt(param gl.Enum, val gl.Int) {
 
 //	Unbinds whatever sampler object is currently bound to the specified textureUnit.
 func (_ Sampler) Unbind(textureUnit gl.Uint) {
+	samplerBindings[textureUnit] = 0
 	gl.BindSampler(textureUnit, 0)
 }
 

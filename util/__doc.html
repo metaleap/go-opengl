@@ -910,6 +910,8 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 			
 				<a href="/target/ugl.go">ugl.go</a>
 			
+				<a href="/target/version-support.go">version-support.go</a>
+			
 			</span>
 			</p>
 		
@@ -931,9 +933,6 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 			<h2 id="pkg-variables">Variables</h2>
 			
 				<pre>var (
-    <span class="comment">//	All the known possible OpenGL core context versions that this package supports.</span>
-    KnownVersions = []float64{3.3, 4.0, 4.1, 4.2, 4.3}
-
     <span class="comment">//	Provides access to miscellaneous GL functionality.</span>
     Util GlUtil
 
@@ -942,6 +941,16 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 
     <span class="comment">//	Provides methods that each wrap a GL function call and immediately check for GL errors to be returned as Go errors.</span>
     Try GlTry
+)</pre>
+				
+			
+				<pre>var (
+    <span class="comment">//	All the known possible OpenGL core context versions that this package supports.</span>
+    KnownVersions = []float64{3.3, 4.0, 4.1, 4.2, 4.3}
+
+    <span class="comment">//	Contains the well-known extension prefixes that can be omitted</span>
+    <span class="comment">//	when querying the current OpenGL context via Util.Extension().</span>
+    KnownExtensionPrefixes = []string{&#34;GL_3DFX_&#34;, &#34;GL_3DL_&#34;, &#34;GL_AMD_&#34;, &#34;GL_APPLE_&#34;, &#34;GL_ARB_&#34;, &#34;GL_ATI_&#34;, &#34;GL_EXT_&#34;, &#34;GL_GREMEDY_&#34;, &#34;GL_HP_&#34;, &#34;GL_I3D_&#34;, &#34;GL_IBM_&#34;, &#34;GL_INGR_&#34;, &#34;GL_INTEL_&#34;, &#34;GL_KHR_&#34;, &#34;GL_KTX_&#34;, &#34;GL_MESA_&#34;, &#34;GL_MESAX_&#34;, &#34;GL_NV_&#34;, &#34;GL_NVX_&#34;, &#34;GL_OES_&#34;, &#34;GL_OML_&#34;, &#34;GL_PGI_&#34;, &#34;GL_REND__&#34;, &#34;GL_S3_&#34;, &#34;GL_SGI_&#34;, &#34;GL_SGIS_&#34;, &#34;GL_SGIX_&#34;, &#34;GL_SUN_&#34;, &#34;GL_SUNX_&#34;, &#34;GL_WIN_&#34;, &#34;WGL_EXT_&#34;}
 
     <span class="comment">//	After you have called ugl.Init() upon successful OpenGL context creation and GL binding initialization,</span>
     <span class="comment">//	contains information on what the currently active OpenGL profile supports.</span>
@@ -1033,14 +1042,18 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
             <span class="comment">//	(The minimum would be the negative equivalent of this value.)</span>
             MaxMipLoadBias gl.Float
 
+            ImageUnits struct {
+                MaxCombined gl.Int
+                MaxCompute  gl.Int
+                MaxFragment gl.Int
+                MaxGeometry gl.Int
+                MaxVertex   gl.Int
+            }
+
             <span class="comment">//	Experimental.</span>
             StreamUpdatesViaPixelBuffer bool
         }
     }
-
-    <span class="comment">//	Contains the well-known extension prefixes that can be omitted</span>
-    <span class="comment">//	when querying the current OpenGL context via Util.Extension().</span>
-    KnownExtensionPrefixes = []string{&#34;GL_3DFX_&#34;, &#34;GL_3DL_&#34;, &#34;GL_AMD_&#34;, &#34;GL_APPLE_&#34;, &#34;GL_ARB_&#34;, &#34;GL_ATI_&#34;, &#34;GL_EXT_&#34;, &#34;GL_GREMEDY_&#34;, &#34;GL_HP_&#34;, &#34;GL_I3D_&#34;, &#34;GL_IBM_&#34;, &#34;GL_INGR_&#34;, &#34;GL_INTEL_&#34;, &#34;GL_KHR_&#34;, &#34;GL_KTX_&#34;, &#34;GL_MESA_&#34;, &#34;GL_MESAX_&#34;, &#34;GL_NV_&#34;, &#34;GL_NVX_&#34;, &#34;GL_OES_&#34;, &#34;GL_OML_&#34;, &#34;GL_PGI_&#34;, &#34;GL_REND__&#34;, &#34;GL_S3_&#34;, &#34;GL_SGI_&#34;, &#34;GL_SGIS_&#34;, &#34;GL_SGIX_&#34;, &#34;GL_SUN_&#34;, &#34;GL_SUNX_&#34;, &#34;GL_WIN_&#34;, &#34;WGL_EXT_&#34;}
 )</pre>
 				
 			
@@ -1053,7 +1066,7 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 		
 			
 			
-			<h2 id="Init">func <a href="/target/ugl.go?s=4041:4052#L117">Init</a></h2>
+			<h2 id="Init">func <a href="/target/ugl.go?s=547:558#L12">Init</a></h2>
 			<pre>func Init()</pre>
 			<p>
 DO call this immediately upon successful OpenGL context initialization to prepare this package for use.
@@ -1064,7 +1077,7 @@ Fully populates all fields and sub-fields in the Support package global.
 		
 			
 			
-			<h2 id="LogLastError">func <a href="/target/ugl.go?s=4153:4214#L123">LogLastError</a></h2>
+			<h2 id="LogLastError">func <a href="/target/ugl.go?s=659:720#L18">LogLastError</a></h2>
 			<pre>func LogLastError(stepFmt string, stepFmtArgs ...interface{})</pre>
 			<p>
 log.Println()s the error returned by Util.Error(), if any.
@@ -1074,7 +1087,7 @@ log.Println()s the error returned by Util.Error(), if any.
 		
 			
 			
-			<h2 id="VersionMajorMinor">func <a href="/target/ugl.go?s=6393:6445#L195">VersionMajorMinor</a></h2>
+			<h2 id="VersionMajorMinor">func <a href="/target/version-support.go?s=6141:6193#L178">VersionMajorMinor</a></h2>
 			<pre>func VersionMajorMinor(v float64) (major, minor int)</pre>
 			<p>
 Returns the major and minor parts of the specified version number.
@@ -1084,7 +1097,7 @@ Returns the major and minor parts of the specified version number.
 		
 			
 			
-			<h2 id="VersionMatch">func <a href="/target/ugl.go?s=6676:6709#L203">VersionMatch</a></h2>
+			<h2 id="VersionMatch">func <a href="/target/version-support.go?s=6424:6457#L186">VersionMatch</a></h2>
 			<pre>func VersionMatch(v float64) bool</pre>
 			<p>
 Returns true if GlVersion is greater than or equal to v.
@@ -2742,7 +2755,7 @@ Encapsulates a particular combination of render-states that RenderStates can App
 		
 			
 			
-			<h2 id="Sampler">type <a href="/target/gl-sampler.go?s=114:268#L1">Sampler</a></h2>
+			<h2 id="Sampler">type <a href="/target/gl-sampler.go?s=145:299#L1">Sampler</a></h2>
 			<pre>type Sampler struct {
     <span class="comment">//	The OpenGL handle to this sampler object.</span>
     <span class="comment">//	This is 0 before calling Create() and after calling Dispose().</span>
@@ -2763,7 +2776,7 @@ Stores sampling parameters for texture accesses.
 
 			
 				
-				<h3 id="Sampler.Bind">func (Sampler) <a href="/target/gl-sampler.go?s=329:372#L5">Bind</a></h3>
+				<h3 id="Sampler.Bind">func (Sampler) <a href="/target/gl-sampler.go?s=360:403#L7">Bind</a></h3>
 				<pre>func (me Sampler) Bind(textureUnit gl.Uint)</pre>
 				<p>
 Binds this sampler object to the specified textureUnit.
@@ -2773,7 +2786,7 @@ Binds this sampler object to the specified textureUnit.
 				
 			
 				
-				<h3 id="Sampler.Create">func (*Sampler) <a href="/target/gl-sampler.go?s=452:488#L10">Create</a></h3>
+				<h3 id="Sampler.Create">func (*Sampler) <a href="/target/gl-sampler.go?s=582:618#L15">Create</a></h3>
 				<pre>func (me *Sampler) Create() *Sampler</pre>
 				<p>
 Creates this sampler object.
@@ -2783,7 +2796,7 @@ Creates this sampler object.
 				
 			
 				
-				<h3 id="Sampler.DepthCompareFunc">func (Sampler) <a href="/target/gl-sampler.go?s=2561:2604#L70">DepthCompareFunc</a></h3>
+				<h3 id="Sampler.DepthCompareFunc">func (Sampler) <a href="/target/gl-sampler.go?s=2725:2768#L76">DepthCompareFunc</a></h3>
 				<pre>func (me Sampler) DepthCompareFunc() gl.Int</pre>
 				<p>
 Returns a single-valued texture comparison function, a symbolic constant. The initial value is GL_LEQUAL.
@@ -2793,7 +2806,7 @@ Returns a single-valued texture comparison function, a symbolic constant. The in
 				
 			
 				
-				<h3 id="Sampler.DepthCompareMode">func (Sampler) <a href="/target/gl-sampler.go?s=3071:3114#L81">DepthCompareMode</a></h3>
+				<h3 id="Sampler.DepthCompareMode">func (Sampler) <a href="/target/gl-sampler.go?s=3235:3278#L87">DepthCompareMode</a></h3>
 				<pre>func (me Sampler) DepthCompareMode() gl.Int</pre>
 				<p>
 Returns a single-valued texture comparison mode, a symbolic constant. The initial value is gl.NONE.
@@ -2803,7 +2816,7 @@ Returns a single-valued texture comparison mode, a symbolic constant. The initia
 				
 			
 				
-				<h3 id="Sampler.DisableAllFiltering">func (*Sampler) <a href="/target/gl-sampler.go?s=725:787#L18">DisableAllFiltering</a></h3>
+				<h3 id="Sampler.DisableAllFiltering">func (*Sampler) <a href="/target/gl-sampler.go?s=855:917#L23">DisableAllFiltering</a></h3>
 				<pre>func (me *Sampler) DisableAllFiltering(allowMip bool) *Sampler</pre>
 				<p>
 Disables linear and anisotropic filtering on this sampler.
@@ -2814,7 +2827,7 @@ If allowMip is true, minified sampling still blends between MIP map levels (just
 				
 			
 				
-				<h3 id="Sampler.Dispose">func (*Sampler) <a href="/target/gl-sampler.go?s=972:1000#L26">Dispose</a></h3>
+				<h3 id="Sampler.Dispose">func (*Sampler) <a href="/target/gl-sampler.go?s=1102:1130#L31">Dispose</a></h3>
 				<pre>func (me *Sampler) Dispose()</pre>
 				<p>
 Deletes this sampler object.
@@ -2824,7 +2837,7 @@ Deletes this sampler object.
 				
 			
 				
-				<h3 id="Sampler.EnableFullFiltering">func (*Sampler) <a href="/target/gl-sampler.go?s=1239:1320#L35">EnableFullFiltering</a></h3>
+				<h3 id="Sampler.EnableFullFiltering">func (*Sampler) <a href="/target/gl-sampler.go?s=1369:1450#L40">EnableFullFiltering</a></h3>
 				<pre>func (me *Sampler) EnableFullFiltering(allowMip bool, maxAniso gl.Float) *Sampler</pre>
 				<p>
 Enables linear and anisotropic filtering on this sampler.
@@ -2835,7 +2848,7 @@ If allowMip is true, minified sampling blends between MIP map levels linearly fi
 				
 			
 				
-				<h3 id="Sampler.FilterMag">func (Sampler) <a href="/target/gl-sampler.go?s=3554:3590#L92">FilterMag</a></h3>
+				<h3 id="Sampler.FilterMag">func (Sampler) <a href="/target/gl-sampler.go?s=3718:3754#L98">FilterMag</a></h3>
 				<pre>func (me Sampler) FilterMag() gl.Int</pre>
 				<p>
 Returns the single-valued texture magnification filter, a symbolic constant. The initial value is GL_LINEAR.
@@ -2845,7 +2858,7 @@ Returns the single-valued texture magnification filter, a symbolic constant. The
 				
 			
 				
-				<h3 id="Sampler.FilterMaxAnisotropy">func (Sampler) <a href="/target/gl-sampler.go?s=4015:4069#L103">FilterMaxAnisotropy</a></h3>
+				<h3 id="Sampler.FilterMaxAnisotropy">func (Sampler) <a href="/target/gl-sampler.go?s=4179:4233#L109">FilterMaxAnisotropy</a></h3>
 				<pre>func (me Sampler) FilterMaxAnisotropy() (val gl.Float)</pre>
 				<p>
 Returns filtering anisotropy. 0 if anisotropic filtering isn&#39;t supported, 1 if anisotropic filtering
@@ -2856,7 +2869,7 @@ isn&#39;t activated for this Sampler, else a value between 1 and Support.Texture
 				
 			
 				
-				<h3 id="Sampler.FilterMin">func (Sampler) <a href="/target/gl-sampler.go?s=4710:4746#L118">FilterMin</a></h3>
+				<h3 id="Sampler.FilterMin">func (Sampler) <a href="/target/gl-sampler.go?s=4874:4910#L124">FilterMin</a></h3>
 				<pre>func (me Sampler) FilterMin() gl.Int</pre>
 				<p>
 Returns the single-valued texture minification filter, a symbolic constant. The initial value is GL_NEAREST_MIPMAP_LINEAR.
@@ -2866,7 +2879,7 @@ Returns the single-valued texture minification filter, a symbolic constant. The 
 				
 			
 				
-				<h3 id="Sampler.MipLodBias">func (Sampler) <a href="/target/gl-sampler.go?s=5177:5216#L129">MipLodBias</a></h3>
+				<h3 id="Sampler.MipLodBias">func (Sampler) <a href="/target/gl-sampler.go?s=5341:5380#L135">MipLodBias</a></h3>
 				<pre>func (me Sampler) MipLodBias() gl.Float</pre>
 				<p>
 The mipmap image selection process can be adjusted coarsely by using this sampling parameter.
@@ -2876,7 +2889,7 @@ The mipmap image selection process can be adjusted coarsely by using this sampli
 				
 			
 				
-				<h3 id="Sampler.MipLodMax">func (Sampler) <a href="/target/gl-sampler.go?s=5719:5757#L139">MipLodMax</a></h3>
+				<h3 id="Sampler.MipLodMax">func (Sampler) <a href="/target/gl-sampler.go?s=5883:5921#L145">MipLodMax</a></h3>
 				<pre>func (me Sampler) MipLodMax() gl.Float</pre>
 				<p>
 Returns the single-valued texture maximum level-of-detail value. The initial value is 1000.
@@ -2886,7 +2899,7 @@ Returns the single-valued texture maximum level-of-detail value. The initial val
 				
 			
 				
-				<h3 id="Sampler.MipLodMin">func (Sampler) <a href="/target/gl-sampler.go?s=6123:6161#L149">MipLodMin</a></h3>
+				<h3 id="Sampler.MipLodMin">func (Sampler) <a href="/target/gl-sampler.go?s=6287:6325#L155">MipLodMin</a></h3>
 				<pre>func (me Sampler) MipLodMin() gl.Float</pre>
 				<p>
 Returns the single-valued texture minimum level-of-detail value. The initial value is -1000.
@@ -2896,7 +2909,7 @@ Returns the single-valued texture minimum level-of-detail value. The initial val
 				
 			
 				
-				<h3 id="Sampler.ParamFloat">func (Sampler) <a href="/target/gl-sampler.go?s=1564:1622#L43">ParamFloat</a></h3>
+				<h3 id="Sampler.ParamFloat">func (Sampler) <a href="/target/gl-sampler.go?s=1694:1752#L48">ParamFloat</a></h3>
 				<pre>func (me Sampler) ParamFloat(param gl.Enum) (val gl.Float)</pre>
 				<p>
 A convenience short-hand to invoke gl.GetSamplerParameterfv for this sampler object.
@@ -2906,7 +2919,7 @@ A convenience short-hand to invoke gl.GetSamplerParameterfv for this sampler obj
 				
 			
 				
-				<h3 id="Sampler.ParamInt">func (Sampler) <a href="/target/gl-sampler.go?s=1973:2027#L54">ParamInt</a></h3>
+				<h3 id="Sampler.ParamInt">func (Sampler) <a href="/target/gl-sampler.go?s=2103:2157#L59">ParamInt</a></h3>
 				<pre>func (me Sampler) ParamInt(param gl.Enum) (val gl.Int)</pre>
 				<p>
 A convenience short-hand to invoke gl.GetSamplerParameteriv for this sampler object.
@@ -2916,7 +2929,7 @@ A convenience short-hand to invoke gl.GetSamplerParameteriv for this sampler obj
 				
 			
 				
-				<h3 id="Sampler.SetDepthCompareFunc">func (Sampler) <a href="/target/gl-sampler.go?s=2867:2916#L76">SetDepthCompareFunc</a></h3>
+				<h3 id="Sampler.SetDepthCompareFunc">func (Sampler) <a href="/target/gl-sampler.go?s=3031:3080#L82">SetDepthCompareFunc</a></h3>
 				<pre>func (me Sampler) SetDepthCompareFunc(val gl.Int)</pre>
 				<p>
 Specifies the comparison operator used when DepthCompareMode() is set to gl.COMPARE_REF_TO_TEXTURE.
@@ -2927,7 +2940,7 @@ val may be one of: gl.LEQUAL, gl.GEQUAL, gl.LESS, gl.GREATER, gl.EQUAL, gl.NOTEQ
 				
 			
 				
-				<h3 id="Sampler.SetDepthCompareMode">func (Sampler) <a href="/target/gl-sampler.go?s=3341:3390#L87">SetDepthCompareMode</a></h3>
+				<h3 id="Sampler.SetDepthCompareMode">func (Sampler) <a href="/target/gl-sampler.go?s=3505:3554#L93">SetDepthCompareMode</a></h3>
 				<pre>func (me Sampler) SetDepthCompareMode(val gl.Int)</pre>
 				<p>
 Specifies the texture comparison mode for currently bound textures whose internal format is gl.DEPTH_COMPONENT_*.
@@ -2938,7 +2951,7 @@ val may be either gl.NONE or gl.COMPARE_REF_TO_TEXTURE.
 				
 			
 				
-				<h3 id="Sampler.SetFilterMag">func (Sampler) <a href="/target/gl-sampler.go?s=3717:3759#L97">SetFilterMag</a></h3>
+				<h3 id="Sampler.SetFilterMag">func (Sampler) <a href="/target/gl-sampler.go?s=3881:3923#L103">SetFilterMag</a></h3>
 				<pre>func (me Sampler) SetFilterMag(val gl.Int)</pre>
 				<p>
 Sets the texture magnification function to either GL_NEAREST or GL_LINEAR.
@@ -2948,7 +2961,7 @@ Sets the texture magnification function to either GL_NEAREST or GL_LINEAR.
 				
 			
 				
-				<h3 id="Sampler.SetFilterMaxAnisotropy">func (Sampler) <a href="/target/gl-sampler.go?s=4365:4419#L111">SetFilterMaxAnisotropy</a></h3>
+				<h3 id="Sampler.SetFilterMaxAnisotropy">func (Sampler) <a href="/target/gl-sampler.go?s=4529:4583#L117">SetFilterMaxAnisotropy</a></h3>
 				<pre>func (me Sampler) SetFilterMaxAnisotropy(val gl.Float)</pre>
 				<p>
 Sets filtering anisotropy, if supported. val will be clamped between 1 and Support.Textures.MaxFilterAnisotropy. Only a val greater than 1 will activate anisotropic filtering.
@@ -2958,7 +2971,7 @@ Sets filtering anisotropy, if supported. val will be clamped between 1 and Suppo
 				
 			
 				
-				<h3 id="Sampler.SetFilterMin">func (Sampler) <a href="/target/gl-sampler.go?s=4988:5030#L124">SetFilterMin</a></h3>
+				<h3 id="Sampler.SetFilterMin">func (Sampler) <a href="/target/gl-sampler.go?s=5152:5194#L130">SetFilterMin</a></h3>
 				<pre>func (me Sampler) SetFilterMin(val gl.Int)</pre>
 				<p>
 Sets the texture magnification function. val may be one of: GL_NEAREST, GL_LINEAR,
@@ -2969,7 +2982,7 @@ gl.NEAREST_MIPMAP_NEAREST, gl.LINEAR_MIPMAP_NEAREST, gl.NEAREST_MIPMAP_LINEAR, g
 				
 			
 				
-				<h3 id="Sampler.SetMipLodBias">func (Sampler) <a href="/target/gl-sampler.go?s=5449:5494#L134">SetMipLodBias</a></h3>
+				<h3 id="Sampler.SetMipLodBias">func (Sampler) <a href="/target/gl-sampler.go?s=5613:5658#L140">SetMipLodBias</a></h3>
 				<pre>func (me Sampler) SetMipLodBias(val gl.Float)</pre>
 				<p>
 This bias will be added to the mipmap LOD calculation (as well as added to the bias specified in one of the texture accessing functions in GLSL), which is used to select the image.
@@ -2979,7 +2992,7 @@ This bias will be added to the mipmap LOD calculation (as well as added to the b
 				
 			
 				
-				<h3 id="Sampler.SetMipLodMax">func (Sampler) <a href="/target/gl-sampler.go?s=5934:5978#L144">SetMipLodMax</a></h3>
+				<h3 id="Sampler.SetMipLodMax">func (Sampler) <a href="/target/gl-sampler.go?s=6098:6142#L150">SetMipLodMax</a></h3>
 				<pre>func (me Sampler) SetMipLodMax(val gl.Float)</pre>
 				<p>
 Sets the maximum level-of-detail parameter. This limits the selection of the lowest resolution mipmap (highest mipmap level).
@@ -2989,7 +3002,7 @@ Sets the maximum level-of-detail parameter. This limits the selection of the low
 				
 			
 				
-				<h3 id="Sampler.SetMipLodMin">func (Sampler) <a href="/target/gl-sampler.go?s=6334:6378#L154">SetMipLodMin</a></h3>
+				<h3 id="Sampler.SetMipLodMin">func (Sampler) <a href="/target/gl-sampler.go?s=6498:6542#L160">SetMipLodMin</a></h3>
 				<pre>func (me Sampler) SetMipLodMin(val gl.Float)</pre>
 				<p>
 Sets the minimum level-of-detail parameter. This limits the selection of highest resolution mipmap (lowest mipmap level).
@@ -2999,7 +3012,7 @@ Sets the minimum level-of-detail parameter. This limits the selection of highest
 				
 			
 				
-				<h3 id="Sampler.SetParamFloat">func (Sampler) <a href="/target/gl-sampler.go?s=1772:1832#L49">SetParamFloat</a></h3>
+				<h3 id="Sampler.SetParamFloat">func (Sampler) <a href="/target/gl-sampler.go?s=1902:1962#L54">SetParamFloat</a></h3>
 				<pre>func (me Sampler) SetParamFloat(param gl.Enum, val gl.Float)</pre>
 				<p>
 A convenience short-hand to invoke gl.SamplerParameterf for this sampler object.
@@ -3009,7 +3022,7 @@ A convenience short-hand to invoke gl.SamplerParameterf for this sampler object.
 				
 			
 				
-				<h3 id="Sampler.SetParamInt">func (Sampler) <a href="/target/gl-sampler.go?s=2177:2233#L60">SetParamInt</a></h3>
+				<h3 id="Sampler.SetParamInt">func (Sampler) <a href="/target/gl-sampler.go?s=2307:2363#L65">SetParamInt</a></h3>
 				<pre>func (me Sampler) SetParamInt(param gl.Enum, val gl.Int)</pre>
 				<p>
 A convenience short-hand to invoke gl.SamplerParameteri for this sampler object.
@@ -3019,7 +3032,7 @@ A convenience short-hand to invoke gl.SamplerParameteri for this sampler object.
 				
 			
 				
-				<h3 id="Sampler.SetWrap">func (*Sampler) <a href="/target/gl-sampler.go?s=6532:6583#L159">SetWrap</a></h3>
+				<h3 id="Sampler.SetWrap">func (*Sampler) <a href="/target/gl-sampler.go?s=6696:6747#L165">SetWrap</a></h3>
 				<pre>func (me *Sampler) SetWrap(wrapVal gl.Int) *Sampler</pre>
 				<p>
 A convenience short-hand that calls SetWrapR(), SetWrapS() and SetWrapT() with the specified wrapVal.
@@ -3029,7 +3042,7 @@ A convenience short-hand that calls SetWrapR(), SetWrapS() and SetWrapT() with t
 				
 			
 				
-				<h3 id="Sampler.SetWrapClampBorderColor">func (Sampler) <a href="/target/gl-sampler.go?s=7030:7084#L174">SetWrapClampBorderColor</a></h3>
+				<h3 id="Sampler.SetWrapClampBorderColor">func (Sampler) <a href="/target/gl-sampler.go?s=7194:7248#L180">SetWrapClampBorderColor</a></h3>
 				<pre>func (me Sampler) SetWrapClampBorderColor(val *GlVec4)</pre>
 				<p>
 Specifies four values that define the border values that should be used for border texels.
@@ -3039,7 +3052,7 @@ Specifies four values that define the border values that should be used for bord
 				
 			
 				
-				<h3 id="Sampler.SetWrapR">func (Sampler) <a href="/target/gl-sampler.go?s=7496:7534#L186">SetWrapR</a></h3>
+				<h3 id="Sampler.SetWrapR">func (Sampler) <a href="/target/gl-sampler.go?s=7660:7698#L192">SetWrapR</a></h3>
 				<pre>func (me Sampler) SetWrapR(val gl.Int)</pre>
 				<p>
 Sets the wrap parameter for texture coordinate r to
@@ -3050,7 +3063,7 @@ gl.CLAMP_TO_EDGE, gl.CLAMP_TO_BORDER, gl.MIRRORED_REPEAT, or gl.REPEAT.
 				
 			
 				
-				<h3 id="Sampler.SetWrapS">func (Sampler) <a href="/target/gl-sampler.go?s=7916:7954#L198">SetWrapS</a></h3>
+				<h3 id="Sampler.SetWrapS">func (Sampler) <a href="/target/gl-sampler.go?s=8080:8118#L204">SetWrapS</a></h3>
 				<pre>func (me Sampler) SetWrapS(val gl.Int)</pre>
 				<p>
 Sets the wrap parameter for texture coordinate s to
@@ -3061,7 +3074,7 @@ gl.CLAMP_TO_EDGE, gl.CLAMP_TO_BORDER, gl.MIRRORED_REPEAT, or gl.REPEAT.
 				
 			
 				
-				<h3 id="Sampler.SetWrapT">func (Sampler) <a href="/target/gl-sampler.go?s=8336:8374#L210">SetWrapT</a></h3>
+				<h3 id="Sampler.SetWrapT">func (Sampler) <a href="/target/gl-sampler.go?s=8500:8538#L216">SetWrapT</a></h3>
 				<pre>func (me Sampler) SetWrapT(val gl.Int)</pre>
 				<p>
 Sets the wrap parameter for texture coordinate t to
@@ -3072,7 +3085,7 @@ gl.CLAMP_TO_EDGE, gl.CLAMP_TO_BORDER, gl.MIRRORED_REPEAT, or gl.REPEAT.
 				
 			
 				
-				<h3 id="Sampler.Unbind">func (Sampler) <a href="/target/gl-sampler.go?s=2370:2414#L65">Unbind</a></h3>
+				<h3 id="Sampler.Unbind">func (Sampler) <a href="/target/gl-sampler.go?s=2500:2544#L70">Unbind</a></h3>
 				<pre>func (_ Sampler) Unbind(textureUnit gl.Uint)</pre>
 				<p>
 Unbinds whatever sampler object is currently bound to the specified textureUnit.
@@ -3082,7 +3095,7 @@ Unbinds whatever sampler object is currently bound to the specified textureUnit.
 				
 			
 				
-				<h3 id="Sampler.WrapClampBorderColor">func (Sampler) <a href="/target/gl-sampler.go?s=6795:6849#L168">WrapClampBorderColor</a></h3>
+				<h3 id="Sampler.WrapClampBorderColor">func (Sampler) <a href="/target/gl-sampler.go?s=6959:7013#L174">WrapClampBorderColor</a></h3>
 				<pre>func (me Sampler) WrapClampBorderColor() (val *GlVec4)</pre>
 				<p>
 Returns four floating-point numbers that comprise the RGBA color of the texture border.
@@ -3093,7 +3106,7 @@ The initial value is (0, 0, 0, 0).
 				
 			
 				
-				<h3 id="Sampler.WrapR">func (Sampler) <a href="/target/gl-sampler.go?s=7289:7321#L180">WrapR</a></h3>
+				<h3 id="Sampler.WrapR">func (Sampler) <a href="/target/gl-sampler.go?s=7453:7485#L186">WrapR</a></h3>
 				<pre>func (me Sampler) WrapR() gl.Int</pre>
 				<p>
 Returns the single-valued wrapping function for texture coordinate r,
@@ -3104,7 +3117,7 @@ a symbolic constant. The initial value is gl.REPEAT.
 				
 			
 				
-				<h3 id="Sampler.WrapS">func (Sampler) <a href="/target/gl-sampler.go?s=7709:7741#L192">WrapS</a></h3>
+				<h3 id="Sampler.WrapS">func (Sampler) <a href="/target/gl-sampler.go?s=7873:7905#L198">WrapS</a></h3>
 				<pre>func (me Sampler) WrapS() gl.Int</pre>
 				<p>
 Returns the single-valued wrapping function for texture coordinate s,
@@ -3115,7 +3128,7 @@ a symbolic constant. The initial value is gl.REPEAT.
 				
 			
 				
-				<h3 id="Sampler.WrapT">func (Sampler) <a href="/target/gl-sampler.go?s=8129:8161#L204">WrapT</a></h3>
+				<h3 id="Sampler.WrapT">func (Sampler) <a href="/target/gl-sampler.go?s=8293:8325#L210">WrapT</a></h3>
 				<pre>func (me Sampler) WrapT() gl.Int</pre>
 				<p>
 Returns the single-valued wrapping function for texture coordinate t,
