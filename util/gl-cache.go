@@ -19,6 +19,11 @@ func init() {
 	Cache.activeTexture = gl.TEXTURE0
 }
 
+func (_ *GlCache) onGlInit() {
+	// texTargets := [...]gl.Enum{gl.TEXTURE_2D, gl.TEXTURE_CUBE_MAP, gl.TEXTURE_2D_ARRAY, gl.TEXTURE_1D, gl.TEXTURE_3D, gl.TEXTURE_1D_ARRAY, gl.TEXTURE_BUFFER, gl.TEXTURE_RECTANGLE, gl.TEXTURE_CUBE_MAP_ARRAY, gl.TEXTURE_2D_MULTISAMPLE, gl.TEXTURE_2D_MULTISAMPLE_ARRAY}
+	Cache.bindSampler = make([]gl.Uint, Support.Textures.ImageUnits.MaxFragment)
+}
+
 func (_ *GlCache) ActiveTexture(texture gl.Enum) {
 	if texture != Cache.activeTexture {
 		Cache.activeTexture = texture

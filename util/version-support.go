@@ -140,7 +140,6 @@ func setSupportInfos() {
 	Support.Textures.ImageUnits.MaxFragment = Util.Val(gl.MAX_TEXTURE_IMAGE_UNITS)
 	Support.Textures.ImageUnits.MaxGeometry = Util.Val(gl.MAX_GEOMETRY_TEXTURE_IMAGE_UNITS)
 	Support.Textures.ImageUnits.MaxVertex = Util.Val(gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS)
-	Cache.bindSampler = make([]gl.Uint, Support.Textures.ImageUnits.MaxFragment)
 
 	//	GL version-specifics
 	if Support.GlVersion.Is42 {
@@ -158,6 +157,8 @@ func setSupportInfos() {
 	if Support.Glsl.Version.Is430 {
 		Support.Glsl.Shaders.ComputeStage = true
 	}
+
+	Cache.onGlInit()
 }
 
 func setVersion() {

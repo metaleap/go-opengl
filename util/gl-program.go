@@ -17,6 +17,11 @@ type Program struct {
 	//	An arbitrary application-defined name that is of no use to OpenGL, but may aid client-side diagnostics.
 	Name string
 
+	Sources struct {
+		In  ShaderSources
+		Out ShaderSources
+	}
+
 	//	All vertex-attributes and their locations mapped for this program object (after the SetAttrLocations() method has been called).
 	AttrLocs map[string]gl.Uint
 
@@ -29,50 +34,44 @@ type Program struct {
 	}
 }
 
-//	Initializes and returns --but does not Create()-- a new Program with the specified name.
 func NewProgram(name string) (me *Program) {
-	const cap = 4
-	me = &Program{Name: name, AttrLocs: make(map[string]gl.Uint, cap), UnifLocs: make(map[string]gl.Int, cap)}
+	me = new(Program)
+	me.Init(name)
+	return
+}
+
+func (me *Program) Init(name string) {
+	const cap = 8
+	me.Name, me.AttrLocs, me.UnifLocs = name, make(map[string]gl.Uint, cap), make(map[string]gl.Int, cap)
 	me.unif.cache1i = make(map[gl.Int]gl.Int, cap)
 	me.unif.cache1f = make(map[gl.Int]gl.Float, cap)
-	return
 }
 
 //	Creates and compiles Shader stages for the specified sources (and defines) and links them together in this Program.
 //	All sources are string pointers and WILL be modified by this method to contain the final real
 //	GLSL source string sent to GL as returned by Shader.SetSource(). This may aid diagnostics or be discarded,
 //	but a source string should not be re-sent to a subsequent compilation in that modified form.
-func (me *Program) CompileAndLinkShaders(compute, fragment, geometry, tessCtl, tessEval, vertex *string, defines map[string]interface{}) (err error) {
-	type shaderCtor func(string) *Shader
-	var (
-		ctor       shaderCtor
-		source     *string
-		shader     *Shader
-		allShaders []*Shader
-	)
-	for source, ctor = range map[*string]shaderCtor{
-		compute:  NewComputeShader,
-		fragment: NewFragmentShader,
-		geometry: NewGeometryShader,
-		tessCtl:  NewTessCtlShader,
-		tessEval: NewTessEvalShader,
-		vertex:   NewVertexShader,
-	} {
-		if len(*source) > 0 {
-			if shader = ctor(me.Name); shader != nil {
-				if err = shader.Create(); err != nil {
-					return
-				}
-				defer shader.Dispose()
-				if *source, err = shader.SetSource(*source, defines); err != nil {
-					return
-				}
-				if err = shader.Compile(); err != nil {
-					return
-				}
+func (me *Program) CompileAndLinkShaders(defines map[string]interface{}) (err error) {
+	var allJobs = [...]shaderJob{
+		shaderJob{me.Sources.In.Compute, &me.Sources.Out.Compute, NewComputeShader},
+		shaderJob{me.Sources.In.Fragment, &me.Sources.Out.Fragment, NewFragmentShader},
+		shaderJob{me.Sources.In.Geometry, &me.Sources.Out.Geometry, NewGeometryShader},
+		shaderJob{me.Sources.In.TessCtl, &me.Sources.Out.TessCtl, NewTessCtlShader},
+		shaderJob{me.Sources.In.TessEval, &me.Sources.Out.TessEval, NewTessEvalShader},
+		shaderJob{me.Sources.In.Vertex, &me.Sources.Out.Vertex, NewVertexShader},
+	}
+	var shader *Shader
+	allShaders := make([]*Shader, 0, 6)
+	for i := 0; i < len(allJobs); i++ {
+		if shader, err = me.compileShader(&allJobs[i], defines); shader != nil {
+			defer shader.Dispose()
+			if err == nil {
 				allShaders = append(allShaders, shader)
+			} else {
+				return
 			}
 		}
+
 	}
 	if len(allShaders) == 0 {
 		err = errf("Program'%s'.CompileAndLinkShaders() -- no shaders specified.", me.Name)
@@ -90,10 +89,29 @@ func (me *Program) CompileAndLinkShaders(compute, fragment, geometry, tessCtl, t
 	return
 }
 
+func (me *Program) compileShader(job *shaderJob, defines map[string]interface{}) (shader *Shader, err error) {
+	if len(job.srcIn) > 0 {
+		if *job.srcOut, shader = job.srcIn, job.ctor(); shader != nil {
+			if err = shader.Create(); err != nil {
+				return
+			}
+			if *job.srcOut, err = shader.SetSource(job.srcIn, defines); err != nil {
+				return
+			}
+			if err = shader.Compile(me.Name); err != nil {
+				return
+			}
+		}
+	}
+	return
+}
+
 //	Creates this program object in OpenGL.
 func (me *Program) Create() (err error) {
-	me.Dispose()
-	err, me.GlHandle = Try.CreateProgram()
+	if me.GlHandle == 0 {
+		me.Dispose()
+		err, me.GlHandle = Try.CreateProgram()
+	}
 	return
 }
 

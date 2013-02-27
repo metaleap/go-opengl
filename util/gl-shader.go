@@ -8,15 +8,28 @@ import (
 	ugo "github.com/metaleap/go-util"
 )
 
+type shaderCtor func() *Shader
+
+type shaderJob struct {
+	srcIn  string
+	srcOut *string
+	ctor   shaderCtor
+}
+
+type ShaderSources struct {
+	Compute  string
+	Fragment string
+	Geometry string
+	TessCtl  string
+	TessEval string
+	Vertex   string
+}
+
 //	Represents an OpenGL shader object.
 type Shader struct {
 	//	The OpenGL handle to the underlying shader object.
 	//	This is 0 before calling Create() and after calling Dispose().
 	GlHandle gl.Uint
-
-	//	An arbitrary application-defined name that is of no use to OpenGL,
-	//	but may aid client-side diagnostics.
-	Name string
 
 	//	The shader stage provided by this shader,
 	//	such as for example gl.FRAGMENT_SHADER, gl.VERTEX_SHADER, etc.
@@ -24,48 +37,48 @@ type Shader struct {
 }
 
 //	Initializes and returns --but does not Create()-- a new Shader with the specified name and shader stage.
-func NewShader(name string, glStage gl.Enum) (me *Shader) {
-	me = &Shader{Name: name, Stage: glStage}
+func NewShader(glStage gl.Enum) (me *Shader) {
+	me = &Shader{Stage: glStage}
 	return
 }
 
 //	If Support.Glsl.Shaders.ComputeStage is true, initializes and returns --but does not Create()-- a new Shader for the gl.COMPUTE_SHADER Stage with the specified name.
-func NewComputeShader(name string) (me *Shader) {
+func NewComputeShader() (me *Shader) {
 	if Support.Glsl.Shaders.ComputeStage {
-		me = NewShader(name, gl.COMPUTE_SHADER)
+		me = NewShader(gl.COMPUTE_SHADER)
 	}
 	return
 }
 
 //	Initializes and returns --but does not Create()-- a new Shader for the gl.FRAGMENT_SHADER Stage with the specified name.
-func NewFragmentShader(name string) *Shader {
-	return NewShader(name, gl.FRAGMENT_SHADER)
+func NewFragmentShader() *Shader {
+	return NewShader(gl.FRAGMENT_SHADER)
 }
 
 //	Initializes and returns --but does not Create()-- a new Shader for the gl.GEOMETRY_SHADER Stage with the specified name.
-func NewGeometryShader(name string) *Shader {
-	return NewShader(name, gl.GEOMETRY_SHADER)
+func NewGeometryShader() *Shader {
+	return NewShader(gl.GEOMETRY_SHADER)
 }
 
 //	If Support.Glsl.Shaders.TessellationStages is true, initializes and returns --but does not Create()-- a new Shader for the gl.TESS_CONTROL_SHADER ("Hull") Stage with the specified name.
-func NewTessCtlShader(name string) (me *Shader) {
+func NewTessCtlShader() (me *Shader) {
 	if Support.Glsl.Shaders.TessellationStages {
-		me = NewShader(name, gl.TESS_CONTROL_SHADER)
+		me = NewShader(gl.TESS_CONTROL_SHADER)
 	}
 	return
 }
 
 //	If Support.Glsl.Shaders.TessellationStages is true, initializes and returns --but does not Create()-- a new Shader for the gl.TESS_EVALUATION_SHADER ("Domain") Stage with the specified name.
-func NewTessEvalShader(name string) (me *Shader) {
+func NewTessEvalShader() (me *Shader) {
 	if Support.Glsl.Shaders.TessellationStages {
-		me = NewShader(name, gl.TESS_EVALUATION_SHADER)
+		me = NewShader(gl.TESS_EVALUATION_SHADER)
 	}
 	return
 }
 
 //	Initializes and returns --but does not Create()-- a new Shader for the gl.VERTEX_SHADER Stage with the specified name.
-func NewVertexShader(name string) *Shader {
-	return NewShader(name, gl.VERTEX_SHADER)
+func NewVertexShader() *Shader {
+	return NewShader(gl.VERTEX_SHADER)
 }
 
 //	Attaches this shader object to the specified program object.
@@ -80,9 +93,9 @@ func (me *Shader) StageName() (sn string) {
 
 //	Compiles this shader object. This is a convenience short-hand for calling gl.CompileShader(),
 //	checking gl.COMPILE_STATUS and obtaining gl.GetShaderInfoLog().
-func (me *Shader) Compile() (err error) {
+func (me *Shader) Compile(name string) (err error) {
 	if gl.CompileShader(me.GlHandle); me.ParamInt(gl.COMPILE_STATUS) == gl.FALSE {
-		err = errf("%s'%s'.Compile() error: %s\n", me.StageName(), me.Name, me.InfoLog())
+		err = errf("%s'%s'.Compile() error: %s\n", me.StageName(), name, me.InfoLog(name))
 	}
 	return
 }
@@ -108,8 +121,8 @@ func (me *Shader) Dispose() {
 }
 
 //	Retrieves and returns the content of the current OpenGL info-log for this shader object.
-func (me *Shader) InfoLog() string {
-	return shaderProgInfoLog(me.Name, me.GlHandle, true)
+func (me *Shader) InfoLog(name string) string {
+	return shaderProgInfoLog(name, me.GlHandle, true)
 }
 
 //	Convenience short-hand for gl.GetShaderiv.
