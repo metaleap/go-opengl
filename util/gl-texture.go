@@ -9,16 +9,10 @@ import (
 
 //	Implemented by specialized texture types such as Texture2D.
 type Texture interface {
-	//	Binds this texture to current texture image unit.
-	Bind()
-
 	Dispose()
 
 	//	Deletes and (re)creates the texture object based on its current params.
 	Recreate() error
-
-	//	Unbinds this texture from current texture image unit.
-	Unbind()
 }
 
 //	Embedded by specialized texture types such as Texture2D.
@@ -65,7 +59,7 @@ type TextureBase struct {
 		//	Pointers (one per sub-image) to the first pixel
 		//	of the data stream to be uploaded by Recreate().
 		//	Initially defaults to []gl.Ptr { PtrNil }
-		Ptrs []gl.Ptr
+		Ptrs [6]gl.Ptr
 	}
 }
 
@@ -91,7 +85,9 @@ func (me *TextureBase) init() {
 	me.SizedInternalFormat = gl.RGBA8
 	me.PixelData.Format = gl.RGBA
 	me.PixelData.Type = gl.UNSIGNED_BYTE
-	me.PixelData.Ptrs = []gl.Ptr{PtrNil}
+	for i := 0; i < len(me.PixelData.Ptrs); i++ {
+		me.PixelData.Ptrs[i] = PtrNil
+	}
 }
 
 func (me *TextureBase) onAfterRecreate() {
@@ -116,11 +112,6 @@ func (me *TextureBase) prepFromImages(bgra, uintRev bool, images ...image.Image)
 	pixData, pfmt := &me.PixelData, Typed.Ife(bgra, gl.BGRA, gl.RGBA)
 	pixData.Format = pfmt
 	pixData.Type = Typed.Ife(uintRev, gl.UNSIGNED_INT_8_8_8_8_REV, gl.UNSIGNED_BYTE)
-	if len(pixData.Ptrs) < len(images) {
-		nuPtrs := make([]gl.Ptr, len(images))
-		copy(nuPtrs, pixData.Ptrs)
-		pixData.Ptrs = nuPtrs
-	}
 	for i, img := range images {
 		switch pic := img.(type) {
 		case *image.Alpha:

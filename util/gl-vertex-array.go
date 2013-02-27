@@ -13,7 +13,7 @@ type VertexArray struct {
 
 //	Binds this vertex array object.
 func (me *VertexArray) Bind() {
-	gl.BindVertexArray(me.GlHandle)
+	Cache.BindVertexArray(me.GlHandle)
 }
 
 //	(Re-)Creates this vertex-array object.
@@ -58,7 +58,7 @@ func (me *VertexArray) Setup(prog *Program, atts []*VertexAttribPointer, bufs ..
 
 //	Unbinds whatever vertex array object is currently bound.
 func (_ VertexArray) Unbind() {
-	gl.BindVertexArray(0)
+	Cache.BindVertexArray(0)
 }
 
 //	Encapsulates vertex attribute information used by VertexArray.Setup() to enable that vertex attribute.

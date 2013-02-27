@@ -1,39 +1,37 @@
 package gt
 
-var rs__N__ bool
-
 //	Disables __D__ only if it is currently enabled.
 func (me RenderStates) Disable__N__() {
-	if rs__N__ {
-		rs__N__ = false
+	if Cache.renderStates.__N__ {
+		Cache.renderStates.__N__ = false
 		gl.Disable(gl.__E__)
 	}
 }
 
 //	Enables __D__ only if it is currently disabled.
 func (me RenderStates) Enable__N__() {
-	if !rs__N__ {
-		rs__N__ = true
+	if !Cache.renderStates.__N__ {
+		Cache.renderStates.__N__ = true
 		gl.Enable(gl.__E__)
 	}
 }
 
 //	Deactivates __D__.
 func (_ RenderStates) ForceDisable__N__() {
-	rs__N__ = false
+	Cache.renderStates.__N__ = false
 	gl.Disable(gl.__E__)
 }
 
 //	Activates __D__.
 func (_ RenderStates) ForceEnable__N__() {
-	rs__N__ = true
+	Cache.renderStates.__N__ = true
 	gl.Enable(gl.__E__)
 }
 
 //	Activates or deactivates __D__.
 func (me RenderStates) Set__N__(new__N__ bool) {
-	if rs__N__ != new__N__ {
-		if rs__N__ = new__N__; rs__N__ {
+	if Cache.renderStates.__N__ != new__N__ {
+		if Cache.renderStates.__N__ = new__N__; Cache.renderStates.__N__ {
 			gl.Enable(gl.__E__)
 		} else {
 			gl.Disable(gl.__E__)
@@ -43,7 +41,7 @@ func (me RenderStates) Set__N__(new__N__ bool) {
 
 //	Toggles __D__.
 func (me RenderStates) Toggle__N__() {
-	if rs__N__ = !rs__N__; rs__N__ {
+	if Cache.renderStates.__N__ = !Cache.renderStates.__N__; Cache.renderStates.__N__ {
 		gl.Enable(gl.__E__)
 	} else {
 		gl.Disable(gl.__E__)

@@ -155,10 +155,10 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 				
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#Framebuffer.AttachRenderbuffer">func (me *Framebuffer) AttachRenderbuffer(renderbuffer *FramebufferRenderbuffer)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#Framebuffer.AttachRenderbuffer">func (me *Framebuffer) AttachRenderbuffer() (rb *FramebufferRenderbuffer)</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#Framebuffer.AttachRendertexture">func (me *Framebuffer) AttachRendertexture(texture *FramebufferRendertexture)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#Framebuffer.AttachRendertexture">func (me *Framebuffer) AttachRendertexture() (tex *FramebufferRendertexture)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#Framebuffer.Bind">func (me *Framebuffer) Bind()</a></dd>
@@ -170,7 +170,7 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 					<dd>&nbsp; &nbsp; <a href="#Framebuffer.Dispose">func (me *Framebuffer) Dispose()</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#Framebuffer.RenderTexture">func (me *Framebuffer) RenderTexture(index int) *FramebufferRendertexture</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#Framebuffer.RenderTextureHandle">func (me *Framebuffer) RenderTextureHandle(index int) gl.Uint</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#Framebuffer.Resize">func (me *Framebuffer) Resize(width, height gl.Sizei) (resized bool)</a></dd>
@@ -185,12 +185,12 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 				
 				<dd><a href="#FramebufferRenderbuffer">type FramebufferRenderbuffer</a></dd>
 				
-					
-					<dd>&nbsp; &nbsp; <a href="#NewFramebufferRenderbuffer">func NewFramebufferRenderbuffer() (me *FramebufferRenderbuffer)</a></dd>
-				
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#FramebufferRenderbuffer.Bind">func (me *FramebufferRenderbuffer) Bind()</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#FramebufferRenderbuffer.Init">func (me *FramebufferRenderbuffer) Init()</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#FramebufferRenderbuffer.Unbind">func (me *FramebufferRenderbuffer) Unbind()</a></dd>
@@ -199,12 +199,26 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 				
 				<dd><a href="#FramebufferRendertexture">type FramebufferRendertexture</a></dd>
 				
-					
-					<dd>&nbsp; &nbsp; <a href="#NewFramebufferRendertexture">func NewFramebufferRendertexture() (me *FramebufferRendertexture)</a></dd>
-				
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#FramebufferRendertexture.Init">func (me *FramebufferRendertexture) Init()</a></dd>
+				
+			
+				
+				<dd><a href="#GlCache">type GlCache</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlCache.ActiveTexture">func (_ *GlCache) ActiveTexture(texture gl.Enum)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlCache.BindSampler">func (_ *GlCache) BindSampler(textureUnit, glHandle gl.Uint)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlCache.BindVertexArray">func (_ *GlCache) BindVertexArray(glHandle gl.Uint)</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#GlCache.UseProgram">func (_ *GlCache) UseProgram(glHandle gl.Uint)</a></dd>
 				
 			
 				
@@ -288,9 +302,6 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#GlUtil.LastError">func (_ GlUtil) LastError(msgFmt string, fmtArgs ...interface{}) (err error)</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="#GlUtil.SetActiveTextureUnit">func (_ GlUtil) SetActiveTextureUnit(texImgUnit gl.Enum)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#GlUtil.Str">func (_ GlUtil) Str(name gl.Enum) string</a></dd>
@@ -880,6 +891,8 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 			
 				<a href="/target/gl-buffer.go">gl-buffer.go</a>
 			
+				<a href="/target/gl-cache.go">gl-cache.go</a>
+			
 				<a href="/target/gl-framebuffer.go">gl-framebuffer.go</a>
 			
 				<a href="/target/gl-program.go">gl-program.go</a>
@@ -933,6 +946,8 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 			<h2 id="pkg-variables">Variables</h2>
 			
 				<pre>var (
+    Cache GlCache
+
     <span class="comment">//	Provides access to miscellaneous GL functionality.</span>
     Util GlUtil
 
@@ -946,11 +961,11 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 			
 				<pre>var (
     <span class="comment">//	All the known possible OpenGL core context versions that this package supports.</span>
-    KnownVersions = []float64{3.3, 4.0, 4.1, 4.2, 4.3}
+    KnownVersions = [5]float64{3.3, 4.0, 4.1, 4.2, 4.3}
 
     <span class="comment">//	Contains the well-known extension prefixes that can be omitted</span>
     <span class="comment">//	when querying the current OpenGL context via Util.Extension().</span>
-    KnownExtensionPrefixes = []string{&#34;GL_3DFX_&#34;, &#34;GL_3DL_&#34;, &#34;GL_AMD_&#34;, &#34;GL_APPLE_&#34;, &#34;GL_ARB_&#34;, &#34;GL_ATI_&#34;, &#34;GL_EXT_&#34;, &#34;GL_GREMEDY_&#34;, &#34;GL_HP_&#34;, &#34;GL_I3D_&#34;, &#34;GL_IBM_&#34;, &#34;GL_INGR_&#34;, &#34;GL_INTEL_&#34;, &#34;GL_KHR_&#34;, &#34;GL_KTX_&#34;, &#34;GL_MESA_&#34;, &#34;GL_MESAX_&#34;, &#34;GL_NV_&#34;, &#34;GL_NVX_&#34;, &#34;GL_OES_&#34;, &#34;GL_OML_&#34;, &#34;GL_PGI_&#34;, &#34;GL_REND__&#34;, &#34;GL_S3_&#34;, &#34;GL_SGI_&#34;, &#34;GL_SGIS_&#34;, &#34;GL_SGIX_&#34;, &#34;GL_SUN_&#34;, &#34;GL_SUNX_&#34;, &#34;GL_WIN_&#34;, &#34;WGL_EXT_&#34;}
+    KnownExtensionPrefixes = [...]string{&#34;GL_3DFX_&#34;, &#34;GL_3DL_&#34;, &#34;GL_AMD_&#34;, &#34;GL_APPLE_&#34;, &#34;GL_ARB_&#34;, &#34;GL_ATI_&#34;, &#34;GL_EXT_&#34;, &#34;GL_GREMEDY_&#34;, &#34;GL_HP_&#34;, &#34;GL_I3D_&#34;, &#34;GL_IBM_&#34;, &#34;GL_INGR_&#34;, &#34;GL_INTEL_&#34;, &#34;GL_KHR_&#34;, &#34;GL_KTX_&#34;, &#34;GL_MESA_&#34;, &#34;GL_MESAX_&#34;, &#34;GL_NV_&#34;, &#34;GL_NVX_&#34;, &#34;GL_OES_&#34;, &#34;GL_OML_&#34;, &#34;GL_PGI_&#34;, &#34;GL_REND__&#34;, &#34;GL_S3_&#34;, &#34;GL_SGI_&#34;, &#34;GL_SGIS_&#34;, &#34;GL_SGIX_&#34;, &#34;GL_SUN_&#34;, &#34;GL_SUNX_&#34;, &#34;GL_WIN_&#34;, &#34;WGL_EXT_&#34;}
 
     <span class="comment">//	After you have called ugl.Init() upon successful OpenGL context creation and GL binding initialization,</span>
     <span class="comment">//	contains information on what the currently active OpenGL profile supports.</span>
@@ -1066,7 +1081,7 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 		
 			
 			
-			<h2 id="Init">func <a href="/target/ugl.go?s=547:558#L12">Init</a></h2>
+			<h2 id="Init">func <a href="/target/ugl.go?s=563:574#L14">Init</a></h2>
 			<pre>func Init()</pre>
 			<p>
 DO call this immediately upon successful OpenGL context initialization to prepare this package for use.
@@ -1077,7 +1092,7 @@ Fully populates all fields and sub-fields in the Support package global.
 		
 			
 			
-			<h2 id="LogLastError">func <a href="/target/ugl.go?s=659:720#L18">LogLastError</a></h2>
+			<h2 id="LogLastError">func <a href="/target/ugl.go?s=675:736#L20">LogLastError</a></h2>
 			<pre>func LogLastError(stepFmt string, stepFmtArgs ...interface{})</pre>
 			<p>
 log.Println()s the error returned by Util.Error(), if any.
@@ -1087,7 +1102,7 @@ log.Println()s the error returned by Util.Error(), if any.
 		
 			
 			
-			<h2 id="VersionMajorMinor">func <a href="/target/version-support.go?s=6141:6193#L178">VersionMajorMinor</a></h2>
+			<h2 id="VersionMajorMinor">func <a href="/target/version-support.go?s=6147:6199#L178">VersionMajorMinor</a></h2>
 			<pre>func VersionMajorMinor(v float64) (major, minor int)</pre>
 			<p>
 Returns the major and minor parts of the specified version number.
@@ -1097,7 +1112,7 @@ Returns the major and minor parts of the specified version number.
 		
 			
 			
-			<h2 id="VersionMatch">func <a href="/target/version-support.go?s=6424:6457#L186">VersionMatch</a></h2>
+			<h2 id="VersionMatch">func <a href="/target/version-support.go?s=6430:6463#L186">VersionMatch</a></h2>
 			<pre>func VersionMatch(v float64) bool</pre>
 			<p>
 Returns true if GlVersion is greater than or equal to v.
@@ -1354,7 +1369,7 @@ Convenience short-hand for gl.UnmapBuffer(me.GlTarget)
 		
 			
 			
-			<h2 id="Framebuffer">type <a href="/target/gl-framebuffer.go?s=108:476#L1">Framebuffer</a></h2>
+			<h2 id="Framebuffer">type <a href="/target/gl-framebuffer.go?s=108:474#L1">Framebuffer</a></h2>
 			<pre>type Framebuffer struct {
     <span class="comment">//	Set in Create(), this is either gl.READ_FRAMEBUFFER or gl.FRAMEBUFFER</span>
     GlTarget gl.Enum
@@ -1379,8 +1394,8 @@ Encapsulates an OpenGL framebuffer object.
 
 			
 				
-				<h3 id="Framebuffer.AttachRenderbuffer">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=538:618#L13">AttachRenderbuffer</a></h3>
-				<pre>func (me *Framebuffer) AttachRenderbuffer(renderbuffer *FramebufferRenderbuffer)</pre>
+				<h3 id="Framebuffer.AttachRenderbuffer">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=536:609#L13">AttachRenderbuffer</a></h3>
+				<pre>func (me *Framebuffer) AttachRenderbuffer() (rb *FramebufferRenderbuffer)</pre>
 				<p>
 Attaches the specified renderbuffer to this Framebuffer.
 </p>
@@ -1389,8 +1404,8 @@ Attaches the specified renderbuffer to this Framebuffer.
 				
 			
 				
-				<h3 id="Framebuffer.AttachRendertexture">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=782:859#L19">AttachRendertexture</a></h3>
-				<pre>func (me *Framebuffer) AttachRendertexture(texture *FramebufferRendertexture)</pre>
+				<h3 id="Framebuffer.AttachRendertexture">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=844:920#L22">AttachRendertexture</a></h3>
+				<pre>func (me *Framebuffer) AttachRendertexture() (tex *FramebufferRendertexture)</pre>
 				<p>
 Attaches the specified render texture to this Framebuffer.
 </p>
@@ -1399,7 +1414,7 @@ Attaches the specified render texture to this Framebuffer.
 				
 			
 				
-				<h3 id="Framebuffer.Bind">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=982:1011#L25">Bind</a></h3>
+				<h3 id="Framebuffer.Bind">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1130:1159#L31">Bind</a></h3>
 				<pre>func (me *Framebuffer) Bind()</pre>
 				<p>
 Binds this framebuffer object.
@@ -1409,7 +1424,7 @@ Binds this framebuffer object.
 				
 			
 				
-				<h3 id="Framebuffer.Create">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1121:1185#L30">Create</a></h3>
+				<h3 id="Framebuffer.Create">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1269:1333#L36">Create</a></h3>
 				<pre>func (me *Framebuffer) Create(width, height gl.Sizei, read bool)</pre>
 				<p>
 Creates this Framebuffer in OpenGL sized as specified.
@@ -1419,7 +1434,7 @@ Creates this Framebuffer in OpenGL sized as specified.
 				
 			
 				
-				<h3 id="Framebuffer.Dispose">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1569:1601#L43">Dispose</a></h3>
+				<h3 id="Framebuffer.Dispose">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1697:1729#L45">Dispose</a></h3>
 				<pre>func (me *Framebuffer) Dispose()</pre>
 				<p>
 Deletes this Framebuffer and all attached render textures and render buffers from OpenGL.
@@ -1429,8 +1444,8 @@ Deletes this Framebuffer and all attached render textures and render buffers fro
 				
 			
 				
-				<h3 id="Framebuffer.RenderTexture">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=2723:2796#L86">RenderTexture</a></h3>
-				<pre>func (me *Framebuffer) RenderTexture(index int) *FramebufferRendertexture</pre>
+				<h3 id="Framebuffer.RenderTextureHandle">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=2907:2968#L89">RenderTextureHandle</a></h3>
+				<pre>func (me *Framebuffer) RenderTextureHandle(index int) gl.Uint</pre>
 				<p>
 Returns the FramebufferRendertexture attached to me at the specified index.
 </p>
@@ -1439,7 +1454,7 @@ Returns the FramebufferRendertexture attached to me at the specified index.
 				
 			
 				
-				<h3 id="Framebuffer.Resize">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=2916:2984#L91">Resize</a></h3>
+				<h3 id="Framebuffer.Resize">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3097:3165#L94">Resize</a></h3>
 				<pre>func (me *Framebuffer) Resize(width, height gl.Sizei) (resized bool)</pre>
 				<p>
 Resizes this Framebuffer and all attached render textures and render buffers.
@@ -1449,7 +1464,7 @@ Resizes this Framebuffer and all attached render textures and render buffers.
 				
 			
 				
-				<h3 id="Framebuffer.Status">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3339:3378#L105">Status</a></h3>
+				<h3 id="Framebuffer.Status">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3579:3618#L109">Status</a></h3>
 				<pre>func (me *Framebuffer) Status() gl.Enum</pre>
 				<p>
 The current status of this Framebuffer as returned by gl.CheckFramebufferStatus().
@@ -1459,7 +1474,7 @@ The current status of this Framebuffer as returned by gl.CheckFramebufferStatus(
 				
 			
 				
-				<h3 id="Framebuffer.Unbind">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3565:3596#L111">Unbind</a></h3>
+				<h3 id="Framebuffer.Unbind">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3805:3836#L115">Unbind</a></h3>
 				<pre>func (me *Framebuffer) Unbind()</pre>
 				<p>
 Unbinds whatever Framebuffer is currently bound, and binds the
@@ -1472,7 +1487,7 @@ Unbinds whatever Framebuffer is currently bound, and binds the
 		
 			
 			
-			<h2 id="FramebufferRenderbuffer">type <a href="/target/gl-framebuffer.go?s=3706:4043#L116">FramebufferRenderbuffer</a></h2>
+			<h2 id="FramebufferRenderbuffer">type <a href="/target/gl-framebuffer.go?s=3946:4283#L120">FramebufferRenderbuffer</a></h2>
 			<pre>type FramebufferRenderbuffer struct {
     <span class="comment">//	The attachment point of this render buffer.</span>
     <span class="comment">//	Defaults to gl.DEPTH_STENCIL_ATTACHMENT.</span>
@@ -1499,19 +1514,10 @@ Represents a Renderbuffer that can be attached to a Framebuffer.
 			
 
 			
-				
-				<h3 id="NewFramebufferRenderbuffer">func <a href="/target/gl-framebuffer.go?s=4126:4189#L132">NewFramebufferRenderbuffer</a></h3>
-				<pre>func NewFramebufferRenderbuffer() (me *FramebufferRenderbuffer)</pre>
-				<p>
-Initializes a new FramebufferRenderbuffer with default values and returns it.
-</p>
-
-				
-			
 
 			
 				
-				<h3 id="FramebufferRenderbuffer.Bind">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4375:4416#L138">Bind</a></h3>
+				<h3 id="FramebufferRenderbuffer.Bind">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4485:4526#L142">Bind</a></h3>
 				<pre>func (me *FramebufferRenderbuffer) Bind()</pre>
 				<p>
 Binds this render buffer object.
@@ -1521,7 +1527,14 @@ Binds this render buffer object.
 				
 			
 				
-				<h3 id="FramebufferRenderbuffer.Unbind">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4674:4717#L150">Unbind</a></h3>
+				<h3 id="FramebufferRenderbuffer.Init">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4285:4326#L135">Init</a></h3>
+				<pre>func (me *FramebufferRenderbuffer) Init()</pre>
+				
+				
+				
+			
+				
+				<h3 id="FramebufferRenderbuffer.Unbind">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4784:4827#L154">Unbind</a></h3>
 				<pre>func (me *FramebufferRenderbuffer) Unbind()</pre>
 				<p>
 Unbinds whatever render buffer object is currently bound, if any.
@@ -1533,7 +1546,7 @@ Unbinds whatever render buffer object is currently bound, if any.
 		
 			
 			
-			<h2 id="FramebufferRendertexture">type <a href="/target/gl-framebuffer.go?s=4840:5049#L155">FramebufferRendertexture</a></h2>
+			<h2 id="FramebufferRendertexture">type <a href="/target/gl-framebuffer.go?s=4950:5159#L159">FramebufferRendertexture</a></h2>
 			<pre>type FramebufferRendertexture struct {
     <span class="comment">//	The texture object being rendered to.</span>
     Texture2D
@@ -1554,20 +1567,57 @@ Represents a render-to-texture object that can be attached to a Framebuffer.
 			
 
 			
-				
-				<h3 id="NewFramebufferRendertexture">func <a href="/target/gl-framebuffer.go?s=5161:5226#L165">NewFramebufferRendertexture</a></h3>
-				<pre>func NewFramebufferRendertexture() (me *FramebufferRendertexture)</pre>
-				<p>
-Initializes --but does not Recreate()-- a new FramebufferRendertexture with default values and returns it.
-</p>
-
-				
-			
 
 			
 				
-				<h3 id="FramebufferRendertexture.Init">func (*FramebufferRendertexture) <a href="/target/gl-framebuffer.go?s=5287:5329#L171">Init</a></h3>
+				<h3 id="FramebufferRendertexture.Init">func (*FramebufferRendertexture) <a href="/target/gl-framebuffer.go?s=5161:5203#L168">Init</a></h3>
 				<pre>func (me *FramebufferRendertexture) Init()</pre>
+				
+				
+				
+			
+		
+			
+			
+			<h2 id="GlCache">type <a href="/target/gl-cache.go?s=62:384#L1">GlCache</a></h2>
+			<pre>type GlCache struct {
+    <span class="comment">// contains filtered or unexported fields</span>
+}</pre>
+			
+
+			
+
+			
+
+			
+
+			
+
+			
+				
+				<h3 id="GlCache.ActiveTexture">func (*GlCache) <a href="/target/gl-cache.go?s=438:486#L12">ActiveTexture</a></h3>
+				<pre>func (_ *GlCache) ActiveTexture(texture gl.Enum)</pre>
+				
+				
+				
+			
+				
+				<h3 id="GlCache.BindSampler">func (*GlCache) <a href="/target/gl-cache.go?s=592:652#L19">BindSampler</a></h3>
+				<pre>func (_ *GlCache) BindSampler(textureUnit, glHandle gl.Uint)</pre>
+				
+				
+				
+			
+				
+				<h3 id="GlCache.BindVertexArray">func (*GlCache) <a href="/target/gl-cache.go?s=794:845#L26">BindVertexArray</a></h3>
+				<pre>func (_ *GlCache) BindVertexArray(glHandle gl.Uint)</pre>
+				
+				
+				
+			
+				
+				<h3 id="GlCache.UseProgram">func (*GlCache) <a href="/target/gl-cache.go?s=960:1006#L33">UseProgram</a></h3>
+				<pre>func (_ *GlCache) UseProgram(glHandle gl.Uint)</pre>
 				
 				
 				
@@ -1802,9 +1852,8 @@ Calls gl.TexSubImage2D() and yields the err returned by Util.LastError(), if any
 		
 			
 			
-			<h2 id="GlUtil">type <a href="/target/gl-util.go?s=175:223#L1">GlUtil</a></h2>
+			<h2 id="GlUtil">type <a href="/target/gl-util.go?s=175:197#L1">GlUtil</a></h2>
 			<pre>type GlUtil struct {
-    <span class="comment">// contains filtered or unexported fields</span>
 }</pre>
 			<p>
 A singleton type, only used for the package-global ugl.Util variable.
@@ -1821,7 +1870,7 @@ A singleton type, only used for the package-global ugl.Util variable.
 
 			
 				
-				<h3 id="GlUtil.ConnInfo">func (GlUtil) <a href="/target/gl-util.go?s=449:482#L5">ConnInfo</a></h3>
+				<h3 id="GlUtil.ConnInfo">func (GlUtil) <a href="/target/gl-util.go?s=423:456#L4">ConnInfo</a></h3>
 				<pre>func (_ GlUtil) ConnInfo() string</pre>
 				<p>
 Returns an OpenGL connection-info string of the format &#34;OpenGL {version} @ {vendor} {renderer} (GLSL: {version})&#34;
@@ -1832,7 +1881,7 @@ Example: &#34;OpenGL 4.2.0 @ NVIDIA Corporation Quadro 5010M/PCIe/SSE2 (GLSL: 4.
 				
 			
 				
-				<h3 id="GlUtil.EnumName">func (GlUtil) <a href="/target/gl-util.go?s=782:834#L11">EnumName</a></h3>
+				<h3 id="GlUtil.EnumName">func (GlUtil) <a href="/target/gl-util.go?s=756:808#L10">EnumName</a></h3>
 				<pre>func (_ GlUtil) EnumName(enum gl.Enum) (name string)</pre>
 				<p>
 Returns the name of the specified enum. Out of the over 1290 possible enum values, currently only supports
@@ -1843,7 +1892,7 @@ error codes and shader stages.
 				
 			
 				
-				<h3 id="GlUtil.Extension">func (GlUtil) <a href="/target/gl-util.go?s=2035:2078#L47">Extension</a></h3>
+				<h3 id="GlUtil.Extension">func (GlUtil) <a href="/target/gl-util.go?s=2009:2052#L46">Extension</a></h3>
 				<pre>func (_ GlUtil) Extension(name string) bool</pre>
 				<p>
 Returns true if the specified extension (ignoring upper/lower-case) is supported by the current OpenGL context, as per the global Support.Extensions variable.
@@ -1854,7 +1903,7 @@ If the extension uses a well-known prefix contained in KnownExtensionPrefixes, i
 				
 			
 				
-				<h3 id="GlUtil.LastError">func (GlUtil) <a href="/target/gl-util.go?s=2419:2495#L61">LastError</a></h3>
+				<h3 id="GlUtil.LastError">func (GlUtil) <a href="/target/gl-util.go?s=2393:2469#L60">LastError</a></h3>
 				<pre>func (_ GlUtil) LastError(msgFmt string, fmtArgs ...interface{}) (err error)</pre>
 				<p>
 If the GL error flag is currently set, returns an error with the specified
@@ -1865,17 +1914,7 @@ message and the GL error flag(s).
 				
 			
 				
-				<h3 id="GlUtil.SetActiveTextureUnit">func (GlUtil) <a href="/target/gl-util.go?s=2763:2819#L72">SetActiveTextureUnit</a></h3>
-				<pre>func (_ GlUtil) SetActiveTextureUnit(texImgUnit gl.Enum)</pre>
-				<p>
-If texImgUnit is different than the currently active texture image unit, activates it.
-</p>
-
-				
-				
-			
-				
-				<h3 id="GlUtil.Str">func (GlUtil) <a href="/target/gl-util.go?s=3030:3070#L81">Str</a></h3>
+				<h3 id="GlUtil.Str">func (GlUtil) <a href="/target/gl-util.go?s=2739:2779#L72">Str</a></h3>
 				<pre>func (_ GlUtil) Str(name gl.Enum) string</pre>
 				<p>
 Returns the specified OpenGL string.
@@ -1886,7 +1925,7 @@ Example: GlStr(gl.VENDOR) = &#34;NVIDIA Corporation&#34;
 				
 			
 				
-				<h3 id="GlUtil.Stri">func (GlUtil) <a href="/target/gl-util.go?s=3293:3345#L87">Stri</a></h3>
+				<h3 id="GlUtil.Stri">func (GlUtil) <a href="/target/gl-util.go?s=3002:3054#L78">Stri</a></h3>
 				<pre>func (_ GlUtil) Stri(name gl.Enum, i gl.Uint) string</pre>
 				<p>
 Returns the specified OpenGL string at the specified index.
@@ -1897,7 +1936,7 @@ For example, GlStri(gl.EXTENSIONS, 0) returns the name of the &#34;first&#34; of
 				
 			
 				
-				<h3 id="GlUtil.Val">func (GlUtil) <a href="/target/gl-util.go?s=3521:3567#L93">Val</a></h3>
+				<h3 id="GlUtil.Val">func (GlUtil) <a href="/target/gl-util.go?s=3230:3276#L84">Val</a></h3>
 				<pre>func (_ GlUtil) Val(name gl.Enum) (val gl.Int)</pre>
 				<p>
 Returns the specified integer as returned by gl.GetIntegerv().
@@ -1908,7 +1947,7 @@ Example: numExts := GlVal(gl.NUM_EXTENSIONS)
 				
 			
 				
-				<h3 id="GlUtil.Vals">func (GlUtil) <a href="/target/gl-util.go?s=3678:3736#L99">Vals</a></h3>
+				<h3 id="GlUtil.Vals">func (GlUtil) <a href="/target/gl-util.go?s=3387:3445#L90">Vals</a></h3>
 				<pre>func (_ GlUtil) Vals(name gl.Enum, n uint) (vals []gl.Int)</pre>
 				<p>
 Returns the specified n integers as returned by gl.GetIntegerv().
@@ -2018,7 +2057,7 @@ Initializes and returns --but does not Create()-- a new Program with the specifi
 
 			
 				
-				<h3 id="Program.CompileAndLinkShaders">func (*Program) <a href="/target/gl-program.go?s=1573:1721#L34">CompileAndLinkShaders</a></h3>
+				<h3 id="Program.CompileAndLinkShaders">func (*Program) <a href="/target/gl-program.go?s=1624:1772#L35">CompileAndLinkShaders</a></h3>
 				<pre>func (me *Program) CompileAndLinkShaders(compute, fragment, geometry, tessCtl, tessEval, vertex *string, defines map[string]interface{}) (err error)</pre>
 				<p>
 Creates and compiles Shader stages for the specified sources (and defines) and links them together in this Program.
@@ -2031,7 +2070,7 @@ but a source string should not be re-sent to a subsequent compilation in that mo
 				
 			
 				
-				<h3 id="Program.Create">func (*Program) <a href="/target/gl-program.go?s=2815:2854#L83">Create</a></h3>
+				<h3 id="Program.Create">func (*Program) <a href="/target/gl-program.go?s=2866:2905#L84">Create</a></h3>
 				<pre>func (me *Program) Create() (err error)</pre>
 				<p>
 Creates this program object in OpenGL.
@@ -2041,7 +2080,7 @@ Creates this program object in OpenGL.
 				
 			
 				
-				<h3 id="Program.Dispose">func (*Program) <a href="/target/gl-program.go?s=2966:2994#L90">Dispose</a></h3>
+				<h3 id="Program.Dispose">func (*Program) <a href="/target/gl-program.go?s=3017:3045#L91">Dispose</a></h3>
 				<pre>func (me *Program) Dispose()</pre>
 				<p>
 Deletes this program object from OpenGL.
@@ -2051,7 +2090,7 @@ Deletes this program object from OpenGL.
 				
 			
 				
-				<h3 id="Program.HasAttr">func (*Program) <a href="/target/gl-program.go?s=3160:3209#L98">HasAttr</a></h3>
+				<h3 id="Program.HasAttr">func (*Program) <a href="/target/gl-program.go?s=3211:3260#L99">HasAttr</a></h3>
 				<pre>func (me *Program) HasAttr(name string) (ok bool)</pre>
 				<p>
 Returns true if the specified attribute name is present as a key in me.AttrLocs.
@@ -2061,7 +2100,7 @@ Returns true if the specified attribute name is present as a key in me.AttrLocs.
 				
 			
 				
-				<h3 id="Program.HasUnif">func (*Program) <a href="/target/gl-program.go?s=3332:3381#L104">HasUnif</a></h3>
+				<h3 id="Program.HasUnif">func (*Program) <a href="/target/gl-program.go?s=3383:3432#L105">HasUnif</a></h3>
 				<pre>func (me *Program) HasUnif(name string) (ok bool)</pre>
 				<p>
 Returns true if the specified uniform name is present as a key in me.UnifLocs.
@@ -2071,7 +2110,7 @@ Returns true if the specified uniform name is present as a key in me.UnifLocs.
 				
 			
 				
-				<h3 id="Program.InfoLog">func (*Program) <a href="/target/gl-program.go?s=3514:3549#L110">InfoLog</a></h3>
+				<h3 id="Program.InfoLog">func (*Program) <a href="/target/gl-program.go?s=3565:3600#L111">InfoLog</a></h3>
 				<pre>func (me *Program) InfoLog() string</pre>
 				<p>
 Retrieves and returns the content of the current OpenGL info-log for this shader object.
@@ -2081,7 +2120,7 @@ Retrieves and returns the content of the current OpenGL info-log for this shader
 				
 			
 				
-				<h3 id="Program.Link">func (*Program) <a href="/target/gl-program.go?s=3768:3805#L116">Link</a></h3>
+				<h3 id="Program.Link">func (*Program) <a href="/target/gl-program.go?s=3819:3856#L117">Link</a></h3>
 				<pre>func (me *Program) Link() (err error)</pre>
 				<p>
 Links this program object. This is a convenience short-hand for calling gl.LinkProgram(),
@@ -2092,7 +2131,7 @@ checking gl.LINK_STATUS and obtaining gl.GetProgramInfoLog().
 				
 			
 				
-				<h3 id="Program.ParamInt">func (*Program) <a href="/target/gl-program.go?s=4412:4466#L140">ParamInt</a></h3>
+				<h3 id="Program.ParamInt">func (*Program) <a href="/target/gl-program.go?s=4463:4517#L141">ParamInt</a></h3>
 				<pre>func (me *Program) ParamInt(pname gl.Enum) (iv gl.Int)</pre>
 				<p>
 Convenience short-hand for gl.GetProgramiv.
@@ -2102,7 +2141,7 @@ Convenience short-hand for gl.GetProgramiv.
 				
 			
 				
-				<h3 id="Program.SetAttrLocations">func (*Program) <a href="/target/gl-program.go?s=4862:4930#L148">SetAttrLocations</a></h3>
+				<h3 id="Program.SetAttrLocations">func (*Program) <a href="/target/gl-program.go?s=4913:4981#L149">SetAttrLocations</a></h3>
 				<pre>func (me *Program) SetAttrLocations(attrNames ...string) (err error)</pre>
 				<p>
 Stores the locations for the specified vertex-attributes in the AttrLocs field.
@@ -2114,7 +2153,7 @@ err is the result of LastError() after each call to gl.GetAttribLocation(), the 
 				
 			
 				
-				<h3 id="Program.SetUnifLocations">func (*Program) <a href="/target/gl-program.go?s=5580:5648#L166">SetUnifLocations</a></h3>
+				<h3 id="Program.SetUnifLocations">func (*Program) <a href="/target/gl-program.go?s=5631:5699#L167">SetUnifLocations</a></h3>
 				<pre>func (me *Program) SetUnifLocations(unifNames ...string) (err error)</pre>
 				<p>
 Stores the locations for the specified uniforms in the UnifLocs field.
@@ -2126,7 +2165,7 @@ err is the result of LastError() after each call to gl.GetUniformLocation(), the
 				
 			
 				
-				<h3 id="Program.Uniform1f">func (*Program) <a href="/target/gl-program.go?s=6416:6470#L192">Uniform1f</a></h3>
+				<h3 id="Program.Uniform1f">func (*Program) <a href="/target/gl-program.go?s=6467:6521#L193">Uniform1f</a></h3>
 				<pre>func (me *Program) Uniform1f(name string, v0 gl.Float)</pre>
 				<p>
 Convenience short-hand for gl.Uniform1f, if this Program contains
@@ -2137,7 +2176,7 @@ the specified uniform and v0 differs from its current value.
 				
 			
 				
-				<h3 id="Program.Uniform1i">func (*Program) <a href="/target/gl-program.go?s=6101:6153#L183">Uniform1i</a></h3>
+				<h3 id="Program.Uniform1i">func (*Program) <a href="/target/gl-program.go?s=6152:6204#L184">Uniform1i</a></h3>
 				<pre>func (me *Program) Uniform1i(name string, v0 gl.Int)</pre>
 				<p>
 Convenience short-hand for gl.Uniform1i, if this Program contains
@@ -2148,7 +2187,7 @@ the specified uniform and v0 differs from its current value.
 				
 			
 				
-				<h3 id="Program.Uniform3fv">func (*Program) <a href="/target/gl-program.go?s=6693:6768#L200">Uniform3fv</a></h3>
+				<h3 id="Program.Uniform3fv">func (*Program) <a href="/target/gl-program.go?s=6744:6819#L201">Uniform3fv</a></h3>
 				<pre>func (me *Program) Uniform3fv(name string, count gl.Sizei, value *gl.Float)</pre>
 				<p>
 Convenience short-hand for gl.Uniform3fv, if this Program contains the specified uniform.
@@ -2158,7 +2197,7 @@ Convenience short-hand for gl.Uniform3fv, if this Program contains the specified
 				
 			
 				
-				<h3 id="Program.UniformMatrix4fv">func (*Program) <a href="/target/gl-program.go?s=6950:7053#L207">UniformMatrix4fv</a></h3>
+				<h3 id="Program.UniformMatrix4fv">func (*Program) <a href="/target/gl-program.go?s=7001:7104#L208">UniformMatrix4fv</a></h3>
 				<pre>func (me *Program) UniformMatrix4fv(name string, count gl.Sizei, transpose gl.Boolean, value *gl.Float)</pre>
 				<p>
 Convenience short-hand for gl.UniformMatrix4fv, if this Program contains the specified uniform.
@@ -2168,7 +2207,7 @@ Convenience short-hand for gl.UniformMatrix4fv, if this Program contains the spe
 				
 			
 				
-				<h3 id="Program.Use">func (*Program) <a href="/target/gl-program.go?s=7221:7245#L214">Use</a></h3>
+				<h3 id="Program.Use">func (*Program) <a href="/target/gl-program.go?s=7272:7296#L215">Use</a></h3>
 				<pre>func (me *Program) Use()</pre>
 				<p>
 Installs this program object as part of current rendering state.
@@ -2178,7 +2217,7 @@ Installs this program object as part of current rendering state.
 				
 			
 				
-				<h3 id="Program.Validate">func (*Program) <a href="/target/gl-program.go?s=7449:7490#L220">Validate</a></h3>
+				<h3 id="Program.Validate">func (*Program) <a href="/target/gl-program.go?s=7503:7544#L221">Validate</a></h3>
 				<pre>func (me *Program) Validate() (err error)</pre>
 				<p>
 Validates this program object. This is a convenience short-hand for calling gl.ValidateProgram(),
@@ -2310,7 +2349,7 @@ Used for ProgramManager.RawSources and ProgramManager.FinalRealSources.
 		
 			
 			
-			<h2 id="RenderStates">type <a href="/target/render-states.gt.go?s=847:875#L20">RenderStates</a></h2>
+			<h2 id="RenderStates">type <a href="/target/render-states.gt.go?s=817:845#L16">RenderStates</a></h2>
 			<pre>type RenderStates struct {
 }</pre>
 			<p>
@@ -2334,7 +2373,7 @@ RenderStates instance -- being &#39;singleton&#39; in design, they all utilize t
 
 			
 				
-				<h3 id="RenderStates.Apply">func (RenderStates) <a href="/target/render-states.gt.go?s=979:1029#L24">Apply</a></h3>
+				<h3 id="RenderStates.Apply">func (RenderStates) <a href="/target/render-states.gt.go?s=949:999#L20">Apply</a></h3>
 				<pre>func (me RenderStates) Apply(bag *RenderStatesBag)</pre>
 				<p>
 Calls the applicable me.SetFoo() methods for all render states in bag (except those in bag.Other).
@@ -2344,7 +2383,7 @@ Calls the applicable me.SetFoo() methods for all render states in bag (except th
 				
 			
 				
-				<h3 id="RenderStates.DisableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=1964:2004#L50">DisableBlending</a></h3>
+				<h3 id="RenderStates.DisableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2015:2055#L44">DisableBlending</a></h3>
 				<pre>func (me RenderStates) DisableBlending()</pre>
 				<p>
 Disables blending only if it is currently enabled.
@@ -2354,7 +2393,7 @@ Disables blending only if it is currently enabled.
 				
 			
 				
-				<h3 id="RenderStates.DisableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=2952:2993#L102">DisableDepthTest</a></h3>
+				<h3 id="RenderStates.DisableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3185:3226#L94">DisableDepthTest</a></h3>
 				<pre>func (me RenderStates) DisableDepthTest()</pre>
 				<p>
 Disables depth-testing only if it is currently enabled.
@@ -2364,7 +2403,7 @@ Disables depth-testing only if it is currently enabled.
 				
 			
 				
-				<h3 id="RenderStates.DisableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4027:4070#L154">DisableFaceCulling</a></h3>
+				<h3 id="RenderStates.DisableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4440:4483#L144">DisableFaceCulling</a></h3>
 				<pre>func (me RenderStates) DisableFaceCulling()</pre>
 				<p>
 Disables face-culling only if it is currently enabled.
@@ -2374,7 +2413,7 @@ Disables face-culling only if it is currently enabled.
 				
 			
 				
-				<h3 id="RenderStates.DisableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5139:5186#L206">DisableFramebufferSrgb</a></h3>
+				<h3 id="RenderStates.DisableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5728:5775#L194">DisableFramebufferSrgb</a></h3>
 				<pre>func (me RenderStates) DisableFramebufferSrgb()</pre>
 				<p>
 Disables SRGB-framebuffer only if it is currently enabled.
@@ -2384,7 +2423,7 @@ Disables SRGB-framebuffer only if it is currently enabled.
 				
 			
 				
-				<h3 id="RenderStates.DisableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=6406:6449#L258">DisableScissorTest</a></h3>
+				<h3 id="RenderStates.DisableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7175:7218#L244">DisableScissorTest</a></h3>
 				<pre>func (me RenderStates) DisableScissorTest()</pre>
 				<p>
 Disables scissor-testing only if it is currently enabled.
@@ -2394,7 +2433,7 @@ Disables scissor-testing only if it is currently enabled.
 				
 			
 				
-				<h3 id="RenderStates.DisableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7552:7595#L310">DisableStencilTest</a></h3>
+				<h3 id="RenderStates.DisableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=8501:8544#L294">DisableStencilTest</a></h3>
 				<pre>func (me RenderStates) DisableStencilTest()</pre>
 				<p>
 Disables stencil-testing only if it is currently enabled.
@@ -2404,7 +2443,7 @@ Disables stencil-testing only if it is currently enabled.
 				
 			
 				
-				<h3 id="RenderStates.EnableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2128:2167#L58">EnableBlending</a></h3>
+				<h3 id="RenderStates.EnableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2213:2252#L52">EnableBlending</a></h3>
 				<pre>func (me RenderStates) EnableBlending()</pre>
 				<p>
 Enables blending only if it is currently disabled.
@@ -2414,7 +2453,7 @@ Enables blending only if it is currently disabled.
 				
 			
 				
-				<h3 id="RenderStates.EnableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3129:3169#L110">EnableDepthTest</a></h3>
+				<h3 id="RenderStates.EnableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3396:3436#L102">EnableDepthTest</a></h3>
 				<pre>func (me RenderStates) EnableDepthTest()</pre>
 				<p>
 Enables depth-testing only if it is currently disabled.
@@ -2424,7 +2463,7 @@ Enables depth-testing only if it is currently disabled.
 				
 			
 				
-				<h3 id="RenderStates.EnableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4208:4250#L162">EnableFaceCulling</a></h3>
+				<h3 id="RenderStates.EnableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4655:4697#L152">EnableFaceCulling</a></h3>
 				<pre>func (me RenderStates) EnableFaceCulling()</pre>
 				<p>
 Enables face-culling only if it is currently disabled.
@@ -2434,7 +2473,7 @@ Enables face-culling only if it is currently disabled.
 				
 			
 				
-				<h3 id="RenderStates.EnableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5343:5389#L214">EnableFramebufferSrgb</a></h3>
+				<h3 id="RenderStates.EnableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5966:6012#L202">EnableFramebufferSrgb</a></h3>
 				<pre>func (me RenderStates) EnableFramebufferSrgb()</pre>
 				<p>
 Enables SRGB-framebuffer only if it is currently disabled.
@@ -2444,7 +2483,7 @@ Enables SRGB-framebuffer only if it is currently disabled.
 				
 			
 				
-				<h3 id="RenderStates.EnableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=6593:6635#L266">EnableScissorTest</a></h3>
+				<h3 id="RenderStates.EnableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7396:7438#L252">EnableScissorTest</a></h3>
 				<pre>func (me RenderStates) EnableScissorTest()</pre>
 				<p>
 Enables scissor-testing only if it is currently disabled.
@@ -2454,7 +2493,7 @@ Enables scissor-testing only if it is currently disabled.
 				
 			
 				
-				<h3 id="RenderStates.EnableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7739:7781#L318">EnableStencilTest</a></h3>
+				<h3 id="RenderStates.EnableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=8722:8764#L302">EnableStencilTest</a></h3>
 				<pre>func (me RenderStates) EnableStencilTest()</pre>
 				<p>
 Enables stencil-testing only if it is currently disabled.
@@ -2464,7 +2503,7 @@ Enables stencil-testing only if it is currently disabled.
 				
 			
 				
-				<h3 id="RenderStates.ForceClearColor">func (RenderStates) <a href="/target/render-states.gt.go?s=1257:1307#L33">ForceClearColor</a></h3>
+				<h3 id="RenderStates.ForceClearColor">func (RenderStates) <a href="/target/render-states.gt.go?s=1227:1277#L29">ForceClearColor</a></h3>
 				<pre>func (_ RenderStates) ForceClearColor(rgba GlVec4)</pre>
 				<p>
 Sets the OpenGL clear-color to the specified rgba.
@@ -2474,7 +2513,7 @@ Sets the OpenGL clear-color to the specified rgba.
 				
 			
 				
-				<h3 id="RenderStates.ForceDisableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2261:2305#L66">ForceDisableBlending</a></h3>
+				<h3 id="RenderStates.ForceDisableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2380:2424#L60">ForceDisableBlending</a></h3>
 				<pre>func (_ RenderStates) ForceDisableBlending()</pre>
 				<p>
 Deactivates blending.
@@ -2484,7 +2523,7 @@ Deactivates blending.
 				
 			
 				
-				<h3 id="RenderStates.ForceDisableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3275:3320#L118">ForceDisableDepthTest</a></h3>
+				<h3 id="RenderStates.ForceDisableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3576:3621#L110">ForceDisableDepthTest</a></h3>
 				<pre>func (_ RenderStates) ForceDisableDepthTest()</pre>
 				<p>
 Deactivates depth-testing.
@@ -2494,7 +2533,7 @@ Deactivates depth-testing.
 				
 			
 				
-				<h3 id="RenderStates.ForceDisableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4358:4405#L170">ForceDisableFaceCulling</a></h3>
+				<h3 id="RenderStates.ForceDisableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4839:4886#L160">ForceDisableFaceCulling</a></h3>
 				<pre>func (_ RenderStates) ForceDisableFaceCulling()</pre>
 				<p>
 Deactivates face-culling.
@@ -2504,7 +2543,7 @@ Deactivates face-culling.
 				
 			
 				
-				<h3 id="RenderStates.ForceDisableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5516:5567#L222">ForceDisableFramebufferSrgb</a></h3>
+				<h3 id="RenderStates.ForceDisableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=6173:6224#L210">ForceDisableFramebufferSrgb</a></h3>
 				<pre>func (_ RenderStates) ForceDisableFramebufferSrgb()</pre>
 				<p>
 Deactivates SRGB-framebuffer.
@@ -2514,7 +2553,7 @@ Deactivates SRGB-framebuffer.
 				
 			
 				
-				<h3 id="RenderStates.ForceDisableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=6749:6796#L274">ForceDisableScissorTest</a></h3>
+				<h3 id="RenderStates.ForceDisableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7586:7633#L260">ForceDisableScissorTest</a></h3>
 				<pre>func (_ RenderStates) ForceDisableScissorTest()</pre>
 				<p>
 Deactivates scissor-testing.
@@ -2524,7 +2563,7 @@ Deactivates scissor-testing.
 				
 			
 				
-				<h3 id="RenderStates.ForceDisableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7895:7942#L326">ForceDisableStencilTest</a></h3>
+				<h3 id="RenderStates.ForceDisableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=8912:8959#L310">ForceDisableStencilTest</a></h3>
 				<pre>func (_ RenderStates) ForceDisableStencilTest()</pre>
 				<p>
 Deactivates stencil-testing.
@@ -2534,7 +2573,7 @@ Deactivates stencil-testing.
 				
 			
 				
-				<h3 id="RenderStates.ForceEnableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2376:2419#L72">ForceEnableBlending</a></h3>
+				<h3 id="RenderStates.ForceEnableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2512:2555#L66">ForceEnableBlending</a></h3>
 				<pre>func (_ RenderStates) ForceEnableBlending()</pre>
 				<p>
 Activates blending.
@@ -2544,7 +2583,7 @@ Activates blending.
 				
 			
 				
-				<h3 id="RenderStates.ForceEnableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3402:3446#L124">ForceEnableDepthTest</a></h3>
+				<h3 id="RenderStates.ForceEnableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3720:3764#L116">ForceEnableDepthTest</a></h3>
 				<pre>func (_ RenderStates) ForceEnableDepthTest()</pre>
 				<p>
 Activates depth-testing.
@@ -2554,7 +2593,7 @@ Activates depth-testing.
 				
 			
 				
-				<h3 id="RenderStates.ForceEnableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4487:4533#L176">ForceEnableFaceCulling</a></h3>
+				<h3 id="RenderStates.ForceEnableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4985:5031#L166">ForceEnableFaceCulling</a></h3>
 				<pre>func (_ RenderStates) ForceEnableFaceCulling()</pre>
 				<p>
 Activates face-culling.
@@ -2564,7 +2603,7 @@ Activates face-culling.
 				
 			
 				
-				<h3 id="RenderStates.ForceEnableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5664:5714#L228">ForceEnableFramebufferSrgb</a></h3>
+				<h3 id="RenderStates.ForceEnableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=6338:6388#L216">ForceEnableFramebufferSrgb</a></h3>
 				<pre>func (_ RenderStates) ForceEnableFramebufferSrgb()</pre>
 				<p>
 Activates SRGB-framebuffer.
@@ -2574,7 +2613,7 @@ Activates SRGB-framebuffer.
 				
 			
 				
-				<h3 id="RenderStates.ForceEnableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=6884:6930#L280">ForceEnableScissorTest</a></h3>
+				<h3 id="RenderStates.ForceEnableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7738:7784#L266">ForceEnableScissorTest</a></h3>
 				<pre>func (_ RenderStates) ForceEnableScissorTest()</pre>
 				<p>
 Activates scissor-testing.
@@ -2584,7 +2623,7 @@ Activates scissor-testing.
 				
 			
 				
-				<h3 id="RenderStates.ForceEnableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=8030:8076#L332">ForceEnableStencilTest</a></h3>
+				<h3 id="RenderStates.ForceEnableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=9064:9110#L316">ForceEnableStencilTest</a></h3>
 				<pre>func (_ RenderStates) ForceEnableStencilTest()</pre>
 				<p>
 Activates stencil-testing.
@@ -2594,7 +2633,7 @@ Activates stencil-testing.
 				
 			
 				
-				<h3 id="RenderStates.SetBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2503:2555#L78">SetBlending</a></h3>
+				<h3 id="RenderStates.SetBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2656:2708#L72">SetBlending</a></h3>
 				<pre>func (me RenderStates) SetBlending(newBlending bool)</pre>
 				<p>
 Activates or deactivates blending.
@@ -2604,7 +2643,7 @@ Activates or deactivates blending.
 				
 			
 				
-				<h3 id="RenderStates.SetClearColor">func (RenderStates) <a href="/target/render-states.gt.go?s=1497:1546#L39">SetClearColor</a></h3>
+				<h3 id="RenderStates.SetClearColor">func (RenderStates) <a href="/target/render-states.gt.go?s=1552:1601#L35">SetClearColor</a></h3>
 				<pre>func (me RenderStates) SetClearColor(rgba GlVec4)</pre>
 				<p>
 Sets the OpenGL clear-color if rgba differs from the currently cached value.
@@ -2614,7 +2653,7 @@ Sets the OpenGL clear-color if rgba differs from the currently cached value.
 				
 			
 				
-				<h3 id="RenderStates.SetDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3541:3595#L130">SetDepthTest</a></h3>
+				<h3 id="RenderStates.SetDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3876:3930#L122">SetDepthTest</a></h3>
 				<pre>func (me RenderStates) SetDepthTest(newDepthTest bool)</pre>
 				<p>
 Activates or deactivates depth-testing.
@@ -2624,7 +2663,7 @@ Activates or deactivates depth-testing.
 				
 			
 				
-				<h3 id="RenderStates.SetFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4628:4686#L182">SetFaceCulling</a></h3>
+				<h3 id="RenderStates.SetFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=5143:5201#L172">SetFaceCulling</a></h3>
 				<pre>func (me RenderStates) SetFaceCulling(newFaceCulling bool)</pre>
 				<p>
 Activates or deactivates face-culling.
@@ -2634,7 +2673,7 @@ Activates or deactivates face-culling.
 				
 			
 				
-				<h3 id="RenderStates.SetFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5824:5890#L234">SetFramebufferSrgb</a></h3>
+				<h3 id="RenderStates.SetFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=6515:6581#L222">SetFramebufferSrgb</a></h3>
 				<pre>func (me RenderStates) SetFramebufferSrgb(newFramebufferSrgb bool)</pre>
 				<p>
 Activates or deactivates SRGB-framebuffer.
@@ -2644,7 +2683,7 @@ Activates or deactivates SRGB-framebuffer.
 				
 			
 				
-				<h3 id="RenderStates.SetScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7031:7089#L286">SetScissorTest</a></h3>
+				<h3 id="RenderStates.SetScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7902:7960#L272">SetScissorTest</a></h3>
 				<pre>func (me RenderStates) SetScissorTest(newScissorTest bool)</pre>
 				<p>
 Activates or deactivates scissor-testing.
@@ -2654,7 +2693,7 @@ Activates or deactivates scissor-testing.
 				
 			
 				
-				<h3 id="RenderStates.SetStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=8177:8235#L338">SetStencilTest</a></h3>
+				<h3 id="RenderStates.SetStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=9228:9286#L322">SetStencilTest</a></h3>
 				<pre>func (me RenderStates) SetStencilTest(newStencilTest bool)</pre>
 				<p>
 Activates or deactivates stencil-testing.
@@ -2664,7 +2703,7 @@ Activates or deactivates stencil-testing.
 				
 			
 				
-				<h3 id="RenderStates.ToggleBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2723:2762#L89">ToggleBlending</a></h3>
+				<h3 id="RenderStates.ToggleBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2927:2966#L83">ToggleBlending</a></h3>
 				<pre>func (me RenderStates) ToggleBlending()</pre>
 				<p>
 Toggles blending.
@@ -2674,7 +2713,7 @@ Toggles blending.
 				
 			
 				
-				<h3 id="RenderStates.ToggleDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3783:3823#L141">ToggleDepthTest</a></h3>
+				<h3 id="RenderStates.ToggleDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=4169:4209#L133">ToggleDepthTest</a></h3>
 				<pre>func (me RenderStates) ToggleDepthTest()</pre>
 				<p>
 Toggles depth-testing.
@@ -2684,7 +2723,7 @@ Toggles depth-testing.
 				
 			
 				
-				<h3 id="RenderStates.ToggleFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4881:4923#L193">ToggleFaceCulling</a></h3>
+				<h3 id="RenderStates.ToggleFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=5447:5489#L183">ToggleFaceCulling</a></h3>
 				<pre>func (me RenderStates) ToggleFaceCulling()</pre>
 				<p>
 Toggles face-culling.
@@ -2694,7 +2733,7 @@ Toggles face-culling.
 				
 			
 				
-				<h3 id="RenderStates.ToggleFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=6123:6169#L245">ToggleFramebufferSrgb</a></h3>
+				<h3 id="RenderStates.ToggleFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=6865:6911#L233">ToggleFramebufferSrgb</a></h3>
 				<pre>func (me RenderStates) ToggleFramebufferSrgb()</pre>
 				<p>
 Toggles SRGB-framebuffer.
@@ -2704,7 +2743,7 @@ Toggles SRGB-framebuffer.
 				
 			
 				
-				<h3 id="RenderStates.ToggleScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7293:7335#L297">ToggleScissorTest</a></h3>
+				<h3 id="RenderStates.ToggleScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=8215:8257#L283">ToggleScissorTest</a></h3>
 				<pre>func (me RenderStates) ToggleScissorTest()</pre>
 				<p>
 Toggles scissor-testing.
@@ -2714,7 +2753,7 @@ Toggles scissor-testing.
 				
 			
 				
-				<h3 id="RenderStates.ToggleStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=8439:8481#L349">ToggleStencilTest</a></h3>
+				<h3 id="RenderStates.ToggleStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=9541:9583#L333">ToggleStencilTest</a></h3>
 				<pre>func (me RenderStates) ToggleStencilTest()</pre>
 				<p>
 Toggles stencil-testing.
@@ -2726,7 +2765,7 @@ Toggles stencil-testing.
 		
 			
 			
-			<h2 id="RenderStatesBag">type <a href="/target/render-states.gt.go?s=181:382#L2">RenderStatesBag</a></h2>
+			<h2 id="RenderStatesBag">type <a href="/target/render-states.gt.go?s=151:352#L1">RenderStatesBag</a></h2>
 			<pre>type RenderStatesBag struct {
     Blending    bool
     DepthTest   bool
@@ -2755,7 +2794,7 @@ Encapsulates a particular combination of render-states that RenderStates can App
 		
 			
 			
-			<h2 id="Sampler">type <a href="/target/gl-sampler.go?s=145:299#L1">Sampler</a></h2>
+			<h2 id="Sampler">type <a href="/target/gl-sampler.go?s=114:268#L1">Sampler</a></h2>
 			<pre>type Sampler struct {
     <span class="comment">//	The OpenGL handle to this sampler object.</span>
     <span class="comment">//	This is 0 before calling Create() and after calling Dispose().</span>
@@ -2776,7 +2815,7 @@ Stores sampling parameters for texture accesses.
 
 			
 				
-				<h3 id="Sampler.Bind">func (Sampler) <a href="/target/gl-sampler.go?s=360:403#L7">Bind</a></h3>
+				<h3 id="Sampler.Bind">func (Sampler) <a href="/target/gl-sampler.go?s=329:372#L5">Bind</a></h3>
 				<pre>func (me Sampler) Bind(textureUnit gl.Uint)</pre>
 				<p>
 Binds this sampler object to the specified textureUnit.
@@ -2786,7 +2825,7 @@ Binds this sampler object to the specified textureUnit.
 				
 			
 				
-				<h3 id="Sampler.Create">func (*Sampler) <a href="/target/gl-sampler.go?s=582:618#L15">Create</a></h3>
+				<h3 id="Sampler.Create">func (*Sampler) <a href="/target/gl-sampler.go?s=455:491#L10">Create</a></h3>
 				<pre>func (me *Sampler) Create() *Sampler</pre>
 				<p>
 Creates this sampler object.
@@ -2796,7 +2835,7 @@ Creates this sampler object.
 				
 			
 				
-				<h3 id="Sampler.DepthCompareFunc">func (Sampler) <a href="/target/gl-sampler.go?s=2725:2768#L76">DepthCompareFunc</a></h3>
+				<h3 id="Sampler.DepthCompareFunc">func (Sampler) <a href="/target/gl-sampler.go?s=2567:2610#L70">DepthCompareFunc</a></h3>
 				<pre>func (me Sampler) DepthCompareFunc() gl.Int</pre>
 				<p>
 Returns a single-valued texture comparison function, a symbolic constant. The initial value is GL_LEQUAL.
@@ -2806,7 +2845,7 @@ Returns a single-valued texture comparison function, a symbolic constant. The in
 				
 			
 				
-				<h3 id="Sampler.DepthCompareMode">func (Sampler) <a href="/target/gl-sampler.go?s=3235:3278#L87">DepthCompareMode</a></h3>
+				<h3 id="Sampler.DepthCompareMode">func (Sampler) <a href="/target/gl-sampler.go?s=3077:3120#L81">DepthCompareMode</a></h3>
 				<pre>func (me Sampler) DepthCompareMode() gl.Int</pre>
 				<p>
 Returns a single-valued texture comparison mode, a symbolic constant. The initial value is gl.NONE.
@@ -2816,7 +2855,7 @@ Returns a single-valued texture comparison mode, a symbolic constant. The initia
 				
 			
 				
-				<h3 id="Sampler.DisableAllFiltering">func (*Sampler) <a href="/target/gl-sampler.go?s=855:917#L23">DisableAllFiltering</a></h3>
+				<h3 id="Sampler.DisableAllFiltering">func (*Sampler) <a href="/target/gl-sampler.go?s=728:790#L18">DisableAllFiltering</a></h3>
 				<pre>func (me *Sampler) DisableAllFiltering(allowMip bool) *Sampler</pre>
 				<p>
 Disables linear and anisotropic filtering on this sampler.
@@ -2827,7 +2866,7 @@ If allowMip is true, minified sampling still blends between MIP map levels (just
 				
 			
 				
-				<h3 id="Sampler.Dispose">func (*Sampler) <a href="/target/gl-sampler.go?s=1102:1130#L31">Dispose</a></h3>
+				<h3 id="Sampler.Dispose">func (*Sampler) <a href="/target/gl-sampler.go?s=975:1003#L26">Dispose</a></h3>
 				<pre>func (me *Sampler) Dispose()</pre>
 				<p>
 Deletes this sampler object.
@@ -2837,7 +2876,7 @@ Deletes this sampler object.
 				
 			
 				
-				<h3 id="Sampler.EnableFullFiltering">func (*Sampler) <a href="/target/gl-sampler.go?s=1369:1450#L40">EnableFullFiltering</a></h3>
+				<h3 id="Sampler.EnableFullFiltering">func (*Sampler) <a href="/target/gl-sampler.go?s=1242:1323#L35">EnableFullFiltering</a></h3>
 				<pre>func (me *Sampler) EnableFullFiltering(allowMip bool, maxAniso gl.Float) *Sampler</pre>
 				<p>
 Enables linear and anisotropic filtering on this sampler.
@@ -2848,7 +2887,7 @@ If allowMip is true, minified sampling blends between MIP map levels linearly fi
 				
 			
 				
-				<h3 id="Sampler.FilterMag">func (Sampler) <a href="/target/gl-sampler.go?s=3718:3754#L98">FilterMag</a></h3>
+				<h3 id="Sampler.FilterMag">func (Sampler) <a href="/target/gl-sampler.go?s=3560:3596#L92">FilterMag</a></h3>
 				<pre>func (me Sampler) FilterMag() gl.Int</pre>
 				<p>
 Returns the single-valued texture magnification filter, a symbolic constant. The initial value is GL_LINEAR.
@@ -2858,7 +2897,7 @@ Returns the single-valued texture magnification filter, a symbolic constant. The
 				
 			
 				
-				<h3 id="Sampler.FilterMaxAnisotropy">func (Sampler) <a href="/target/gl-sampler.go?s=4179:4233#L109">FilterMaxAnisotropy</a></h3>
+				<h3 id="Sampler.FilterMaxAnisotropy">func (Sampler) <a href="/target/gl-sampler.go?s=4021:4075#L103">FilterMaxAnisotropy</a></h3>
 				<pre>func (me Sampler) FilterMaxAnisotropy() (val gl.Float)</pre>
 				<p>
 Returns filtering anisotropy. 0 if anisotropic filtering isn&#39;t supported, 1 if anisotropic filtering
@@ -2869,7 +2908,7 @@ isn&#39;t activated for this Sampler, else a value between 1 and Support.Texture
 				
 			
 				
-				<h3 id="Sampler.FilterMin">func (Sampler) <a href="/target/gl-sampler.go?s=4874:4910#L124">FilterMin</a></h3>
+				<h3 id="Sampler.FilterMin">func (Sampler) <a href="/target/gl-sampler.go?s=4716:4752#L118">FilterMin</a></h3>
 				<pre>func (me Sampler) FilterMin() gl.Int</pre>
 				<p>
 Returns the single-valued texture minification filter, a symbolic constant. The initial value is GL_NEAREST_MIPMAP_LINEAR.
@@ -2879,7 +2918,7 @@ Returns the single-valued texture minification filter, a symbolic constant. The 
 				
 			
 				
-				<h3 id="Sampler.MipLodBias">func (Sampler) <a href="/target/gl-sampler.go?s=5341:5380#L135">MipLodBias</a></h3>
+				<h3 id="Sampler.MipLodBias">func (Sampler) <a href="/target/gl-sampler.go?s=5183:5222#L129">MipLodBias</a></h3>
 				<pre>func (me Sampler) MipLodBias() gl.Float</pre>
 				<p>
 The mipmap image selection process can be adjusted coarsely by using this sampling parameter.
@@ -2889,7 +2928,7 @@ The mipmap image selection process can be adjusted coarsely by using this sampli
 				
 			
 				
-				<h3 id="Sampler.MipLodMax">func (Sampler) <a href="/target/gl-sampler.go?s=5883:5921#L145">MipLodMax</a></h3>
+				<h3 id="Sampler.MipLodMax">func (Sampler) <a href="/target/gl-sampler.go?s=5725:5763#L139">MipLodMax</a></h3>
 				<pre>func (me Sampler) MipLodMax() gl.Float</pre>
 				<p>
 Returns the single-valued texture maximum level-of-detail value. The initial value is 1000.
@@ -2899,7 +2938,7 @@ Returns the single-valued texture maximum level-of-detail value. The initial val
 				
 			
 				
-				<h3 id="Sampler.MipLodMin">func (Sampler) <a href="/target/gl-sampler.go?s=6287:6325#L155">MipLodMin</a></h3>
+				<h3 id="Sampler.MipLodMin">func (Sampler) <a href="/target/gl-sampler.go?s=6129:6167#L149">MipLodMin</a></h3>
 				<pre>func (me Sampler) MipLodMin() gl.Float</pre>
 				<p>
 Returns the single-valued texture minimum level-of-detail value. The initial value is -1000.
@@ -2909,7 +2948,7 @@ Returns the single-valued texture minimum level-of-detail value. The initial val
 				
 			
 				
-				<h3 id="Sampler.ParamFloat">func (Sampler) <a href="/target/gl-sampler.go?s=1694:1752#L48">ParamFloat</a></h3>
+				<h3 id="Sampler.ParamFloat">func (Sampler) <a href="/target/gl-sampler.go?s=1567:1625#L43">ParamFloat</a></h3>
 				<pre>func (me Sampler) ParamFloat(param gl.Enum) (val gl.Float)</pre>
 				<p>
 A convenience short-hand to invoke gl.GetSamplerParameterfv for this sampler object.
@@ -2919,7 +2958,7 @@ A convenience short-hand to invoke gl.GetSamplerParameterfv for this sampler obj
 				
 			
 				
-				<h3 id="Sampler.ParamInt">func (Sampler) <a href="/target/gl-sampler.go?s=2103:2157#L59">ParamInt</a></h3>
+				<h3 id="Sampler.ParamInt">func (Sampler) <a href="/target/gl-sampler.go?s=1976:2030#L54">ParamInt</a></h3>
 				<pre>func (me Sampler) ParamInt(param gl.Enum) (val gl.Int)</pre>
 				<p>
 A convenience short-hand to invoke gl.GetSamplerParameteriv for this sampler object.
@@ -2929,7 +2968,7 @@ A convenience short-hand to invoke gl.GetSamplerParameteriv for this sampler obj
 				
 			
 				
-				<h3 id="Sampler.SetDepthCompareFunc">func (Sampler) <a href="/target/gl-sampler.go?s=3031:3080#L82">SetDepthCompareFunc</a></h3>
+				<h3 id="Sampler.SetDepthCompareFunc">func (Sampler) <a href="/target/gl-sampler.go?s=2873:2922#L76">SetDepthCompareFunc</a></h3>
 				<pre>func (me Sampler) SetDepthCompareFunc(val gl.Int)</pre>
 				<p>
 Specifies the comparison operator used when DepthCompareMode() is set to gl.COMPARE_REF_TO_TEXTURE.
@@ -2940,7 +2979,7 @@ val may be one of: gl.LEQUAL, gl.GEQUAL, gl.LESS, gl.GREATER, gl.EQUAL, gl.NOTEQ
 				
 			
 				
-				<h3 id="Sampler.SetDepthCompareMode">func (Sampler) <a href="/target/gl-sampler.go?s=3505:3554#L93">SetDepthCompareMode</a></h3>
+				<h3 id="Sampler.SetDepthCompareMode">func (Sampler) <a href="/target/gl-sampler.go?s=3347:3396#L87">SetDepthCompareMode</a></h3>
 				<pre>func (me Sampler) SetDepthCompareMode(val gl.Int)</pre>
 				<p>
 Specifies the texture comparison mode for currently bound textures whose internal format is gl.DEPTH_COMPONENT_*.
@@ -2951,7 +2990,7 @@ val may be either gl.NONE or gl.COMPARE_REF_TO_TEXTURE.
 				
 			
 				
-				<h3 id="Sampler.SetFilterMag">func (Sampler) <a href="/target/gl-sampler.go?s=3881:3923#L103">SetFilterMag</a></h3>
+				<h3 id="Sampler.SetFilterMag">func (Sampler) <a href="/target/gl-sampler.go?s=3723:3765#L97">SetFilterMag</a></h3>
 				<pre>func (me Sampler) SetFilterMag(val gl.Int)</pre>
 				<p>
 Sets the texture magnification function to either GL_NEAREST or GL_LINEAR.
@@ -2961,7 +3000,7 @@ Sets the texture magnification function to either GL_NEAREST or GL_LINEAR.
 				
 			
 				
-				<h3 id="Sampler.SetFilterMaxAnisotropy">func (Sampler) <a href="/target/gl-sampler.go?s=4529:4583#L117">SetFilterMaxAnisotropy</a></h3>
+				<h3 id="Sampler.SetFilterMaxAnisotropy">func (Sampler) <a href="/target/gl-sampler.go?s=4371:4425#L111">SetFilterMaxAnisotropy</a></h3>
 				<pre>func (me Sampler) SetFilterMaxAnisotropy(val gl.Float)</pre>
 				<p>
 Sets filtering anisotropy, if supported. val will be clamped between 1 and Support.Textures.MaxFilterAnisotropy. Only a val greater than 1 will activate anisotropic filtering.
@@ -2971,7 +3010,7 @@ Sets filtering anisotropy, if supported. val will be clamped between 1 and Suppo
 				
 			
 				
-				<h3 id="Sampler.SetFilterMin">func (Sampler) <a href="/target/gl-sampler.go?s=5152:5194#L130">SetFilterMin</a></h3>
+				<h3 id="Sampler.SetFilterMin">func (Sampler) <a href="/target/gl-sampler.go?s=4994:5036#L124">SetFilterMin</a></h3>
 				<pre>func (me Sampler) SetFilterMin(val gl.Int)</pre>
 				<p>
 Sets the texture magnification function. val may be one of: GL_NEAREST, GL_LINEAR,
@@ -2982,7 +3021,7 @@ gl.NEAREST_MIPMAP_NEAREST, gl.LINEAR_MIPMAP_NEAREST, gl.NEAREST_MIPMAP_LINEAR, g
 				
 			
 				
-				<h3 id="Sampler.SetMipLodBias">func (Sampler) <a href="/target/gl-sampler.go?s=5613:5658#L140">SetMipLodBias</a></h3>
+				<h3 id="Sampler.SetMipLodBias">func (Sampler) <a href="/target/gl-sampler.go?s=5455:5500#L134">SetMipLodBias</a></h3>
 				<pre>func (me Sampler) SetMipLodBias(val gl.Float)</pre>
 				<p>
 This bias will be added to the mipmap LOD calculation (as well as added to the bias specified in one of the texture accessing functions in GLSL), which is used to select the image.
@@ -2992,7 +3031,7 @@ This bias will be added to the mipmap LOD calculation (as well as added to the b
 				
 			
 				
-				<h3 id="Sampler.SetMipLodMax">func (Sampler) <a href="/target/gl-sampler.go?s=6098:6142#L150">SetMipLodMax</a></h3>
+				<h3 id="Sampler.SetMipLodMax">func (Sampler) <a href="/target/gl-sampler.go?s=5940:5984#L144">SetMipLodMax</a></h3>
 				<pre>func (me Sampler) SetMipLodMax(val gl.Float)</pre>
 				<p>
 Sets the maximum level-of-detail parameter. This limits the selection of the lowest resolution mipmap (highest mipmap level).
@@ -3002,7 +3041,7 @@ Sets the maximum level-of-detail parameter. This limits the selection of the low
 				
 			
 				
-				<h3 id="Sampler.SetMipLodMin">func (Sampler) <a href="/target/gl-sampler.go?s=6498:6542#L160">SetMipLodMin</a></h3>
+				<h3 id="Sampler.SetMipLodMin">func (Sampler) <a href="/target/gl-sampler.go?s=6340:6384#L154">SetMipLodMin</a></h3>
 				<pre>func (me Sampler) SetMipLodMin(val gl.Float)</pre>
 				<p>
 Sets the minimum level-of-detail parameter. This limits the selection of highest resolution mipmap (lowest mipmap level).
@@ -3012,7 +3051,7 @@ Sets the minimum level-of-detail parameter. This limits the selection of highest
 				
 			
 				
-				<h3 id="Sampler.SetParamFloat">func (Sampler) <a href="/target/gl-sampler.go?s=1902:1962#L54">SetParamFloat</a></h3>
+				<h3 id="Sampler.SetParamFloat">func (Sampler) <a href="/target/gl-sampler.go?s=1775:1835#L49">SetParamFloat</a></h3>
 				<pre>func (me Sampler) SetParamFloat(param gl.Enum, val gl.Float)</pre>
 				<p>
 A convenience short-hand to invoke gl.SamplerParameterf for this sampler object.
@@ -3022,7 +3061,7 @@ A convenience short-hand to invoke gl.SamplerParameterf for this sampler object.
 				
 			
 				
-				<h3 id="Sampler.SetParamInt">func (Sampler) <a href="/target/gl-sampler.go?s=2307:2363#L65">SetParamInt</a></h3>
+				<h3 id="Sampler.SetParamInt">func (Sampler) <a href="/target/gl-sampler.go?s=2180:2236#L60">SetParamInt</a></h3>
 				<pre>func (me Sampler) SetParamInt(param gl.Enum, val gl.Int)</pre>
 				<p>
 A convenience short-hand to invoke gl.SamplerParameteri for this sampler object.
@@ -3032,7 +3071,7 @@ A convenience short-hand to invoke gl.SamplerParameteri for this sampler object.
 				
 			
 				
-				<h3 id="Sampler.SetWrap">func (*Sampler) <a href="/target/gl-sampler.go?s=6696:6747#L165">SetWrap</a></h3>
+				<h3 id="Sampler.SetWrap">func (*Sampler) <a href="/target/gl-sampler.go?s=6538:6589#L159">SetWrap</a></h3>
 				<pre>func (me *Sampler) SetWrap(wrapVal gl.Int) *Sampler</pre>
 				<p>
 A convenience short-hand that calls SetWrapR(), SetWrapS() and SetWrapT() with the specified wrapVal.
@@ -3042,7 +3081,7 @@ A convenience short-hand that calls SetWrapR(), SetWrapS() and SetWrapT() with t
 				
 			
 				
-				<h3 id="Sampler.SetWrapClampBorderColor">func (Sampler) <a href="/target/gl-sampler.go?s=7194:7248#L180">SetWrapClampBorderColor</a></h3>
+				<h3 id="Sampler.SetWrapClampBorderColor">func (Sampler) <a href="/target/gl-sampler.go?s=7036:7090#L174">SetWrapClampBorderColor</a></h3>
 				<pre>func (me Sampler) SetWrapClampBorderColor(val *GlVec4)</pre>
 				<p>
 Specifies four values that define the border values that should be used for border texels.
@@ -3052,7 +3091,7 @@ Specifies four values that define the border values that should be used for bord
 				
 			
 				
-				<h3 id="Sampler.SetWrapR">func (Sampler) <a href="/target/gl-sampler.go?s=7660:7698#L192">SetWrapR</a></h3>
+				<h3 id="Sampler.SetWrapR">func (Sampler) <a href="/target/gl-sampler.go?s=7502:7540#L186">SetWrapR</a></h3>
 				<pre>func (me Sampler) SetWrapR(val gl.Int)</pre>
 				<p>
 Sets the wrap parameter for texture coordinate r to
@@ -3063,7 +3102,7 @@ gl.CLAMP_TO_EDGE, gl.CLAMP_TO_BORDER, gl.MIRRORED_REPEAT, or gl.REPEAT.
 				
 			
 				
-				<h3 id="Sampler.SetWrapS">func (Sampler) <a href="/target/gl-sampler.go?s=8080:8118#L204">SetWrapS</a></h3>
+				<h3 id="Sampler.SetWrapS">func (Sampler) <a href="/target/gl-sampler.go?s=7922:7960#L198">SetWrapS</a></h3>
 				<pre>func (me Sampler) SetWrapS(val gl.Int)</pre>
 				<p>
 Sets the wrap parameter for texture coordinate s to
@@ -3074,7 +3113,7 @@ gl.CLAMP_TO_EDGE, gl.CLAMP_TO_BORDER, gl.MIRRORED_REPEAT, or gl.REPEAT.
 				
 			
 				
-				<h3 id="Sampler.SetWrapT">func (Sampler) <a href="/target/gl-sampler.go?s=8500:8538#L216">SetWrapT</a></h3>
+				<h3 id="Sampler.SetWrapT">func (Sampler) <a href="/target/gl-sampler.go?s=8342:8380#L210">SetWrapT</a></h3>
 				<pre>func (me Sampler) SetWrapT(val gl.Int)</pre>
 				<p>
 Sets the wrap parameter for texture coordinate t to
@@ -3085,7 +3124,7 @@ gl.CLAMP_TO_EDGE, gl.CLAMP_TO_BORDER, gl.MIRRORED_REPEAT, or gl.REPEAT.
 				
 			
 				
-				<h3 id="Sampler.Unbind">func (Sampler) <a href="/target/gl-sampler.go?s=2500:2544#L70">Unbind</a></h3>
+				<h3 id="Sampler.Unbind">func (Sampler) <a href="/target/gl-sampler.go?s=2373:2417#L65">Unbind</a></h3>
 				<pre>func (_ Sampler) Unbind(textureUnit gl.Uint)</pre>
 				<p>
 Unbinds whatever sampler object is currently bound to the specified textureUnit.
@@ -3095,7 +3134,7 @@ Unbinds whatever sampler object is currently bound to the specified textureUnit.
 				
 			
 				
-				<h3 id="Sampler.WrapClampBorderColor">func (Sampler) <a href="/target/gl-sampler.go?s=6959:7013#L174">WrapClampBorderColor</a></h3>
+				<h3 id="Sampler.WrapClampBorderColor">func (Sampler) <a href="/target/gl-sampler.go?s=6801:6855#L168">WrapClampBorderColor</a></h3>
 				<pre>func (me Sampler) WrapClampBorderColor() (val *GlVec4)</pre>
 				<p>
 Returns four floating-point numbers that comprise the RGBA color of the texture border.
@@ -3106,7 +3145,7 @@ The initial value is (0, 0, 0, 0).
 				
 			
 				
-				<h3 id="Sampler.WrapR">func (Sampler) <a href="/target/gl-sampler.go?s=7453:7485#L186">WrapR</a></h3>
+				<h3 id="Sampler.WrapR">func (Sampler) <a href="/target/gl-sampler.go?s=7295:7327#L180">WrapR</a></h3>
 				<pre>func (me Sampler) WrapR() gl.Int</pre>
 				<p>
 Returns the single-valued wrapping function for texture coordinate r,
@@ -3117,7 +3156,7 @@ a symbolic constant. The initial value is gl.REPEAT.
 				
 			
 				
-				<h3 id="Sampler.WrapS">func (Sampler) <a href="/target/gl-sampler.go?s=7873:7905#L198">WrapS</a></h3>
+				<h3 id="Sampler.WrapS">func (Sampler) <a href="/target/gl-sampler.go?s=7715:7747#L192">WrapS</a></h3>
 				<pre>func (me Sampler) WrapS() gl.Int</pre>
 				<p>
 Returns the single-valued wrapping function for texture coordinate s,
@@ -3128,7 +3167,7 @@ a symbolic constant. The initial value is gl.REPEAT.
 				
 			
 				
-				<h3 id="Sampler.WrapT">func (Sampler) <a href="/target/gl-sampler.go?s=8293:8325#L210">WrapT</a></h3>
+				<h3 id="Sampler.WrapT">func (Sampler) <a href="/target/gl-sampler.go?s=8135:8167#L204">WrapT</a></h3>
 				<pre>func (me Sampler) WrapT() gl.Int</pre>
 				<p>
 Returns the single-valued wrapping function for texture coordinate t,
@@ -3328,18 +3367,12 @@ Returns the name of this shader&#39;s stage, for example &#34;GL_VERTEX_SHADER&#
 		
 			
 			
-			<h2 id="Texture">type <a href="/target/gl-texture.go?s=146:410#L1">Texture</a></h2>
+			<h2 id="Texture">type <a href="/target/gl-texture.go?s=146:278#L1">Texture</a></h2>
 			<pre>type Texture interface {
-    <span class="comment">//	Binds this texture to current texture image unit.</span>
-    Bind()
-
     Dispose()
 
     <span class="comment">//	Deletes and (re)creates the texture object based on its current params.</span>
     Recreate() error
-
-    <span class="comment">//	Unbinds this texture from current texture image unit.</span>
-    Unbind()
 }</pre>
 			<p>
 Implemented by specialized texture types such as Texture2D.
@@ -3447,7 +3480,7 @@ Updates the specified portion of this texture image with the specified pixel dat
 		
 			
 			
-			<h2 id="TextureBase">type <a href="/target/gl-texture.go?s=472:2093#L15">TextureBase</a></h2>
+			<h2 id="TextureBase">type <a href="/target/gl-texture.go?s=340:1962#L9">TextureBase</a></h2>
 			<pre>type TextureBase struct {
     <span class="comment">//	The OpenGL handle for this texture object.</span>
     <span class="comment">//	This is 0 before calling Recreate() and after calling Dispose().</span>
@@ -3491,7 +3524,7 @@ Updates the specified portion of this texture image with the specified pixel dat
         <span class="comment">//	Pointers (one per sub-image) to the first pixel</span>
         <span class="comment">//	of the data stream to be uploaded by Recreate().</span>
         <span class="comment">//	Initially defaults to []gl.Ptr { PtrNil }</span>
-        Ptrs []gl.Ptr
+        Ptrs [6]gl.Ptr
     }
 }</pre>
 			<p>
@@ -3509,7 +3542,7 @@ Embedded by specialized texture types such as Texture2D.
 
 			
 				
-				<h3 id="TextureBase.Bind">func (*TextureBase) <a href="/target/gl-texture.go?s=2125:2154#L63">Bind</a></h3>
+				<h3 id="TextureBase.Bind">func (*TextureBase) <a href="/target/gl-texture.go?s=1994:2023#L57">Bind</a></h3>
 				<pre>func (me *TextureBase) Bind()</pre>
 				<p>
 Binds this texture object.
@@ -3519,7 +3552,7 @@ Binds this texture object.
 				
 			
 				
-				<h3 id="TextureBase.Dispose">func (*TextureBase) <a href="/target/gl-texture.go?s=2246:2278#L68">Dispose</a></h3>
+				<h3 id="TextureBase.Dispose">func (*TextureBase) <a href="/target/gl-texture.go?s=2115:2147#L62">Dispose</a></h3>
 				<pre>func (me *TextureBase) Dispose()</pre>
 				<p>
 Deletes this texture object from OpenGL.
@@ -3709,7 +3742,7 @@ Sets the swizzle that will be applied to the R, G, B and A components of a texel
 				
 			
 				
-				<h3 id="TextureBase.Unbind">func (*TextureBase) <a href="/target/gl-texture.go?s=6795:6826#L223">Unbind</a></h3>
+				<h3 id="TextureBase.Unbind">func (*TextureBase) <a href="/target/gl-texture.go?s=6574:6605#L214">Unbind</a></h3>
 				<pre>func (me *TextureBase) Unbind()</pre>
 				<p>
 Unbinds whatever texture is currently bound.
@@ -3763,7 +3796,7 @@ Sets GlTarget to gl.TEXTURE_CUBE_MAP and initializes TextureBase with defaults.
 				
 			
 				
-				<h3 id="TextureCube.MaxNumMipLevels">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=828:877#L23">MaxNumMipLevels</a></h3>
+				<h3 id="TextureCube.MaxNumMipLevels">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=789:838#L22">MaxNumMipLevels</a></h3>
 				<pre>func (me *TextureCube) MaxNumMipLevels() gl.Sizei</pre>
 				<p>
 Returns the maximum number of possible MIP map levels for any of this cube-map&#39;s 6 faces according to its current Width and Height.
@@ -3773,7 +3806,7 @@ Returns the maximum number of possible MIP map levels for any of this cube-map&#
 				
 			
 				
-				<h3 id="TextureCube.PrepFromImages">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=1235:1327#L30">PrepFromImages</a></h3>
+				<h3 id="TextureCube.PrepFromImages">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=1196:1288#L29">PrepFromImages</a></h3>
 				<pre>func (me *TextureCube) PrepFromImages(bgra, uintRev bool, images ...image.Image) (err error)</pre>
 				<p>
 Prepares this TextureCube for uploading the specified Images via Recreate().
@@ -3785,7 +3818,7 @@ me.PixelData.Type, me.PixelData.Format, me.PixelData.Ptrs, me.Width, me.Height, 
 				
 			
 				
-				<h3 id="TextureCube.Recreate">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=1993:2032#L45">Recreate</a></h3>
+				<h3 id="TextureCube.Recreate">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=1954:1993#L44">Recreate</a></h3>
 				<pre>func (me *TextureCube) Recreate() error</pre>
 				<p>
 Deletes and (re)creates the texture object based on its current params.
@@ -3798,7 +3831,7 @@ If me.MipMap.NumLevels is 0 (or just smaller than 1), then me.MaxNumMipLevels() 
 				
 			
 				
-				<h3 id="TextureCube.SubImage">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=2233:2341#L50">SubImage</a></h3>
+				<h3 id="TextureCube.SubImage">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=2194:2302#L49">SubImage</a></h3>
 				<pre>func (me *TextureCube) SubImage(glTargetFace gl.Enum, x, y gl.Int, width, height gl.Sizei, ptr gl.Ptr) error</pre>
 				<p>
 Updates the specified portion of the specified cube-face image with the specified pixel data.
@@ -3940,7 +3973,7 @@ Binds this vertex array object.
 				
 			
 				
-				<h3 id="VertexArray.Create">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=498:541#L10">Create</a></h3>
+				<h3 id="VertexArray.Create">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=501:544#L10">Create</a></h3>
 				<pre>func (me *VertexArray) Create() (err error)</pre>
 				<p>
 (Re-)Creates this vertex-array object.
@@ -3950,7 +3983,7 @@ Binds this vertex array object.
 				
 			
 				
-				<h3 id="VertexArray.Dispose">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=650:682#L17">Dispose</a></h3>
+				<h3 id="VertexArray.Dispose">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=653:685#L17">Dispose</a></h3>
 				<pre>func (me *VertexArray) Dispose()</pre>
 				<p>
 Deletes this vertex array object.
@@ -3960,7 +3993,7 @@ Deletes this vertex array object.
 				
 			
 				
-				<h3 id="VertexArray.Setup">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=958:1059#L26">Setup</a></h3>
+				<h3 id="VertexArray.Setup">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=961:1062#L26">Setup</a></h3>
 				<pre>func (me *VertexArray) Setup(prog *Program, atts []*VertexAttribPointer, bufs ...*Buffer) (err error)</pre>
 				<p>
 Sets up this vertex array object. Unless atts are specified, prog can be be nil.
@@ -3971,7 +4004,7 @@ To specify element/index buffer and vertex/attribute buffers (if applicable), pa
 				
 			
 				
-				<h3 id="VertexArray.Unbind">func (VertexArray) <a href="/target/gl-vertex-array.go?s=1563:1592#L50">Unbind</a></h3>
+				<h3 id="VertexArray.Unbind">func (VertexArray) <a href="/target/gl-vertex-array.go?s=1566:1595#L50">Unbind</a></h3>
 				<pre>func (_ VertexArray) Unbind()</pre>
 				<p>
 Unbinds whatever vertex array object is currently bound.
@@ -3983,7 +4016,7 @@ Unbinds whatever vertex array object is currently bound.
 		
 			
 			
-			<h2 id="VertexAttribPointer">type <a href="/target/gl-vertex-array.go?s=1727:2490#L55">VertexAttribPointer</a></h2>
+			<h2 id="VertexAttribPointer">type <a href="/target/gl-vertex-array.go?s=1733:2496#L55">VertexAttribPointer</a></h2>
 			<pre>type VertexAttribPointer struct {
     <span class="comment">//	The name of the vertex attribute in a Program.AttrLocs hash-table.</span>
     Name string
@@ -4019,7 +4052,7 @@ Encapsulates vertex attribute information used by VertexArray.Setup() to enable 
 
 			
 				
-				<h3 id="NewVertexAttribPointer">func <a href="/target/gl-vertex-array.go?s=2572:2683#L79">NewVertexAttribPointer</a></h3>
+				<h3 id="NewVertexAttribPointer">func <a href="/target/gl-vertex-array.go?s=2578:2689#L79">NewVertexAttribPointer</a></h3>
 				<pre>func NewVertexAttribPointer(name string, size gl.Int, stride gl.Sizei, offset gl.Ptr) (me *VertexAttribPointer)</pre>
 				<p>
 Initializes and returns a new VertexAttribPointer with the specified values.

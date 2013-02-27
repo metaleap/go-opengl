@@ -7,7 +7,6 @@ import (
 
 //	A singleton type, only used for the package-global ugl.Util variable.
 type GlUtil struct {
-	activeTexImgUnit gl.Enum
 }
 
 //	Returns an OpenGL connection-info string of the format "OpenGL {version} @ {vendor} {renderer} (GLSL: {version})"
@@ -76,14 +75,6 @@ func (_ GlUtil) LastError(msgFmt string, fmtArgs ...interface{}) (err error) {
 		err = errf(msgFmt, fmtArgs...)
 	}
 	return
-}
-
-//	If texImgUnit is different than the currently active texture image unit, activates it.
-func (_ GlUtil) SetActiveTextureUnit(texImgUnit gl.Enum) {
-	if texImgUnit != Util.activeTexImgUnit {
-		Util.activeTexImgUnit = texImgUnit
-		gl.ActiveTexture(texImgUnit)
-	}
 }
 
 //	Returns the specified OpenGL string.

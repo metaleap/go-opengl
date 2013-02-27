@@ -26,7 +26,6 @@ func NewTextureCube() (me *TextureCube) {
 func (me *TextureCube) Init() {
 	me.GlTarget = gl.TEXTURE_CUBE_MAP
 	me.TextureBase.init()
-	me.PixelData.Ptrs = make([]gl.Ptr, 6)
 }
 
 //	Returns the maximum number of possible MIP map levels for any of this cube-map's 6 faces according to its current Width and Height.

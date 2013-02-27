@@ -31,9 +31,10 @@ type Program struct {
 
 //	Initializes and returns --but does not Create()-- a new Program with the specified name.
 func NewProgram(name string) (me *Program) {
-	me = &Program{Name: name, AttrLocs: map[string]gl.Uint{}, UnifLocs: map[string]gl.Int{}}
-	me.unif.cache1i = map[gl.Int]gl.Int{}
-	me.unif.cache1f = map[gl.Int]gl.Float{}
+	const cap = 4
+	me = &Program{Name: name, AttrLocs: make(map[string]gl.Uint, cap), UnifLocs: make(map[string]gl.Int, cap)}
+	me.unif.cache1i = make(map[gl.Int]gl.Int, cap)
+	me.unif.cache1f = make(map[gl.Int]gl.Float, cap)
 	return
 }
 
@@ -222,7 +223,7 @@ func (me *Program) UniformMatrix4fv(name string, count gl.Sizei, transpose gl.Bo
 
 //	Installs this program object as part of current rendering state.
 func (me *Program) Use() {
-	gl.UseProgram(me.GlHandle)
+	Cache.UseProgram(me.GlHandle)
 }
 
 //	Validates this program object. This is a convenience short-hand for calling gl.ValidateProgram(),

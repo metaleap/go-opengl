@@ -118,21 +118,3 @@ func (_ TypeUtils) Ifi(cond bool, ifTrue, ifFalse gl.Int) gl.Int {
 	}
 	return ifFalse
 }
-
-/*
-//	Returns the maximum of two values.
-func Max(one, two gl.Float) gl.Float {
-	if two > one {
-		return two
-	}
-	return one
-}
-
-//	Returns the minimum of two values.
-func Min(one, two gl.Float) gl.Float {
-	if two < one {
-		return two
-	}
-	return one
-}
-*/

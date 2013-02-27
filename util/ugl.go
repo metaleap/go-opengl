@@ -7,6 +7,8 @@ import (
 )
 
 var (
+	Cache GlCache
+
 	//	Provides access to miscellaneous GL functionality.
 	Util GlUtil
 

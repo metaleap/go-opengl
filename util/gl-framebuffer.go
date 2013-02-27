@@ -15,20 +15,26 @@ type Framebuffer struct {
 
 	width, height gl.Sizei
 
-	renderbuffers  []*FramebufferRenderbuffer
-	rendertextures []*FramebufferRendertexture
+	renderbuffers  []FramebufferRenderbuffer
+	rendertextures []FramebufferRendertexture
 }
 
 //	Attaches the specified renderbuffer to this Framebuffer.
-func (me *Framebuffer) AttachRenderbuffer(renderbuffer *FramebufferRenderbuffer) {
-	me.renderbuffers = append(me.renderbuffers, renderbuffer)
-	me.reinitRenderbuffer(renderbuffer)
+func (me *Framebuffer) AttachRenderbuffer() (rb *FramebufferRenderbuffer) {
+	me.renderbuffers = append(me.renderbuffers, FramebufferRenderbuffer{})
+	rb = &me.renderbuffers[len(me.renderbuffers)-1]
+	rb.Init()
+	me.reinitRenderbuffer(rb)
+	return
 }
 
 //	Attaches the specified render texture to this Framebuffer.
-func (me *Framebuffer) AttachRendertexture(texture *FramebufferRendertexture) {
-	me.rendertextures = append(me.rendertextures, texture)
-	me.reinitTexture(texture)
+func (me *Framebuffer) AttachRendertexture() (tex *FramebufferRendertexture) {
+	me.rendertextures = append(me.rendertextures, FramebufferRendertexture{})
+	tex = &me.rendertextures[len(me.rendertextures)-1]
+	tex.Init()
+	me.reinitTexture(tex)
+	return
 }
 
 //	Binds this framebuffer object.
@@ -41,22 +47,19 @@ func (me *Framebuffer) Create(width, height gl.Sizei, read bool) {
 	me.width, me.height = width, height
 	me.GlTarget = Typed.Ife(read, gl.READ_FRAMEBUFFER, gl.DRAW_FRAMEBUFFER)
 	gl.GenFramebuffers(1, &me.GlHandle)
-	for _, tex := range me.rendertextures {
-		me.reinitTexture(tex)
-	}
-	for _, rb := range me.renderbuffers {
-		me.reinitRenderbuffer(rb)
-	}
+	me.renderbuffers = make([]FramebufferRenderbuffer, 0, 4)
+	me.rendertextures = make([]FramebufferRendertexture, 0, 4)
 }
 
 //	Deletes this Framebuffer and all attached render textures and render buffers from OpenGL.
 func (me *Framebuffer) Dispose() {
-	for _, tex := range me.rendertextures {
-		tex.Dispose()
+	var i int
+	for i = 0; i < len(me.rendertextures); i++ {
+		me.rendertextures[i].Dispose()
 	}
 	me.rendertextures = nil
-	for _, rb := range me.renderbuffers {
-		rb.dispose()
+	for i = 0; i < len(me.renderbuffers); i++ {
+		me.renderbuffers[i].dispose()
 	}
 	me.renderbuffers = nil
 	if me.GlHandle != 0 {
@@ -93,19 +96,20 @@ func (me *Framebuffer) reinitTexture(tex *FramebufferRendertexture) {
 }
 
 //	Returns the FramebufferRendertexture attached to me at the specified index.
-func (me *Framebuffer) RenderTexture(index int) *FramebufferRendertexture {
-	return me.rendertextures[index]
+func (me *Framebuffer) RenderTextureHandle(index int) gl.Uint {
+	return me.rendertextures[index].GlHandle
 }
 
 //	Resizes this Framebuffer and all attached render textures and render buffers.
 func (me *Framebuffer) Resize(width, height gl.Sizei) (resized bool) {
 	if resized = (me.width != width) || (me.height != height); resized {
 		me.width, me.height = width, height
-		for _, tex := range me.rendertextures {
-			me.reinitTexture(tex)
+		var i int
+		for i = 0; i < len(me.rendertextures); i++ {
+			me.reinitTexture(&me.rendertextures[i])
 		}
-		for _, rb := range me.renderbuffers {
-			me.reinitRenderbuffer(rb)
+		for i = 0; i < len(me.renderbuffers); i++ {
+			me.reinitRenderbuffer(&me.renderbuffers[i])
 		}
 	}
 	return
@@ -138,10 +142,10 @@ type FramebufferRenderbuffer struct {
 	InternalFormat gl.Enum
 }
 
-//	Initializes a new FramebufferRenderbuffer with default values and returns it.
-func NewFramebufferRenderbuffer() (me *FramebufferRenderbuffer) {
-	me = &FramebufferRenderbuffer{Attachment: gl.DEPTH_STENCIL_ATTACHMENT, GlTarget: gl.RENDERBUFFER, InternalFormat: gl.DEPTH24_STENCIL8}
-	return
+func (me *FramebufferRenderbuffer) Init() {
+	me.Attachment = gl.DEPTH_STENCIL_ATTACHMENT
+	me.GlTarget = gl.RENDERBUFFER
+	me.InternalFormat = gl.DEPTH24_STENCIL8
 }
 
 //	Binds this render buffer object.
@@ -169,13 +173,6 @@ type FramebufferRendertexture struct {
 	//	The attachment point for this render texture object.
 	//	Defaults to gl.COLOR_ATTACHMENT0.
 	Attachment gl.Enum
-}
-
-//	Initializes --but does not Recreate()-- a new FramebufferRendertexture with default values and returns it.
-func NewFramebufferRendertexture() (me *FramebufferRendertexture) {
-	me = new(FramebufferRendertexture)
-	me.Init()
-	return
 }
 
 func (me *FramebufferRendertexture) Init() {

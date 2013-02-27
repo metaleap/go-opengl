@@ -9,11 +9,11 @@ import (
 
 var (
 	//	All the known possible OpenGL core context versions that this package supports.
-	KnownVersions = []float64{3.3, 4.0, 4.1, 4.2, 4.3}
+	KnownVersions = [5]float64{3.3, 4.0, 4.1, 4.2, 4.3}
 
 	//	Contains the well-known extension prefixes that can be omitted
 	//	when querying the current OpenGL context via Util.Extension().
-	KnownExtensionPrefixes = []string{"GL_3DFX_", "GL_3DL_", "GL_AMD_", "GL_APPLE_", "GL_ARB_", "GL_ATI_", "GL_EXT_", "GL_GREMEDY_", "GL_HP_", "GL_I3D_", "GL_IBM_", "GL_INGR_", "GL_INTEL_", "GL_KHR_", "GL_KTX_", "GL_MESA_", "GL_MESAX_", "GL_NV_", "GL_NVX_", "GL_OES_", "GL_OML_", "GL_PGI_", "GL_REND__", "GL_S3_", "GL_SGI_", "GL_SGIS_", "GL_SGIX_", "GL_SUN_", "GL_SUNX_", "GL_WIN_", "WGL_EXT_"}
+	KnownExtensionPrefixes = [...]string{"GL_3DFX_", "GL_3DL_", "GL_AMD_", "GL_APPLE_", "GL_ARB_", "GL_ATI_", "GL_EXT_", "GL_GREMEDY_", "GL_HP_", "GL_I3D_", "GL_IBM_", "GL_INGR_", "GL_INTEL_", "GL_KHR_", "GL_KTX_", "GL_MESA_", "GL_MESAX_", "GL_NV_", "GL_NVX_", "GL_OES_", "GL_OML_", "GL_PGI_", "GL_REND__", "GL_S3_", "GL_SGI_", "GL_SGIS_", "GL_SGIX_", "GL_SUN_", "GL_SUNX_", "GL_WIN_", "WGL_EXT_"}
 
 	//	After you have called ugl.Init() upon successful OpenGL context creation and GL binding initialization,
 	//	contains information on what the currently active OpenGL profile supports.
@@ -140,7 +140,7 @@ func setSupportInfos() {
 	Support.Textures.ImageUnits.MaxFragment = Util.Val(gl.MAX_TEXTURE_IMAGE_UNITS)
 	Support.Textures.ImageUnits.MaxGeometry = Util.Val(gl.MAX_GEOMETRY_TEXTURE_IMAGE_UNITS)
 	Support.Textures.ImageUnits.MaxVertex = Util.Val(gl.MAX_VERTEX_TEXTURE_IMAGE_UNITS)
-	samplerBindings = make([]gl.Uint, Support.Textures.ImageUnits.MaxFragment)
+	Cache.bindSampler = make([]gl.Uint, Support.Textures.ImageUnits.MaxFragment)
 
 	//	GL version-specifics
 	if Support.GlVersion.Is42 {
