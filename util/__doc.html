@@ -2250,9 +2250,9 @@ checking gl.VALIDATE_STATUS and obtaining gl.GetProgramInfoLog().
 		
 			
 			
-			<h2 id="ProgramManager">type <a href="/target/program-manager.go?s=97:170#L1">ProgramManager</a></h2>
+			<h2 id="ProgramManager">type <a href="/target/program-manager.go?s=97:165#L1">ProgramManager</a></h2>
 			<pre>type ProgramManager struct {
-    Programs []Program
+    All []Program
     <span class="comment">// contains filtered or unexported fields</span>
 }</pre>
 			
@@ -2267,35 +2267,35 @@ checking gl.VALIDATE_STATUS and obtaining gl.GetProgramInfoLog().
 
 			
 				
-				<h3 id="ProgramManager.AddNew">func (*ProgramManager) <a href="/target/program-manager.go?s=413:474#L18">AddNew</a></h3>
+				<h3 id="ProgramManager.AddNew">func (*ProgramManager) <a href="/target/program-manager.go?s=393:454#L18">AddNew</a></h3>
 				<pre>func (me *ProgramManager) AddNew(name string) (prog *Program)</pre>
 				
 				
 				
 			
 				
-				<h3 id="ProgramManager.Dispose">func (*ProgramManager) <a href="/target/program-manager.go?s=301:336#L12">Dispose</a></h3>
+				<h3 id="ProgramManager.Dispose">func (*ProgramManager) <a href="/target/program-manager.go?s=291:326#L12">Dispose</a></h3>
 				<pre>func (me *ProgramManager) Dispose()</pre>
 				
 				
 				
 			
 				
-				<h3 id="ProgramManager.Get">func (*ProgramManager) <a href="/target/program-manager.go?s=805:863#L32">Get</a></h3>
+				<h3 id="ProgramManager.Get">func (*ProgramManager) <a href="/target/program-manager.go?s=735:793#L32">Get</a></h3>
 				<pre>func (me *ProgramManager) Get(name string) (prog *Program)</pre>
 				
 				
 				
 			
 				
-				<h3 id="ProgramManager.Init">func (*ProgramManager) <a href="/target/program-manager.go?s=172:204#L7">Init</a></h3>
+				<h3 id="ProgramManager.Init">func (*ProgramManager) <a href="/target/program-manager.go?s=167:199#L7">Init</a></h3>
 				<pre>func (me *ProgramManager) Init()</pre>
 				
 				
 				
 			
 				
-				<h3 id="ProgramManager.MakeProgramsFromRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=939:1108#L39">MakeProgramsFromRawSources</a></h3>
+				<h3 id="ProgramManager.MakeProgramsFromRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=864:1033#L39">MakeProgramsFromRawSources</a></h3>
 				<pre>func (me *ProgramManager) MakeProgramsFromRawSources(defines map[string]interface{}, forceAll bool, forceSome ...string) (dur time.Duration, progsMade []bool, err error)</pre>
 				
 				
