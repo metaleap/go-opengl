@@ -2026,7 +2026,7 @@ Sets me to the first 4-or-less vals.
 		
 			
 			
-			<h2 id="Program">type <a href="/target/gl-program.go?s=154:893#L2">Program</a></h2>
+			<h2 id="Program">type <a href="/target/gl-program.go?s=154:911#L2">Program</a></h2>
 			<pre>type Program struct {
     <span class="comment">//	The OpenGL handle to the underlying program object.</span>
     <span class="comment">//	This is 0 before calling Create() and after calling Dispose().</span>
@@ -2039,6 +2039,8 @@ Sets me to the first 4-or-less vals.
         In  ShaderSources
         Out ShaderSources
     }
+
+    Tag interface{}
 
     <span class="comment">//	All vertex-attributes and their locations mapped for this program object (after the SetAttrLocations() method has been called).</span>
     AttrLocs map[string]gl.Uint
@@ -2060,7 +2062,7 @@ Represents an OpenGL program object.
 
 			
 				
-				<h3 id="NewProgram">func <a href="/target/gl-program.go?s=895:937#L27">NewProgram</a></h3>
+				<h3 id="NewProgram">func <a href="/target/gl-program.go?s=913:955#L29">NewProgram</a></h3>
 				<pre>func NewProgram(name string) (me *Program)</pre>
 				
 				
@@ -2068,7 +2070,7 @@ Represents an OpenGL program object.
 
 			
 				
-				<h3 id="Program.CompileAndLinkShaders">func (*Program) <a href="/target/gl-program.go?s=1665:1749#L44">CompileAndLinkShaders</a></h3>
+				<h3 id="Program.CompileAndLinkShaders">func (*Program) <a href="/target/gl-program.go?s=1683:1767#L46">CompileAndLinkShaders</a></h3>
 				<pre>func (me *Program) CompileAndLinkShaders(defines map[string]interface{}) (err error)</pre>
 				<p>
 Creates and compiles Shader stages for the specified sources (and defines) and links them together in this Program.
@@ -2081,7 +2083,7 @@ but a source string should not be re-sent to a subsequent compilation in that mo
 				
 			
 				
-				<h3 id="Program.Create">func (*Program) <a href="/target/gl-program.go?s=3348:3387#L100">Create</a></h3>
+				<h3 id="Program.Create">func (*Program) <a href="/target/gl-program.go?s=3366:3405#L102">Create</a></h3>
 				<pre>func (me *Program) Create() (err error)</pre>
 				<p>
 Creates this program object in OpenGL.
@@ -2091,7 +2093,7 @@ Creates this program object in OpenGL.
 				
 			
 				
-				<h3 id="Program.Dispose">func (*Program) <a href="/target/gl-program.go?s=3527:3555#L109">Dispose</a></h3>
+				<h3 id="Program.Dispose">func (*Program) <a href="/target/gl-program.go?s=3545:3573#L111">Dispose</a></h3>
 				<pre>func (me *Program) Dispose()</pre>
 				<p>
 Deletes this program object from OpenGL.
@@ -2101,7 +2103,7 @@ Deletes this program object from OpenGL.
 				
 			
 				
-				<h3 id="Program.HasAttr">func (*Program) <a href="/target/gl-program.go?s=3721:3770#L117">HasAttr</a></h3>
+				<h3 id="Program.HasAttr">func (*Program) <a href="/target/gl-program.go?s=3739:3788#L119">HasAttr</a></h3>
 				<pre>func (me *Program) HasAttr(name string) (ok bool)</pre>
 				<p>
 Returns true if the specified attribute name is present as a key in me.AttrLocs.
@@ -2111,7 +2113,7 @@ Returns true if the specified attribute name is present as a key in me.AttrLocs.
 				
 			
 				
-				<h3 id="Program.HasUnif">func (*Program) <a href="/target/gl-program.go?s=3893:3942#L123">HasUnif</a></h3>
+				<h3 id="Program.HasUnif">func (*Program) <a href="/target/gl-program.go?s=3911:3960#L125">HasUnif</a></h3>
 				<pre>func (me *Program) HasUnif(name string) (ok bool)</pre>
 				<p>
 Returns true if the specified uniform name is present as a key in me.UnifLocs.
@@ -2121,7 +2123,7 @@ Returns true if the specified uniform name is present as a key in me.UnifLocs.
 				
 			
 				
-				<h3 id="Program.InfoLog">func (*Program) <a href="/target/gl-program.go?s=4075:4110#L129">InfoLog</a></h3>
+				<h3 id="Program.InfoLog">func (*Program) <a href="/target/gl-program.go?s=4093:4128#L131">InfoLog</a></h3>
 				<pre>func (me *Program) InfoLog() string</pre>
 				<p>
 Retrieves and returns the content of the current OpenGL info-log for this shader object.
@@ -2131,14 +2133,14 @@ Retrieves and returns the content of the current OpenGL info-log for this shader
 				
 			
 				
-				<h3 id="Program.Init">func (*Program) <a href="/target/gl-program.go?s=985:1021#L33">Init</a></h3>
+				<h3 id="Program.Init">func (*Program) <a href="/target/gl-program.go?s=1003:1039#L35">Init</a></h3>
 				<pre>func (me *Program) Init(name string)</pre>
 				
 				
 				
 			
 				
-				<h3 id="Program.Link">func (*Program) <a href="/target/gl-program.go?s=4329:4366#L135">Link</a></h3>
+				<h3 id="Program.Link">func (*Program) <a href="/target/gl-program.go?s=4347:4384#L137">Link</a></h3>
 				<pre>func (me *Program) Link() (err error)</pre>
 				<p>
 Links this program object. This is a convenience short-hand for calling gl.LinkProgram(),
@@ -2149,7 +2151,7 @@ checking gl.LINK_STATUS and obtaining gl.GetProgramInfoLog().
 				
 			
 				
-				<h3 id="Program.ParamInt">func (*Program) <a href="/target/gl-program.go?s=4973:5027#L159">ParamInt</a></h3>
+				<h3 id="Program.ParamInt">func (*Program) <a href="/target/gl-program.go?s=4991:5045#L161">ParamInt</a></h3>
 				<pre>func (me *Program) ParamInt(pname gl.Enum) (iv gl.Int)</pre>
 				<p>
 Convenience short-hand for gl.GetProgramiv.
@@ -2159,7 +2161,7 @@ Convenience short-hand for gl.GetProgramiv.
 				
 			
 				
-				<h3 id="Program.SetAttrLocations">func (*Program) <a href="/target/gl-program.go?s=5423:5491#L167">SetAttrLocations</a></h3>
+				<h3 id="Program.SetAttrLocations">func (*Program) <a href="/target/gl-program.go?s=5441:5509#L169">SetAttrLocations</a></h3>
 				<pre>func (me *Program) SetAttrLocations(attrNames ...string) (err error)</pre>
 				<p>
 Stores the locations for the specified vertex-attributes in the AttrLocs field.
@@ -2171,7 +2173,7 @@ err is the result of LastError() after each call to gl.GetAttribLocation(), the 
 				
 			
 				
-				<h3 id="Program.SetUnifLocations">func (*Program) <a href="/target/gl-program.go?s=6141:6209#L185">SetUnifLocations</a></h3>
+				<h3 id="Program.SetUnifLocations">func (*Program) <a href="/target/gl-program.go?s=6159:6227#L187">SetUnifLocations</a></h3>
 				<pre>func (me *Program) SetUnifLocations(unifNames ...string) (err error)</pre>
 				<p>
 Stores the locations for the specified uniforms in the UnifLocs field.
@@ -2183,7 +2185,7 @@ err is the result of LastError() after each call to gl.GetUniformLocation(), the
 				
 			
 				
-				<h3 id="Program.Uniform1f">func (*Program) <a href="/target/gl-program.go?s=6977:7031#L211">Uniform1f</a></h3>
+				<h3 id="Program.Uniform1f">func (*Program) <a href="/target/gl-program.go?s=6995:7049#L213">Uniform1f</a></h3>
 				<pre>func (me *Program) Uniform1f(name string, v0 gl.Float)</pre>
 				<p>
 Convenience short-hand for gl.Uniform1f, if this Program contains
@@ -2194,7 +2196,7 @@ the specified uniform and v0 differs from its current value.
 				
 			
 				
-				<h3 id="Program.Uniform1i">func (*Program) <a href="/target/gl-program.go?s=6662:6714#L202">Uniform1i</a></h3>
+				<h3 id="Program.Uniform1i">func (*Program) <a href="/target/gl-program.go?s=6680:6732#L204">Uniform1i</a></h3>
 				<pre>func (me *Program) Uniform1i(name string, v0 gl.Int)</pre>
 				<p>
 Convenience short-hand for gl.Uniform1i, if this Program contains
@@ -2205,7 +2207,7 @@ the specified uniform and v0 differs from its current value.
 				
 			
 				
-				<h3 id="Program.Uniform3fv">func (*Program) <a href="/target/gl-program.go?s=7254:7329#L219">Uniform3fv</a></h3>
+				<h3 id="Program.Uniform3fv">func (*Program) <a href="/target/gl-program.go?s=7272:7347#L221">Uniform3fv</a></h3>
 				<pre>func (me *Program) Uniform3fv(name string, count gl.Sizei, value *gl.Float)</pre>
 				<p>
 Convenience short-hand for gl.Uniform3fv, if this Program contains the specified uniform.
@@ -2215,7 +2217,7 @@ Convenience short-hand for gl.Uniform3fv, if this Program contains the specified
 				
 			
 				
-				<h3 id="Program.UniformMatrix4fv">func (*Program) <a href="/target/gl-program.go?s=7511:7614#L226">UniformMatrix4fv</a></h3>
+				<h3 id="Program.UniformMatrix4fv">func (*Program) <a href="/target/gl-program.go?s=7529:7632#L228">UniformMatrix4fv</a></h3>
 				<pre>func (me *Program) UniformMatrix4fv(name string, count gl.Sizei, transpose gl.Boolean, value *gl.Float)</pre>
 				<p>
 Convenience short-hand for gl.UniformMatrix4fv, if this Program contains the specified uniform.
@@ -2225,7 +2227,7 @@ Convenience short-hand for gl.UniformMatrix4fv, if this Program contains the spe
 				
 			
 				
-				<h3 id="Program.Use">func (*Program) <a href="/target/gl-program.go?s=7782:7806#L233">Use</a></h3>
+				<h3 id="Program.Use">func (*Program) <a href="/target/gl-program.go?s=7800:7824#L235">Use</a></h3>
 				<pre>func (me *Program) Use()</pre>
 				<p>
 Installs this program object as part of current rendering state.
@@ -2235,7 +2237,7 @@ Installs this program object as part of current rendering state.
 				
 			
 				
-				<h3 id="Program.Validate">func (*Program) <a href="/target/gl-program.go?s=8013:8054#L239">Validate</a></h3>
+				<h3 id="Program.Validate">func (*Program) <a href="/target/gl-program.go?s=8031:8072#L241">Validate</a></h3>
 				<pre>func (me *Program) Validate() (err error)</pre>
 				<p>
 Validates this program object. This is a convenience short-hand for calling gl.ValidateProgram(),
@@ -2265,7 +2267,7 @@ checking gl.VALIDATE_STATUS and obtaining gl.GetProgramInfoLog().
 
 			
 				
-				<h3 id="ProgramManager.AddNew">func (*ProgramManager) <a href="/target/program-manager.go?s=432:493#L19">AddNew</a></h3>
+				<h3 id="ProgramManager.AddNew">func (*ProgramManager) <a href="/target/program-manager.go?s=413:474#L18">AddNew</a></h3>
 				<pre>func (me *ProgramManager) AddNew(name string) (prog *Program)</pre>
 				
 				
@@ -2279,7 +2281,7 @@ checking gl.VALIDATE_STATUS and obtaining gl.GetProgramInfoLog().
 				
 			
 				
-				<h3 id="ProgramManager.Get">func (*ProgramManager) <a href="/target/program-manager.go?s=824:882#L33">Get</a></h3>
+				<h3 id="ProgramManager.Get">func (*ProgramManager) <a href="/target/program-manager.go?s=805:863#L32">Get</a></h3>
 				<pre>func (me *ProgramManager) Get(name string) (prog *Program)</pre>
 				
 				
@@ -2293,7 +2295,7 @@ checking gl.VALIDATE_STATUS and obtaining gl.GetProgramInfoLog().
 				
 			
 				
-				<h3 id="ProgramManager.MakeProgramsFromRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=958:1127#L40">MakeProgramsFromRawSources</a></h3>
+				<h3 id="ProgramManager.MakeProgramsFromRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=939:1108#L39">MakeProgramsFromRawSources</a></h3>
 				<pre>func (me *ProgramManager) MakeProgramsFromRawSources(defines map[string]interface{}, forceAll bool, forceSome ...string) (dur time.Duration, progsMade []bool, err error)</pre>
 				
 				

@@ -22,6 +22,8 @@ type Program struct {
 		Out ShaderSources
 	}
 
+	Tag interface{}
+
 	//	All vertex-attributes and their locations mapped for this program object (after the SetAttrLocations() method has been called).
 	AttrLocs map[string]gl.Uint
 
