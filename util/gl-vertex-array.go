@@ -16,10 +16,11 @@ func (me *VertexArray) Bind() {
 	Cache.BindVertexArray(me.GlHandle)
 }
 
-//	(Re-)Creates this vertex-array object.
+//	Creates this vertex-array object.
 func (me *VertexArray) Create() (err error) {
-	me.Dispose()
-	err = Try.GenVertexArrays(1, &me.GlHandle)
+	if me.GlHandle == 0 {
+		err = Try.GenVertexArrays(1, &me.GlHandle)
+	}
 	return
 }
 
@@ -33,7 +34,7 @@ func (me *VertexArray) Dispose() {
 
 //	Sets up this vertex array object. Unless atts are specified, prog can be be nil.
 //	To specify element/index buffer and vertex/attribute buffers (if applicable), pass them via bufs.
-func (me *VertexArray) Setup(prog *Program, atts []*VertexAttribPointer, bufs ...*Buffer) (err error) {
+func (me *VertexArray) Setup(prog *Program, atts []VertexAttribPointer, bufs ...*Buffer) (err error) {
 	var (
 		buf  *Buffer
 		aloc gl.Uint
@@ -42,10 +43,10 @@ func (me *VertexArray) Setup(prog *Program, atts []*VertexAttribPointer, bufs ..
 	for _, buf = range bufs {
 		buf.Bind()
 	}
-	for _, attr := range atts {
-		if aloc = prog.AttrLocs[attr.Name]; prog.HasAttr(attr.Name) {
+	for i := 0; i < len(atts); i++ {
+		if aloc = prog.AttrLocs[atts[i].Name]; prog.HasAttr(atts[i].Name) {
 			gl.EnableVertexAttribArray(aloc)
-			gl.VertexAttribPointer(aloc, attr.Size, attr.Type, attr.Normalized, attr.Stride, attr.Offset)
+			gl.VertexAttribPointer(aloc, atts[i].Size, atts[i].Type, atts[i].Normalized, atts[i].Stride, atts[i].Offset)
 		}
 	}
 	me.Unbind()
@@ -80,13 +81,19 @@ type VertexAttribPointer struct {
 	//	If Stride is 0, the generic vertex attributes are understood to be tightly packed in the array.
 	Stride gl.Sizei
 
-	//	Specifies a offset of the first component of the first generic vertex attribute in the array
+	//	Specifies an offset of the first component of the first generic vertex attribute in the array
 	//	in the data store of the Buffer currently bound to the gl.ARRAY_BUFFER target.
 	Offset gl.Ptr
 }
 
 //	Initializes and returns a new VertexAttribPointer with the specified values.
 func NewVertexAttribPointer(name string, size gl.Int, stride gl.Sizei, offset gl.Ptr) (me *VertexAttribPointer) {
-	me = &VertexAttribPointer{Type: gl.FLOAT, Normalized: gl.FALSE, Name: name, Size: size, Stride: stride, Offset: offset}
+	me = &VertexAttribPointer{}
+	me.Init(name, size, stride, offset)
 	return
+}
+
+func (me *VertexAttribPointer) Init(name string, size gl.Int, stride gl.Sizei, offset gl.Ptr) {
+	me.Name, me.Type, me.Normalized = name, gl.FLOAT, gl.FALSE
+	me.Size, me.Stride, me.Offset = size, stride, offset
 }

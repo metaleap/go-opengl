@@ -14,6 +14,10 @@ type Program struct {
 	//	This is 0 before calling Create() and after calling Dispose().
 	GlHandle gl.Uint
 
+	//	An arbitrary numeric identifier that is of no use to OpenGL.
+	//	This is set by the parent ProgramManager, if any.
+	Index int
+
 	//	An arbitrary application-defined name that is of no use to OpenGL, but may aid client-side diagnostics.
 	Name string
 
@@ -36,15 +40,15 @@ type Program struct {
 	}
 }
 
-func NewProgram(name string) (me *Program) {
+func NewProgram(index int, name string) (me *Program) {
 	me = new(Program)
-	me.Init(name)
+	me.Init(index, name)
 	return
 }
 
-func (me *Program) Init(name string) {
+func (me *Program) Init(index int, name string) {
 	const cap = 8
-	me.Name, me.AttrLocs, me.UnifLocs = name, make(map[string]gl.Uint, cap), make(map[string]gl.Int, cap)
+	me.Index, me.Name, me.AttrLocs, me.UnifLocs = index, name, make(map[string]gl.Uint, cap), make(map[string]gl.Int, cap)
 	me.unif.cache1i = make(map[gl.Int]gl.Int, cap)
 	me.unif.cache1f = make(map[gl.Int]gl.Float, cap)
 }

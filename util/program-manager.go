@@ -34,7 +34,7 @@ func (me *ProgramManager) AddNew(name string) (prog *Program) {
 	index := len(me.All)
 	me.All = append(me.All, Program{})
 	prog = &me.All[index]
-	prog.Init(name)
+	prog.Init(index, name)
 	me.names[name] = index
 	return
 }

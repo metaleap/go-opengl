@@ -336,7 +336,7 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 				<dd><a href="#Program">type Program</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#NewProgram">func NewProgram(name string) (me *Program)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#NewProgram">func NewProgram(index int, name string) (me *Program)</a></dd>
 				
 				
 					
@@ -358,7 +358,7 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 					<dd>&nbsp; &nbsp; <a href="#Program.InfoLog">func (me *Program) InfoLog() string</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#Program.Init">func (me *Program) Init(name string)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#Program.Init">func (me *Program) Init(index int, name string)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#Program.Link">func (me *Program) Link() (err error)</a></dd>
@@ -870,7 +870,7 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 					<dd>&nbsp; &nbsp; <a href="#VertexArray.Dispose">func (me *VertexArray) Dispose()</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#VertexArray.Setup">func (me *VertexArray) Setup(prog *Program, atts []*VertexAttribPointer, bufs ...*Buffer) (err error)</a></dd>
+					<dd>&nbsp; &nbsp; <a href="#VertexArray.Setup">func (me *VertexArray) Setup(prog *Program, atts []VertexAttribPointer, bufs ...*Buffer) (err error)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#VertexArray.Unbind">func (_ VertexArray) Unbind()</a></dd>
@@ -882,6 +882,9 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 					
 					<dd>&nbsp; &nbsp; <a href="#NewVertexAttribPointer">func NewVertexAttribPointer(name string, size gl.Int, stride gl.Sizei, offset gl.Ptr) (me *VertexAttribPointer)</a></dd>
 				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="#VertexAttribPointer.Init">func (me *VertexAttribPointer) Init(name string, size gl.Int, stride gl.Sizei, offset gl.Ptr)</a></dd>
 				
 			
 			
@@ -2026,11 +2029,15 @@ Sets me to the first 4-or-less vals.
 		
 			
 			
-			<h2 id="Program">type <a href="/target/gl-program.go?s=154:911#L2">Program</a></h2>
+			<h2 id="Program">type <a href="/target/gl-program.go?s=154:1042#L2">Program</a></h2>
 			<pre>type Program struct {
     <span class="comment">//	The OpenGL handle to the underlying program object.</span>
     <span class="comment">//	This is 0 before calling Create() and after calling Dispose().</span>
     GlHandle gl.Uint
+
+    <span class="comment">//	An arbitrary numeric identifier that is of no use to OpenGL.</span>
+    <span class="comment">//	This is set by the parent ProgramManager, if any.</span>
+    Index int
 
     <span class="comment">//	An arbitrary application-defined name that is of no use to OpenGL, but may aid client-side diagnostics.</span>
     Name string
@@ -2062,15 +2069,15 @@ Represents an OpenGL program object.
 
 			
 				
-				<h3 id="NewProgram">func <a href="/target/gl-program.go?s=913:955#L29">NewProgram</a></h3>
-				<pre>func NewProgram(name string) (me *Program)</pre>
+				<h3 id="NewProgram">func <a href="/target/gl-program.go?s=1044:1097#L33">NewProgram</a></h3>
+				<pre>func NewProgram(index int, name string) (me *Program)</pre>
 				
 				
 			
 
 			
 				
-				<h3 id="Program.CompileAndLinkShaders">func (*Program) <a href="/target/gl-program.go?s=1683:1767#L46">CompileAndLinkShaders</a></h3>
+				<h3 id="Program.CompileAndLinkShaders">func (*Program) <a href="/target/gl-program.go?s=1860:1944#L50">CompileAndLinkShaders</a></h3>
 				<pre>func (me *Program) CompileAndLinkShaders(defines map[string]interface{}) (err error)</pre>
 				<p>
 Creates and compiles Shader stages for the specified sources (and defines) and links them together in this Program.
@@ -2083,7 +2090,7 @@ but a source string should not be re-sent to a subsequent compilation in that mo
 				
 			
 				
-				<h3 id="Program.Create">func (*Program) <a href="/target/gl-program.go?s=3366:3405#L102">Create</a></h3>
+				<h3 id="Program.Create">func (*Program) <a href="/target/gl-program.go?s=3543:3582#L106">Create</a></h3>
 				<pre>func (me *Program) Create() (err error)</pre>
 				<p>
 Creates this program object in OpenGL.
@@ -2093,7 +2100,7 @@ Creates this program object in OpenGL.
 				
 			
 				
-				<h3 id="Program.Dispose">func (*Program) <a href="/target/gl-program.go?s=3545:3573#L111">Dispose</a></h3>
+				<h3 id="Program.Dispose">func (*Program) <a href="/target/gl-program.go?s=3722:3750#L115">Dispose</a></h3>
 				<pre>func (me *Program) Dispose()</pre>
 				<p>
 Deletes this program object from OpenGL.
@@ -2103,7 +2110,7 @@ Deletes this program object from OpenGL.
 				
 			
 				
-				<h3 id="Program.HasAttr">func (*Program) <a href="/target/gl-program.go?s=3739:3788#L119">HasAttr</a></h3>
+				<h3 id="Program.HasAttr">func (*Program) <a href="/target/gl-program.go?s=3916:3965#L123">HasAttr</a></h3>
 				<pre>func (me *Program) HasAttr(name string) (ok bool)</pre>
 				<p>
 Returns true if the specified attribute name is present as a key in me.AttrLocs.
@@ -2113,7 +2120,7 @@ Returns true if the specified attribute name is present as a key in me.AttrLocs.
 				
 			
 				
-				<h3 id="Program.HasUnif">func (*Program) <a href="/target/gl-program.go?s=3911:3960#L125">HasUnif</a></h3>
+				<h3 id="Program.HasUnif">func (*Program) <a href="/target/gl-program.go?s=4088:4137#L129">HasUnif</a></h3>
 				<pre>func (me *Program) HasUnif(name string) (ok bool)</pre>
 				<p>
 Returns true if the specified uniform name is present as a key in me.UnifLocs.
@@ -2123,7 +2130,7 @@ Returns true if the specified uniform name is present as a key in me.UnifLocs.
 				
 			
 				
-				<h3 id="Program.InfoLog">func (*Program) <a href="/target/gl-program.go?s=4093:4128#L131">InfoLog</a></h3>
+				<h3 id="Program.InfoLog">func (*Program) <a href="/target/gl-program.go?s=4270:4305#L135">InfoLog</a></h3>
 				<pre>func (me *Program) InfoLog() string</pre>
 				<p>
 Retrieves and returns the content of the current OpenGL info-log for this shader object.
@@ -2133,14 +2140,14 @@ Retrieves and returns the content of the current OpenGL info-log for this shader
 				
 			
 				
-				<h3 id="Program.Init">func (*Program) <a href="/target/gl-program.go?s=1003:1039#L35">Init</a></h3>
-				<pre>func (me *Program) Init(name string)</pre>
+				<h3 id="Program.Init">func (*Program) <a href="/target/gl-program.go?s=1152:1199#L39">Init</a></h3>
+				<pre>func (me *Program) Init(index int, name string)</pre>
 				
 				
 				
 			
 				
-				<h3 id="Program.Link">func (*Program) <a href="/target/gl-program.go?s=4347:4384#L137">Link</a></h3>
+				<h3 id="Program.Link">func (*Program) <a href="/target/gl-program.go?s=4524:4561#L141">Link</a></h3>
 				<pre>func (me *Program) Link() (err error)</pre>
 				<p>
 Links this program object. This is a convenience short-hand for calling gl.LinkProgram(),
@@ -2151,7 +2158,7 @@ checking gl.LINK_STATUS and obtaining gl.GetProgramInfoLog().
 				
 			
 				
-				<h3 id="Program.ParamInt">func (*Program) <a href="/target/gl-program.go?s=4991:5045#L161">ParamInt</a></h3>
+				<h3 id="Program.ParamInt">func (*Program) <a href="/target/gl-program.go?s=5168:5222#L165">ParamInt</a></h3>
 				<pre>func (me *Program) ParamInt(pname gl.Enum) (iv gl.Int)</pre>
 				<p>
 Convenience short-hand for gl.GetProgramiv.
@@ -2161,7 +2168,7 @@ Convenience short-hand for gl.GetProgramiv.
 				
 			
 				
-				<h3 id="Program.SetAttrLocations">func (*Program) <a href="/target/gl-program.go?s=5441:5509#L169">SetAttrLocations</a></h3>
+				<h3 id="Program.SetAttrLocations">func (*Program) <a href="/target/gl-program.go?s=5618:5686#L173">SetAttrLocations</a></h3>
 				<pre>func (me *Program) SetAttrLocations(attrNames ...string) (err error)</pre>
 				<p>
 Stores the locations for the specified vertex-attributes in the AttrLocs field.
@@ -2173,7 +2180,7 @@ err is the result of LastError() after each call to gl.GetAttribLocation(), the 
 				
 			
 				
-				<h3 id="Program.SetUnifLocations">func (*Program) <a href="/target/gl-program.go?s=6159:6227#L187">SetUnifLocations</a></h3>
+				<h3 id="Program.SetUnifLocations">func (*Program) <a href="/target/gl-program.go?s=6336:6404#L191">SetUnifLocations</a></h3>
 				<pre>func (me *Program) SetUnifLocations(unifNames ...string) (err error)</pre>
 				<p>
 Stores the locations for the specified uniforms in the UnifLocs field.
@@ -2185,7 +2192,7 @@ err is the result of LastError() after each call to gl.GetUniformLocation(), the
 				
 			
 				
-				<h3 id="Program.Uniform1f">func (*Program) <a href="/target/gl-program.go?s=6995:7049#L213">Uniform1f</a></h3>
+				<h3 id="Program.Uniform1f">func (*Program) <a href="/target/gl-program.go?s=7172:7226#L217">Uniform1f</a></h3>
 				<pre>func (me *Program) Uniform1f(name string, v0 gl.Float)</pre>
 				<p>
 Convenience short-hand for gl.Uniform1f, if this Program contains
@@ -2196,7 +2203,7 @@ the specified uniform and v0 differs from its current value.
 				
 			
 				
-				<h3 id="Program.Uniform1i">func (*Program) <a href="/target/gl-program.go?s=6680:6732#L204">Uniform1i</a></h3>
+				<h3 id="Program.Uniform1i">func (*Program) <a href="/target/gl-program.go?s=6857:6909#L208">Uniform1i</a></h3>
 				<pre>func (me *Program) Uniform1i(name string, v0 gl.Int)</pre>
 				<p>
 Convenience short-hand for gl.Uniform1i, if this Program contains
@@ -2207,7 +2214,7 @@ the specified uniform and v0 differs from its current value.
 				
 			
 				
-				<h3 id="Program.Uniform3fv">func (*Program) <a href="/target/gl-program.go?s=7272:7347#L221">Uniform3fv</a></h3>
+				<h3 id="Program.Uniform3fv">func (*Program) <a href="/target/gl-program.go?s=7449:7524#L225">Uniform3fv</a></h3>
 				<pre>func (me *Program) Uniform3fv(name string, count gl.Sizei, value *gl.Float)</pre>
 				<p>
 Convenience short-hand for gl.Uniform3fv, if this Program contains the specified uniform.
@@ -2217,7 +2224,7 @@ Convenience short-hand for gl.Uniform3fv, if this Program contains the specified
 				
 			
 				
-				<h3 id="Program.UniformMatrix4fv">func (*Program) <a href="/target/gl-program.go?s=7529:7632#L228">UniformMatrix4fv</a></h3>
+				<h3 id="Program.UniformMatrix4fv">func (*Program) <a href="/target/gl-program.go?s=7706:7809#L232">UniformMatrix4fv</a></h3>
 				<pre>func (me *Program) UniformMatrix4fv(name string, count gl.Sizei, transpose gl.Boolean, value *gl.Float)</pre>
 				<p>
 Convenience short-hand for gl.UniformMatrix4fv, if this Program contains the specified uniform.
@@ -2227,7 +2234,7 @@ Convenience short-hand for gl.UniformMatrix4fv, if this Program contains the spe
 				
 			
 				
-				<h3 id="Program.Use">func (*Program) <a href="/target/gl-program.go?s=7800:7824#L235">Use</a></h3>
+				<h3 id="Program.Use">func (*Program) <a href="/target/gl-program.go?s=7977:8001#L239">Use</a></h3>
 				<pre>func (me *Program) Use()</pre>
 				<p>
 Installs this program object as part of current rendering state.
@@ -2237,7 +2244,7 @@ Installs this program object as part of current rendering state.
 				
 			
 				
-				<h3 id="Program.Validate">func (*Program) <a href="/target/gl-program.go?s=8031:8072#L241">Validate</a></h3>
+				<h3 id="Program.Validate">func (*Program) <a href="/target/gl-program.go?s=8208:8249#L245">Validate</a></h3>
 				<pre>func (me *Program) Validate() (err error)</pre>
 				<p>
 Validates this program object. This is a convenience short-hand for calling gl.ValidateProgram(),
@@ -2281,7 +2288,7 @@ checking gl.VALIDATE_STATUS and obtaining gl.GetProgramInfoLog().
 				
 			
 				
-				<h3 id="ProgramManager.Get">func (*ProgramManager) <a href="/target/program-manager.go?s=735:793#L32">Get</a></h3>
+				<h3 id="ProgramManager.Get">func (*ProgramManager) <a href="/target/program-manager.go?s=742:800#L32">Get</a></h3>
 				<pre>func (me *ProgramManager) Get(name string) (prog *Program)</pre>
 				
 				
@@ -2295,7 +2302,7 @@ checking gl.VALIDATE_STATUS and obtaining gl.GetProgramInfoLog().
 				
 			
 				
-				<h3 id="ProgramManager.MakeProgramsFromRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=864:1033#L39">MakeProgramsFromRawSources</a></h3>
+				<h3 id="ProgramManager.MakeProgramsFromRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=871:1040#L39">MakeProgramsFromRawSources</a></h3>
 				<pre>func (me *ProgramManager) MakeProgramsFromRawSources(defines map[string]interface{}, forceAll bool, forceSome ...string) (dur time.Duration, progsMade []bool, err error)</pre>
 				
 				
@@ -3947,17 +3954,17 @@ Binds this vertex array object.
 				
 			
 				
-				<h3 id="VertexArray.Create">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=501:544#L10">Create</a></h3>
+				<h3 id="VertexArray.Create">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=496:539#L10">Create</a></h3>
 				<pre>func (me *VertexArray) Create() (err error)</pre>
 				<p>
-(Re-)Creates this vertex-array object.
+Creates this vertex-array object.
 </p>
 
 				
 				
 			
 				
-				<h3 id="VertexArray.Dispose">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=653:685#L17">Dispose</a></h3>
+				<h3 id="VertexArray.Dispose">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=661:693#L18">Dispose</a></h3>
 				<pre>func (me *VertexArray) Dispose()</pre>
 				<p>
 Deletes this vertex array object.
@@ -3967,8 +3974,8 @@ Deletes this vertex array object.
 				
 			
 				
-				<h3 id="VertexArray.Setup">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=961:1062#L26">Setup</a></h3>
-				<pre>func (me *VertexArray) Setup(prog *Program, atts []*VertexAttribPointer, bufs ...*Buffer) (err error)</pre>
+				<h3 id="VertexArray.Setup">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=969:1069#L27">Setup</a></h3>
+				<pre>func (me *VertexArray) Setup(prog *Program, atts []VertexAttribPointer, bufs ...*Buffer) (err error)</pre>
 				<p>
 Sets up this vertex array object. Unless atts are specified, prog can be be nil.
 To specify element/index buffer and vertex/attribute buffers (if applicable), pass them via bufs.
@@ -3978,7 +3985,7 @@ To specify element/index buffer and vertex/attribute buffers (if applicable), pa
 				
 			
 				
-				<h3 id="VertexArray.Unbind">func (VertexArray) <a href="/target/gl-vertex-array.go?s=1566:1595#L50">Unbind</a></h3>
+				<h3 id="VertexArray.Unbind">func (VertexArray) <a href="/target/gl-vertex-array.go?s=1599:1628#L51">Unbind</a></h3>
 				<pre>func (_ VertexArray) Unbind()</pre>
 				<p>
 Unbinds whatever vertex array object is currently bound.
@@ -3990,7 +3997,7 @@ Unbinds whatever vertex array object is currently bound.
 		
 			
 			
-			<h2 id="VertexAttribPointer">type <a href="/target/gl-vertex-array.go?s=1733:2496#L55">VertexAttribPointer</a></h2>
+			<h2 id="VertexAttribPointer">type <a href="/target/gl-vertex-array.go?s=1766:2530#L56">VertexAttribPointer</a></h2>
 			<pre>type VertexAttribPointer struct {
     <span class="comment">//	The name of the vertex attribute in a Program.AttrLocs hash-table.</span>
     Name string
@@ -4009,7 +4016,7 @@ Unbinds whatever vertex array object is currently bound.
     <span class="comment">//	If Stride is 0, the generic vertex attributes are understood to be tightly packed in the array.</span>
     Stride gl.Sizei
 
-    <span class="comment">//	Specifies a offset of the first component of the first generic vertex attribute in the array</span>
+    <span class="comment">//	Specifies an offset of the first component of the first generic vertex attribute in the array</span>
     <span class="comment">//	in the data store of the Buffer currently bound to the gl.ARRAY_BUFFER target.</span>
     Offset gl.Ptr
 }</pre>
@@ -4026,7 +4033,7 @@ Encapsulates vertex attribute information used by VertexArray.Setup() to enable 
 
 			
 				
-				<h3 id="NewVertexAttribPointer">func <a href="/target/gl-vertex-array.go?s=2578:2689#L79">NewVertexAttribPointer</a></h3>
+				<h3 id="NewVertexAttribPointer">func <a href="/target/gl-vertex-array.go?s=2612:2723#L80">NewVertexAttribPointer</a></h3>
 				<pre>func NewVertexAttribPointer(name string, size gl.Int, stride gl.Sizei, offset gl.Ptr) (me *VertexAttribPointer)</pre>
 				<p>
 Initializes and returns a new VertexAttribPointer with the specified values.
@@ -4035,6 +4042,13 @@ Initializes and returns a new VertexAttribPointer with the specified values.
 				
 			
 
+			
+				
+				<h3 id="VertexAttribPointer.Init">func (*VertexAttribPointer) <a href="/target/gl-vertex-array.go?s=2803:2896#L86">Init</a></h3>
+				<pre>func (me *VertexAttribPointer) Init(name string, size gl.Int, stride gl.Sizei, offset gl.Ptr)</pre>
+				
+				
+				
 			
 		
 		</div>
