@@ -127,12 +127,9 @@ func uploadGeometry(mesh *geometry) {
 }
 
 func logLastGlError(step string) {
-	if err := gl.Util.Error(step); err != nil {
-		fmt.Println(err.Error())
+	if errNum := gl.GetError(); errNum != 0 {
+		fmt.Printf("ERR %v at step %v\n", errNum, step)
 	}
-	// if errNum := gl.GetError(); errNum != 0 {
-	// 	fmt.Printf("ERR %v at step %v\n", errNum, step)
-	// }
 }
 
 func main() {

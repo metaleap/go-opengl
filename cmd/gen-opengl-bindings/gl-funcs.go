@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	xmlx "github.com/jteeuwen/go-pkg-xmlx"
+	usl "github.com/metaleap/go-util/slice"
 	ustr "github.com/metaleap/go-util/str"
 )
 
@@ -73,9 +74,9 @@ func (me *glPack) makeFuncs() {
 		if strings.Contains(fun.cat, " ") {
 			println(fun.cat)
 		}
-		if strings.HasPrefix(fun.cat, "VERSION_") || ustr.IsInSlice(cfg.genExts, fun.cat) || isBeast() {
+		if strings.HasPrefix(fun.cat, "VERSION_") || usl.StrHas(cfg.genExts, fun.cat) || isBeast() {
 			me.funcs[fun.name] = fun
-			if ustr.IsInSlice(cfg.genExts, fun.cat) {
+			if usl.StrHas(cfg.genExts, fun.cat) {
 				println("EXT:" + fun.name)
 			}
 		}

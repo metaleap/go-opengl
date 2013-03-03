@@ -2,7 +2,7 @@ package ugl
 
 import (
 	gl "github.com/go3d/go-opengl/core"
-	ustr "github.com/metaleap/go-util/str"
+	usl "github.com/metaleap/go-util/slice"
 )
 
 //	A singleton type, only used for the package-global ugl.Util variable.
@@ -54,11 +54,11 @@ func (_ GlUtil) EnumName(enum gl.Enum) (name string) {
 //	Returns true if the specified extension (ignoring upper/lower-case) is supported by the current OpenGL context, as per the global Support.Extensions variable.
 //	If the extension uses a well-known prefix contained in KnownExtensionPrefixes, it can be omitted, ie. you can just specify "texture_filter_anisotropic" instead of "GL_EXT_texture_filter_anisotropic".
 func (_ GlUtil) Extension(name string) bool {
-	if ustr.IsInSliceIgnoreCase(Support.Extensions, name) {
+	if usl.StrHasIgnoreCase(Support.Extensions, name) {
 		return true
 	}
 	for _, pref := range KnownExtensionPrefixes {
-		if ustr.IsInSliceIgnoreCase(Support.Extensions, pref+name) {
+		if usl.StrHasIgnoreCase(Support.Extensions, pref+name) {
 			return true
 		}
 	}

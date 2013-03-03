@@ -2,14 +2,14 @@ package main
 
 import (
 	xmlx "github.com/jteeuwen/go-pkg-xmlx"
-	ustr "github.com/metaleap/go-util/str"
+	usl "github.com/metaleap/go-util/slice"
 )
 
 type nodeFunc func(*xmlx.Node)
 
 func checkForUnknownAtts(xn *xmlx.Node, knownAttNames ...string) {
 	for _, att := range xn.Attributes {
-		if !ustr.IsInSlice(knownAttNames, att.Name.Local) {
+		if !usl.StrHas(knownAttNames, att.Name.Local) {
 			println("UNKNOWN <" + xn.Name.Local + "> ATT: " + att.Name.Local)
 		}
 	}

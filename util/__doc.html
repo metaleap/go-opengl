@@ -1864,7 +1864,7 @@ Calls gl.TexSubImage2D() and yields the err returned by Util.LastError(), if any
 		
 			
 			
-			<h2 id="GlUtil">type <a href="/target/gl-util.go?s=175:197#L1">GlUtil</a></h2>
+			<h2 id="GlUtil">type <a href="/target/gl-util.go?s=176:198#L1">GlUtil</a></h2>
 			<pre>type GlUtil struct {
 }</pre>
 			<p>
@@ -1882,7 +1882,7 @@ A singleton type, only used for the package-global ugl.Util variable.
 
 			
 				
-				<h3 id="GlUtil.ConnInfo">func (GlUtil) <a href="/target/gl-util.go?s=423:456#L4">ConnInfo</a></h3>
+				<h3 id="GlUtil.ConnInfo">func (GlUtil) <a href="/target/gl-util.go?s=424:457#L4">ConnInfo</a></h3>
 				<pre>func (_ GlUtil) ConnInfo() string</pre>
 				<p>
 Returns an OpenGL connection-info string of the format &#34;OpenGL {version} @ {vendor} {renderer} (GLSL: {version})&#34;
@@ -1893,7 +1893,7 @@ Example: &#34;OpenGL 4.2.0 @ NVIDIA Corporation Quadro 5010M/PCIe/SSE2 (GLSL: 4.
 				
 			
 				
-				<h3 id="GlUtil.EnumName">func (GlUtil) <a href="/target/gl-util.go?s=756:808#L10">EnumName</a></h3>
+				<h3 id="GlUtil.EnumName">func (GlUtil) <a href="/target/gl-util.go?s=757:809#L10">EnumName</a></h3>
 				<pre>func (_ GlUtil) EnumName(enum gl.Enum) (name string)</pre>
 				<p>
 Returns the name of the specified enum. Out of the over 1290 possible enum values, currently only supports
@@ -1904,7 +1904,7 @@ error codes and shader stages.
 				
 			
 				
-				<h3 id="GlUtil.Extension">func (GlUtil) <a href="/target/gl-util.go?s=2009:2052#L46">Extension</a></h3>
+				<h3 id="GlUtil.Extension">func (GlUtil) <a href="/target/gl-util.go?s=2010:2053#L46">Extension</a></h3>
 				<pre>func (_ GlUtil) Extension(name string) bool</pre>
 				<p>
 Returns true if the specified extension (ignoring upper/lower-case) is supported by the current OpenGL context, as per the global Support.Extensions variable.
@@ -1915,7 +1915,7 @@ If the extension uses a well-known prefix contained in KnownExtensionPrefixes, i
 				
 			
 				
-				<h3 id="GlUtil.LastError">func (GlUtil) <a href="/target/gl-util.go?s=2393:2469#L60">LastError</a></h3>
+				<h3 id="GlUtil.LastError">func (GlUtil) <a href="/target/gl-util.go?s=2386:2462#L60">LastError</a></h3>
 				<pre>func (_ GlUtil) LastError(msgFmt string, fmtArgs ...interface{}) (err error)</pre>
 				<p>
 If the GL error flag is currently set, returns an error with the specified
@@ -1926,7 +1926,7 @@ message and the GL error flag(s).
 				
 			
 				
-				<h3 id="GlUtil.Str">func (GlUtil) <a href="/target/gl-util.go?s=2739:2779#L72">Str</a></h3>
+				<h3 id="GlUtil.Str">func (GlUtil) <a href="/target/gl-util.go?s=2732:2772#L72">Str</a></h3>
 				<pre>func (_ GlUtil) Str(name gl.Enum) string</pre>
 				<p>
 Returns the specified OpenGL string.
@@ -1937,7 +1937,7 @@ Example: GlStr(gl.VENDOR) = &#34;NVIDIA Corporation&#34;
 				
 			
 				
-				<h3 id="GlUtil.Stri">func (GlUtil) <a href="/target/gl-util.go?s=3002:3054#L78">Stri</a></h3>
+				<h3 id="GlUtil.Stri">func (GlUtil) <a href="/target/gl-util.go?s=2995:3047#L78">Stri</a></h3>
 				<pre>func (_ GlUtil) Stri(name gl.Enum, i gl.Uint) string</pre>
 				<p>
 Returns the specified OpenGL string at the specified index.
@@ -1948,7 +1948,7 @@ For example, GlStri(gl.EXTENSIONS, 0) returns the name of the &#34;first&#34; of
 				
 			
 				
-				<h3 id="GlUtil.Val">func (GlUtil) <a href="/target/gl-util.go?s=3230:3276#L84">Val</a></h3>
+				<h3 id="GlUtil.Val">func (GlUtil) <a href="/target/gl-util.go?s=3223:3269#L84">Val</a></h3>
 				<pre>func (_ GlUtil) Val(name gl.Enum) (val gl.Int)</pre>
 				<p>
 Returns the specified integer as returned by gl.GetIntegerv().
@@ -1959,7 +1959,7 @@ Example: numExts := GlVal(gl.NUM_EXTENSIONS)
 				
 			
 				
-				<h3 id="GlUtil.Vals">func (GlUtil) <a href="/target/gl-util.go?s=3387:3445#L90">Vals</a></h3>
+				<h3 id="GlUtil.Vals">func (GlUtil) <a href="/target/gl-util.go?s=3380:3438#L90">Vals</a></h3>
 				<pre>func (_ GlUtil) Vals(name gl.Enum, n uint) (vals []gl.Int)</pre>
 				<p>
 Returns the specified n integers as returned by gl.GetIntegerv().
@@ -2257,7 +2257,7 @@ checking gl.VALIDATE_STATUS and obtaining gl.GetProgramInfoLog().
 		
 			
 			
-			<h2 id="ProgramManager">type <a href="/target/program-manager.go?s=97:165#L1">ProgramManager</a></h2>
+			<h2 id="ProgramManager">type <a href="/target/program-manager.go?s=98:166#L1">ProgramManager</a></h2>
 			<pre>type ProgramManager struct {
     All []Program
     <span class="comment">// contains filtered or unexported fields</span>
@@ -2274,35 +2274,35 @@ checking gl.VALIDATE_STATUS and obtaining gl.GetProgramInfoLog().
 
 			
 				
-				<h3 id="ProgramManager.AddNew">func (*ProgramManager) <a href="/target/program-manager.go?s=393:454#L18">AddNew</a></h3>
+				<h3 id="ProgramManager.AddNew">func (*ProgramManager) <a href="/target/program-manager.go?s=394:455#L18">AddNew</a></h3>
 				<pre>func (me *ProgramManager) AddNew(name string) (prog *Program)</pre>
 				
 				
 				
 			
 				
-				<h3 id="ProgramManager.Dispose">func (*ProgramManager) <a href="/target/program-manager.go?s=291:326#L12">Dispose</a></h3>
+				<h3 id="ProgramManager.Dispose">func (*ProgramManager) <a href="/target/program-manager.go?s=292:327#L12">Dispose</a></h3>
 				<pre>func (me *ProgramManager) Dispose()</pre>
 				
 				
 				
 			
 				
-				<h3 id="ProgramManager.Get">func (*ProgramManager) <a href="/target/program-manager.go?s=742:800#L32">Get</a></h3>
+				<h3 id="ProgramManager.Get">func (*ProgramManager) <a href="/target/program-manager.go?s=743:801#L32">Get</a></h3>
 				<pre>func (me *ProgramManager) Get(name string) (prog *Program)</pre>
 				
 				
 				
 			
 				
-				<h3 id="ProgramManager.Init">func (*ProgramManager) <a href="/target/program-manager.go?s=167:199#L7">Init</a></h3>
+				<h3 id="ProgramManager.Init">func (*ProgramManager) <a href="/target/program-manager.go?s=168:200#L7">Init</a></h3>
 				<pre>func (me *ProgramManager) Init()</pre>
 				
 				
 				
 			
 				
-				<h3 id="ProgramManager.MakeProgramsFromRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=871:1040#L39">MakeProgramsFromRawSources</a></h3>
+				<h3 id="ProgramManager.MakeProgramsFromRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=872:1041#L39">MakeProgramsFromRawSources</a></h3>
 				<pre>func (me *ProgramManager) MakeProgramsFromRawSources(defines map[string]interface{}, forceAll bool, forceSome ...string) (dur time.Duration, progsMade []bool, err error)</pre>
 				
 				

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	ugo "github.com/metaleap/go-util"
-	ustr "github.com/metaleap/go-util/str"
+	usl "github.com/metaleap/go-util/slice"
 )
 
 type version struct {
@@ -25,7 +25,7 @@ func parseVersion(dotted string) (ver *version) {
 }
 
 func saneName(name string) (sane string) {
-	if sane = name; ustr.IsInSlice(cOrGoKeywords, sane) {
+	if sane = name; usl.StrHas(cOrGoKeywords, sane) {
 		sane += "_"
 	}
 	return
