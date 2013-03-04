@@ -35,8 +35,10 @@ type Program struct {
 	UnifLocs map[string]gl.Int
 
 	unif struct {
-		cache1i map[gl.Int]gl.Int
-		cache1f map[gl.Int]gl.Float
+		cache1i   map[gl.Int]gl.Int
+		cache1f   map[gl.Int]gl.Float
+		cacheVec3 map[gl.Int]GlVec3
+		cacheMat4 map[gl.Int]GlMat4
 	}
 }
 
@@ -51,6 +53,8 @@ func (me *Program) Init(index int, name string) {
 	me.Index, me.Name, me.AttrLocs, me.UnifLocs = index, name, make(map[string]gl.Uint, cap), make(map[string]gl.Int, cap)
 	me.unif.cache1i = make(map[gl.Int]gl.Int, cap)
 	me.unif.cache1f = make(map[gl.Int]gl.Float, cap)
+	me.unif.cacheVec3 = make(map[gl.Int]GlVec3, cap)
+	me.unif.cacheMat4 = make(map[gl.Int]GlMat4, cap)
 }
 
 //	Creates and compiles Shader stages for the specified sources (and defines) and links them together in this Program.
@@ -235,6 +239,20 @@ func (me *Program) Uniform1f(name string, v0 gl.Float) {
 func (me *Program) Uniform3fv(name string, count gl.Sizei, value *gl.Float) {
 	if loc, ok := me.UnifLocs[name]; ok {
 		gl.Uniform3fv(loc, count, value)
+	}
+}
+
+func (me *Program) UniformMat4(name string, mat4 *GlMat4) {
+	if loc, ok := me.UnifLocs[name]; ok && me.unif.cacheMat4[loc] != *mat4 {
+		me.unif.cacheMat4[loc] = *mat4
+		gl.UniformMatrix4fv(loc, 1, gl.FALSE, &mat4[0])
+	}
+}
+
+func (me *Program) UniformVec3(name string, vec *GlVec3) {
+	if loc, ok := me.UnifLocs[name]; ok && me.unif.cacheVec3[loc] != *vec {
+		me.unif.cacheVec3[loc] = *vec
+		gl.Uniform3fv(loc, 1, &vec[0])
 	}
 }
 
