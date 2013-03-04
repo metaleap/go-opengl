@@ -411,6 +411,9 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 					<dd>&nbsp; &nbsp; <a href="#ProgramManager.Get">func (me *ProgramManager) Get(name string) (prog *Program)</a></dd>
 				
 					
+					<dd>&nbsp; &nbsp; <a href="#ProgramManager.Index">func (me *ProgramManager) Index(name string) (index int)</a></dd>
+				
+					
 					<dd>&nbsp; &nbsp; <a href="#ProgramManager.Init">func (me *ProgramManager) Init()</a></dd>
 				
 					
@@ -2315,6 +2318,13 @@ checking gl.VALIDATE_STATUS and obtaining gl.GetProgramInfoLog().
 				
 			
 				
+				<h3 id="ProgramManager.Index">func (*ProgramManager) <a href="/target/program-manager.go?s=872:928#L39">Index</a></h3>
+				<pre>func (me *ProgramManager) Index(name string) (index int)</pre>
+				
+				
+				
+			
+				
 				<h3 id="ProgramManager.Init">func (*ProgramManager) <a href="/target/program-manager.go?s=168:200#L7">Init</a></h3>
 				<pre>func (me *ProgramManager) Init()</pre>
 				
@@ -2322,7 +2332,7 @@ checking gl.VALIDATE_STATUS and obtaining gl.GetProgramInfoLog().
 				
 			
 				
-				<h3 id="ProgramManager.MakeProgramsFromRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=872:1041#L39">MakeProgramsFromRawSources</a></h3>
+				<h3 id="ProgramManager.MakeProgramsFromRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=1009:1178#L47">MakeProgramsFromRawSources</a></h3>
 				<pre>func (me *ProgramManager) MakeProgramsFromRawSources(defines map[string]interface{}, forceAll bool, forceSome ...string) (dur time.Duration, progsMade []bool, err error)</pre>
 				
 				

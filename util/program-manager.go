@@ -46,6 +46,14 @@ func (me *ProgramManager) Get(name string) (prog *Program) {
 	return
 }
 
+func (me *ProgramManager) Index(name string) (index int) {
+	var ok bool
+	if index, ok = me.names[name]; !ok {
+		index = -1
+	}
+	return
+}
+
 func (me *ProgramManager) MakeProgramsFromRawSources(defines map[string]interface{}, forceAll bool, forceSome ...string) (dur time.Duration, progsMade []bool, err error) {
 	progsMade = make([]bool, len(me.All))
 	timeStart := time.Now()
