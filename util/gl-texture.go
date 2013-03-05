@@ -63,11 +63,6 @@ type TextureBase struct {
 	}
 }
 
-//	Binds this texture object.
-func (me *TextureBase) Bind() {
-	gl.BindTexture(me.GlTarget, me.GlHandle)
-}
-
 //	Deletes this texture object from OpenGL.
 func (me *TextureBase) Dispose() {
 	if me.GlHandle != 0 {
@@ -91,19 +86,19 @@ func (me *TextureBase) init() {
 }
 
 func (me *TextureBase) onAfterRecreate() {
-	me.Unbind()
+	Cache.BindTextureTo(0, 0, me.GlTarget)
 }
 
 func (me *TextureBase) onBeforeRecreate() (err error) {
 	if me.immutable() {
-		me.Unbind()
+		Cache.BindTextureTo(0, 0, me.GlTarget)
 		me.Dispose()
 		err = Try.GenTextures(1, &me.GlHandle)
 	} else if me.GlHandle == 0 {
 		err = Try.GenTextures(1, &me.GlHandle)
 	}
 	if err == nil {
-		me.Bind()
+		Cache.BindTextureTo(0, me.GlHandle, me.GlTarget)
 	}
 	return
 }
@@ -218,9 +213,4 @@ func (me *TextureBase) subImage(glTarget gl.Enum, x, y gl.Int, width, height gl.
 func (me *TextureBase) texImage(glTarget gl.Enum, width, height gl.Sizei, ptr gl.Ptr) (err error) {
 	err = Try.TexImage2D(glTarget, 0, gl.Int(me.SizedInternalFormat), width, height, 0, me.PixelData.Format, me.PixelData.Type, ptr)
 	return
-}
-
-//	Unbinds whatever texture is currently bound.
-func (me *TextureBase) Unbind() {
-	gl.BindTexture(me.GlTarget, 0)
 }

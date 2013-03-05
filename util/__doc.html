@@ -215,6 +215,9 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 					<dd>&nbsp; &nbsp; <a href="#GlCache.BindSampler">func (_ *GlCache) BindSampler(textureUnit, glHandle gl.Uint)</a></dd>
 				
 					
+					<dd>&nbsp; &nbsp; <a href="#GlCache.BindTextureTo">func (_ *GlCache) BindTextureTo(textureUnit, glHandle gl.Uint, glTarget gl.Enum)</a></dd>
+				
+					
 					<dd>&nbsp; &nbsp; <a href="#GlCache.BindVertexArray">func (_ *GlCache) BindVertexArray(glHandle gl.Uint)</a></dd>
 				
 					
@@ -748,9 +751,6 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 				
 				
 					
-					<dd>&nbsp; &nbsp; <a href="#TextureBase.Bind">func (me *TextureBase) Bind()</a></dd>
-				
-					
 					<dd>&nbsp; &nbsp; <a href="#TextureBase.Dispose">func (me *TextureBase) Dispose()</a></dd>
 				
 					
@@ -806,9 +806,6 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 				
 					
 					<dd>&nbsp; &nbsp; <a href="#TextureBase.SetParamSwizzleRgba">func (me *TextureBase) SetParamSwizzleRgba(val gl.Int)</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="#TextureBase.Unbind">func (me *TextureBase) Unbind()</a></dd>
 				
 			
 				
@@ -1600,7 +1597,7 @@ Represents a render-to-texture object that can be attached to a Framebuffer.
 		
 			
 			
-			<h2 id="GlCache">type <a href="/target/gl-cache.go?s=62:384#L1">GlCache</a></h2>
+			<h2 id="GlCache">type <a href="/target/gl-cache.go?s=62:411#L1">GlCache</a></h2>
 			<pre>type GlCache struct {
     <span class="comment">// contains filtered or unexported fields</span>
 }</pre>
@@ -1616,28 +1613,35 @@ Represents a render-to-texture object that can be attached to a Framebuffer.
 
 			
 				
-				<h3 id="GlCache.ActiveTexture">func (*GlCache) <a href="/target/gl-cache.go?s=817:865#L17">ActiveTexture</a></h3>
+				<h3 id="GlCache.ActiveTexture">func (*GlCache) <a href="/target/gl-cache.go?s=922:970#L19">ActiveTexture</a></h3>
 				<pre>func (_ *GlCache) ActiveTexture(texture gl.Enum)</pre>
 				
 				
 				
 			
 				
-				<h3 id="GlCache.BindSampler">func (*GlCache) <a href="/target/gl-cache.go?s=971:1031#L24">BindSampler</a></h3>
+				<h3 id="GlCache.BindSampler">func (*GlCache) <a href="/target/gl-cache.go?s=1076:1136#L26">BindSampler</a></h3>
 				<pre>func (_ *GlCache) BindSampler(textureUnit, glHandle gl.Uint)</pre>
 				
 				
 				
 			
 				
-				<h3 id="GlCache.BindVertexArray">func (*GlCache) <a href="/target/gl-cache.go?s=1173:1224#L31">BindVertexArray</a></h3>
+				<h3 id="GlCache.BindTextureTo">func (*GlCache) <a href="/target/gl-cache.go?s=1278:1358#L33">BindTextureTo</a></h3>
+				<pre>func (_ *GlCache) BindTextureTo(textureUnit, glHandle gl.Uint, glTarget gl.Enum)</pre>
+				
+				
+				
+			
+				
+				<h3 id="GlCache.BindVertexArray">func (*GlCache) <a href="/target/gl-cache.go?s=1555:1606#L41">BindVertexArray</a></h3>
 				<pre>func (_ *GlCache) BindVertexArray(glHandle gl.Uint)</pre>
 				
 				
 				
 			
 				
-				<h3 id="GlCache.UseProgram">func (*GlCache) <a href="/target/gl-cache.go?s=1339:1385#L38">UseProgram</a></h3>
+				<h3 id="GlCache.UseProgram">func (*GlCache) <a href="/target/gl-cache.go?s=1721:1767#L48">UseProgram</a></h3>
 				<pre>func (_ *GlCache) UseProgram(glHandle gl.Uint)</pre>
 				
 				
@@ -3553,17 +3557,7 @@ Embedded by specialized texture types such as Texture2D.
 
 			
 				
-				<h3 id="TextureBase.Bind">func (*TextureBase) <a href="/target/gl-texture.go?s=1994:2023#L57">Bind</a></h3>
-				<pre>func (me *TextureBase) Bind()</pre>
-				<p>
-Binds this texture object.
-</p>
-
-				
-				
-			
-				
-				<h3 id="TextureBase.Dispose">func (*TextureBase) <a href="/target/gl-texture.go?s=2115:2147#L62">Dispose</a></h3>
+				<h3 id="TextureBase.Dispose">func (*TextureBase) <a href="/target/gl-texture.go?s=2008:2040#L57">Dispose</a></h3>
 				<pre>func (me *TextureBase) Dispose()</pre>
 				<p>
 Deletes this texture object from OpenGL.
@@ -3747,16 +3741,6 @@ Sets the swizzle that will be applied to the R component of a texel before it is
 				<pre>func (me *TextureBase) SetParamSwizzleRgba(val gl.Int)</pre>
 				<p>
 Sets the swizzle that will be applied to the R, G, B and A components of a texel before it is returned to the shader.
-</p>
-
-				
-				
-			
-				
-				<h3 id="TextureBase.Unbind">func (*TextureBase) <a href="/target/gl-texture.go?s=6574:6605#L214">Unbind</a></h3>
-				<pre>func (me *TextureBase) Unbind()</pre>
-				<p>
-Unbinds whatever texture is currently bound.
 </p>
 
 				
