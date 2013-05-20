@@ -25,14 +25,14 @@
 -->
 
 	
+		
 		<div id="short-nav">
 			<dl>
 			<dd><code>import "github.com/go3d/go-opengl/util"</code></dd>
 			</dl>
 			<dl>
 			<dd><a href="#pkg-overview" class="overviewLink">Overview</a></dd>
-			<dd><a href="#pkg-index">Index</a></dd>
-			
+			<dd><a href="#pkg-index" class="indexLink">Index</a></dd>
 			
 			
 			</dl>
@@ -51,10 +51,16 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 			</div>
 		</div>
 		
-	
-		<h2 id="pkg-index">Index</h2>
+
+		<div id="pkg-index" class="toggleVisible">
+		<div class="collapsed">
+			<h2 class="toggleButton" title="Click to show Index section">Index ▹</h2>
+		</div>
+		<div class="expanded">
+			<h2 class="toggleButton" title="Click to hide Index section">Index ▾</h2>
+
 		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
-		<div id="manual-nav">
+			<div id="manual-nav">
 			<dl>
 			
 				<dd><a href="#pkg-constants">Constants</a></dd>
@@ -894,7 +900,8 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 				
 			
 			
-		</dl>
+			</dl>
+			</div><!-- #manual-nav -->
 
 		
 
@@ -946,16 +953,18 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 			</span>
 			</p>
 		
-	
+		</div><!-- .expanded -->
+		</div><!-- #pkg-index -->
+
 		
 			<h2 id="pkg-constants">Constants</h2>
 			
 				<pre>const (
     <span class="comment">//	The size of a gl.Float in bytes</span>
-    SizeOfGlFloat gl.Sizeiptr = 4
+    <span id="SizeOfGlFloat">SizeOfGlFloat</span> <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizeiptr">Sizeiptr</a> = 4
 
     <span class="comment">//	The size of a gl.Uint in bytes</span>
-    SizeOfGlUint gl.Sizeiptr = 4
+    <span id="SizeOfGlUint">SizeOfGlUint</span> <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizeiptr">Sizeiptr</a> = 4
 )</pre>
 				
 			
@@ -964,68 +973,68 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
 			<h2 id="pkg-variables">Variables</h2>
 			
 				<pre>var (
-    Cache GlCache
+    <span id="Cache">Cache</span> <a href="#GlCache">GlCache</a>
 
     <span class="comment">//	Provides access to miscellaneous GL functionality.</span>
-    Util GlUtil
+    <span id="Util">Util</span> <a href="#GlUtil">GlUtil</a>
 
     <span class="comment">//	Provides access to miscellaneous type-specific GL functionality.</span>
-    Typed TypeUtils
+    <span id="Typed">Typed</span> <a href="#TypeUtils">TypeUtils</a>
 
     <span class="comment">//	Provides methods that each wrap a GL function call and immediately check for GL errors to be returned as Go errors.</span>
-    Try GlTry
+    <span id="Try">Try</span> <a href="#GlTry">GlTry</a>
 )</pre>
 				
 			
 				<pre>var (
     <span class="comment">//	All the known possible OpenGL core context versions that this package supports.</span>
-    KnownVersions = [5]float64{3.3, 4.0, 4.1, 4.2, 4.3}
+    <span id="KnownVersions">KnownVersions</span> = [5]<a href="/pkg/builtin/#float64">float64</a>{3.3, 4.0, 4.1, 4.2, 4.3}
 
     <span class="comment">//	Contains the well-known extension prefixes that can be omitted</span>
     <span class="comment">//	when querying the current OpenGL context via Util.Extension().</span>
-    KnownExtensionPrefixes = [...]string{&#34;GL_3DFX_&#34;, &#34;GL_3DL_&#34;, &#34;GL_AMD_&#34;, &#34;GL_APPLE_&#34;, &#34;GL_ARB_&#34;, &#34;GL_ATI_&#34;, &#34;GL_EXT_&#34;, &#34;GL_GREMEDY_&#34;, &#34;GL_HP_&#34;, &#34;GL_I3D_&#34;, &#34;GL_IBM_&#34;, &#34;GL_INGR_&#34;, &#34;GL_INTEL_&#34;, &#34;GL_KHR_&#34;, &#34;GL_KTX_&#34;, &#34;GL_MESA_&#34;, &#34;GL_MESAX_&#34;, &#34;GL_NV_&#34;, &#34;GL_NVX_&#34;, &#34;GL_OES_&#34;, &#34;GL_OML_&#34;, &#34;GL_PGI_&#34;, &#34;GL_REND__&#34;, &#34;GL_S3_&#34;, &#34;GL_SGI_&#34;, &#34;GL_SGIS_&#34;, &#34;GL_SGIX_&#34;, &#34;GL_SUN_&#34;, &#34;GL_SUNX_&#34;, &#34;GL_WIN_&#34;, &#34;WGL_EXT_&#34;}
+    <span id="KnownExtensionPrefixes">KnownExtensionPrefixes</span> = [...]<a href="/pkg/builtin/#string">string</a>{&#34;GL_3DFX_&#34;, &#34;GL_3DL_&#34;, &#34;GL_AMD_&#34;, &#34;GL_APPLE_&#34;, &#34;GL_ARB_&#34;, &#34;GL_ATI_&#34;, &#34;GL_EXT_&#34;, &#34;GL_GREMEDY_&#34;, &#34;GL_HP_&#34;, &#34;GL_I3D_&#34;, &#34;GL_IBM_&#34;, &#34;GL_INGR_&#34;, &#34;GL_INTEL_&#34;, &#34;GL_KHR_&#34;, &#34;GL_KTX_&#34;, &#34;GL_MESA_&#34;, &#34;GL_MESAX_&#34;, &#34;GL_NV_&#34;, &#34;GL_NVX_&#34;, &#34;GL_OES_&#34;, &#34;GL_OML_&#34;, &#34;GL_PGI_&#34;, &#34;GL_REND__&#34;, &#34;GL_S3_&#34;, &#34;GL_SGI_&#34;, &#34;GL_SGIS_&#34;, &#34;GL_SGIX_&#34;, &#34;GL_SUN_&#34;, &#34;GL_SUNX_&#34;, &#34;GL_WIN_&#34;, &#34;WGL_EXT_&#34;}
 
     <span class="comment">//	After you have called ugl.Init() upon successful OpenGL context creation and GL binding initialization,</span>
     <span class="comment">//	contains information on what the currently active OpenGL profile supports.</span>
-    Support struct {
+    <span id="Support">Support</span> struct {
         <span class="comment">//	Informs on whether certain buffer types are supported by the current OpenGL context.</span>
         Buffers struct {
             <span class="comment">//	True if OpenGL version is 4.2 or higher.</span>
-            AtomicCounter bool
+            AtomicCounter <a href="/pkg/builtin/#bool">bool</a>
 
             <span class="comment">//	True if OpenGL version is 4.3 or higher.</span>
-            DispatchIndirect bool
+            DispatchIndirect <a href="/pkg/builtin/#bool">bool</a>
 
             <span class="comment">//	True if OpenGL version is 4.3 or higher.</span>
-            ShaderStorage bool
+            ShaderStorage <a href="/pkg/builtin/#bool">bool</a>
         }
 
         <span class="comment">//	All extensions supported by the current OpenGL context.</span>
         <span class="comment">//	Useful for casual inspection, but to query for the presence of a specific extension, always use Util.Extension(name)</span>
-        Extensions []string
+        Extensions []<a href="/pkg/builtin/#string">string</a>
 
         <span class="comment">//	Information on the OpenGL version of the current OpenGL context.</span>
         GlVersion struct {
             <span class="comment">//	Will be either 0 or any one of the values in KnownVersions.</span>
-            Num float64
+            Num <a href="/pkg/builtin/#float64">float64</a>
 
             <span class="comment">//	The major and minor parts of the version in Num.</span>
-            MajorMinor [2]int
+            MajorMinor [2]<a href="/pkg/builtin/#int">int</a>
 
             <span class="comment">//	True if OpenGL version is 3.3 or higher.</span>
-            Is33 bool
+            Is33 <a href="/pkg/builtin/#bool">bool</a>
 
             <span class="comment">//	True if OpenGL version is 4.0 or higher.</span>
-            Is40 bool
+            Is40 <a href="/pkg/builtin/#bool">bool</a>
 
             <span class="comment">//	True if OpenGL version is 4.1 or higher.</span>
-            Is41 bool
+            Is41 <a href="/pkg/builtin/#bool">bool</a>
 
             <span class="comment">//	True if OpenGL version is 4.2 or higher.</span>
-            Is42 bool
+            Is42 <a href="/pkg/builtin/#bool">bool</a>
 
             <span class="comment">//	True if OpenGL version is 4.3 or higher.</span>
-            Is43 bool
+            Is43 <a href="/pkg/builtin/#bool">bool</a>
         }
 
         <span class="comment">//	Information on the GL Shading Language supported by the current OpenGL context.</span>
@@ -1033,65 +1042,65 @@ OpenGL utilities and a few sane slim wrappers (without going full-on &#34;OO&#34
             <span class="comment">//	Info on support for certain shader stages.</span>
             Shaders struct {
                 <span class="comment">//	True if Support.GlSl.Version.Num is 430 or higher.</span>
-                ComputeStage bool
+                ComputeStage <a href="/pkg/builtin/#bool">bool</a>
 
                 <span class="comment">//	True if Support.GlSl.Version.Num is 400 or higher.</span>
-                TessellationStages bool
+                TessellationStages <a href="/pkg/builtin/#bool">bool</a>
             }
 
             <span class="comment">//	Information on the GLSL version supported by the current OpenGL context.</span>
             Version struct {
                 <span class="comment">//	Will be either 0, 330, 400, 410, 420 or 430.</span>
-                Num int
+                Num <a href="/pkg/builtin/#int">int</a>
 
                 <span class="comment">//	True if OpenGL version is 3.3 or higher.</span>
-                Is330 bool
+                Is330 <a href="/pkg/builtin/#bool">bool</a>
 
                 <span class="comment">//	True if OpenGL version is 4.0 or higher.</span>
-                Is400 bool
+                Is400 <a href="/pkg/builtin/#bool">bool</a>
 
                 <span class="comment">//	True if OpenGL version is 4.1 or higher.</span>
-                Is410 bool
+                Is410 <a href="/pkg/builtin/#bool">bool</a>
 
                 <span class="comment">//	True if OpenGL version is 4.2 or higher.</span>
-                Is420 bool
+                Is420 <a href="/pkg/builtin/#bool">bool</a>
 
                 <span class="comment">//	True if OpenGL version is 4.3 or higher.</span>
-                Is430 bool
+                Is430 <a href="/pkg/builtin/#bool">bool</a>
             }
         }
 
         <span class="comment">//	Informs on texturing/sampling-related support by the current OpenGL context.</span>
         Textures struct {
             <span class="comment">//	True if OpenGL version is 4.2 or higher.</span>
-            Immutable bool
+            Immutable <a href="/pkg/builtin/#bool">bool</a>
 
             <span class="comment">//	The maximum supported texture filtering anisotropy.</span>
             <span class="comment">//	If the current OpenGL context does not support anisotropic texture filtering, the</span>
             <span class="comment">//	value will be 0; else the value is guaranteed to be at least 1, and is typically 16.</span>
-            MaxFilterAnisotropy gl.Float
+            MaxFilterAnisotropy <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a>
 
             <span class="comment">//	The maximum supported texture MIP-map LOD bias.</span>
             <span class="comment">//	(The minimum would be the negative equivalent of this value.)</span>
-            MaxMipLoadBias gl.Float
+            MaxMipLoadBias <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a>
 
             ImageUnits struct {
-                MaxCombined gl.Int
-                MaxCompute  gl.Int
-                MaxFragment gl.Int
-                MaxGeometry gl.Int
-                MaxVertex   gl.Int
+                MaxCombined <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>
+                MaxCompute  <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>
+                MaxFragment <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>
+                MaxGeometry <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>
+                MaxVertex   <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>
             }
 
             <span class="comment">//	Experimental.</span>
-            StreamUpdatesViaPixelBuffer bool
+            StreamUpdatesViaPixelBuffer <a href="/pkg/builtin/#bool">bool</a>
         }
     }
 )</pre>
 				
 			
 				<pre>var (
-    PtrNil = gl.Ptr(nil)
+    <span id="PtrNil">PtrNil</span> = <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Ptr">Ptr</a>(<a href="/pkg/builtin/#nil">nil</a>)
 )</pre>
 				
 			
@@ -1111,7 +1120,7 @@ Fully populates all fields and sub-fields in the Support package global.
 			
 			
 			<h2 id="LogLastError">func <a href="/target/ugl.go?s=675:736#L20">LogLastError</a></h2>
-			<pre>func LogLastError(stepFmt string, stepFmtArgs ...interface{})</pre>
+			<pre>func LogLastError(stepFmt <a href="/pkg/builtin/#string">string</a>, stepFmtArgs ...interface{})</pre>
 			<p>
 log.Println()s the error returned by Util.Error(), if any.
 </p>
@@ -1121,7 +1130,7 @@ log.Println()s the error returned by Util.Error(), if any.
 			
 			
 			<h2 id="VersionMajorMinor">func <a href="/target/version-support.go?s=6088:6140#L179">VersionMajorMinor</a></h2>
-			<pre>func VersionMajorMinor(v float64) (major, minor int)</pre>
+			<pre>func VersionMajorMinor(v <a href="/pkg/builtin/#float64">float64</a>) (major, minor <a href="/pkg/builtin/#int">int</a>)</pre>
 			<p>
 Returns the major and minor parts of the specified version number.
 </p>
@@ -1131,7 +1140,7 @@ Returns the major and minor parts of the specified version number.
 			
 			
 			<h2 id="VersionMatch">func <a href="/target/version-support.go?s=6371:6404#L187">VersionMatch</a></h2>
-			<pre>func VersionMatch(v float64) bool</pre>
+			<pre>func VersionMatch(v <a href="/pkg/builtin/#float64">float64</a>) <a href="/pkg/builtin/#bool">bool</a></pre>
 			<p>
 Returns true if GlVersion is greater than or equal to v.
 </p>
@@ -1145,11 +1154,11 @@ Returns true if GlVersion is greater than or equal to v.
 			<pre>type Buffer struct {
     <span class="comment">//	The OpenGL handle to this buffer object.</span>
     <span class="comment">//	This is 0 before calling Recreate() and after calling Dispose().</span>
-    GlHandle gl.Uint
+    GlHandle <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>
 
     <span class="comment">//	The current binding target for this buffer object</span>
     <span class="comment">//	(such as for example gl.ARRAY_BUFFER, gl.ELEMENT_ARRAY_BUFFER etc.).</span>
-    GlTarget gl.Enum
+    GlTarget <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>
 }</pre>
 			<p>
 Represents an OpenGL buffer object.
@@ -1165,7 +1174,7 @@ Represents an OpenGL buffer object.
 			
 				
 				<h3 id="NewArrayBuffer">func <a href="/target/gl-buffer.go?s=519:548#L9">NewArrayBuffer</a></h3>
-				<pre>func NewArrayBuffer() *Buffer</pre>
+				<pre>func NewArrayBuffer() *<a href="#Buffer">Buffer</a></pre>
 				<p>
 Initializes and returns --but does not Recreate()-- a new Buffer initialized with a GlTarget of gl.ARRAY_BUFFER.
 </p>
@@ -1174,7 +1183,7 @@ Initializes and returns --but does not Recreate()-- a new Buffer initialized wit
 			
 				
 				<h3 id="NewAtomicCounterBuffer">func <a href="/target/gl-buffer.go?s=756:798#L14">NewAtomicCounterBuffer</a></h3>
-				<pre>func NewAtomicCounterBuffer() (me *Buffer)</pre>
+				<pre>func NewAtomicCounterBuffer() (me *<a href="#Buffer">Buffer</a>)</pre>
 				<p>
 If Support.Buffers.AtomicCounter is true, initializes and returns --but does not Recreate()-- a new Buffer initialized with a GlTarget of gl.ATOMIC_COUNTER_BUFFER.
 </p>
@@ -1183,7 +1192,7 @@ If Support.Buffers.AtomicCounter is true, initializes and returns --but does not
 			
 				
 				<h3 id="NewBuffer">func <a href="/target/gl-buffer.go?s=1007:1052#L22">NewBuffer</a></h3>
-				<pre>func NewBuffer(glTarget gl.Enum) (me *Buffer)</pre>
+				<pre>func NewBuffer(glTarget <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>) (me *<a href="#Buffer">Buffer</a>)</pre>
 				<p>
 Initializes and returns --but does not Recreate()-- a new Buffer not yet initialized with any valid GlTarget.
 </p>
@@ -1192,7 +1201,7 @@ Initializes and returns --but does not Recreate()-- a new Buffer not yet initial
 			
 				
 				<h3 id="NewCopyReadBuffer">func <a href="/target/gl-buffer.go?s=1220:1252#L28">NewCopyReadBuffer</a></h3>
-				<pre>func NewCopyReadBuffer() *Buffer</pre>
+				<pre>func NewCopyReadBuffer() *<a href="#Buffer">Buffer</a></pre>
 				<p>
 Initializes and returns --but does not Recreate()-- a new Buffer initialized with a GlTarget of gl.COPY_READ_BUFFER.
 </p>
@@ -1201,7 +1210,7 @@ Initializes and returns --but does not Recreate()-- a new Buffer initialized wit
 			
 				
 				<h3 id="NewCopyWriteBuffer">func <a href="/target/gl-buffer.go?s=1418:1451#L33">NewCopyWriteBuffer</a></h3>
-				<pre>func NewCopyWriteBuffer() *Buffer</pre>
+				<pre>func NewCopyWriteBuffer() *<a href="#Buffer">Buffer</a></pre>
 				<p>
 Initializes and returns --but does not Recreate()-- a new Buffer initialized with a GlTarget of gl.COPY_WRITE_BUFFER.
 </p>
@@ -1210,7 +1219,7 @@ Initializes and returns --but does not Recreate()-- a new Buffer initialized wit
 			
 				
 				<h3 id="NewDispatchIndirectBuffer">func <a href="/target/gl-buffer.go?s=1670:1715#L38">NewDispatchIndirectBuffer</a></h3>
-				<pre>func NewDispatchIndirectBuffer() (me *Buffer)</pre>
+				<pre>func NewDispatchIndirectBuffer() (me *<a href="#Buffer">Buffer</a>)</pre>
 				<p>
 If Support.Buffers.DispatchIndirect is true, initializes and returns --but does not Recreate()-- a new Buffer initialized with a GlTarget of gl.DISPATCH_INDIRECT_BUFFER.
 </p>
@@ -1219,7 +1228,7 @@ If Support.Buffers.DispatchIndirect is true, initializes and returns --but does 
 			
 				
 				<h3 id="NewDrawIndirectBuffer">func <a href="/target/gl-buffer.go?s=1941:1977#L46">NewDrawIndirectBuffer</a></h3>
-				<pre>func NewDrawIndirectBuffer() *Buffer</pre>
+				<pre>func NewDrawIndirectBuffer() *<a href="#Buffer">Buffer</a></pre>
 				<p>
 Initializes and returns --but does not Recreate()-- a new Buffer initialized with a GlTarget of gl.DRAW_INDIRECT_BUFFER.
 </p>
@@ -1228,7 +1237,7 @@ Initializes and returns --but does not Recreate()-- a new Buffer initialized wit
 			
 				
 				<h3 id="NewElementArrayBuffer">func <a href="/target/gl-buffer.go?s=2150:2186#L51">NewElementArrayBuffer</a></h3>
-				<pre>func NewElementArrayBuffer() *Buffer</pre>
+				<pre>func NewElementArrayBuffer() *<a href="#Buffer">Buffer</a></pre>
 				<p>
 Initializes and returns --but does not Recreate()-- a new Buffer initialized with a GlTarget of gl.ELEMENT_ARRAY_BUFFER.
 </p>
@@ -1237,7 +1246,7 @@ Initializes and returns --but does not Recreate()-- a new Buffer initialized wit
 			
 				
 				<h3 id="NewPixelPackBuffer">func <a href="/target/gl-buffer.go?s=2356:2389#L56">NewPixelPackBuffer</a></h3>
-				<pre>func NewPixelPackBuffer() *Buffer</pre>
+				<pre>func NewPixelPackBuffer() *<a href="#Buffer">Buffer</a></pre>
 				<p>
 Initializes and returns --but does not Recreate()-- a new Buffer initialized with a GlTarget of gl.PIXEL_PACK_BUFFER.
 </p>
@@ -1246,7 +1255,7 @@ Initializes and returns --but does not Recreate()-- a new Buffer initialized wit
 			
 				
 				<h3 id="NewPixelUnpackBuffer">func <a href="/target/gl-buffer.go?s=2558:2593#L61">NewPixelUnpackBuffer</a></h3>
-				<pre>func NewPixelUnpackBuffer() *Buffer</pre>
+				<pre>func NewPixelUnpackBuffer() *<a href="#Buffer">Buffer</a></pre>
 				<p>
 Initializes and returns --but does not Recreate()-- a new Buffer initialized with a GlTarget of gl.PIXEL_UNPACK_BUFFER.
 </p>
@@ -1255,7 +1264,7 @@ Initializes and returns --but does not Recreate()-- a new Buffer initialized wit
 			
 				
 				<h3 id="NewShaderStorageBuffer">func <a href="/target/gl-buffer.go?s=2808:2850#L66">NewShaderStorageBuffer</a></h3>
-				<pre>func NewShaderStorageBuffer() (me *Buffer)</pre>
+				<pre>func NewShaderStorageBuffer() (me *<a href="#Buffer">Buffer</a>)</pre>
 				<p>
 If Support.Buffers.ShaderStorage is true, initializes and returns --but does not Recreate()-- a new Buffer initialized with a GlTarget of gl.SHADER_STORAGE_BUFFER.
 </p>
@@ -1264,7 +1273,7 @@ If Support.Buffers.ShaderStorage is true, initializes and returns --but does not
 			
 				
 				<h3 id="NewTextureBuffer">func <a href="/target/gl-buffer.go?s=3064:3095#L74">NewTextureBuffer</a></h3>
-				<pre>func NewTextureBuffer() *Buffer</pre>
+				<pre>func NewTextureBuffer() *<a href="#Buffer">Buffer</a></pre>
 				<p>
 Initializes and returns --but does not Recreate()-- a new Buffer initialized with a GlTarget of gl.TEXTURE_BUFFER.
 </p>
@@ -1273,7 +1282,7 @@ Initializes and returns --but does not Recreate()-- a new Buffer initialized wit
 			
 				
 				<h3 id="NewTransformFeedbackBuffer">func <a href="/target/gl-buffer.go?s=3267:3308#L79">NewTransformFeedbackBuffer</a></h3>
-				<pre>func NewTransformFeedbackBuffer() *Buffer</pre>
+				<pre>func NewTransformFeedbackBuffer() *<a href="#Buffer">Buffer</a></pre>
 				<p>
 Initializes and returns --but does not Recreate()-- a new Buffer initialized with a GlTarget of gl.TRANSFORM_FEEDBACK_BUFFER.
 </p>
@@ -1282,7 +1291,7 @@ Initializes and returns --but does not Recreate()-- a new Buffer initialized wit
 			
 				
 				<h3 id="NewUniformBuffer">func <a href="/target/gl-buffer.go?s=3480:3511#L84">NewUniformBuffer</a></h3>
-				<pre>func NewUniformBuffer() *Buffer</pre>
+				<pre>func NewUniformBuffer() *<a href="#Buffer">Buffer</a></pre>
 				<p>
 Initializes and returns --but does not Recreate()-- a new Buffer initialized with a GlTarget of gl.UNIFORM_BUFFER.
 </p>
@@ -1293,7 +1302,7 @@ Initializes and returns --but does not Recreate()-- a new Buffer initialized wit
 			
 				
 				<h3 id="Buffer.Bind">func (*Buffer) <a href="/target/gl-buffer.go?s=3607:3631#L89">Bind</a></h3>
-				<pre>func (me *Buffer) Bind()</pre>
+				<pre>func (me *<a href="#Buffer">Buffer</a>) Bind()</pre>
 				<p>
 Binds this buffer object to its current GlTarget.
 </p>
@@ -1303,7 +1312,7 @@ Binds this buffer object to its current GlTarget.
 			
 				
 				<h3 id="Buffer.BindBase">func (*Buffer) <a href="/target/gl-buffer.go?s=3818:3859#L95">BindBase</a></h3>
-				<pre>func (me *Buffer) BindBase(index gl.Uint)</pre>
+				<pre>func (me *<a href="#Buffer">Buffer</a>) BindBase(index <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>)</pre>
 				<p>
 Convenience short-hand for gl.BindBufferBase().
 Only permissible if me.GlTarget is gl.TRANSFORM_FEEDBACK_BUFFER or gl.UNIFORM_BUFFER.
@@ -1314,7 +1323,7 @@ Only permissible if me.GlTarget is gl.TRANSFORM_FEEDBACK_BUFFER or gl.UNIFORM_BU
 			
 				
 				<h3 id="Buffer.BindRange">func (*Buffer) <a href="/target/gl-buffer.go?s=4058:4136#L101">BindRange</a></h3>
-				<pre>func (me *Buffer) BindRange(index gl.Uint, offset gl.Intptr, size gl.Sizeiptr)</pre>
+				<pre>func (me *<a href="#Buffer">Buffer</a>) BindRange(index <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>, offset <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Intptr">Intptr</a>, size <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizeiptr">Sizeiptr</a>)</pre>
 				<p>
 Convenience short-hand for gl.BindBufferRange().
 Only permissible if me.GlTarget is gl.TRANSFORM_FEEDBACK_BUFFER or gl.UNIFORM_BUFFER.
@@ -1325,7 +1334,7 @@ Only permissible if me.GlTarget is gl.TRANSFORM_FEEDBACK_BUFFER or gl.UNIFORM_BU
 			
 				
 				<h3 id="Buffer.Dispose">func (*Buffer) <a href="/target/gl-buffer.go?s=4240:4267#L106">Dispose</a></h3>
-				<pre>func (me *Buffer) Dispose()</pre>
+				<pre>func (me *<a href="#Buffer">Buffer</a>) Dispose()</pre>
 				<p>
 Deletes this buffer object.
 </p>
@@ -1335,7 +1344,7 @@ Deletes this buffer object.
 			
 				
 				<h3 id="Buffer.Map">func (*Buffer) <a href="/target/gl-buffer.go?s=4474:4521#L114">Map</a></h3>
-				<pre>func (me *Buffer) Map(read, write bool) *gl.Ptr</pre>
+				<pre>func (me *<a href="#Buffer">Buffer</a>) Map(read, write <a href="/pkg/builtin/#bool">bool</a>) *<a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Ptr">Ptr</a></pre>
 				<p>
 Maps to the client&#39;s address space the entire data store of whatever buffer object is currently bound to me.GlTarget.
 </p>
@@ -1345,7 +1354,7 @@ Maps to the client&#39;s address space the entire data store of whatever buffer 
 			
 				
 				<h3 id="Buffer.Recreate">func (*Buffer) <a href="/target/gl-buffer.go?s=4850:4973#L120">Recreate</a></h3>
-				<pre>func (me *Buffer) Recreate(newGlTarget gl.Enum, sizeInBytes gl.Sizeiptr, initialData gl.Ptr, usageHint gl.Enum) (err error)</pre>
+				<pre>func (me *<a href="#Buffer">Buffer</a>) Recreate(newGlTarget <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>, sizeInBytes <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizeiptr">Sizeiptr</a>, initialData <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Ptr">Ptr</a>, usageHint <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Deletes this buffer object if applicable, generates it anew, and allocates its data store as specified,
 populating it with the specified initialData if any. GlTarget is changed to newGlTarget unless 0 is specified.
@@ -1356,7 +1365,7 @@ populating it with the specified initialData if any. GlTarget is changed to newG
 			
 				
 				<h3 id="Buffer.SubData">func (*Buffer) <a href="/target/gl-buffer.go?s=5659:5745#L150">SubData</a></h3>
-				<pre>func (me *Buffer) SubData(offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr) (err error)</pre>
+				<pre>func (me *<a href="#Buffer">Buffer</a>) SubData(offset <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Intptr">Intptr</a>, size <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizeiptr">Sizeiptr</a>, data <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Ptr">Ptr</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Buffers the specified data into this buffer object&#39;s data store at the specified offset.
 </p>
@@ -1366,7 +1375,7 @@ Buffers the specified data into this buffer object&#39;s data store at the speci
 			
 				
 				<h3 id="Buffer.Unbind">func (*Buffer) <a href="/target/gl-buffer.go?s=5368:5394#L140">Unbind</a></h3>
-				<pre>func (me *Buffer) Unbind()</pre>
+				<pre>func (me *<a href="#Buffer">Buffer</a>) Unbind()</pre>
 				<p>
 Unbinds whatever buffer object is currently bound to me.GlTarget.
 </p>
@@ -1376,7 +1385,7 @@ Unbinds whatever buffer object is currently bound to me.GlTarget.
 			
 				
 				<h3 id="Buffer.Unmap">func (*Buffer) <a href="/target/gl-buffer.go?s=5489:5525#L145">Unmap</a></h3>
-				<pre>func (me *Buffer) Unmap() gl.Boolean</pre>
+				<pre>func (me *<a href="#Buffer">Buffer</a>) Unmap() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Boolean">Boolean</a></pre>
 				<p>
 Convenience short-hand for gl.UnmapBuffer(me.GlTarget)
 </p>
@@ -1390,11 +1399,11 @@ Convenience short-hand for gl.UnmapBuffer(me.GlTarget)
 			<h2 id="Framebuffer">type <a href="/target/gl-framebuffer.go?s=108:474#L1">Framebuffer</a></h2>
 			<pre>type Framebuffer struct {
     <span class="comment">//	Set in Create(), this is either gl.READ_FRAMEBUFFER or gl.FRAMEBUFFER</span>
-    GlTarget gl.Enum
+    GlTarget <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>
 
     <span class="comment">//	The OpenGL handle to this framebuffer object.</span>
     <span class="comment">//	This is 0 before calling Create() and after calling Dispose().</span>
-    GlHandle gl.Uint
+    GlHandle <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>
     <span class="comment">// contains filtered or unexported fields</span>
 }</pre>
 			<p>
@@ -1413,7 +1422,7 @@ Encapsulates an OpenGL framebuffer object.
 			
 				
 				<h3 id="Framebuffer.AttachRenderbuffer">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=536:609#L13">AttachRenderbuffer</a></h3>
-				<pre>func (me *Framebuffer) AttachRenderbuffer() (rb *FramebufferRenderbuffer)</pre>
+				<pre>func (me *<a href="#Framebuffer">Framebuffer</a>) AttachRenderbuffer() (rb *<a href="#FramebufferRenderbuffer">FramebufferRenderbuffer</a>)</pre>
 				<p>
 Attaches the specified renderbuffer to this Framebuffer.
 </p>
@@ -1423,7 +1432,7 @@ Attaches the specified renderbuffer to this Framebuffer.
 			
 				
 				<h3 id="Framebuffer.AttachRendertexture">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=844:920#L22">AttachRendertexture</a></h3>
-				<pre>func (me *Framebuffer) AttachRendertexture() (tex *FramebufferRendertexture)</pre>
+				<pre>func (me *<a href="#Framebuffer">Framebuffer</a>) AttachRendertexture() (tex *<a href="#FramebufferRendertexture">FramebufferRendertexture</a>)</pre>
 				<p>
 Attaches the specified render texture to this Framebuffer.
 </p>
@@ -1433,7 +1442,7 @@ Attaches the specified render texture to this Framebuffer.
 			
 				
 				<h3 id="Framebuffer.Bind">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1130:1159#L31">Bind</a></h3>
-				<pre>func (me *Framebuffer) Bind()</pre>
+				<pre>func (me *<a href="#Framebuffer">Framebuffer</a>) Bind()</pre>
 				<p>
 Binds this framebuffer object.
 </p>
@@ -1443,7 +1452,7 @@ Binds this framebuffer object.
 			
 				
 				<h3 id="Framebuffer.Create">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1269:1333#L36">Create</a></h3>
-				<pre>func (me *Framebuffer) Create(width, height gl.Sizei, read bool)</pre>
+				<pre>func (me *<a href="#Framebuffer">Framebuffer</a>) Create(width, height <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>, read <a href="/pkg/builtin/#bool">bool</a>)</pre>
 				<p>
 Creates this Framebuffer in OpenGL sized as specified.
 </p>
@@ -1453,7 +1462,7 @@ Creates this Framebuffer in OpenGL sized as specified.
 			
 				
 				<h3 id="Framebuffer.Dispose">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=1697:1729#L45">Dispose</a></h3>
-				<pre>func (me *Framebuffer) Dispose()</pre>
+				<pre>func (me *<a href="#Framebuffer">Framebuffer</a>) Dispose()</pre>
 				<p>
 Deletes this Framebuffer and all attached render textures and render buffers from OpenGL.
 </p>
@@ -1463,7 +1472,7 @@ Deletes this Framebuffer and all attached render textures and render buffers fro
 			
 				
 				<h3 id="Framebuffer.RenderTextureHandle">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=2907:2968#L89">RenderTextureHandle</a></h3>
-				<pre>func (me *Framebuffer) RenderTextureHandle(index int) gl.Uint</pre>
+				<pre>func (me *<a href="#Framebuffer">Framebuffer</a>) RenderTextureHandle(index <a href="/pkg/builtin/#int">int</a>) <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a></pre>
 				<p>
 Returns the FramebufferRendertexture attached to me at the specified index.
 </p>
@@ -1473,7 +1482,7 @@ Returns the FramebufferRendertexture attached to me at the specified index.
 			
 				
 				<h3 id="Framebuffer.Resize">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3097:3165#L94">Resize</a></h3>
-				<pre>func (me *Framebuffer) Resize(width, height gl.Sizei) (resized bool)</pre>
+				<pre>func (me *<a href="#Framebuffer">Framebuffer</a>) Resize(width, height <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>) (resized <a href="/pkg/builtin/#bool">bool</a>)</pre>
 				<p>
 Resizes this Framebuffer and all attached render textures and render buffers.
 </p>
@@ -1483,7 +1492,7 @@ Resizes this Framebuffer and all attached render textures and render buffers.
 			
 				
 				<h3 id="Framebuffer.Status">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3579:3618#L109">Status</a></h3>
-				<pre>func (me *Framebuffer) Status() gl.Enum</pre>
+				<pre>func (me *<a href="#Framebuffer">Framebuffer</a>) Status() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a></pre>
 				<p>
 The current status of this Framebuffer as returned by gl.CheckFramebufferStatus().
 </p>
@@ -1493,7 +1502,7 @@ The current status of this Framebuffer as returned by gl.CheckFramebufferStatus(
 			
 				
 				<h3 id="Framebuffer.Unbind">func (*Framebuffer) <a href="/target/gl-framebuffer.go?s=3805:3836#L115">Unbind</a></h3>
-				<pre>func (me *Framebuffer) Unbind()</pre>
+				<pre>func (me *<a href="#Framebuffer">Framebuffer</a>) Unbind()</pre>
 				<p>
 Unbinds whatever Framebuffer is currently bound, and binds the
 &#34;default&#34; framebuffer (typically, the window&#39;s drawing surface).
@@ -1509,16 +1518,16 @@ Unbinds whatever Framebuffer is currently bound, and binds the
 			<pre>type FramebufferRenderbuffer struct {
     <span class="comment">//	The attachment point of this render buffer.</span>
     <span class="comment">//	Defaults to gl.DEPTH_STENCIL_ATTACHMENT.</span>
-    Attachment gl.Enum
+    Attachment <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>
 
     <span class="comment">//	Defaults to gl.RENDERBUFFER.</span>
-    GlTarget gl.Enum
+    GlTarget <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>
 
     <span class="comment">//	The OpenGL handle to this render buffer object.</span>
-    GlHandle gl.Uint
+    GlHandle <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>
 
     <span class="comment">//	Defaults to gl.DEPTH24_STENCIL8.</span>
-    InternalFormat gl.Enum
+    InternalFormat <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>
 }</pre>
 			<p>
 Represents a Renderbuffer that can be attached to a Framebuffer.
@@ -1536,7 +1545,7 @@ Represents a Renderbuffer that can be attached to a Framebuffer.
 			
 				
 				<h3 id="FramebufferRenderbuffer.Bind">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4485:4526#L142">Bind</a></h3>
-				<pre>func (me *FramebufferRenderbuffer) Bind()</pre>
+				<pre>func (me *<a href="#FramebufferRenderbuffer">FramebufferRenderbuffer</a>) Bind()</pre>
 				<p>
 Binds this render buffer object.
 </p>
@@ -1546,14 +1555,14 @@ Binds this render buffer object.
 			
 				
 				<h3 id="FramebufferRenderbuffer.Init">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4285:4326#L135">Init</a></h3>
-				<pre>func (me *FramebufferRenderbuffer) Init()</pre>
+				<pre>func (me *<a href="#FramebufferRenderbuffer">FramebufferRenderbuffer</a>) Init()</pre>
 				
 				
 				
 			
 				
 				<h3 id="FramebufferRenderbuffer.Unbind">func (*FramebufferRenderbuffer) <a href="/target/gl-framebuffer.go?s=4784:4827#L154">Unbind</a></h3>
-				<pre>func (me *FramebufferRenderbuffer) Unbind()</pre>
+				<pre>func (me *<a href="#FramebufferRenderbuffer">FramebufferRenderbuffer</a>) Unbind()</pre>
 				<p>
 Unbinds whatever render buffer object is currently bound, if any.
 </p>
@@ -1567,11 +1576,11 @@ Unbinds whatever render buffer object is currently bound, if any.
 			<h2 id="FramebufferRendertexture">type <a href="/target/gl-framebuffer.go?s=4950:5159#L159">FramebufferRendertexture</a></h2>
 			<pre>type FramebufferRendertexture struct {
     <span class="comment">//	The texture object being rendered to.</span>
-    Texture2D
+    <a href="#Texture2D">Texture2D</a>
 
     <span class="comment">//	The attachment point for this render texture object.</span>
     <span class="comment">//	Defaults to gl.COLOR_ATTACHMENT0.</span>
-    Attachment gl.Enum
+    Attachment <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>
 }</pre>
 			<p>
 Represents a render-to-texture object that can be attached to a Framebuffer.
@@ -1589,7 +1598,7 @@ Represents a render-to-texture object that can be attached to a Framebuffer.
 			
 				
 				<h3 id="FramebufferRendertexture.Init">func (*FramebufferRendertexture) <a href="/target/gl-framebuffer.go?s=5161:5203#L168">Init</a></h3>
-				<pre>func (me *FramebufferRendertexture) Init()</pre>
+				<pre>func (me *<a href="#FramebufferRendertexture">FramebufferRendertexture</a>) Init()</pre>
 				
 				
 				
@@ -1614,35 +1623,35 @@ Represents a render-to-texture object that can be attached to a Framebuffer.
 			
 				
 				<h3 id="GlCache.ActiveTexture">func (*GlCache) <a href="/target/gl-cache.go?s=922:970#L19">ActiveTexture</a></h3>
-				<pre>func (_ *GlCache) ActiveTexture(texture gl.Enum)</pre>
+				<pre>func (_ *<a href="#GlCache">GlCache</a>) ActiveTexture(texture <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>)</pre>
 				
 				
 				
 			
 				
 				<h3 id="GlCache.BindSampler">func (*GlCache) <a href="/target/gl-cache.go?s=1076:1136#L26">BindSampler</a></h3>
-				<pre>func (_ *GlCache) BindSampler(textureUnit, glHandle gl.Uint)</pre>
+				<pre>func (_ *<a href="#GlCache">GlCache</a>) BindSampler(textureUnit, glHandle <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>)</pre>
 				
 				
 				
 			
 				
 				<h3 id="GlCache.BindTextureTo">func (*GlCache) <a href="/target/gl-cache.go?s=1278:1358#L33">BindTextureTo</a></h3>
-				<pre>func (_ *GlCache) BindTextureTo(textureUnit, glHandle gl.Uint, glTarget gl.Enum)</pre>
+				<pre>func (_ *<a href="#GlCache">GlCache</a>) BindTextureTo(textureUnit, glHandle <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>, glTarget <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>)</pre>
 				
 				
 				
 			
 				
 				<h3 id="GlCache.BindVertexArray">func (*GlCache) <a href="/target/gl-cache.go?s=1555:1606#L41">BindVertexArray</a></h3>
-				<pre>func (_ *GlCache) BindVertexArray(glHandle gl.Uint)</pre>
+				<pre>func (_ *<a href="#GlCache">GlCache</a>) BindVertexArray(glHandle <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>)</pre>
 				
 				
 				
 			
 				
 				<h3 id="GlCache.UseProgram">func (*GlCache) <a href="/target/gl-cache.go?s=1721:1767#L48">UseProgram</a></h3>
-				<pre>func (_ *GlCache) UseProgram(glHandle gl.Uint)</pre>
+				<pre>func (_ *<a href="#GlCache">GlCache</a>) UseProgram(glHandle <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>)</pre>
 				
 				
 				
@@ -1651,7 +1660,7 @@ Represents a render-to-texture object that can be attached to a Framebuffer.
 			
 			
 			<h2 id="GlMat3">type <a href="/target/type-utils.go?s=835:858#L32">GlMat3</a></h2>
-			<pre>type GlMat3 [9]gl.Float</pre>
+			<pre>type GlMat3 [9]<a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a></pre>
 			<p>
 Represents a 3x3 matrix of 9 32-bit gl.Float values
 </p>
@@ -1666,7 +1675,7 @@ Represents a 3x3 matrix of 9 32-bit gl.Float values
 			
 				
 				<h3 id="NewGlMat3">func <a href="/target/type-utils.go?s=954:1000#L35">NewGlMat3</a></h3>
-				<pre>func NewGlMat3(mat *unum.Mat3) (glMat *GlMat3)</pre>
+				<pre>func NewGlMat3(mat *<a href="/pkg/github.com/metaleap/go-util/num/">unum</a>.<a href="/pkg/github.com/metaleap/go-util/num/#Mat3">Mat3</a>) (glMat *<a href="#GlMat3">GlMat3</a>)</pre>
 				<p>
 Instantiates and returns a new 3x3 matrix (32-bit) from the specified 3x3 matrix (64-bit).
 </p>
@@ -1677,7 +1686,7 @@ Instantiates and returns a new 3x3 matrix (32-bit) from the specified 3x3 matrix
 			
 				
 				<h3 id="GlMat3.Load">func (*GlMat3) <a href="/target/type-utils.go?s=1160:1198#L43">Load</a></h3>
-				<pre>func (me *GlMat3) Load(mat *unum.Mat3)</pre>
+				<pre>func (me *<a href="#GlMat3">GlMat3</a>) Load(mat *<a href="/pkg/github.com/metaleap/go-util/num/">unum</a>.<a href="/pkg/github.com/metaleap/go-util/num/#Mat3">Mat3</a>)</pre>
 				<p>
 Sets all values in this 3x3 matrix (32-bit) from the specified 3x3 matrix (64-bit).
 </p>
@@ -1689,7 +1698,7 @@ Sets all values in this 3x3 matrix (32-bit) from the specified 3x3 matrix (64-bi
 			
 			
 			<h2 id="GlMat4">type <a href="/target/type-utils.go?s=1488:1512#L50">GlMat4</a></h2>
-			<pre>type GlMat4 [16]gl.Float</pre>
+			<pre>type GlMat4 [16]<a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a></pre>
 			<p>
 Represents a 3x3 matrix of 16 32-bit gl.Float values
 </p>
@@ -1704,7 +1713,7 @@ Represents a 3x3 matrix of 16 32-bit gl.Float values
 			
 				
 				<h3 id="NewGlMat4">func <a href="/target/type-utils.go?s=1608:1654#L53">NewGlMat4</a></h3>
-				<pre>func NewGlMat4(mat *unum.Mat4) (glMat *GlMat4)</pre>
+				<pre>func NewGlMat4(mat *<a href="/pkg/github.com/metaleap/go-util/num/">unum</a>.<a href="/pkg/github.com/metaleap/go-util/num/#Mat4">Mat4</a>) (glMat *<a href="#GlMat4">GlMat4</a>)</pre>
 				<p>
 Instantiates and returns a new 4x4 matrix (32-bit) from the specified 4x4 matrix (64-bit).
 </p>
@@ -1715,7 +1724,7 @@ Instantiates and returns a new 4x4 matrix (32-bit) from the specified 4x4 matrix
 			
 				
 				<h3 id="GlMat4.Load">func (*GlMat4) <a href="/target/type-utils.go?s=1814:1852#L61">Load</a></h3>
-				<pre>func (me *GlMat4) Load(mat *unum.Mat4)</pre>
+				<pre>func (me *<a href="#GlMat4">GlMat4</a>) Load(mat *<a href="/pkg/github.com/metaleap/go-util/num/">unum</a>.<a href="/pkg/github.com/metaleap/go-util/num/#Mat4">Mat4</a>)</pre>
 				<p>
 Sets all values in this 4x4 matrix (32-bit) from the specified 4x4 matrix (64-bit).
 </p>
@@ -1746,7 +1755,7 @@ A singleton type, only used for the package-global ugl.Try variable.
 			
 				
 				<h3 id="GlTry.AttachShader">func (GlTry) <a href="/target/-gen-try.go?s=320:392#L3">AttachShader</a></h3>
-				<pre>func (_ GlTry) AttachShader(program gl.Uint, shader gl.Uint) (err error)</pre>
+				<pre>func (_ <a href="#GlTry">GlTry</a>) AttachShader(program <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>, shader <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Calls gl.AttachShader() and yields the err returned by Util.LastError(), if any.
 </p>
@@ -1756,7 +1765,7 @@ Calls gl.AttachShader() and yields the err returned by Util.LastError(), if any.
 			
 				
 				<h3 id="GlTry.BufferData">func (GlTry) <a href="/target/-gen-try.go?s=565:664#L10">BufferData</a></h3>
-				<pre>func (_ GlTry) BufferData(target gl.Enum, size gl.Sizeiptr, data gl.Ptr, usage gl.Enum) (err error)</pre>
+				<pre>func (_ <a href="#GlTry">GlTry</a>) BufferData(target <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>, size <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizeiptr">Sizeiptr</a>, data <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Ptr">Ptr</a>, usage <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Calls gl.BufferData() and yields the err returned by Util.LastError(), if any.
 </p>
@@ -1766,7 +1775,7 @@ Calls gl.BufferData() and yields the err returned by Util.LastError(), if any.
 			
 				
 				<h3 id="GlTry.BufferSubData">func (GlTry) <a href="/target/-gen-try.go?s=846:951#L17">BufferSubData</a></h3>
-				<pre>func (_ GlTry) BufferSubData(target gl.Enum, offset gl.Intptr, size gl.Sizeiptr, data gl.Ptr) (err error)</pre>
+				<pre>func (_ <a href="#GlTry">GlTry</a>) BufferSubData(target <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>, offset <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Intptr">Intptr</a>, size <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizeiptr">Sizeiptr</a>, data <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Ptr">Ptr</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Calls gl.BufferSubData() and yields the err returned by Util.LastError(), if any.
 </p>
@@ -1776,7 +1785,7 @@ Calls gl.BufferSubData() and yields the err returned by Util.LastError(), if any
 			
 				
 				<h3 id="GlTry.CreateProgram">func (GlTry) <a href="/target/-gen-try.go?s=1140:1203#L24">CreateProgram</a></h3>
-				<pre>func (_ GlTry) CreateProgram() (err error, tryRetVal__ gl.Uint)</pre>
+				<pre>func (_ <a href="#GlTry">GlTry</a>) CreateProgram() (err <a href="/pkg/builtin/#error">error</a>, tryRetVal__ <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>)</pre>
 				<p>
 Calls gl.CreateProgram() and yields the err returned by Util.LastError(), if any.
 </p>
@@ -1786,7 +1795,7 @@ Calls gl.CreateProgram() and yields the err returned by Util.LastError(), if any
 			
 				
 				<h3 id="GlTry.CreateShader">func (GlTry) <a href="/target/-gen-try.go?s=1379:1454#L31">CreateShader</a></h3>
-				<pre>func (_ GlTry) CreateShader(type_ gl.Enum) (err error, tryRetVal__ gl.Uint)</pre>
+				<pre>func (_ <a href="#GlTry">GlTry</a>) CreateShader(type_ <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>) (err <a href="/pkg/builtin/#error">error</a>, tryRetVal__ <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>)</pre>
 				<p>
 Calls gl.CreateShader() and yields the err returned by Util.LastError(), if any.
 </p>
@@ -1796,7 +1805,7 @@ Calls gl.CreateShader() and yields the err returned by Util.LastError(), if any.
 			
 				
 				<h3 id="GlTry.GenBuffers">func (GlTry) <a href="/target/-gen-try.go?s=1631:1698#L38">GenBuffers</a></h3>
-				<pre>func (_ GlTry) GenBuffers(n gl.Sizei, buffers *gl.Uint) (err error)</pre>
+				<pre>func (_ <a href="#GlTry">GlTry</a>) GenBuffers(n <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>, buffers *<a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Calls gl.GenBuffers() and yields the err returned by Util.LastError(), if any.
 </p>
@@ -1806,7 +1815,7 @@ Calls gl.GenBuffers() and yields the err returned by Util.LastError(), if any.
 			
 				
 				<h3 id="GlTry.GenTextures">func (GlTry) <a href="/target/-gen-try.go?s=2092:2161#L52">GenTextures</a></h3>
-				<pre>func (_ GlTry) GenTextures(n gl.Sizei, textures *gl.Uint) (err error)</pre>
+				<pre>func (_ <a href="#GlTry">GlTry</a>) GenTextures(n <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>, textures *<a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Calls gl.GenTextures() and yields the err returned by Util.LastError(), if any.
 </p>
@@ -1816,7 +1825,7 @@ Calls gl.GenTextures() and yields the err returned by Util.LastError(), if any.
 			
 				
 				<h3 id="GlTry.GenVertexArrays">func (GlTry) <a href="/target/-gen-try.go?s=2333:2404#L59">GenVertexArrays</a></h3>
-				<pre>func (_ GlTry) GenVertexArrays(n gl.Sizei, arrays *gl.Uint) (err error)</pre>
+				<pre>func (_ <a href="#GlTry">GlTry</a>) GenVertexArrays(n <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>, arrays *<a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Calls gl.GenVertexArrays() and yields the err returned by Util.LastError(), if any.
 </p>
@@ -1826,7 +1835,7 @@ Calls gl.GenVertexArrays() and yields the err returned by Util.LastError(), if a
 			
 				
 				<h3 id="GlTry.GenerateMipmap">func (GlTry) <a href="/target/-gen-try.go?s=1866:1923#L45">GenerateMipmap</a></h3>
-				<pre>func (_ GlTry) GenerateMipmap(target gl.Enum) (err error)</pre>
+				<pre>func (_ <a href="#GlTry">GlTry</a>) GenerateMipmap(target <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Calls gl.GenerateMipmap() and yields the err returned by Util.LastError(), if any.
 </p>
@@ -1836,7 +1845,7 @@ Calls gl.GenerateMipmap() and yields the err returned by Util.LastError(), if an
 			
 				
 				<h3 id="GlTry.ShaderSource">func (GlTry) <a href="/target/-gen-try.go?s=2579:2685#L66">ShaderSource</a></h3>
-				<pre>func (_ GlTry) ShaderSource(shader gl.Uint, count gl.Sizei, string_ **gl.Char, length *gl.Int) (err error)</pre>
+				<pre>func (_ <a href="#GlTry">GlTry</a>) ShaderSource(shader <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>, count <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>, string_ **<a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Char">Char</a>, length *<a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Calls gl.ShaderSource() and yields the err returned by Util.LastError(), if any.
 </p>
@@ -1846,7 +1855,7 @@ Calls gl.ShaderSource() and yields the err returned by Util.LastError(), if any.
 			
 				
 				<h3 id="GlTry.TexImage2D">func (GlTry) <a href="/target/-gen-try.go?s=2873:3057#L73">TexImage2D</a></h3>
-				<pre>func (_ GlTry) TexImage2D(target gl.Enum, level gl.Int, internalformat gl.Int, width gl.Sizei, height gl.Sizei, border gl.Int, format gl.Enum, type_ gl.Enum, pixels gl.Ptr) (err error)</pre>
+				<pre>func (_ <a href="#GlTry">GlTry</a>) TexImage2D(target <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>, level <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>, internalformat <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>, width <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>, height <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>, border <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>, format <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>, type_ <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>, pixels <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Ptr">Ptr</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Calls gl.TexImage2D() and yields the err returned by Util.LastError(), if any.
 </p>
@@ -1856,7 +1865,7 @@ Calls gl.TexImage2D() and yields the err returned by Util.LastError(), if any.
 			
 				
 				<h3 id="GlTry.TexStorage2D">func (GlTry) <a href="/target/-gen-try.go?s=3288:3417#L80">TexStorage2D</a></h3>
-				<pre>func (_ GlTry) TexStorage2D(target gl.Enum, levels gl.Sizei, internalformat gl.Enum, width gl.Sizei, height gl.Sizei) (err error)</pre>
+				<pre>func (_ <a href="#GlTry">GlTry</a>) TexStorage2D(target <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>, levels <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>, internalformat <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>, width <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>, height <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Calls gl.TexStorage2D() and yields the err returned by Util.LastError(), if any.
 </p>
@@ -1866,7 +1875,7 @@ Calls gl.TexStorage2D() and yields the err returned by Util.LastError(), if any.
 			
 				
 				<h3 id="GlTry.TexSubImage2D">func (GlTry) <a href="/target/-gen-try.go?s=3623:3804#L87">TexSubImage2D</a></h3>
-				<pre>func (_ GlTry) TexSubImage2D(target gl.Enum, level gl.Int, xoffset gl.Int, yoffset gl.Int, width gl.Sizei, height gl.Sizei, format gl.Enum, type_ gl.Enum, pixels gl.Ptr) (err error)</pre>
+				<pre>func (_ <a href="#GlTry">GlTry</a>) TexSubImage2D(target <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>, level <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>, xoffset <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>, yoffset <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>, width <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>, height <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>, format <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>, type_ <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>, pixels <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Ptr">Ptr</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Calls gl.TexSubImage2D() and yields the err returned by Util.LastError(), if any.
 </p>
@@ -1896,7 +1905,7 @@ A singleton type, only used for the package-global ugl.Util variable.
 			
 				
 				<h3 id="GlUtil.ConnInfo">func (GlUtil) <a href="/target/gl-util.go?s=424:457#L4">ConnInfo</a></h3>
-				<pre>func (_ GlUtil) ConnInfo() string</pre>
+				<pre>func (_ <a href="#GlUtil">GlUtil</a>) ConnInfo() <a href="/pkg/builtin/#string">string</a></pre>
 				<p>
 Returns an OpenGL connection-info string of the format &#34;OpenGL {version} @ {vendor} {renderer} (GLSL: {version})&#34;
 Example: &#34;OpenGL 4.2.0 @ NVIDIA Corporation Quadro 5010M/PCIe/SSE2 (GLSL: 4.20 NVIDIA via Cg compiler)&#34;
@@ -1907,7 +1916,7 @@ Example: &#34;OpenGL 4.2.0 @ NVIDIA Corporation Quadro 5010M/PCIe/SSE2 (GLSL: 4.
 			
 				
 				<h3 id="GlUtil.EnumName">func (GlUtil) <a href="/target/gl-util.go?s=757:809#L10">EnumName</a></h3>
-				<pre>func (_ GlUtil) EnumName(enum gl.Enum) (name string)</pre>
+				<pre>func (_ <a href="#GlUtil">GlUtil</a>) EnumName(enum <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>) (name <a href="/pkg/builtin/#string">string</a>)</pre>
 				<p>
 Returns the name of the specified enum. Out of the over 1290 possible enum values, currently only supports
 error codes and shader stages.
@@ -1918,7 +1927,7 @@ error codes and shader stages.
 			
 				
 				<h3 id="GlUtil.Extension">func (GlUtil) <a href="/target/gl-util.go?s=2010:2053#L46">Extension</a></h3>
-				<pre>func (_ GlUtil) Extension(name string) bool</pre>
+				<pre>func (_ <a href="#GlUtil">GlUtil</a>) Extension(name <a href="/pkg/builtin/#string">string</a>) <a href="/pkg/builtin/#bool">bool</a></pre>
 				<p>
 Returns true if the specified extension (ignoring upper/lower-case) is supported by the current OpenGL context, as per the global Support.Extensions variable.
 If the extension uses a well-known prefix contained in KnownExtensionPrefixes, it can be omitted, ie. you can just specify &#34;texture_filter_anisotropic&#34; instead of &#34;GL_EXT_texture_filter_anisotropic&#34;.
@@ -1929,7 +1938,7 @@ If the extension uses a well-known prefix contained in KnownExtensionPrefixes, i
 			
 				
 				<h3 id="GlUtil.LastError">func (GlUtil) <a href="/target/gl-util.go?s=2386:2462#L60">LastError</a></h3>
-				<pre>func (_ GlUtil) LastError(msgFmt string, fmtArgs ...interface{}) (err error)</pre>
+				<pre>func (_ <a href="#GlUtil">GlUtil</a>) LastError(msgFmt <a href="/pkg/builtin/#string">string</a>, fmtArgs ...interface{}) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 If the GL error flag is currently set, returns an error with the specified
 message and the GL error flag(s).
@@ -1940,7 +1949,7 @@ message and the GL error flag(s).
 			
 				
 				<h3 id="GlUtil.Str">func (GlUtil) <a href="/target/gl-util.go?s=2732:2772#L72">Str</a></h3>
-				<pre>func (_ GlUtil) Str(name gl.Enum) string</pre>
+				<pre>func (_ <a href="#GlUtil">GlUtil</a>) Str(name <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>) <a href="/pkg/builtin/#string">string</a></pre>
 				<p>
 Returns the specified OpenGL string.
 Example: GlStr(gl.VENDOR) = &#34;NVIDIA Corporation&#34;
@@ -1951,7 +1960,7 @@ Example: GlStr(gl.VENDOR) = &#34;NVIDIA Corporation&#34;
 			
 				
 				<h3 id="GlUtil.Stri">func (GlUtil) <a href="/target/gl-util.go?s=2995:3047#L78">Stri</a></h3>
-				<pre>func (_ GlUtil) Stri(name gl.Enum, i gl.Uint) string</pre>
+				<pre>func (_ <a href="#GlUtil">GlUtil</a>) Stri(name <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>, i <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>) <a href="/pkg/builtin/#string">string</a></pre>
 				<p>
 Returns the specified OpenGL string at the specified index.
 For example, GlStri(gl.EXTENSIONS, 0) returns the name of the &#34;first&#34; of all supported extensions.
@@ -1962,7 +1971,7 @@ For example, GlStri(gl.EXTENSIONS, 0) returns the name of the &#34;first&#34; of
 			
 				
 				<h3 id="GlUtil.Val">func (GlUtil) <a href="/target/gl-util.go?s=3223:3269#L84">Val</a></h3>
-				<pre>func (_ GlUtil) Val(name gl.Enum) (val gl.Int)</pre>
+				<pre>func (_ <a href="#GlUtil">GlUtil</a>) Val(name <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>) (val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Returns the specified integer as returned by gl.GetIntegerv().
 Example: numExts := GlVal(gl.NUM_EXTENSIONS)
@@ -1973,7 +1982,7 @@ Example: numExts := GlVal(gl.NUM_EXTENSIONS)
 			
 				
 				<h3 id="GlUtil.Vals">func (GlUtil) <a href="/target/gl-util.go?s=3380:3438#L90">Vals</a></h3>
-				<pre>func (_ GlUtil) Vals(name gl.Enum, n uint) (vals []gl.Int)</pre>
+				<pre>func (_ <a href="#GlUtil">GlUtil</a>) Vals(name <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>, n <a href="/pkg/builtin/#uint">uint</a>) (vals []<a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Returns the specified n integers as returned by gl.GetIntegerv().
 </p>
@@ -1985,7 +1994,7 @@ Returns the specified n integers as returned by gl.GetIntegerv().
 			
 			
 			<h2 id="GlVec3">type <a href="/target/type-utils.go?s=338:361#L12">GlVec3</a></h2>
-			<pre>type GlVec3 [3]gl.Float</pre>
+			<pre>type GlVec3 [3]<a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a></pre>
 			<p>
 Represents a 3-dimensional vector (32-bit per component)
 </p>
@@ -2002,7 +2011,7 @@ Represents a 3-dimensional vector (32-bit per component)
 			
 				
 				<h3 id="GlVec3.Set">func (*GlVec3) <a href="/target/type-utils.go?s=403:442#L15">Set</a></h3>
-				<pre>func (me *GlVec3) Set(vals ...gl.Float)</pre>
+				<pre>func (me *<a href="#GlVec3">GlVec3</a>) Set(vals ...<a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a>)</pre>
 				<p>
 Sets me to the first 3-or-less vals.
 </p>
@@ -2014,7 +2023,7 @@ Sets me to the first 3-or-less vals.
 			
 			
 			<h2 id="GlVec4">type <a href="/target/type-utils.go?s=596:619#L22">GlVec4</a></h2>
-			<pre>type GlVec4 [4]gl.Float</pre>
+			<pre>type GlVec4 [4]<a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a></pre>
 			<p>
 Represents a quaternion or 4-dimensional vector (32-bit per component)
 </p>
@@ -2031,7 +2040,7 @@ Represents a quaternion or 4-dimensional vector (32-bit per component)
 			
 				
 				<h3 id="GlVec4.Set">func (*GlVec4) <a href="/target/type-utils.go?s=661:700#L25">Set</a></h3>
-				<pre>func (me *GlVec4) Set(vals ...gl.Float)</pre>
+				<pre>func (me *<a href="#GlVec4">GlVec4</a>) Set(vals ...<a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a>)</pre>
 				<p>
 Sets me to the first 4-or-less vals.
 </p>
@@ -2046,27 +2055,27 @@ Sets me to the first 4-or-less vals.
 			<pre>type Program struct {
     <span class="comment">//	The OpenGL handle to the underlying program object.</span>
     <span class="comment">//	This is 0 before calling Create() and after calling Dispose().</span>
-    GlHandle gl.Uint
+    GlHandle <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>
 
     <span class="comment">//	An arbitrary numeric identifier that is of no use to OpenGL.</span>
     <span class="comment">//	This is set by the parent ProgramManager, if any.</span>
-    Index int
+    Index <a href="/pkg/builtin/#int">int</a>
 
     <span class="comment">//	An arbitrary application-defined name that is of no use to OpenGL, but may aid client-side diagnostics.</span>
-    Name string
+    Name <a href="/pkg/builtin/#string">string</a>
 
     Sources struct {
-        In  ShaderSources
-        Out ShaderSources
+        In  <a href="#ShaderSources">ShaderSources</a>
+        Out <a href="#ShaderSources">ShaderSources</a>
     }
 
     Tag interface{}
 
     <span class="comment">//	All vertex-attributes and their locations mapped for this program object (after the SetAttrLocations() method has been called).</span>
-    AttrLocs map[string]gl.Uint
+    AttrLocs map[<a href="/pkg/builtin/#string">string</a>]<a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>
 
     <span class="comment">//	All uniforms and their locations mapped for this program object (after the SetUnifLocations() method has been called).</span>
-    UnifLocs map[string]gl.Int
+    UnifLocs map[<a href="/pkg/builtin/#string">string</a>]<a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>
     <span class="comment">// contains filtered or unexported fields</span>
 }</pre>
 			<p>
@@ -2083,7 +2092,7 @@ Represents an OpenGL program object.
 			
 				
 				<h3 id="NewProgram">func <a href="/target/gl-program.go?s=1108:1161#L35">NewProgram</a></h3>
-				<pre>func NewProgram(index int, name string) (me *Program)</pre>
+				<pre>func NewProgram(index <a href="/pkg/builtin/#int">int</a>, name <a href="/pkg/builtin/#string">string</a>) (me *<a href="#Program">Program</a>)</pre>
 				
 				
 			
@@ -2091,7 +2100,7 @@ Represents an OpenGL program object.
 			
 				
 				<h3 id="Program.CompileAndLinkShaders">func (*Program) <a href="/target/gl-program.go?s=2024:2108#L54">CompileAndLinkShaders</a></h3>
-				<pre>func (me *Program) CompileAndLinkShaders(defines map[string]interface{}) (err error)</pre>
+				<pre>func (me *<a href="#Program">Program</a>) CompileAndLinkShaders(defines map[<a href="/pkg/builtin/#string">string</a>]interface{}) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Creates and compiles Shader stages for the specified sources (and defines) and links them together in this Program.
 All sources are string pointers and WILL be modified by this method to contain the final real
@@ -2104,7 +2113,7 @@ but a source string should not be re-sent to a subsequent compilation in that mo
 			
 				
 				<h3 id="Program.Create">func (*Program) <a href="/target/gl-program.go?s=3707:3746#L110">Create</a></h3>
-				<pre>func (me *Program) Create() (err error)</pre>
+				<pre>func (me *<a href="#Program">Program</a>) Create() (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Creates this program object in OpenGL.
 </p>
@@ -2114,7 +2123,7 @@ Creates this program object in OpenGL.
 			
 				
 				<h3 id="Program.Dispose">func (*Program) <a href="/target/gl-program.go?s=3886:3914#L119">Dispose</a></h3>
-				<pre>func (me *Program) Dispose()</pre>
+				<pre>func (me *<a href="#Program">Program</a>) Dispose()</pre>
 				<p>
 Deletes this program object from OpenGL.
 </p>
@@ -2124,7 +2133,7 @@ Deletes this program object from OpenGL.
 			
 				
 				<h3 id="Program.HasAttr">func (*Program) <a href="/target/gl-program.go?s=4080:4129#L127">HasAttr</a></h3>
-				<pre>func (me *Program) HasAttr(name string) (ok bool)</pre>
+				<pre>func (me *<a href="#Program">Program</a>) HasAttr(name <a href="/pkg/builtin/#string">string</a>) (ok <a href="/pkg/builtin/#bool">bool</a>)</pre>
 				<p>
 Returns true if the specified attribute name is present as a key in me.AttrLocs.
 </p>
@@ -2134,7 +2143,7 @@ Returns true if the specified attribute name is present as a key in me.AttrLocs.
 			
 				
 				<h3 id="Program.HasUnif">func (*Program) <a href="/target/gl-program.go?s=4252:4301#L133">HasUnif</a></h3>
-				<pre>func (me *Program) HasUnif(name string) (ok bool)</pre>
+				<pre>func (me *<a href="#Program">Program</a>) HasUnif(name <a href="/pkg/builtin/#string">string</a>) (ok <a href="/pkg/builtin/#bool">bool</a>)</pre>
 				<p>
 Returns true if the specified uniform name is present as a key in me.UnifLocs.
 </p>
@@ -2144,7 +2153,7 @@ Returns true if the specified uniform name is present as a key in me.UnifLocs.
 			
 				
 				<h3 id="Program.InfoLog">func (*Program) <a href="/target/gl-program.go?s=4434:4469#L139">InfoLog</a></h3>
-				<pre>func (me *Program) InfoLog() string</pre>
+				<pre>func (me *<a href="#Program">Program</a>) InfoLog() <a href="/pkg/builtin/#string">string</a></pre>
 				<p>
 Retrieves and returns the content of the current OpenGL info-log for this shader object.
 </p>
@@ -2154,14 +2163,14 @@ Retrieves and returns the content of the current OpenGL info-log for this shader
 			
 				
 				<h3 id="Program.Init">func (*Program) <a href="/target/gl-program.go?s=1216:1263#L41">Init</a></h3>
-				<pre>func (me *Program) Init(index int, name string)</pre>
+				<pre>func (me *<a href="#Program">Program</a>) Init(index <a href="/pkg/builtin/#int">int</a>, name <a href="/pkg/builtin/#string">string</a>)</pre>
 				
 				
 				
 			
 				
 				<h3 id="Program.Link">func (*Program) <a href="/target/gl-program.go?s=4688:4725#L145">Link</a></h3>
-				<pre>func (me *Program) Link() (err error)</pre>
+				<pre>func (me *<a href="#Program">Program</a>) Link() (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Links this program object. This is a convenience short-hand for calling gl.LinkProgram(),
 checking gl.LINK_STATUS and obtaining gl.GetProgramInfoLog().
@@ -2172,7 +2181,7 @@ checking gl.LINK_STATUS and obtaining gl.GetProgramInfoLog().
 			
 				
 				<h3 id="Program.ParamInt">func (*Program) <a href="/target/gl-program.go?s=5332:5386#L169">ParamInt</a></h3>
-				<pre>func (me *Program) ParamInt(pname gl.Enum) (iv gl.Int)</pre>
+				<pre>func (me *<a href="#Program">Program</a>) ParamInt(pname <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>) (iv <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Convenience short-hand for gl.GetProgramiv.
 </p>
@@ -2182,7 +2191,7 @@ Convenience short-hand for gl.GetProgramiv.
 			
 				
 				<h3 id="Program.SetAttrLocations">func (*Program) <a href="/target/gl-program.go?s=5782:5850#L177">SetAttrLocations</a></h3>
-				<pre>func (me *Program) SetAttrLocations(attrNames ...string) (err error)</pre>
+				<pre>func (me *<a href="#Program">Program</a>) SetAttrLocations(attrNames ...<a href="/pkg/builtin/#string">string</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Stores the locations for the specified vertex-attributes in the AttrLocs field.
 If an attribute in attrNames isn&#39;t found, it will not be added to AttrLocs but this may not result in an error.
@@ -2194,7 +2203,7 @@ err is the result of LastError() after each call to gl.GetAttribLocation(), the 
 			
 				
 				<h3 id="Program.SetUnifLocations">func (*Program) <a href="/target/gl-program.go?s=6500:6568#L195">SetUnifLocations</a></h3>
-				<pre>func (me *Program) SetUnifLocations(unifNames ...string) (err error)</pre>
+				<pre>func (me *<a href="#Program">Program</a>) SetUnifLocations(unifNames ...<a href="/pkg/builtin/#string">string</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Stores the locations for the specified uniforms in the UnifLocs field.
 If a uniform in unifNames isn&#39;t found, it will not be added to UnifLocs but this may not result in an error.
@@ -2206,7 +2215,7 @@ err is the result of LastError() after each call to gl.GetUniformLocation(), the
 			
 				
 				<h3 id="Program.Uniform1f">func (*Program) <a href="/target/gl-program.go?s=7336:7390#L221">Uniform1f</a></h3>
-				<pre>func (me *Program) Uniform1f(name string, v0 gl.Float)</pre>
+				<pre>func (me *<a href="#Program">Program</a>) Uniform1f(name <a href="/pkg/builtin/#string">string</a>, v0 <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a>)</pre>
 				<p>
 Convenience short-hand for gl.Uniform1f, if this Program contains
 the specified uniform and v0 differs from its current value.
@@ -2217,7 +2226,7 @@ the specified uniform and v0 differs from its current value.
 			
 				
 				<h3 id="Program.Uniform1i">func (*Program) <a href="/target/gl-program.go?s=7021:7073#L212">Uniform1i</a></h3>
-				<pre>func (me *Program) Uniform1i(name string, v0 gl.Int)</pre>
+				<pre>func (me *<a href="#Program">Program</a>) Uniform1i(name <a href="/pkg/builtin/#string">string</a>, v0 <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Convenience short-hand for gl.Uniform1i, if this Program contains
 the specified uniform and v0 differs from its current value.
@@ -2228,7 +2237,7 @@ the specified uniform and v0 differs from its current value.
 			
 				
 				<h3 id="Program.Uniform3fv">func (*Program) <a href="/target/gl-program.go?s=7613:7688#L229">Uniform3fv</a></h3>
-				<pre>func (me *Program) Uniform3fv(name string, count gl.Sizei, value *gl.Float)</pre>
+				<pre>func (me *<a href="#Program">Program</a>) Uniform3fv(name <a href="/pkg/builtin/#string">string</a>, count <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>, value *<a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a>)</pre>
 				<p>
 Convenience short-hand for gl.Uniform3fv, if this Program contains the specified uniform.
 </p>
@@ -2238,14 +2247,14 @@ Convenience short-hand for gl.Uniform3fv, if this Program contains the specified
 			
 				
 				<h3 id="Program.UniformMat4">func (*Program) <a href="/target/gl-program.go?s=7771:7828#L235">UniformMat4</a></h3>
-				<pre>func (me *Program) UniformMat4(name string, mat4 *GlMat4)</pre>
+				<pre>func (me *<a href="#Program">Program</a>) UniformMat4(name <a href="/pkg/builtin/#string">string</a>, mat4 *<a href="#GlMat4">GlMat4</a>)</pre>
 				
 				
 				
 			
 				
 				<h3 id="Program.UniformMatrix4fv">func (*Program) <a href="/target/gl-program.go?s=8296:8399#L250">UniformMatrix4fv</a></h3>
-				<pre>func (me *Program) UniformMatrix4fv(name string, count gl.Sizei, transpose gl.Boolean, value *gl.Float)</pre>
+				<pre>func (me *<a href="#Program">Program</a>) UniformMatrix4fv(name <a href="/pkg/builtin/#string">string</a>, count <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>, transpose <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Boolean">Boolean</a>, value *<a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a>)</pre>
 				<p>
 Convenience short-hand for gl.UniformMatrix4fv, if this Program contains the specified uniform.
 </p>
@@ -2255,14 +2264,14 @@ Convenience short-hand for gl.UniformMatrix4fv, if this Program contains the spe
 			
 				
 				<h3 id="Program.UniformVec3">func (*Program) <a href="/target/gl-program.go?s=7994:8050#L242">UniformVec3</a></h3>
-				<pre>func (me *Program) UniformVec3(name string, vec *GlVec3)</pre>
+				<pre>func (me *<a href="#Program">Program</a>) UniformVec3(name <a href="/pkg/builtin/#string">string</a>, vec *<a href="#GlVec3">GlVec3</a>)</pre>
 				
 				
 				
 			
 				
 				<h3 id="Program.Use">func (*Program) <a href="/target/gl-program.go?s=8567:8591#L257">Use</a></h3>
-				<pre>func (me *Program) Use()</pre>
+				<pre>func (me *<a href="#Program">Program</a>) Use()</pre>
 				<p>
 Installs this program object as part of current rendering state.
 </p>
@@ -2272,7 +2281,7 @@ Installs this program object as part of current rendering state.
 			
 				
 				<h3 id="Program.Validate">func (*Program) <a href="/target/gl-program.go?s=8798:8839#L263">Validate</a></h3>
-				<pre>func (me *Program) Validate() (err error)</pre>
+				<pre>func (me *<a href="#Program">Program</a>) Validate() (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Validates this program object. This is a convenience short-hand for calling gl.ValidateProgram(),
 checking gl.VALIDATE_STATUS and obtaining gl.GetProgramInfoLog().
@@ -2286,7 +2295,7 @@ checking gl.VALIDATE_STATUS and obtaining gl.GetProgramInfoLog().
 			
 			<h2 id="ProgramManager">type <a href="/target/program-manager.go?s=98:166#L1">ProgramManager</a></h2>
 			<pre>type ProgramManager struct {
-    All []Program
+    All []<a href="#Program">Program</a>
     <span class="comment">// contains filtered or unexported fields</span>
 }</pre>
 			
@@ -2302,42 +2311,42 @@ checking gl.VALIDATE_STATUS and obtaining gl.GetProgramInfoLog().
 			
 				
 				<h3 id="ProgramManager.AddNew">func (*ProgramManager) <a href="/target/program-manager.go?s=394:455#L18">AddNew</a></h3>
-				<pre>func (me *ProgramManager) AddNew(name string) (prog *Program)</pre>
+				<pre>func (me *<a href="#ProgramManager">ProgramManager</a>) AddNew(name <a href="/pkg/builtin/#string">string</a>) (prog *<a href="#Program">Program</a>)</pre>
 				
 				
 				
 			
 				
 				<h3 id="ProgramManager.Dispose">func (*ProgramManager) <a href="/target/program-manager.go?s=292:327#L12">Dispose</a></h3>
-				<pre>func (me *ProgramManager) Dispose()</pre>
+				<pre>func (me *<a href="#ProgramManager">ProgramManager</a>) Dispose()</pre>
 				
 				
 				
 			
 				
 				<h3 id="ProgramManager.Get">func (*ProgramManager) <a href="/target/program-manager.go?s=743:801#L32">Get</a></h3>
-				<pre>func (me *ProgramManager) Get(name string) (prog *Program)</pre>
+				<pre>func (me *<a href="#ProgramManager">ProgramManager</a>) Get(name <a href="/pkg/builtin/#string">string</a>) (prog *<a href="#Program">Program</a>)</pre>
 				
 				
 				
 			
 				
 				<h3 id="ProgramManager.Index">func (*ProgramManager) <a href="/target/program-manager.go?s=872:928#L39">Index</a></h3>
-				<pre>func (me *ProgramManager) Index(name string) (index int)</pre>
+				<pre>func (me *<a href="#ProgramManager">ProgramManager</a>) Index(name <a href="/pkg/builtin/#string">string</a>) (index <a href="/pkg/builtin/#int">int</a>)</pre>
 				
 				
 				
 			
 				
 				<h3 id="ProgramManager.Init">func (*ProgramManager) <a href="/target/program-manager.go?s=168:200#L7">Init</a></h3>
-				<pre>func (me *ProgramManager) Init()</pre>
+				<pre>func (me *<a href="#ProgramManager">ProgramManager</a>) Init()</pre>
 				
 				
 				
 			
 				
 				<h3 id="ProgramManager.MakeProgramsFromRawSources">func (*ProgramManager) <a href="/target/program-manager.go?s=1009:1178#L47">MakeProgramsFromRawSources</a></h3>
-				<pre>func (me *ProgramManager) MakeProgramsFromRawSources(defines map[string]interface{}, forceAll bool, forceSome ...string) (dur time.Duration, progsMade []bool, err error)</pre>
+				<pre>func (me *<a href="#ProgramManager">ProgramManager</a>) MakeProgramsFromRawSources(defines map[<a href="/pkg/builtin/#string">string</a>]interface{}, forceAll <a href="/pkg/builtin/#bool">bool</a>, forceSome ...<a href="/pkg/builtin/#string">string</a>) (dur <a href="/pkg/time/">time</a>.<a href="/pkg/time/#Duration">Duration</a>, progsMade []<a href="/pkg/builtin/#bool">bool</a>, err <a href="/pkg/builtin/#error">error</a>)</pre>
 				
 				
 				
@@ -2370,7 +2379,7 @@ RenderStates instance -- being &#39;singleton&#39; in design, they all utilize t
 			
 				
 				<h3 id="RenderStates.Apply">func (RenderStates) <a href="/target/render-states.gt.go?s=949:999#L20">Apply</a></h3>
-				<pre>func (me RenderStates) Apply(bag *RenderStatesBag)</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) Apply(bag *<a href="#RenderStatesBag">RenderStatesBag</a>)</pre>
 				<p>
 Calls the applicable me.SetFoo() methods for all render states in bag (except those in bag.Other).
 </p>
@@ -2380,7 +2389,7 @@ Calls the applicable me.SetFoo() methods for all render states in bag (except th
 			
 				
 				<h3 id="RenderStates.DisableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2015:2055#L44">DisableBlending</a></h3>
-				<pre>func (me RenderStates) DisableBlending()</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) DisableBlending()</pre>
 				<p>
 Disables blending only if it is currently enabled.
 </p>
@@ -2390,7 +2399,7 @@ Disables blending only if it is currently enabled.
 			
 				
 				<h3 id="RenderStates.DisableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3185:3226#L94">DisableDepthTest</a></h3>
-				<pre>func (me RenderStates) DisableDepthTest()</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) DisableDepthTest()</pre>
 				<p>
 Disables depth-testing only if it is currently enabled.
 </p>
@@ -2400,7 +2409,7 @@ Disables depth-testing only if it is currently enabled.
 			
 				
 				<h3 id="RenderStates.DisableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4440:4483#L144">DisableFaceCulling</a></h3>
-				<pre>func (me RenderStates) DisableFaceCulling()</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) DisableFaceCulling()</pre>
 				<p>
 Disables face-culling only if it is currently enabled.
 </p>
@@ -2410,7 +2419,7 @@ Disables face-culling only if it is currently enabled.
 			
 				
 				<h3 id="RenderStates.DisableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5728:5775#L194">DisableFramebufferSrgb</a></h3>
-				<pre>func (me RenderStates) DisableFramebufferSrgb()</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) DisableFramebufferSrgb()</pre>
 				<p>
 Disables SRGB-framebuffer only if it is currently enabled.
 </p>
@@ -2420,7 +2429,7 @@ Disables SRGB-framebuffer only if it is currently enabled.
 			
 				
 				<h3 id="RenderStates.DisableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7175:7218#L244">DisableScissorTest</a></h3>
-				<pre>func (me RenderStates) DisableScissorTest()</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) DisableScissorTest()</pre>
 				<p>
 Disables scissor-testing only if it is currently enabled.
 </p>
@@ -2430,7 +2439,7 @@ Disables scissor-testing only if it is currently enabled.
 			
 				
 				<h3 id="RenderStates.DisableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=8501:8544#L294">DisableStencilTest</a></h3>
-				<pre>func (me RenderStates) DisableStencilTest()</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) DisableStencilTest()</pre>
 				<p>
 Disables stencil-testing only if it is currently enabled.
 </p>
@@ -2440,7 +2449,7 @@ Disables stencil-testing only if it is currently enabled.
 			
 				
 				<h3 id="RenderStates.EnableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2213:2252#L52">EnableBlending</a></h3>
-				<pre>func (me RenderStates) EnableBlending()</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) EnableBlending()</pre>
 				<p>
 Enables blending only if it is currently disabled.
 </p>
@@ -2450,7 +2459,7 @@ Enables blending only if it is currently disabled.
 			
 				
 				<h3 id="RenderStates.EnableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3396:3436#L102">EnableDepthTest</a></h3>
-				<pre>func (me RenderStates) EnableDepthTest()</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) EnableDepthTest()</pre>
 				<p>
 Enables depth-testing only if it is currently disabled.
 </p>
@@ -2460,7 +2469,7 @@ Enables depth-testing only if it is currently disabled.
 			
 				
 				<h3 id="RenderStates.EnableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4655:4697#L152">EnableFaceCulling</a></h3>
-				<pre>func (me RenderStates) EnableFaceCulling()</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) EnableFaceCulling()</pre>
 				<p>
 Enables face-culling only if it is currently disabled.
 </p>
@@ -2470,7 +2479,7 @@ Enables face-culling only if it is currently disabled.
 			
 				
 				<h3 id="RenderStates.EnableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=5966:6012#L202">EnableFramebufferSrgb</a></h3>
-				<pre>func (me RenderStates) EnableFramebufferSrgb()</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) EnableFramebufferSrgb()</pre>
 				<p>
 Enables SRGB-framebuffer only if it is currently disabled.
 </p>
@@ -2480,7 +2489,7 @@ Enables SRGB-framebuffer only if it is currently disabled.
 			
 				
 				<h3 id="RenderStates.EnableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7396:7438#L252">EnableScissorTest</a></h3>
-				<pre>func (me RenderStates) EnableScissorTest()</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) EnableScissorTest()</pre>
 				<p>
 Enables scissor-testing only if it is currently disabled.
 </p>
@@ -2490,7 +2499,7 @@ Enables scissor-testing only if it is currently disabled.
 			
 				
 				<h3 id="RenderStates.EnableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=8722:8764#L302">EnableStencilTest</a></h3>
-				<pre>func (me RenderStates) EnableStencilTest()</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) EnableStencilTest()</pre>
 				<p>
 Enables stencil-testing only if it is currently disabled.
 </p>
@@ -2500,7 +2509,7 @@ Enables stencil-testing only if it is currently disabled.
 			
 				
 				<h3 id="RenderStates.ForceClearColor">func (RenderStates) <a href="/target/render-states.gt.go?s=1227:1277#L29">ForceClearColor</a></h3>
-				<pre>func (_ RenderStates) ForceClearColor(rgba GlVec4)</pre>
+				<pre>func (_ <a href="#RenderStates">RenderStates</a>) ForceClearColor(rgba <a href="#GlVec4">GlVec4</a>)</pre>
 				<p>
 Sets the OpenGL clear-color to the specified rgba.
 </p>
@@ -2510,7 +2519,7 @@ Sets the OpenGL clear-color to the specified rgba.
 			
 				
 				<h3 id="RenderStates.ForceDisableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2380:2424#L60">ForceDisableBlending</a></h3>
-				<pre>func (_ RenderStates) ForceDisableBlending()</pre>
+				<pre>func (_ <a href="#RenderStates">RenderStates</a>) ForceDisableBlending()</pre>
 				<p>
 Deactivates blending.
 </p>
@@ -2520,7 +2529,7 @@ Deactivates blending.
 			
 				
 				<h3 id="RenderStates.ForceDisableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3576:3621#L110">ForceDisableDepthTest</a></h3>
-				<pre>func (_ RenderStates) ForceDisableDepthTest()</pre>
+				<pre>func (_ <a href="#RenderStates">RenderStates</a>) ForceDisableDepthTest()</pre>
 				<p>
 Deactivates depth-testing.
 </p>
@@ -2530,7 +2539,7 @@ Deactivates depth-testing.
 			
 				
 				<h3 id="RenderStates.ForceDisableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4839:4886#L160">ForceDisableFaceCulling</a></h3>
-				<pre>func (_ RenderStates) ForceDisableFaceCulling()</pre>
+				<pre>func (_ <a href="#RenderStates">RenderStates</a>) ForceDisableFaceCulling()</pre>
 				<p>
 Deactivates face-culling.
 </p>
@@ -2540,7 +2549,7 @@ Deactivates face-culling.
 			
 				
 				<h3 id="RenderStates.ForceDisableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=6173:6224#L210">ForceDisableFramebufferSrgb</a></h3>
-				<pre>func (_ RenderStates) ForceDisableFramebufferSrgb()</pre>
+				<pre>func (_ <a href="#RenderStates">RenderStates</a>) ForceDisableFramebufferSrgb()</pre>
 				<p>
 Deactivates SRGB-framebuffer.
 </p>
@@ -2550,7 +2559,7 @@ Deactivates SRGB-framebuffer.
 			
 				
 				<h3 id="RenderStates.ForceDisableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7586:7633#L260">ForceDisableScissorTest</a></h3>
-				<pre>func (_ RenderStates) ForceDisableScissorTest()</pre>
+				<pre>func (_ <a href="#RenderStates">RenderStates</a>) ForceDisableScissorTest()</pre>
 				<p>
 Deactivates scissor-testing.
 </p>
@@ -2560,7 +2569,7 @@ Deactivates scissor-testing.
 			
 				
 				<h3 id="RenderStates.ForceDisableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=8912:8959#L310">ForceDisableStencilTest</a></h3>
-				<pre>func (_ RenderStates) ForceDisableStencilTest()</pre>
+				<pre>func (_ <a href="#RenderStates">RenderStates</a>) ForceDisableStencilTest()</pre>
 				<p>
 Deactivates stencil-testing.
 </p>
@@ -2570,7 +2579,7 @@ Deactivates stencil-testing.
 			
 				
 				<h3 id="RenderStates.ForceEnableBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2512:2555#L66">ForceEnableBlending</a></h3>
-				<pre>func (_ RenderStates) ForceEnableBlending()</pre>
+				<pre>func (_ <a href="#RenderStates">RenderStates</a>) ForceEnableBlending()</pre>
 				<p>
 Activates blending.
 </p>
@@ -2580,7 +2589,7 @@ Activates blending.
 			
 				
 				<h3 id="RenderStates.ForceEnableDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3720:3764#L116">ForceEnableDepthTest</a></h3>
-				<pre>func (_ RenderStates) ForceEnableDepthTest()</pre>
+				<pre>func (_ <a href="#RenderStates">RenderStates</a>) ForceEnableDepthTest()</pre>
 				<p>
 Activates depth-testing.
 </p>
@@ -2590,7 +2599,7 @@ Activates depth-testing.
 			
 				
 				<h3 id="RenderStates.ForceEnableFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=4985:5031#L166">ForceEnableFaceCulling</a></h3>
-				<pre>func (_ RenderStates) ForceEnableFaceCulling()</pre>
+				<pre>func (_ <a href="#RenderStates">RenderStates</a>) ForceEnableFaceCulling()</pre>
 				<p>
 Activates face-culling.
 </p>
@@ -2600,7 +2609,7 @@ Activates face-culling.
 			
 				
 				<h3 id="RenderStates.ForceEnableFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=6338:6388#L216">ForceEnableFramebufferSrgb</a></h3>
-				<pre>func (_ RenderStates) ForceEnableFramebufferSrgb()</pre>
+				<pre>func (_ <a href="#RenderStates">RenderStates</a>) ForceEnableFramebufferSrgb()</pre>
 				<p>
 Activates SRGB-framebuffer.
 </p>
@@ -2610,7 +2619,7 @@ Activates SRGB-framebuffer.
 			
 				
 				<h3 id="RenderStates.ForceEnableScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7738:7784#L266">ForceEnableScissorTest</a></h3>
-				<pre>func (_ RenderStates) ForceEnableScissorTest()</pre>
+				<pre>func (_ <a href="#RenderStates">RenderStates</a>) ForceEnableScissorTest()</pre>
 				<p>
 Activates scissor-testing.
 </p>
@@ -2620,7 +2629,7 @@ Activates scissor-testing.
 			
 				
 				<h3 id="RenderStates.ForceEnableStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=9064:9110#L316">ForceEnableStencilTest</a></h3>
-				<pre>func (_ RenderStates) ForceEnableStencilTest()</pre>
+				<pre>func (_ <a href="#RenderStates">RenderStates</a>) ForceEnableStencilTest()</pre>
 				<p>
 Activates stencil-testing.
 </p>
@@ -2630,7 +2639,7 @@ Activates stencil-testing.
 			
 				
 				<h3 id="RenderStates.SetBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2656:2708#L72">SetBlending</a></h3>
-				<pre>func (me RenderStates) SetBlending(newBlending bool)</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) SetBlending(newBlending <a href="/pkg/builtin/#bool">bool</a>)</pre>
 				<p>
 Activates or deactivates blending.
 </p>
@@ -2640,7 +2649,7 @@ Activates or deactivates blending.
 			
 				
 				<h3 id="RenderStates.SetClearColor">func (RenderStates) <a href="/target/render-states.gt.go?s=1552:1601#L35">SetClearColor</a></h3>
-				<pre>func (me RenderStates) SetClearColor(rgba GlVec4)</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) SetClearColor(rgba <a href="#GlVec4">GlVec4</a>)</pre>
 				<p>
 Sets the OpenGL clear-color if rgba differs from the currently cached value.
 </p>
@@ -2650,7 +2659,7 @@ Sets the OpenGL clear-color if rgba differs from the currently cached value.
 			
 				
 				<h3 id="RenderStates.SetDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=3876:3930#L122">SetDepthTest</a></h3>
-				<pre>func (me RenderStates) SetDepthTest(newDepthTest bool)</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) SetDepthTest(newDepthTest <a href="/pkg/builtin/#bool">bool</a>)</pre>
 				<p>
 Activates or deactivates depth-testing.
 </p>
@@ -2660,7 +2669,7 @@ Activates or deactivates depth-testing.
 			
 				
 				<h3 id="RenderStates.SetFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=5143:5201#L172">SetFaceCulling</a></h3>
-				<pre>func (me RenderStates) SetFaceCulling(newFaceCulling bool)</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) SetFaceCulling(newFaceCulling <a href="/pkg/builtin/#bool">bool</a>)</pre>
 				<p>
 Activates or deactivates face-culling.
 </p>
@@ -2670,7 +2679,7 @@ Activates or deactivates face-culling.
 			
 				
 				<h3 id="RenderStates.SetFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=6515:6581#L222">SetFramebufferSrgb</a></h3>
-				<pre>func (me RenderStates) SetFramebufferSrgb(newFramebufferSrgb bool)</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) SetFramebufferSrgb(newFramebufferSrgb <a href="/pkg/builtin/#bool">bool</a>)</pre>
 				<p>
 Activates or deactivates SRGB-framebuffer.
 </p>
@@ -2680,7 +2689,7 @@ Activates or deactivates SRGB-framebuffer.
 			
 				
 				<h3 id="RenderStates.SetScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=7902:7960#L272">SetScissorTest</a></h3>
-				<pre>func (me RenderStates) SetScissorTest(newScissorTest bool)</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) SetScissorTest(newScissorTest <a href="/pkg/builtin/#bool">bool</a>)</pre>
 				<p>
 Activates or deactivates scissor-testing.
 </p>
@@ -2690,7 +2699,7 @@ Activates or deactivates scissor-testing.
 			
 				
 				<h3 id="RenderStates.SetStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=9228:9286#L322">SetStencilTest</a></h3>
-				<pre>func (me RenderStates) SetStencilTest(newStencilTest bool)</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) SetStencilTest(newStencilTest <a href="/pkg/builtin/#bool">bool</a>)</pre>
 				<p>
 Activates or deactivates stencil-testing.
 </p>
@@ -2700,7 +2709,7 @@ Activates or deactivates stencil-testing.
 			
 				
 				<h3 id="RenderStates.ToggleBlending">func (RenderStates) <a href="/target/render-states.gt.go?s=2927:2966#L83">ToggleBlending</a></h3>
-				<pre>func (me RenderStates) ToggleBlending()</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) ToggleBlending()</pre>
 				<p>
 Toggles blending.
 </p>
@@ -2710,7 +2719,7 @@ Toggles blending.
 			
 				
 				<h3 id="RenderStates.ToggleDepthTest">func (RenderStates) <a href="/target/render-states.gt.go?s=4169:4209#L133">ToggleDepthTest</a></h3>
-				<pre>func (me RenderStates) ToggleDepthTest()</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) ToggleDepthTest()</pre>
 				<p>
 Toggles depth-testing.
 </p>
@@ -2720,7 +2729,7 @@ Toggles depth-testing.
 			
 				
 				<h3 id="RenderStates.ToggleFaceCulling">func (RenderStates) <a href="/target/render-states.gt.go?s=5447:5489#L183">ToggleFaceCulling</a></h3>
-				<pre>func (me RenderStates) ToggleFaceCulling()</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) ToggleFaceCulling()</pre>
 				<p>
 Toggles face-culling.
 </p>
@@ -2730,7 +2739,7 @@ Toggles face-culling.
 			
 				
 				<h3 id="RenderStates.ToggleFramebufferSrgb">func (RenderStates) <a href="/target/render-states.gt.go?s=6865:6911#L233">ToggleFramebufferSrgb</a></h3>
-				<pre>func (me RenderStates) ToggleFramebufferSrgb()</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) ToggleFramebufferSrgb()</pre>
 				<p>
 Toggles SRGB-framebuffer.
 </p>
@@ -2740,7 +2749,7 @@ Toggles SRGB-framebuffer.
 			
 				
 				<h3 id="RenderStates.ToggleScissorTest">func (RenderStates) <a href="/target/render-states.gt.go?s=8215:8257#L283">ToggleScissorTest</a></h3>
-				<pre>func (me RenderStates) ToggleScissorTest()</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) ToggleScissorTest()</pre>
 				<p>
 Toggles scissor-testing.
 </p>
@@ -2750,7 +2759,7 @@ Toggles scissor-testing.
 			
 				
 				<h3 id="RenderStates.ToggleStencilTest">func (RenderStates) <a href="/target/render-states.gt.go?s=9541:9583#L333">ToggleStencilTest</a></h3>
-				<pre>func (me RenderStates) ToggleStencilTest()</pre>
+				<pre>func (me <a href="#RenderStates">RenderStates</a>) ToggleStencilTest()</pre>
 				<p>
 Toggles stencil-testing.
 </p>
@@ -2763,14 +2772,14 @@ Toggles stencil-testing.
 			
 			<h2 id="RenderStatesBag">type <a href="/target/render-states.gt.go?s=151:352#L1">RenderStatesBag</a></h2>
 			<pre>type RenderStatesBag struct {
-    Blending    bool
-    DepthTest   bool
-    FaceCulling bool
-    StencilTest bool
-    ClearColor  GlVec4
+    Blending    <a href="/pkg/builtin/#bool">bool</a>
+    DepthTest   <a href="/pkg/builtin/#bool">bool</a>
+    FaceCulling <a href="/pkg/builtin/#bool">bool</a>
+    StencilTest <a href="/pkg/builtin/#bool">bool</a>
+    ClearColor  <a href="#GlVec4">GlVec4</a>
     Other       struct {
-        FramebufferSrgb bool
-        ClearBits       gl.Bitfield
+        FramebufferSrgb <a href="/pkg/builtin/#bool">bool</a>
+        ClearBits       <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Bitfield">Bitfield</a>
     }
 }</pre>
 			<p>
@@ -2794,7 +2803,7 @@ Encapsulates a particular combination of render-states that RenderStates can App
 			<pre>type Sampler struct {
     <span class="comment">//	The OpenGL handle to this sampler object.</span>
     <span class="comment">//	This is 0 before calling Create() and after calling Dispose().</span>
-    GlHandle gl.Uint
+    GlHandle <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>
 }</pre>
 			<p>
 Stores sampling parameters for texture accesses.
@@ -2812,7 +2821,7 @@ Stores sampling parameters for texture accesses.
 			
 				
 				<h3 id="Sampler.Bind">func (Sampler) <a href="/target/gl-sampler.go?s=329:372#L5">Bind</a></h3>
-				<pre>func (me Sampler) Bind(textureUnit gl.Uint)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) Bind(textureUnit <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>)</pre>
 				<p>
 Binds this sampler object to the specified textureUnit.
 </p>
@@ -2822,7 +2831,7 @@ Binds this sampler object to the specified textureUnit.
 			
 				
 				<h3 id="Sampler.Create">func (*Sampler) <a href="/target/gl-sampler.go?s=455:491#L10">Create</a></h3>
-				<pre>func (me *Sampler) Create() *Sampler</pre>
+				<pre>func (me *<a href="#Sampler">Sampler</a>) Create() *<a href="#Sampler">Sampler</a></pre>
 				<p>
 Creates this sampler object.
 </p>
@@ -2832,7 +2841,7 @@ Creates this sampler object.
 			
 				
 				<h3 id="Sampler.DepthCompareFunc">func (Sampler) <a href="/target/gl-sampler.go?s=2567:2610#L70">DepthCompareFunc</a></h3>
-				<pre>func (me Sampler) DepthCompareFunc() gl.Int</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) DepthCompareFunc() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a></pre>
 				<p>
 Returns a single-valued texture comparison function, a symbolic constant. The initial value is GL_LEQUAL.
 </p>
@@ -2842,7 +2851,7 @@ Returns a single-valued texture comparison function, a symbolic constant. The in
 			
 				
 				<h3 id="Sampler.DepthCompareMode">func (Sampler) <a href="/target/gl-sampler.go?s=3077:3120#L81">DepthCompareMode</a></h3>
-				<pre>func (me Sampler) DepthCompareMode() gl.Int</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) DepthCompareMode() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a></pre>
 				<p>
 Returns a single-valued texture comparison mode, a symbolic constant. The initial value is gl.NONE.
 </p>
@@ -2852,7 +2861,7 @@ Returns a single-valued texture comparison mode, a symbolic constant. The initia
 			
 				
 				<h3 id="Sampler.DisableAllFiltering">func (*Sampler) <a href="/target/gl-sampler.go?s=728:790#L18">DisableAllFiltering</a></h3>
-				<pre>func (me *Sampler) DisableAllFiltering(allowMip bool) *Sampler</pre>
+				<pre>func (me *<a href="#Sampler">Sampler</a>) DisableAllFiltering(allowMip <a href="/pkg/builtin/#bool">bool</a>) *<a href="#Sampler">Sampler</a></pre>
 				<p>
 Disables linear and anisotropic filtering on this sampler.
 If allowMip is true, minified sampling still blends between MIP map levels (just without linear filtering).
@@ -2863,7 +2872,7 @@ If allowMip is true, minified sampling still blends between MIP map levels (just
 			
 				
 				<h3 id="Sampler.Dispose">func (*Sampler) <a href="/target/gl-sampler.go?s=975:1003#L26">Dispose</a></h3>
-				<pre>func (me *Sampler) Dispose()</pre>
+				<pre>func (me *<a href="#Sampler">Sampler</a>) Dispose()</pre>
 				<p>
 Deletes this sampler object.
 </p>
@@ -2873,7 +2882,7 @@ Deletes this sampler object.
 			
 				
 				<h3 id="Sampler.EnableFullFiltering">func (*Sampler) <a href="/target/gl-sampler.go?s=1242:1323#L35">EnableFullFiltering</a></h3>
-				<pre>func (me *Sampler) EnableFullFiltering(allowMip bool, maxAniso gl.Float) *Sampler</pre>
+				<pre>func (me *<a href="#Sampler">Sampler</a>) EnableFullFiltering(allowMip <a href="/pkg/builtin/#bool">bool</a>, maxAniso <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a>) *<a href="#Sampler">Sampler</a></pre>
 				<p>
 Enables linear and anisotropic filtering on this sampler.
 If allowMip is true, minified sampling blends between MIP map levels linearly filtered.
@@ -2884,7 +2893,7 @@ If allowMip is true, minified sampling blends between MIP map levels linearly fi
 			
 				
 				<h3 id="Sampler.FilterMag">func (Sampler) <a href="/target/gl-sampler.go?s=3560:3596#L92">FilterMag</a></h3>
-				<pre>func (me Sampler) FilterMag() gl.Int</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) FilterMag() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a></pre>
 				<p>
 Returns the single-valued texture magnification filter, a symbolic constant. The initial value is GL_LINEAR.
 </p>
@@ -2894,7 +2903,7 @@ Returns the single-valued texture magnification filter, a symbolic constant. The
 			
 				
 				<h3 id="Sampler.FilterMaxAnisotropy">func (Sampler) <a href="/target/gl-sampler.go?s=4021:4075#L103">FilterMaxAnisotropy</a></h3>
-				<pre>func (me Sampler) FilterMaxAnisotropy() (val gl.Float)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) FilterMaxAnisotropy() (val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a>)</pre>
 				<p>
 Returns filtering anisotropy. 0 if anisotropic filtering isn&#39;t supported, 1 if anisotropic filtering
 isn&#39;t activated for this Sampler, else a value between 1 and Support.Textures.MaxFilterAnisotropy.
@@ -2905,7 +2914,7 @@ isn&#39;t activated for this Sampler, else a value between 1 and Support.Texture
 			
 				
 				<h3 id="Sampler.FilterMin">func (Sampler) <a href="/target/gl-sampler.go?s=4716:4752#L118">FilterMin</a></h3>
-				<pre>func (me Sampler) FilterMin() gl.Int</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) FilterMin() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a></pre>
 				<p>
 Returns the single-valued texture minification filter, a symbolic constant. The initial value is GL_NEAREST_MIPMAP_LINEAR.
 </p>
@@ -2915,7 +2924,7 @@ Returns the single-valued texture minification filter, a symbolic constant. The 
 			
 				
 				<h3 id="Sampler.MipLodBias">func (Sampler) <a href="/target/gl-sampler.go?s=5183:5222#L129">MipLodBias</a></h3>
-				<pre>func (me Sampler) MipLodBias() gl.Float</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) MipLodBias() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a></pre>
 				<p>
 The mipmap image selection process can be adjusted coarsely by using this sampling parameter.
 </p>
@@ -2925,7 +2934,7 @@ The mipmap image selection process can be adjusted coarsely by using this sampli
 			
 				
 				<h3 id="Sampler.MipLodMax">func (Sampler) <a href="/target/gl-sampler.go?s=5725:5763#L139">MipLodMax</a></h3>
-				<pre>func (me Sampler) MipLodMax() gl.Float</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) MipLodMax() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a></pre>
 				<p>
 Returns the single-valued texture maximum level-of-detail value. The initial value is 1000.
 </p>
@@ -2935,7 +2944,7 @@ Returns the single-valued texture maximum level-of-detail value. The initial val
 			
 				
 				<h3 id="Sampler.MipLodMin">func (Sampler) <a href="/target/gl-sampler.go?s=6129:6167#L149">MipLodMin</a></h3>
-				<pre>func (me Sampler) MipLodMin() gl.Float</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) MipLodMin() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a></pre>
 				<p>
 Returns the single-valued texture minimum level-of-detail value. The initial value is -1000.
 </p>
@@ -2945,7 +2954,7 @@ Returns the single-valued texture minimum level-of-detail value. The initial val
 			
 				
 				<h3 id="Sampler.ParamFloat">func (Sampler) <a href="/target/gl-sampler.go?s=1567:1625#L43">ParamFloat</a></h3>
-				<pre>func (me Sampler) ParamFloat(param gl.Enum) (val gl.Float)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) ParamFloat(param <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>) (val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a>)</pre>
 				<p>
 A convenience short-hand to invoke gl.GetSamplerParameterfv for this sampler object.
 </p>
@@ -2955,7 +2964,7 @@ A convenience short-hand to invoke gl.GetSamplerParameterfv for this sampler obj
 			
 				
 				<h3 id="Sampler.ParamInt">func (Sampler) <a href="/target/gl-sampler.go?s=1976:2030#L54">ParamInt</a></h3>
-				<pre>func (me Sampler) ParamInt(param gl.Enum) (val gl.Int)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) ParamInt(param <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>) (val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 A convenience short-hand to invoke gl.GetSamplerParameteriv for this sampler object.
 </p>
@@ -2965,7 +2974,7 @@ A convenience short-hand to invoke gl.GetSamplerParameteriv for this sampler obj
 			
 				
 				<h3 id="Sampler.SetDepthCompareFunc">func (Sampler) <a href="/target/gl-sampler.go?s=2873:2922#L76">SetDepthCompareFunc</a></h3>
-				<pre>func (me Sampler) SetDepthCompareFunc(val gl.Int)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) SetDepthCompareFunc(val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Specifies the comparison operator used when DepthCompareMode() is set to gl.COMPARE_REF_TO_TEXTURE.
 val may be one of: gl.LEQUAL, gl.GEQUAL, gl.LESS, gl.GREATER, gl.EQUAL, gl.NOTEQUAL, gl.ALWAYS, gl.NEVER.
@@ -2976,7 +2985,7 @@ val may be one of: gl.LEQUAL, gl.GEQUAL, gl.LESS, gl.GREATER, gl.EQUAL, gl.NOTEQ
 			
 				
 				<h3 id="Sampler.SetDepthCompareMode">func (Sampler) <a href="/target/gl-sampler.go?s=3347:3396#L87">SetDepthCompareMode</a></h3>
-				<pre>func (me Sampler) SetDepthCompareMode(val gl.Int)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) SetDepthCompareMode(val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Specifies the texture comparison mode for currently bound textures whose internal format is gl.DEPTH_COMPONENT_*.
 val may be either gl.NONE or gl.COMPARE_REF_TO_TEXTURE.
@@ -2987,7 +2996,7 @@ val may be either gl.NONE or gl.COMPARE_REF_TO_TEXTURE.
 			
 				
 				<h3 id="Sampler.SetFilterMag">func (Sampler) <a href="/target/gl-sampler.go?s=3723:3765#L97">SetFilterMag</a></h3>
-				<pre>func (me Sampler) SetFilterMag(val gl.Int)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) SetFilterMag(val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Sets the texture magnification function to either GL_NEAREST or GL_LINEAR.
 </p>
@@ -2997,7 +3006,7 @@ Sets the texture magnification function to either GL_NEAREST or GL_LINEAR.
 			
 				
 				<h3 id="Sampler.SetFilterMaxAnisotropy">func (Sampler) <a href="/target/gl-sampler.go?s=4371:4425#L111">SetFilterMaxAnisotropy</a></h3>
-				<pre>func (me Sampler) SetFilterMaxAnisotropy(val gl.Float)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) SetFilterMaxAnisotropy(val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a>)</pre>
 				<p>
 Sets filtering anisotropy, if supported. val will be clamped between 1 and Support.Textures.MaxFilterAnisotropy. Only a val greater than 1 will activate anisotropic filtering.
 </p>
@@ -3007,7 +3016,7 @@ Sets filtering anisotropy, if supported. val will be clamped between 1 and Suppo
 			
 				
 				<h3 id="Sampler.SetFilterMin">func (Sampler) <a href="/target/gl-sampler.go?s=4994:5036#L124">SetFilterMin</a></h3>
-				<pre>func (me Sampler) SetFilterMin(val gl.Int)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) SetFilterMin(val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Sets the texture magnification function. val may be one of: GL_NEAREST, GL_LINEAR,
 gl.NEAREST_MIPMAP_NEAREST, gl.LINEAR_MIPMAP_NEAREST, gl.NEAREST_MIPMAP_LINEAR, gl.LINEAR_MIPMAP_LINEAR.
@@ -3018,7 +3027,7 @@ gl.NEAREST_MIPMAP_NEAREST, gl.LINEAR_MIPMAP_NEAREST, gl.NEAREST_MIPMAP_LINEAR, g
 			
 				
 				<h3 id="Sampler.SetMipLodBias">func (Sampler) <a href="/target/gl-sampler.go?s=5455:5500#L134">SetMipLodBias</a></h3>
-				<pre>func (me Sampler) SetMipLodBias(val gl.Float)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) SetMipLodBias(val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a>)</pre>
 				<p>
 This bias will be added to the mipmap LOD calculation (as well as added to the bias specified in one of the texture accessing functions in GLSL), which is used to select the image.
 </p>
@@ -3028,7 +3037,7 @@ This bias will be added to the mipmap LOD calculation (as well as added to the b
 			
 				
 				<h3 id="Sampler.SetMipLodMax">func (Sampler) <a href="/target/gl-sampler.go?s=5940:5984#L144">SetMipLodMax</a></h3>
-				<pre>func (me Sampler) SetMipLodMax(val gl.Float)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) SetMipLodMax(val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a>)</pre>
 				<p>
 Sets the maximum level-of-detail parameter. This limits the selection of the lowest resolution mipmap (highest mipmap level).
 </p>
@@ -3038,7 +3047,7 @@ Sets the maximum level-of-detail parameter. This limits the selection of the low
 			
 				
 				<h3 id="Sampler.SetMipLodMin">func (Sampler) <a href="/target/gl-sampler.go?s=6340:6384#L154">SetMipLodMin</a></h3>
-				<pre>func (me Sampler) SetMipLodMin(val gl.Float)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) SetMipLodMin(val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a>)</pre>
 				<p>
 Sets the minimum level-of-detail parameter. This limits the selection of highest resolution mipmap (lowest mipmap level).
 </p>
@@ -3048,7 +3057,7 @@ Sets the minimum level-of-detail parameter. This limits the selection of highest
 			
 				
 				<h3 id="Sampler.SetParamFloat">func (Sampler) <a href="/target/gl-sampler.go?s=1775:1835#L49">SetParamFloat</a></h3>
-				<pre>func (me Sampler) SetParamFloat(param gl.Enum, val gl.Float)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) SetParamFloat(param <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>, val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a>)</pre>
 				<p>
 A convenience short-hand to invoke gl.SamplerParameterf for this sampler object.
 </p>
@@ -3058,7 +3067,7 @@ A convenience short-hand to invoke gl.SamplerParameterf for this sampler object.
 			
 				
 				<h3 id="Sampler.SetParamInt">func (Sampler) <a href="/target/gl-sampler.go?s=2180:2236#L60">SetParamInt</a></h3>
-				<pre>func (me Sampler) SetParamInt(param gl.Enum, val gl.Int)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) SetParamInt(param <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>, val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 A convenience short-hand to invoke gl.SamplerParameteri for this sampler object.
 </p>
@@ -3068,7 +3077,7 @@ A convenience short-hand to invoke gl.SamplerParameteri for this sampler object.
 			
 				
 				<h3 id="Sampler.SetWrap">func (*Sampler) <a href="/target/gl-sampler.go?s=6538:6589#L159">SetWrap</a></h3>
-				<pre>func (me *Sampler) SetWrap(wrapVal gl.Int) *Sampler</pre>
+				<pre>func (me *<a href="#Sampler">Sampler</a>) SetWrap(wrapVal <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>) *<a href="#Sampler">Sampler</a></pre>
 				<p>
 A convenience short-hand that calls SetWrapR(), SetWrapS() and SetWrapT() with the specified wrapVal.
 </p>
@@ -3078,7 +3087,7 @@ A convenience short-hand that calls SetWrapR(), SetWrapS() and SetWrapT() with t
 			
 				
 				<h3 id="Sampler.SetWrapClampBorderColor">func (Sampler) <a href="/target/gl-sampler.go?s=7036:7090#L174">SetWrapClampBorderColor</a></h3>
-				<pre>func (me Sampler) SetWrapClampBorderColor(val *GlVec4)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) SetWrapClampBorderColor(val *<a href="#GlVec4">GlVec4</a>)</pre>
 				<p>
 Specifies four values that define the border values that should be used for border texels.
 </p>
@@ -3088,7 +3097,7 @@ Specifies four values that define the border values that should be used for bord
 			
 				
 				<h3 id="Sampler.SetWrapR">func (Sampler) <a href="/target/gl-sampler.go?s=7502:7540#L186">SetWrapR</a></h3>
-				<pre>func (me Sampler) SetWrapR(val gl.Int)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) SetWrapR(val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Sets the wrap parameter for texture coordinate r to
 gl.CLAMP_TO_EDGE, gl.CLAMP_TO_BORDER, gl.MIRRORED_REPEAT, or gl.REPEAT.
@@ -3099,7 +3108,7 @@ gl.CLAMP_TO_EDGE, gl.CLAMP_TO_BORDER, gl.MIRRORED_REPEAT, or gl.REPEAT.
 			
 				
 				<h3 id="Sampler.SetWrapS">func (Sampler) <a href="/target/gl-sampler.go?s=7922:7960#L198">SetWrapS</a></h3>
-				<pre>func (me Sampler) SetWrapS(val gl.Int)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) SetWrapS(val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Sets the wrap parameter for texture coordinate s to
 gl.CLAMP_TO_EDGE, gl.CLAMP_TO_BORDER, gl.MIRRORED_REPEAT, or gl.REPEAT.
@@ -3110,7 +3119,7 @@ gl.CLAMP_TO_EDGE, gl.CLAMP_TO_BORDER, gl.MIRRORED_REPEAT, or gl.REPEAT.
 			
 				
 				<h3 id="Sampler.SetWrapT">func (Sampler) <a href="/target/gl-sampler.go?s=8342:8380#L210">SetWrapT</a></h3>
-				<pre>func (me Sampler) SetWrapT(val gl.Int)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) SetWrapT(val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Sets the wrap parameter for texture coordinate t to
 gl.CLAMP_TO_EDGE, gl.CLAMP_TO_BORDER, gl.MIRRORED_REPEAT, or gl.REPEAT.
@@ -3121,7 +3130,7 @@ gl.CLAMP_TO_EDGE, gl.CLAMP_TO_BORDER, gl.MIRRORED_REPEAT, or gl.REPEAT.
 			
 				
 				<h3 id="Sampler.Unbind">func (Sampler) <a href="/target/gl-sampler.go?s=2373:2417#L65">Unbind</a></h3>
-				<pre>func (_ Sampler) Unbind(textureUnit gl.Uint)</pre>
+				<pre>func (_ <a href="#Sampler">Sampler</a>) Unbind(textureUnit <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>)</pre>
 				<p>
 Unbinds whatever sampler object is currently bound to the specified textureUnit.
 </p>
@@ -3131,7 +3140,7 @@ Unbinds whatever sampler object is currently bound to the specified textureUnit.
 			
 				
 				<h3 id="Sampler.WrapClampBorderColor">func (Sampler) <a href="/target/gl-sampler.go?s=6801:6855#L168">WrapClampBorderColor</a></h3>
-				<pre>func (me Sampler) WrapClampBorderColor() (val *GlVec4)</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) WrapClampBorderColor() (val *<a href="#GlVec4">GlVec4</a>)</pre>
 				<p>
 Returns four floating-point numbers that comprise the RGBA color of the texture border.
 The initial value is (0, 0, 0, 0).
@@ -3142,7 +3151,7 @@ The initial value is (0, 0, 0, 0).
 			
 				
 				<h3 id="Sampler.WrapR">func (Sampler) <a href="/target/gl-sampler.go?s=7295:7327#L180">WrapR</a></h3>
-				<pre>func (me Sampler) WrapR() gl.Int</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) WrapR() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a></pre>
 				<p>
 Returns the single-valued wrapping function for texture coordinate r,
 a symbolic constant. The initial value is gl.REPEAT.
@@ -3153,7 +3162,7 @@ a symbolic constant. The initial value is gl.REPEAT.
 			
 				
 				<h3 id="Sampler.WrapS">func (Sampler) <a href="/target/gl-sampler.go?s=7715:7747#L192">WrapS</a></h3>
-				<pre>func (me Sampler) WrapS() gl.Int</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) WrapS() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a></pre>
 				<p>
 Returns the single-valued wrapping function for texture coordinate s,
 a symbolic constant. The initial value is gl.REPEAT.
@@ -3164,7 +3173,7 @@ a symbolic constant. The initial value is gl.REPEAT.
 			
 				
 				<h3 id="Sampler.WrapT">func (Sampler) <a href="/target/gl-sampler.go?s=8135:8167#L204">WrapT</a></h3>
-				<pre>func (me Sampler) WrapT() gl.Int</pre>
+				<pre>func (me <a href="#Sampler">Sampler</a>) WrapT() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a></pre>
 				<p>
 Returns the single-valued wrapping function for texture coordinate t,
 a symbolic constant. The initial value is gl.REPEAT.
@@ -3180,11 +3189,11 @@ a symbolic constant. The initial value is gl.REPEAT.
 			<pre>type Shader struct {
     <span class="comment">//	The OpenGL handle to the underlying shader object.</span>
     <span class="comment">//	This is 0 before calling Create() and after calling Dispose().</span>
-    GlHandle gl.Uint
+    GlHandle <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>
 
     <span class="comment">//	The shader stage provided by this shader,</span>
     <span class="comment">//	such as for example gl.FRAGMENT_SHADER, gl.VERTEX_SHADER, etc.</span>
-    Stage gl.Enum
+    Stage <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>
 }</pre>
 			<p>
 Represents an OpenGL shader object.
@@ -3200,7 +3209,7 @@ Represents an OpenGL shader object.
 			
 				
 				<h3 id="NewComputeShader">func <a href="/target/gl-shader.go?s=1055:1091#L36">NewComputeShader</a></h3>
-				<pre>func NewComputeShader() (me *Shader)</pre>
+				<pre>func NewComputeShader() (me *<a href="#Shader">Shader</a>)</pre>
 				<p>
 If Support.Glsl.Shaders.ComputeStage is true, initializes and returns --but does not Create()-- a new Shader for the gl.COMPUTE_SHADER Stage with the specified name.
 </p>
@@ -3209,7 +3218,7 @@ If Support.Glsl.Shaders.ComputeStage is true, initializes and returns --but does
 			
 				
 				<h3 id="NewFragmentShader">func <a href="/target/gl-shader.go?s=1308:1340#L44">NewFragmentShader</a></h3>
-				<pre>func NewFragmentShader() *Shader</pre>
+				<pre>func NewFragmentShader() *<a href="#Shader">Shader</a></pre>
 				<p>
 Initializes and returns --but does not Create()-- a new Shader for the gl.FRAGMENT_SHADER Stage with the specified name.
 </p>
@@ -3218,7 +3227,7 @@ Initializes and returns --but does not Create()-- a new Shader for the gl.FRAGME
 			
 				
 				<h3 id="NewGeometryShader">func <a href="/target/gl-shader.go?s=1508:1540#L49">NewGeometryShader</a></h3>
-				<pre>func NewGeometryShader() *Shader</pre>
+				<pre>func NewGeometryShader() *<a href="#Shader">Shader</a></pre>
 				<p>
 Initializes and returns --but does not Create()-- a new Shader for the gl.GEOMETRY_SHADER Stage with the specified name.
 </p>
@@ -3227,7 +3236,7 @@ Initializes and returns --but does not Create()-- a new Shader for the gl.GEOMET
 			
 				
 				<h3 id="NewShader">func <a href="/target/gl-shader.go?s=798:842#L30">NewShader</a></h3>
-				<pre>func NewShader(glStage gl.Enum) (me *Shader)</pre>
+				<pre>func NewShader(glStage <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>) (me *<a href="#Shader">Shader</a>)</pre>
 				<p>
 Initializes and returns --but does not Create()-- a new Shader with the specified name and shader stage.
 </p>
@@ -3236,7 +3245,7 @@ Initializes and returns --but does not Create()-- a new Shader with the specifie
 			
 				
 				<h3 id="NewTessCtlShader">func <a href="/target/gl-shader.go?s=1773:1809#L54">NewTessCtlShader</a></h3>
-				<pre>func NewTessCtlShader() (me *Shader)</pre>
+				<pre>func NewTessCtlShader() (me *<a href="#Shader">Shader</a>)</pre>
 				<p>
 If Support.Glsl.Shaders.TessellationStages is true, initializes and returns --but does not Create()-- a new Shader for the gl.TESS_CONTROL_SHADER (&#34;Hull&#34;) Stage with the specified name.
 </p>
@@ -3245,7 +3254,7 @@ If Support.Glsl.Shaders.TessellationStages is true, initializes and returns --bu
 			
 				
 				<h3 id="NewTessEvalShader">func <a href="/target/gl-shader.go?s=2107:2144#L62">NewTessEvalShader</a></h3>
-				<pre>func NewTessEvalShader() (me *Shader)</pre>
+				<pre>func NewTessEvalShader() (me *<a href="#Shader">Shader</a>)</pre>
 				<p>
 If Support.Glsl.Shaders.TessellationStages is true, initializes and returns --but does not Create()-- a new Shader for the gl.TESS_EVALUATION_SHADER (&#34;Domain&#34;) Stage with the specified name.
 </p>
@@ -3254,7 +3263,7 @@ If Support.Glsl.Shaders.TessellationStages is true, initializes and returns --bu
 			
 				
 				<h3 id="NewVertexShader">func <a href="/target/gl-shader.go?s=2373:2403#L70">NewVertexShader</a></h3>
-				<pre>func NewVertexShader() *Shader</pre>
+				<pre>func NewVertexShader() *<a href="#Shader">Shader</a></pre>
 				<p>
 Initializes and returns --but does not Create()-- a new Shader for the gl.VERTEX_SHADER Stage with the specified name.
 </p>
@@ -3265,7 +3274,7 @@ Initializes and returns --but does not Create()-- a new Shader for the gl.VERTEX
 			
 				
 				<h3 id="Shader.AttachTo">func (*Shader) <a href="/target/gl-shader.go?s=2509:2556#L75">AttachTo</a></h3>
-				<pre>func (me *Shader) AttachTo(prog *Program) error</pre>
+				<pre>func (me *<a href="#Shader">Shader</a>) AttachTo(prog *<a href="#Program">Program</a>) <a href="/pkg/builtin/#error">error</a></pre>
 				<p>
 Attaches this shader object to the specified program object.
 </p>
@@ -3275,7 +3284,7 @@ Attaches this shader object to the specified program object.
 			
 				
 				<h3 id="Shader.Compile">func (*Shader) <a href="/target/gl-shader.go?s=2960:3010#L86">Compile</a></h3>
-				<pre>func (me *Shader) Compile(name string) (err error)</pre>
+				<pre>func (me *<a href="#Shader">Shader</a>) Compile(name <a href="/pkg/builtin/#string">string</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Compiles this shader object. This is a convenience short-hand for calling gl.CompileShader(),
 checking gl.COMPILE_STATUS and obtaining gl.GetShaderInfoLog().
@@ -3286,7 +3295,7 @@ checking gl.COMPILE_STATUS and obtaining gl.GetShaderInfoLog().
 			
 				
 				<h3 id="Shader.Create">func (*Shader) <a href="/target/gl-shader.go?s=3233:3271#L94">Create</a></h3>
-				<pre>func (me *Shader) Create() (err error)</pre>
+				<pre>func (me *<a href="#Shader">Shader</a>) Create() (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Creates this shader object in OpenGL.
 </p>
@@ -3296,7 +3305,7 @@ Creates this shader object in OpenGL.
 			
 				
 				<h3 id="Shader.DetachFrom">func (*Shader) <a href="/target/gl-shader.go?s=3412:3455#L101">DetachFrom</a></h3>
-				<pre>func (me *Shader) DetachFrom(prog *Program)</pre>
+				<pre>func (me *<a href="#Shader">Shader</a>) DetachFrom(prog *<a href="#Program">Program</a>)</pre>
 				<p>
 Detaches this shader object from the specified program object.
 </p>
@@ -3306,7 +3315,7 @@ Detaches this shader object from the specified program object.
 			
 				
 				<h3 id="Shader.Dispose">func (*Shader) <a href="/target/gl-shader.go?s=3549:3576#L106">Dispose</a></h3>
-				<pre>func (me *Shader) Dispose()</pre>
+				<pre>func (me *<a href="#Shader">Shader</a>) Dispose()</pre>
 				<p>
 Deletes this shader object from OpenGL.
 </p>
@@ -3316,7 +3325,7 @@ Deletes this shader object from OpenGL.
 			
 				
 				<h3 id="Shader.InfoLog">func (*Shader) <a href="/target/gl-shader.go?s=3749:3794#L114">InfoLog</a></h3>
-				<pre>func (me *Shader) InfoLog(name string) string</pre>
+				<pre>func (me *<a href="#Shader">Shader</a>) InfoLog(name <a href="/pkg/builtin/#string">string</a>) <a href="/pkg/builtin/#string">string</a></pre>
 				<p>
 Retrieves and returns the content of the current OpenGL info-log for this shader object.
 </p>
@@ -3326,7 +3335,7 @@ Retrieves and returns the content of the current OpenGL info-log for this shader
 			
 				
 				<h3 id="Shader.ParamInt">func (*Shader) <a href="/target/gl-shader.go?s=3897:3950#L119">ParamInt</a></h3>
-				<pre>func (me *Shader) ParamInt(pname gl.Enum) (iv gl.Int)</pre>
+				<pre>func (me *<a href="#Shader">Shader</a>) ParamInt(pname <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>) (iv <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Convenience short-hand for gl.GetShaderiv.
 </p>
@@ -3336,7 +3345,7 @@ Convenience short-hand for gl.GetShaderiv.
 			
 				
 				<h3 id="Shader.SetSource">func (*Shader) <a href="/target/gl-shader.go?s=4230:4337#L127">SetSource</a></h3>
-				<pre>func (me *Shader) SetSource(source string, defines map[string]interface{}) (finalRealSrc string, err error)</pre>
+				<pre>func (me *<a href="#Shader">Shader</a>) SetSource(source <a href="/pkg/builtin/#string">string</a>, defines map[<a href="/pkg/builtin/#string">string</a>]interface{}) (finalRealSrc <a href="/pkg/builtin/#string">string</a>, err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Replaces the GLSL source code in this shader object with source,
 prepending a #version (core) directive with the current Support.Glsl.Version.Num
@@ -3348,7 +3357,7 @@ and #define directives for all specified name-value pairs in defines.
 			
 				
 				<h3 id="Shader.StageName">func (*Shader) <a href="/target/gl-shader.go?s=2717:2758#L80">StageName</a></h3>
-				<pre>func (me *Shader) StageName() (sn string)</pre>
+				<pre>func (me *<a href="#Shader">Shader</a>) StageName() (sn <a href="/pkg/builtin/#string">string</a>)</pre>
 				<p>
 Returns the name of this shader&#39;s stage, for example &#34;GL_VERTEX_SHADER&#34;, &#34;GL_COMPUTE_SHADER&#34;, etc.
 </p>
@@ -3361,12 +3370,12 @@ Returns the name of this shader&#39;s stage, for example &#34;GL_VERTEX_SHADER&#
 			
 			<h2 id="ShaderSources">type <a href="/target/gl-shader.go?s=225:356#L9">ShaderSources</a></h2>
 			<pre>type ShaderSources struct {
-    Compute  string
-    Fragment string
-    Geometry string
-    TessCtl  string
-    TessEval string
-    Vertex   string
+    Compute  <a href="/pkg/builtin/#string">string</a>
+    Fragment <a href="/pkg/builtin/#string">string</a>
+    Geometry <a href="/pkg/builtin/#string">string</a>
+    TessCtl  <a href="/pkg/builtin/#string">string</a>
+    TessEval <a href="/pkg/builtin/#string">string</a>
+    Vertex   <a href="/pkg/builtin/#string">string</a>
 }</pre>
 			
 
@@ -3387,7 +3396,7 @@ Returns the name of this shader&#39;s stage, for example &#34;GL_VERTEX_SHADER&#
     Dispose()
 
     <span class="comment">//	Deletes and (re)creates the texture object based on its current params.</span>
-    Recreate() error
+    Recreate() <a href="/pkg/builtin/#error">error</a>
 }</pre>
 			<p>
 Implemented by specialized texture types such as Texture2D.
@@ -3409,10 +3418,10 @@ Implemented by specialized texture types such as Texture2D.
 			<h2 id="Texture2D">type <a href="/target/gl-texture-2d.go?s=125:289#L1">Texture2D</a></h2>
 			<pre>type Texture2D struct {
     <span class="comment">//	Common texture params</span>
-    TextureBase
+    <a href="#TextureBase">TextureBase</a>
 
     <span class="comment">//	Width and height of mip-level 0 for this 2-dimensional texture object.</span>
-    Width, Height gl.Sizei
+    Width, Height <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>
 }</pre>
 			<p>
 Represents a 2-dimensional texture image.
@@ -3428,7 +3437,7 @@ Represents a 2-dimensional texture image.
 			
 				
 				<h3 id="NewTexture2D">func <a href="/target/gl-texture-2d.go?s=391:426#L10">NewTexture2D</a></h3>
-				<pre>func NewTexture2D() (me *Texture2D)</pre>
+				<pre>func NewTexture2D() (me *<a href="#Texture2D">Texture2D</a>)</pre>
 				<p>
 Initializes --but does not Recreate()-- a new Texture2D, calls its Init() method and returns it.
 </p>
@@ -3439,7 +3448,7 @@ Initializes --but does not Recreate()-- a new Texture2D, calls its Init() method
 			
 				
 				<h3 id="Texture2D.Init">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=547:574#L17">Init</a></h3>
-				<pre>func (me *Texture2D) Init()</pre>
+				<pre>func (me *<a href="#Texture2D">Texture2D</a>) Init()</pre>
 				<p>
 Sets GlTarget to gl.TEXTURE_2D and initializes TextureBase with defaults.
 </p>
@@ -3449,7 +3458,7 @@ Sets GlTarget to gl.TEXTURE_2D and initializes TextureBase with defaults.
 			
 				
 				<h3 id="Texture2D.MaxNumMipLevels">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=769:816#L23">MaxNumMipLevels</a></h3>
-				<pre>func (me *Texture2D) MaxNumMipLevels() gl.Sizei</pre>
+				<pre>func (me *<a href="#Texture2D">Texture2D</a>) MaxNumMipLevels() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a></pre>
 				<p>
 Returns the maximum number of possible MIP map levels for this 2-dimensional texture image according to its current Width and Height.
 </p>
@@ -3459,7 +3468,7 @@ Returns the maximum number of possible MIP map levels for this 2-dimensional tex
 			
 				
 				<h3 id="Texture2D.PrepFromImage">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=1174:1257#L30">PrepFromImage</a></h3>
-				<pre>func (me *Texture2D) PrepFromImage(bgra, uintRev bool, img image.Image) (err error)</pre>
+				<pre>func (me *<a href="#Texture2D">Texture2D</a>) PrepFromImage(bgra, uintRev <a href="/pkg/builtin/#bool">bool</a>, img <a href="/pkg/image/">image</a>.<a href="/pkg/image/#Image">Image</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Prepares this Texture2D for uploading the specified Image via Recreate().
 This sets all of the following fields to applicable values:
@@ -3471,7 +3480,7 @@ me.PixelData.Type, me.PixelData.Format, me.PixelData.Ptrs[0], me.Width, me.Heigh
 			
 				
 				<h3 id="Texture2D.Recreate">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=1753:1790#L41">Recreate</a></h3>
-				<pre>func (me *Texture2D) Recreate() error</pre>
+				<pre>func (me *<a href="#Texture2D">Texture2D</a>) Recreate() <a href="/pkg/builtin/#error">error</a></pre>
 				<p>
 Deletes and (re)creates the texture object based on its current params.
 Uploads the image data at me.PixelData.Ptrs[0], if any.
@@ -3484,7 +3493,7 @@ If me.MipMap.NumLevels is 0 (or just smaller than 1), then me.MaxNumMipLevels() 
 			
 				
 				<h3 id="Texture2D.SubImage">func (*Texture2D) <a href="/target/gl-texture-2d.go?s=1961:2045#L46">SubImage</a></h3>
-				<pre>func (me *Texture2D) SubImage(x, y gl.Int, width, height gl.Sizei, ptr gl.Ptr) error</pre>
+				<pre>func (me *<a href="#Texture2D">Texture2D</a>) SubImage(x, y <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>, width, height <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>, ptr <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Ptr">Ptr</a>) <a href="/pkg/builtin/#error">error</a></pre>
 				<p>
 Updates the specified portion of this texture image with the specified pixel data.
 </p>
@@ -3499,47 +3508,47 @@ Updates the specified portion of this texture image with the specified pixel dat
 			<pre>type TextureBase struct {
     <span class="comment">//	The OpenGL handle for this texture object.</span>
     <span class="comment">//	This is 0 before calling Recreate() and after calling Dispose().</span>
-    GlHandle gl.Uint
+    GlHandle <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>
 
     <span class="comment">//	The type of texture, such as for example gl.TEXTURE_2D.</span>
-    GlTarget gl.Enum
+    GlTarget <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>
 
     <span class="comment">//	Specifies the sized internal format to be used to store texture image data,</span>
     <span class="comment">//	as per gl.TexStorageNN(). Defaults to gl.RGBA8.</span>
-    SizedInternalFormat gl.Enum
+    SizedInternalFormat <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>
 
     <span class="comment">//	If true, then (if Support.Textures.Immutable is also true) whenever this Texture</span>
     <span class="comment">//	is Recreate()d it is declared immutable in OpenGL, meaning its dimensions are</span>
     <span class="comment">//	locked at creation time and cannot be changed subsequently.</span>
     <span class="comment">//	Defaults to Support.Textures.Immutable.</span>
-    Immutable bool
+    Immutable <a href="/pkg/builtin/#bool">bool</a>
 
     <span class="comment">//	Settings for this texture&#39;s MIP map, if any.</span>
     MipMap struct {
         <span class="comment">//	If true (the default) and NumLevels isn&#39;t 1, all MIP map</span>
         <span class="comment">//	levels are automatically generated by Recreate()</span>
-        AutoGen bool
+        AutoGen <a href="/pkg/builtin/#bool">bool</a>
 
         <span class="comment">//	The maximum number of MIP map levels for this texture object.</span>
         <span class="comment">//	Set to 0 (the default) to have Recreate() determine this</span>
         <span class="comment">//	automatically, set to 1 for a texture object with no MIP map.</span>
-        NumLevels gl.Sizei
+        NumLevels <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>
     }
 
     <span class="comment">//	Information regarding the pixel data stored by this texture object.</span>
     PixelData struct {
         <span class="comment">//	Specifies the format of the pixel data, as per</span>
         <span class="comment">//	gl.TexSubImageNN(). Defaults to gl.RGBA.</span>
-        Format gl.Enum
+        Format <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>
 
         <span class="comment">//	Specifies the data type of the pixel data, as per</span>
         <span class="comment">//	gl.TexSubImageNN(). Defaults to gl.UNSIGNED_BYTE.</span>
-        Type gl.Enum
+        Type <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>
 
         <span class="comment">//	Pointers (one per sub-image) to the first pixel</span>
         <span class="comment">//	of the data stream to be uploaded by Recreate().</span>
         <span class="comment">//	Initially defaults to []gl.Ptr { PtrNil }</span>
-        Ptrs [6]gl.Ptr
+        Ptrs [6]<a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Ptr">Ptr</a>
     }
 }</pre>
 			<p>
@@ -3558,7 +3567,7 @@ Embedded by specialized texture types such as Texture2D.
 			
 				
 				<h3 id="TextureBase.Dispose">func (*TextureBase) <a href="/target/gl-texture.go?s=2008:2040#L57">Dispose</a></h3>
-				<pre>func (me *TextureBase) Dispose()</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) Dispose()</pre>
 				<p>
 Deletes this texture object from OpenGL.
 </p>
@@ -3568,7 +3577,7 @@ Deletes this texture object from OpenGL.
 			
 				
 				<h3 id="TextureBase.ParamBaseLevel">func (*TextureBase) <a href="/target/gl-texture-params.go?s=134:180#L1">ParamBaseLevel</a></h3>
-				<pre>func (me *TextureBase) ParamBaseLevel() gl.Int</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) ParamBaseLevel() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a></pre>
 				<p>
 Returns the index of the lowest defined mipmap level. Defaults to 0.
 </p>
@@ -3578,7 +3587,7 @@ Returns the index of the lowest defined mipmap level. Defaults to 0.
 			
 				
 				<h3 id="TextureBase.ParamFloat">func (*TextureBase) <a href="/target/gl-texture-params.go?s=3006:3069#L68">ParamFloat</a></h3>
-				<pre>func (me *TextureBase) ParamFloat(param gl.Enum) (val gl.Float)</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) ParamFloat(param <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>) (val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a>)</pre>
 				<p>
 A convenience short-hand to invoke gl.GetTexParameterfv for the texture object currently bound to me.GlTarget.
 </p>
@@ -3588,7 +3597,7 @@ A convenience short-hand to invoke gl.GetTexParameterfv for the texture object c
 			
 				
 				<h3 id="TextureBase.ParamInt">func (*TextureBase) <a href="/target/gl-texture-params.go?s=3469:3528#L79">ParamInt</a></h3>
-				<pre>func (me *TextureBase) ParamInt(param gl.Enum) (val gl.Int)</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) ParamInt(param <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>) (val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 A convenience short-hand to invoke gl.GetTexParameteriv for the texture object currently bound to me.GlTarget.
 </p>
@@ -3598,7 +3607,7 @@ A convenience short-hand to invoke gl.GetTexParameteriv for the texture object c
 			
 				
 				<h3 id="TextureBase.ParamMaxLevel">func (*TextureBase) <a href="/target/gl-texture-params.go?s=461:506#L8">ParamMaxLevel</a></h3>
-				<pre>func (me *TextureBase) ParamMaxLevel() gl.Int</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) ParamMaxLevel() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a></pre>
 				<p>
 Returns the index of the highest defined mipmap level. Defaults to 1000.
 </p>
@@ -3608,7 +3617,7 @@ Returns the index of the highest defined mipmap level. Defaults to 1000.
 			
 				
 				<h3 id="TextureBase.ParamSwizzleA">func (*TextureBase) <a href="/target/gl-texture-params.go?s=842:887#L18">ParamSwizzleA</a></h3>
-				<pre>func (me *TextureBase) ParamSwizzleA() gl.Int</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) ParamSwizzleA() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a></pre>
 				<p>
 Returns the swizzle that will be applied to the A component of a texel before it is returned to the shader. Defaults to gl.ALPHA.
 </p>
@@ -3618,7 +3627,7 @@ Returns the swizzle that will be applied to the A component of a texel before it
 			
 				
 				<h3 id="TextureBase.ParamSwizzleB">func (*TextureBase) <a href="/target/gl-texture-params.go?s=1275:1320#L28">ParamSwizzleB</a></h3>
-				<pre>func (me *TextureBase) ParamSwizzleB() gl.Int</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) ParamSwizzleB() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a></pre>
 				<p>
 Returns the swizzle that will be applied to the B component of a texel before it is returned to the shader. Defaults to gl.BLUE.
 </p>
@@ -3628,7 +3637,7 @@ Returns the swizzle that will be applied to the B component of a texel before it
 			
 				
 				<h3 id="TextureBase.ParamSwizzleG">func (*TextureBase) <a href="/target/gl-texture-params.go?s=1709:1754#L38">ParamSwizzleG</a></h3>
-				<pre>func (me *TextureBase) ParamSwizzleG() gl.Int</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) ParamSwizzleG() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a></pre>
 				<p>
 Returns the swizzle that will be applied to the G component of a texel before it is returned to the shader. Defaults to gl.GREEN.
 </p>
@@ -3638,7 +3647,7 @@ Returns the swizzle that will be applied to the G component of a texel before it
 			
 				
 				<h3 id="TextureBase.ParamSwizzleR">func (*TextureBase) <a href="/target/gl-texture-params.go?s=2141:2186#L48">ParamSwizzleR</a></h3>
-				<pre>func (me *TextureBase) ParamSwizzleR() gl.Int</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) ParamSwizzleR() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a></pre>
 				<p>
 Returns the swizzle that will be applied to the R component of a texel before it is returned to the shader. Defaults to gl.RED.
 </p>
@@ -3648,7 +3657,7 @@ Returns the swizzle that will be applied to the R component of a texel before it
 			
 				
 				<h3 id="TextureBase.ParamSwizzleRgba">func (*TextureBase) <a href="/target/gl-texture-params.go?s=2566:2614#L58">ParamSwizzleRgba</a></h3>
-				<pre>func (me *TextureBase) ParamSwizzleRgba() gl.Int</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) ParamSwizzleRgba() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a></pre>
 				<p>
 Returns the swizzle that will be applied to the R, G, B and A components of a texel before it is returned to the shader.
 </p>
@@ -3658,7 +3667,7 @@ Returns the swizzle that will be applied to the R, G, B and A components of a te
 			
 				
 				<h3 id="TextureBase.SetParamBaseLevel">func (*TextureBase) <a href="/target/gl-texture-params.go?s=283:335#L3">SetParamBaseLevel</a></h3>
-				<pre>func (me *TextureBase) SetParamBaseLevel(val gl.Int)</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) SetParamBaseLevel(val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Sets the index of the lowest defined mipmap level.
 </p>
@@ -3668,7 +3677,7 @@ Sets the index of the lowest defined mipmap level.
 			
 				
 				<h3 id="TextureBase.SetParamFloat">func (*TextureBase) <a href="/target/gl-texture-params.go?s=3241:3306#L74">SetParamFloat</a></h3>
-				<pre>func (me *TextureBase) SetParamFloat(param gl.Enum, val gl.Float)</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) SetParamFloat(param <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>, val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a>)</pre>
 				<p>
 A convenience short-hand to invoke gl.TexParameterf for the texture object currently bound to me.GlTarget.
 </p>
@@ -3678,7 +3687,7 @@ A convenience short-hand to invoke gl.TexParameterf for the texture object curre
 			
 				
 				<h3 id="TextureBase.SetParamInt">func (*TextureBase) <a href="/target/gl-texture-params.go?s=3700:3761#L85">SetParamInt</a></h3>
-				<pre>func (me *TextureBase) SetParamInt(param gl.Enum, val gl.Int)</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) SetParamInt(param <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>, val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 A convenience short-hand to invoke gl.TexParameteri for the texture object currently bound to me.GlTarget.
 </p>
@@ -3688,7 +3697,7 @@ A convenience short-hand to invoke gl.TexParameteri for the texture object curre
 			
 				
 				<h3 id="TextureBase.SetParamMaxLevel">func (*TextureBase) <a href="/target/gl-texture-params.go?s=609:660#L13">SetParamMaxLevel</a></h3>
-				<pre>func (me *TextureBase) SetParamMaxLevel(val gl.Int)</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) SetParamMaxLevel(val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Sets the index of the highest defined mipmap level.
 </p>
@@ -3698,7 +3707,7 @@ Sets the index of the highest defined mipmap level.
 			
 				
 				<h3 id="TextureBase.SetParamSwizzleA">func (*TextureBase) <a href="/target/gl-texture-params.go?s=1043:1094#L23">SetParamSwizzleA</a></h3>
-				<pre>func (me *TextureBase) SetParamSwizzleA(val gl.Int)</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) SetParamSwizzleA(val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Sets the swizzle that will be applied to the A component of a texel before it is returned to the shader.
 </p>
@@ -3708,7 +3717,7 @@ Sets the swizzle that will be applied to the A component of a texel before it is
 			
 				
 				<h3 id="TextureBase.SetParamSwizzleB">func (*TextureBase) <a href="/target/gl-texture-params.go?s=1476:1527#L33">SetParamSwizzleB</a></h3>
-				<pre>func (me *TextureBase) SetParamSwizzleB(val gl.Int)</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) SetParamSwizzleB(val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Sets the swizzle that will be applied to the B component of a texel before it is returned to the shader.
 </p>
@@ -3718,7 +3727,7 @@ Sets the swizzle that will be applied to the B component of a texel before it is
 			
 				
 				<h3 id="TextureBase.SetParamSwizzleG">func (*TextureBase) <a href="/target/gl-texture-params.go?s=1910:1961#L43">SetParamSwizzleG</a></h3>
-				<pre>func (me *TextureBase) SetParamSwizzleG(val gl.Int)</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) SetParamSwizzleG(val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Sets the swizzle that will be applied to the G component of a texel before it is returned to the shader.
 </p>
@@ -3728,7 +3737,7 @@ Sets the swizzle that will be applied to the G component of a texel before it is
 			
 				
 				<h3 id="TextureBase.SetParamSwizzleR">func (*TextureBase) <a href="/target/gl-texture-params.go?s=2342:2393#L53">SetParamSwizzleR</a></h3>
-				<pre>func (me *TextureBase) SetParamSwizzleR(val gl.Int)</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) SetParamSwizzleR(val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Sets the swizzle that will be applied to the R component of a texel before it is returned to the shader.
 </p>
@@ -3738,7 +3747,7 @@ Sets the swizzle that will be applied to the R component of a texel before it is
 			
 				
 				<h3 id="TextureBase.SetParamSwizzleRgba">func (*TextureBase) <a href="/target/gl-texture-params.go?s=2786:2840#L63">SetParamSwizzleRgba</a></h3>
-				<pre>func (me *TextureBase) SetParamSwizzleRgba(val gl.Int)</pre>
+				<pre>func (me *<a href="#TextureBase">TextureBase</a>) SetParamSwizzleRgba(val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>)</pre>
 				<p>
 Sets the swizzle that will be applied to the R, G, B and A components of a texel before it is returned to the shader.
 </p>
@@ -3752,10 +3761,10 @@ Sets the swizzle that will be applied to the R, G, B and A components of a texel
 			<h2 id="TextureCube">type <a href="/target/gl-texture-cube.go?s=140:289#L1">TextureCube</a></h2>
 			<pre>type TextureCube struct {
     <span class="comment">//	Common texture params</span>
-    TextureBase
+    <a href="#TextureBase">TextureBase</a>
 
     <span class="comment">//	Width and height of mip-level 0 for all 6 cube-faces.</span>
-    Width, Height gl.Sizei
+    Width, Height <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>
 }</pre>
 			<p>
 Represents six 2-dimensional texture images of equal dimensions.
@@ -3771,7 +3780,7 @@ Represents six 2-dimensional texture images of equal dimensions.
 			
 				
 				<h3 id="NewTextureCube">func <a href="/target/gl-texture-cube.go?s=393:432#L9">NewTextureCube</a></h3>
-				<pre>func NewTextureCube() (me *TextureCube)</pre>
+				<pre>func NewTextureCube() (me *<a href="#TextureCube">TextureCube</a>)</pre>
 				<p>
 Initializes --but does not Recreate()-- a new TextureCube, calls its Init() method and returns it.
 </p>
@@ -3782,7 +3791,7 @@ Initializes --but does not Recreate()-- a new TextureCube, calls its Init() meth
 			
 				
 				<h3 id="TextureCube.Init">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=561:590#L16">Init</a></h3>
-				<pre>func (me *TextureCube) Init()</pre>
+				<pre>func (me *<a href="#TextureCube">TextureCube</a>) Init()</pre>
 				<p>
 Sets GlTarget to gl.TEXTURE_CUBE_MAP and initializes TextureBase with defaults.
 </p>
@@ -3792,7 +3801,7 @@ Sets GlTarget to gl.TEXTURE_CUBE_MAP and initializes TextureBase with defaults.
 			
 				
 				<h3 id="TextureCube.MaxNumMipLevels">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=789:838#L22">MaxNumMipLevels</a></h3>
-				<pre>func (me *TextureCube) MaxNumMipLevels() gl.Sizei</pre>
+				<pre>func (me *<a href="#TextureCube">TextureCube</a>) MaxNumMipLevels() <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a></pre>
 				<p>
 Returns the maximum number of possible MIP map levels for any of this cube-map&#39;s 6 faces according to its current Width and Height.
 </p>
@@ -3802,7 +3811,7 @@ Returns the maximum number of possible MIP map levels for any of this cube-map&#
 			
 				
 				<h3 id="TextureCube.PrepFromImages">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=1196:1288#L29">PrepFromImages</a></h3>
-				<pre>func (me *TextureCube) PrepFromImages(bgra, uintRev bool, images ...image.Image) (err error)</pre>
+				<pre>func (me *<a href="#TextureCube">TextureCube</a>) PrepFromImages(bgra, uintRev <a href="/pkg/builtin/#bool">bool</a>, images ...<a href="/pkg/image/">image</a>.<a href="/pkg/image/#Image">Image</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Prepares this TextureCube for uploading the specified Images via Recreate().
 This sets all of the following fields to applicable values:
@@ -3814,7 +3823,7 @@ me.PixelData.Type, me.PixelData.Format, me.PixelData.Ptrs, me.Width, me.Height, 
 			
 				
 				<h3 id="TextureCube.Recreate">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=1954:1993#L44">Recreate</a></h3>
-				<pre>func (me *TextureCube) Recreate() error</pre>
+				<pre>func (me *<a href="#TextureCube">TextureCube</a>) Recreate() <a href="/pkg/builtin/#error">error</a></pre>
 				<p>
 Deletes and (re)creates the texture object based on its current params.
 Uploads the image data pointed to in me.PixelData.Ptrs, if any.
@@ -3827,7 +3836,7 @@ If me.MipMap.NumLevels is 0 (or just smaller than 1), then me.MaxNumMipLevels() 
 			
 				
 				<h3 id="TextureCube.SubImage">func (*TextureCube) <a href="/target/gl-texture-cube.go?s=2194:2302#L49">SubImage</a></h3>
-				<pre>func (me *TextureCube) SubImage(glTargetFace gl.Enum, x, y gl.Int, width, height gl.Sizei, ptr gl.Ptr) error</pre>
+				<pre>func (me *<a href="#TextureCube">TextureCube</a>) SubImage(glTargetFace <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>, x, y <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>, width, height <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>, ptr <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Ptr">Ptr</a>) <a href="/pkg/builtin/#error">error</a></pre>
 				<p>
 Updates the specified portion of the specified cube-face image with the specified pixel data.
 </p>
@@ -3857,7 +3866,7 @@ A singleton type, only used for the package-global ugl.Typed variable.
 			
 				
 				<h3 id="TypeUtils.Clamp">func (TypeUtils) <a href="/target/type-utils.go?s=2424:2481#L73">Clamp</a></h3>
-				<pre>func (_ TypeUtils) Clamp(val, min, max gl.Float) gl.Float</pre>
+				<pre>func (_ <a href="#TypeUtils">TypeUtils</a>) Clamp(val, min, max <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a>) <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Float">Float</a></pre>
 				<p>
 Clamps the specified val between min and max.
 </p>
@@ -3867,7 +3876,7 @@ Clamps the specified val between min and max.
 			
 				
 				<h3 id="TypeUtils.Ifb">func (TypeUtils) <a href="/target/type-utils.go?s=2692:2773#L85">Ifb</a></h3>
-				<pre>func (_ TypeUtils) Ifb(one, two bool, ifOne, ifTwo, ifBoth gl.Enum) (val gl.Enum)</pre>
+				<pre>func (_ <a href="#TypeUtils">TypeUtils</a>) Ifb(one, two <a href="/pkg/builtin/#bool">bool</a>, ifOne, ifTwo, ifBoth <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>) (val <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>)</pre>
 				<p>
 If one but not two, return ifOne. If two but not one, return ifTwo. Else, return ifBoth.
 </p>
@@ -3877,7 +3886,7 @@ If one but not two, return ifOne. If two but not one, return ifTwo. Else, return
 			
 				
 				<h3 id="TypeUtils.Ife">func (TypeUtils) <a href="/target/type-utils.go?s=2948:3014#L97">Ife</a></h3>
-				<pre>func (_ TypeUtils) Ife(cond bool, ifTrue, ifFalse gl.Enum) gl.Enum</pre>
+				<pre>func (_ <a href="#TypeUtils">TypeUtils</a>) Ife(cond <a href="/pkg/builtin/#bool">bool</a>, ifTrue, ifFalse <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>) <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a></pre>
 				<p>
 Returns ifTrue if cond is true, otherwise returns ifFalse.
 </p>
@@ -3887,7 +3896,7 @@ Returns ifTrue if cond is true, otherwise returns ifFalse.
 			
 				
 				<h3 id="TypeUtils.Ifi">func (TypeUtils) <a href="/target/type-utils.go?s=3128:3192#L105">Ifi</a></h3>
-				<pre>func (_ TypeUtils) Ifi(cond bool, ifTrue, ifFalse gl.Int) gl.Int</pre>
+				<pre>func (_ <a href="#TypeUtils">TypeUtils</a>) Ifi(cond <a href="/pkg/builtin/#bool">bool</a>, ifTrue, ifFalse <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>) <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a></pre>
 				<p>
 Returns ifTrue if cond is true, otherwise returns ifFalse.
 </p>
@@ -3900,8 +3909,8 @@ Returns ifTrue if cond is true, otherwise returns ifFalse.
 			
 			<h2 id="UniformBlock">type <a href="/target/gl-uniform-block.go?s=62:120#L1">UniformBlock</a></h2>
 			<pre>type UniformBlock struct {
-    Buffer Buffer
-    Name   string
+    Buffer <a href="#Buffer">Buffer</a>
+    Name   <a href="/pkg/builtin/#string">string</a>
 }</pre>
 			
 
@@ -3914,7 +3923,7 @@ Returns ifTrue if cond is true, otherwise returns ifFalse.
 			
 				
 				<h3 id="NewUniformBlock">func <a href="/target/gl-uniform-block.go?s=122:174#L2">NewUniformBlock</a></h3>
-				<pre>func NewUniformBlock(name string) (me *UniformBlock)</pre>
+				<pre>func NewUniformBlock(name <a href="/pkg/builtin/#string">string</a>) (me *<a href="#UniformBlock">UniformBlock</a>)</pre>
 				
 				
 			
@@ -3922,14 +3931,14 @@ Returns ifTrue if cond is true, otherwise returns ifFalse.
 			
 				
 				<h3 id="UniformBlock.Create">func (*UniformBlock) <a href="/target/gl-uniform-block.go?s=260:292#L8">Create</a></h3>
-				<pre>func (me *UniformBlock) Create()</pre>
+				<pre>func (me *<a href="#UniformBlock">UniformBlock</a>) Create()</pre>
 				
 				
 				
 			
 				
 				<h3 id="UniformBlock.Dispose">func (*UniformBlock) <a href="/target/gl-uniform-block.go?s=382:415#L13">Dispose</a></h3>
-				<pre>func (me *UniformBlock) Dispose()</pre>
+				<pre>func (me *<a href="#UniformBlock">UniformBlock</a>) Dispose()</pre>
 				
 				
 				
@@ -3941,7 +3950,7 @@ Returns ifTrue if cond is true, otherwise returns ifFalse.
 			<pre>type VertexArray struct {
     <span class="comment">//	The OpenGL handle to this vertex array object.</span>
     <span class="comment">//	This is 0 before calling Create() and after calling Dispose().</span>
-    GlHandle gl.Uint
+    GlHandle <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Uint">Uint</a>
 }</pre>
 			<p>
 Represents an OpenGL vertex array object (NOT the legacy OpenGL &#34;vertex arrays&#34;, but what is commonly abbreviated as VAO).
@@ -3959,7 +3968,7 @@ Represents an OpenGL vertex array object (NOT the legacy OpenGL &#34;vertex arra
 			
 				
 				<h3 id="VertexArray.Bind">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=388:417#L5">Bind</a></h3>
-				<pre>func (me *VertexArray) Bind()</pre>
+				<pre>func (me *<a href="#VertexArray">VertexArray</a>) Bind()</pre>
 				<p>
 Binds this vertex array object.
 </p>
@@ -3969,7 +3978,7 @@ Binds this vertex array object.
 			
 				
 				<h3 id="VertexArray.Create">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=496:539#L10">Create</a></h3>
-				<pre>func (me *VertexArray) Create() (err error)</pre>
+				<pre>func (me *<a href="#VertexArray">VertexArray</a>) Create() (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Creates this vertex-array object.
 </p>
@@ -3979,7 +3988,7 @@ Creates this vertex-array object.
 			
 				
 				<h3 id="VertexArray.Dispose">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=661:693#L18">Dispose</a></h3>
-				<pre>func (me *VertexArray) Dispose()</pre>
+				<pre>func (me *<a href="#VertexArray">VertexArray</a>) Dispose()</pre>
 				<p>
 Deletes this vertex array object.
 </p>
@@ -3989,7 +3998,7 @@ Deletes this vertex array object.
 			
 				
 				<h3 id="VertexArray.Setup">func (*VertexArray) <a href="/target/gl-vertex-array.go?s=969:1069#L27">Setup</a></h3>
-				<pre>func (me *VertexArray) Setup(prog *Program, atts []VertexAttribPointer, bufs ...*Buffer) (err error)</pre>
+				<pre>func (me *<a href="#VertexArray">VertexArray</a>) Setup(prog *<a href="#Program">Program</a>, atts []<a href="#VertexAttribPointer">VertexAttribPointer</a>, bufs ...*<a href="#Buffer">Buffer</a>) (err <a href="/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Sets up this vertex array object. Unless atts are specified, prog can be be nil.
 To specify element/index buffer and vertex/attribute buffers (if applicable), pass them via bufs.
@@ -4000,7 +4009,7 @@ To specify element/index buffer and vertex/attribute buffers (if applicable), pa
 			
 				
 				<h3 id="VertexArray.Unbind">func (VertexArray) <a href="/target/gl-vertex-array.go?s=1599:1628#L51">Unbind</a></h3>
-				<pre>func (_ VertexArray) Unbind()</pre>
+				<pre>func (_ <a href="#VertexArray">VertexArray</a>) Unbind()</pre>
 				<p>
 Unbinds whatever vertex array object is currently bound.
 </p>
@@ -4014,25 +4023,25 @@ Unbinds whatever vertex array object is currently bound.
 			<h2 id="VertexAttribPointer">type <a href="/target/gl-vertex-array.go?s=1766:2530#L56">VertexAttribPointer</a></h2>
 			<pre>type VertexAttribPointer struct {
     <span class="comment">//	The name of the vertex attribute in a Program.AttrLocs hash-table.</span>
-    Name string
+    Name <a href="/pkg/builtin/#string">string</a>
 
     <span class="comment">//	Specifies the number of components per generic vertex attribute. Must be 1, 2, 3, 4.</span>
     <span class="comment">//	Additionally, the symbolic constant GL_BGRA is accepted.</span>
-    Size gl.Int
+    Size <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>
 
     <span class="comment">//	Defaults to gl.FLOAT</span>
-    Type gl.Enum
+    Type <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Enum">Enum</a>
 
     <span class="comment">//	Defaults to gl.FALSE</span>
-    Normalized gl.Boolean
+    Normalized <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Boolean">Boolean</a>
 
     <span class="comment">//	Specifies the byte offset between consecutive generic vertex attributes.</span>
     <span class="comment">//	If Stride is 0, the generic vertex attributes are understood to be tightly packed in the array.</span>
-    Stride gl.Sizei
+    Stride <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>
 
     <span class="comment">//	Specifies an offset of the first component of the first generic vertex attribute in the array</span>
     <span class="comment">//	in the data store of the Buffer currently bound to the gl.ARRAY_BUFFER target.</span>
-    Offset gl.Ptr
+    Offset <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Ptr">Ptr</a>
 }</pre>
 			<p>
 Encapsulates vertex attribute information used by VertexArray.Setup() to enable that vertex attribute.
@@ -4048,7 +4057,7 @@ Encapsulates vertex attribute information used by VertexArray.Setup() to enable 
 			
 				
 				<h3 id="NewVertexAttribPointer">func <a href="/target/gl-vertex-array.go?s=2612:2723#L80">NewVertexAttribPointer</a></h3>
-				<pre>func NewVertexAttribPointer(name string, size gl.Int, stride gl.Sizei, offset gl.Ptr) (me *VertexAttribPointer)</pre>
+				<pre>func NewVertexAttribPointer(name <a href="/pkg/builtin/#string">string</a>, size <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>, stride <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>, offset <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Ptr">Ptr</a>) (me *<a href="#VertexAttribPointer">VertexAttribPointer</a>)</pre>
 				<p>
 Initializes and returns a new VertexAttribPointer with the specified values.
 </p>
@@ -4059,13 +4068,12 @@ Initializes and returns a new VertexAttribPointer with the specified values.
 			
 				
 				<h3 id="VertexAttribPointer.Init">func (*VertexAttribPointer) <a href="/target/gl-vertex-array.go?s=2803:2896#L86">Init</a></h3>
-				<pre>func (me *VertexAttribPointer) Init(name string, size gl.Int, stride gl.Sizei, offset gl.Ptr)</pre>
+				<pre>func (me *<a href="#VertexAttribPointer">VertexAttribPointer</a>) Init(name <a href="/pkg/builtin/#string">string</a>, size <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Int">Int</a>, stride <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Sizei">Sizei</a>, offset <a href="/pkg/github.com/go3d/go-opengl/core/">gl</a>.<a href="/pkg/github.com/go3d/go-opengl/core/#Ptr">Ptr</a>)</pre>
 				
 				
 				
 			
 		
-		</div>
 	
 
 	
