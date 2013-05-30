@@ -3,7 +3,7 @@ package main
 import (
 	"strings"
 
-	xmlx "github.com/jteeuwen/go-pkg-xmlx"
+	xmlx "github.com/goforks/go-pkg-xmlx"
 )
 
 type glTypeRef struct {
