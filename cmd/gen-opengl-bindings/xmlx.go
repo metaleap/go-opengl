@@ -1,7 +1,7 @@
 package main
 
 import (
-	xmlx "github.com/goforks/go-pkg-xmlx"
+	xmlx "github.com/goforks/xmlx"
 	usl "github.com/metaleap/go-util/slice"
 )
 

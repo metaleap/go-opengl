@@ -3,7 +3,7 @@ package main
 import (
 	"strings"
 
-	xmlx "github.com/goforks/go-pkg-xmlx"
+	xmlx "github.com/goforks/xmlx"
 	usl "github.com/metaleap/go-util/slice"
 	ustr "github.com/metaleap/go-util/str"
 )
