@@ -3,7 +3,7 @@ package ugl
 import (
 	"fmt"
 
-	ugo "github.com/metaleap/go-util"
+	"github.com/go-utils/ugo"
 )
 
 var (

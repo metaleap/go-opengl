@@ -3,7 +3,7 @@ package ugl
 import (
 	gl "github.com/go3d/go-opengl/core"
 
-	unum "github.com/metaleap/go-util/num"
+	"github.com/go-utils/unum"
 )
 
 const (

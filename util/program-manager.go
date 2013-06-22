@@ -3,7 +3,7 @@ package ugl
 import (
 	"time"
 
-	usl "github.com/metaleap/go-util/slice"
+	"github.com/go-utils/uslice"
 )
 
 const progManCap = 16
@@ -58,7 +58,7 @@ func (me *ProgramManager) MakeProgramsFromRawSources(defines map[string]interfac
 	progsMade = make([]bool, len(me.All))
 	timeStart := time.Now()
 	for i := 0; i < len(me.All); i++ {
-		if me.All[i].GlHandle == 0 || forceAll || usl.StrHas(forceSome, me.All[i].Name) {
+		if me.All[i].GlHandle == 0 || forceAll || uslice.StrHas(forceSome, me.All[i].Name) {
 			progsMade[i] = true
 			me.All[i].Create()
 			if err = me.All[i].CompileAndLinkShaders(defines); err != nil {

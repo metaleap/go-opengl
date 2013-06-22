@@ -3,8 +3,9 @@ package ugl
 import (
 	"math"
 
+	"github.com/go-utils/ugo"
+
 	gl "github.com/go3d/go-opengl/core"
-	ugo "github.com/metaleap/go-util"
 )
 
 var (
