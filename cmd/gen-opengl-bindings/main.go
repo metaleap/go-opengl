@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	xmlx "github.com/goforks/xmlx"
+	xmlx "github.com/go-forks/xmlx"
 	ugo "github.com/metaleap/go-util"
 	uio "github.com/metaleap/go-util/io"
 )

@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	xmlx "github.com/goforks/xmlx"
+	xmlx "github.com/go-forks/xmlx"
 	usl "github.com/metaleap/go-util/slice"
 	ustr "github.com/metaleap/go-util/str"
 )
