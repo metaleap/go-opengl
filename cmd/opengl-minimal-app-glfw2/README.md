@@ -1,4 +1,4 @@
-# gogl-minimal-app-glfw2
+# opengl-minimal-app-glfw2
 --
 Opens a GLFW2 window and renders a blue quad and triangle.
 

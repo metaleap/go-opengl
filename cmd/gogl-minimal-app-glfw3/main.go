@@ -1,3 +1,4 @@
+// Opens a GLFW3 window and renders a blue quad and triangle.
 package main
 
 import (

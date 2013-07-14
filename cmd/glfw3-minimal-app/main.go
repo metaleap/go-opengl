@@ -1,3 +1,4 @@
+// Opens a GLFW3 window and loops.
 package main
 
 import (
