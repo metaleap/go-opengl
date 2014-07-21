@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	xmlx "github.com/go-forks/go-pkg-xmlx"
-	ugo "github.com/metaleap/go-util"
-	uio "github.com/metaleap/go-util/io"
+	"github.com/go-utils/ufs"
+	"github.com/go-utils/ugo"
 )
 
 const (
@@ -20,8 +20,8 @@ var (
 	flagMinVer   = flag.String("minver", "3.3", "Minimum GL version. Whatever was deprecated in that version or earlier will be skipped and not included in the generated binding. IF you specify a custom minver, you'll also need to specify a different requirefunc.\n")
 	flagSpecFile = flag.String("specpath", ugo.GopathSrcGithub("go3d", "go-opengl", "cmd", "gen-opengl-bindings", "xmlspecs", "opengl.xml"), "Full path to the spec file.\n")
 	flagProcAddr = flag.String("requirefunc", "BindSampler", "The name of a GL function (without gl prefix) that the binding's Init() method checks for to test initialization success. IF you specify a custom minver, you'll need a different func name here.\n")
-	flagSupports = flag.Bool("supports", false, "Creates a Supports struct that allows runtime checking for individual function availability")
-	flagTry      = flag.Bool("try", false, "Generate function wrappers that check for GL errors and return Go errors")
+	flagSupports = flag.Bool("supports", true, "Creates a Supports struct that allows runtime checking for individual function availability")
+	flagTry      = flag.Bool("try", true, "Generate function wrappers that check for GL errors and return Go errors")
 
 	cfg struct {
 		altTryFile struct {
@@ -64,7 +64,7 @@ func main() {
 		panic(err)
 	}
 	cfg.outDirPath = filepath.Join(*flagOutDir, "core")
-	if err = uio.EnsureDirExists(cfg.outDirPath); err != nil {
+	if err = ufs.EnsureDirExists(cfg.outDirPath); err != nil {
 		panic(err)
 	}
 	if cfg.genExtsAll {

@@ -48,6 +48,8 @@ func (me RenderStates) SetClearColor(rgba GlVec4) {
 	}
 }
 
+
+
 //#begin-gt -gen-renderstates.gt GT_MULT_SEP:, N:Blending,DepthTest,FaceCulling,FramebufferSrgb,ScissorTest,StencilTest D:blending,depth-testing,face-culling,SRGB-framebuffer,scissor-testing,stencil-testing E:BLEND,DEPTH_TEST,CULL_FACE,FRAMEBUFFER_SRGB,SCISSOR_TEST,STENCIL_TEST
 
 //	Disables blending only if it is currently enabled.
@@ -98,8 +100,6 @@ func (me RenderStates) ToggleBlending() {
 	}
 }
 
-
-
 //	Disables depth-testing only if it is currently enabled.
 func (me RenderStates) DisableDepthTest() {
 	if Cache.renderStates.DepthTest {
@@ -147,8 +147,6 @@ func (me RenderStates) ToggleDepthTest() {
 		gl.Disable(gl.DEPTH_TEST)
 	}
 }
-
-
 
 //	Disables face-culling only if it is currently enabled.
 func (me RenderStates) DisableFaceCulling() {
@@ -198,8 +196,6 @@ func (me RenderStates) ToggleFaceCulling() {
 	}
 }
 
-
-
 //	Disables SRGB-framebuffer only if it is currently enabled.
 func (me RenderStates) DisableFramebufferSrgb() {
 	if Cache.renderStates.FramebufferSrgb {
@@ -248,8 +244,6 @@ func (me RenderStates) ToggleFramebufferSrgb() {
 	}
 }
 
-
-
 //	Disables scissor-testing only if it is currently enabled.
 func (me RenderStates) DisableScissorTest() {
 	if Cache.renderStates.ScissorTest {
@@ -297,8 +291,6 @@ func (me RenderStates) ToggleScissorTest() {
 		gl.Disable(gl.SCISSOR_TEST)
 	}
 }
-
-
 
 //	Disables stencil-testing only if it is currently enabled.
 func (me RenderStates) DisableStencilTest() {

@@ -4,8 +4,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	uio "github.com/metaleap/go-util/io"
-	ustr "github.com/metaleap/go-util/str"
+	"github.com/go-utils/ufs"
+	"github.com/go-utils/ustr"
 )
 
 type glPack struct {
@@ -23,7 +23,7 @@ func (me *glPack) makeAllFiles() (err error) {
 	me.makeAllSources()
 	if !cfg.altTryFile.only {
 		for name, src := range me.sources {
-			if err = uio.WriteTextFile(filepath.Join(cfg.outDirPath, "gl-"+name+".go"), "package gl\n\n"+string(src)); err != nil {
+			if err = ufs.WriteTextFile(filepath.Join(cfg.outDirPath, "gl-"+name+".go"), "package gl\n\n"+string(src)); err != nil {
 				return
 			}
 		}
@@ -49,7 +49,7 @@ type GlTry struct {
 				me.makeTryFunc(&src, fun, "gl.", "Util.")
 			}
 		}
-		err = uio.WriteTextFile(cfg.altTryFile.outPath, string(src))
+		err = ufs.WriteTextFile(cfg.altTryFile.outPath, string(src))
 	}
 	return
 }

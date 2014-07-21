@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	xmlx "github.com/go-forks/go-pkg-xmlx"
-	usl "github.com/metaleap/go-util/slice"
-	ustr "github.com/metaleap/go-util/str"
+	"github.com/go-utils/uslice"
+	"github.com/go-utils/ustr"
 )
 
 type glEnum struct {
@@ -28,7 +28,7 @@ func (me *glPack) makeEnums() {
 		src.addLn("import \"fmt\"")
 	}
 	for name, enum := range allEnums {
-		if (!enum.legacy) && (len(enum.exts) == 0 || len(enum.ver) > 0 || usl.StrHasAny(cfg.genExts, enum.exts...)) {
+		if (!enum.legacy) && (len(enum.exts) == 0 || len(enum.ver) > 0 || uslice.StrHasAny(cfg.genExts, enum.exts...)) {
 			me.enums[name] = enum
 		}
 	}
