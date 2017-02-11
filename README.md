@@ -1,14 +1,14 @@
 go-opengl
 =========
 
-Go packages for working with OpenGL. While more or less adequate for general use, they're being developed in conjunction with [**go:ngine**](http://github.com/go3d/go-ngine) and thus tend to be slightly tweaked, optimized or designed around **go:ngine**'s needs and usage patterns.
+Go packages for working with OpenGL. While more or less adequate for general use, they're being developed in conjunction with [**go:ngine**](http://github.com/metaleap/go-ngine) and thus tend to be slightly tweaked, optimized or designed around **go:ngine**'s needs and usage patterns.
 
 
 core:
 =====
 
 
-A (very) [**GoGL**](https://github.com/chsc/gogl)-like OpenGL binding used by [**go:ngine**](http://github.com/go3d/go-ngine).
+A (very) [**GoGL**](https://github.com/chsc/gogl)-like OpenGL binding used by [**go:ngine**](http://github.com/metaleap/go-ngine).
 
 - includes strictly only GL core profile functionality from version 3.3 onwards (up until 4.3) -- note, this does not mean that a core profile context is *required*, although it is probably advisable on any current-gen GPU with recent drivers
 - no compatibility-profile-only functionality or any that was deprecated or removed at some (any) point
