@@ -1,8 +1,8 @@
 package main
 
 import (
-	xmlx "github.com/go-forks/go-pkg-xmlx"
-	"github.com/go-utils/uslice"
+	xmlx "github.com/jteeuwen/go-pkg-xmlx"
+	"github.com/metaleap/go-util-slice"
 )
 
 type nodeFunc func(*xmlx.Node)

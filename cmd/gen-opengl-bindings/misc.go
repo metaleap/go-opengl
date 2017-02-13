@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/go-utils/ugo"
-	"github.com/go-utils/uslice"
+	"github.com/metaleap/go-util-misc"
+	"github.com/metaleap/go-util-slice"
 )
 
 type version struct {

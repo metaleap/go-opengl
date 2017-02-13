@@ -1,7 +1,7 @@
 package ugl
 
 import (
-	gl "github.com/go3d/go-opengl/core"
+	gl "github.com/metaleap/go-opengl/core"
 )
 
 //	Encapsulates a particular combination of render-states that RenderStates can Apply().
@@ -18,7 +18,7 @@ type RenderStatesBag struct {
 }
 
 //	Encapsulates various states in the OpenGL state machine, also providing toggles for some.
-//	
+//
 //	RenderStates is designed to facilitate lazy state changes by caching all render states:
 //	so unless you call any of the ForceFoo() methods, state changes are only propagated to
 //	OpenGL if there is an actual change from the last time that state was set (via any

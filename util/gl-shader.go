@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/go-utils/ugo"
+	"github.com/metaleap/go-util-misc"
 
-	gl "github.com/go3d/go-opengl/core"
+	gl "github.com/metaleap/go-opengl/core"
 )
 
 type shaderCtor func() *Shader

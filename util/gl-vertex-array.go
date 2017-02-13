@@ -1,7 +1,7 @@
 package ugl
 
 import (
-	gl "github.com/go3d/go-opengl/core"
+	gl "github.com/metaleap/go-opengl/core"
 )
 
 //	Represents an OpenGL vertex array object (NOT the legacy OpenGL "vertex arrays", but what is commonly abbreviated as VAO).

@@ -3,7 +3,7 @@ package ugl
 import (
 	"image"
 
-	gl "github.com/go3d/go-opengl/core"
+	gl "github.com/metaleap/go-opengl/core"
 )
 
 //	Represents six 2-dimensional texture images of equal dimensions.

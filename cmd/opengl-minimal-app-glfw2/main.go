@@ -6,7 +6,7 @@ import (
 	"runtime"
 
 	glfw "github.com/go-gl/glfw"
-	gl "github.com/go3d/go-opengl/core"
+	gl "github.com/metaleap/go-opengl/core"
 )
 
 var (

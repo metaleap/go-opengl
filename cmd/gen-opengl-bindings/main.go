@@ -5,9 +5,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	xmlx "github.com/go-forks/go-pkg-xmlx"
-	"github.com/go-utils/ufs"
-	"github.com/go-utils/ugo"
+	xmlx "github.com/jteeuwen/go-pkg-xmlx"
+	"github.com/metaleap/go-util-fs"
+	"github.com/metaleap/go-util-misc"
 )
 
 const (

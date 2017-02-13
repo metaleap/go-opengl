@@ -4,7 +4,7 @@ import (
 	"image"
 	"math"
 
-	gl "github.com/go3d/go-opengl/core"
+	gl "github.com/metaleap/go-opengl/core"
 )
 
 //	Represents a 2-dimensional texture image.

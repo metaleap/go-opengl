@@ -1,9 +1,9 @@
 package ugl
 
 import (
-	gl "github.com/go3d/go-opengl/core"
+	gl "github.com/metaleap/go-opengl/core"
 
-	"github.com/go-utils/unum"
+	"github.com/metaleap/go-util-num"
 )
 
 const (

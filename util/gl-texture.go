@@ -4,7 +4,7 @@ import (
 	"image"
 	"reflect"
 
-	gl "github.com/go3d/go-opengl/core"
+	gl "github.com/metaleap/go-opengl/core"
 )
 
 //	Implemented by specialized texture types such as Texture2D.

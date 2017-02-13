@@ -1,11 +1,11 @@
 package ugl
 
 import (
-	gl "github.com/go3d/go-opengl/core"
+	gl "github.com/metaleap/go-opengl/core"
 )
 
 //	A singleton type, only used for the package-global ugl.Try variable.
-//	(Methods generated with github.com/go3d/go-opengl/cmd/gen-opengl-bindings.)
+//	(Methods generated with github.com/metaleap/go-opengl/cmd/gen-opengl-bindings.)
 type GlTry struct {
 }
 

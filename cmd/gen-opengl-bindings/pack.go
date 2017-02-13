@@ -4,8 +4,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/go-utils/ufs"
-	"github.com/go-utils/ustr"
+	"github.com/metaleap/go-util-fs"
+	"github.com/metaleap/go-util-str"
 )
 
 type glPack struct {
@@ -36,7 +36,7 @@ func (me *glPack) makeAllFiles() (err error) {
 		src.addLn(`package %s
 
 import (
-	gl "github.com/go3d/go-opengl/core"
+	gl "github.com/metaleap/go-opengl/core"
 )
 
 //	Used only for the exported package-global variable 'Try'.

@@ -1,10 +1,10 @@
 # ugl
 --
-    import "github.com/go3d/go-opengl/util"
+    import "github.com/metaleap/go-opengl/util"
 
 OpenGL utilities and a few sane slim wrappers (without going full-on
 "OO"-overboard) for Go (using the GL Core Profile 3.3+ [
-http://github.com/go3d/go-opengl/core/ ] bindings).
+http://github.com/metaleap/go-opengl/core/ ] bindings).
 
 ## Usage
 
@@ -620,7 +620,7 @@ type GlTry struct {
 ```
 
 A singleton type, only used for the package-global ugl.Try variable. (Methods
-generated with github.com/go3d/go-opengl/cmd/gen-opengl-bindings.)
+generated with github.com/metaleap/go-opengl/cmd/gen-opengl-bindings.)
 
 #### func (GlTry) AttachShader
 

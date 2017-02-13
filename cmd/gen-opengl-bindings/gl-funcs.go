@@ -3,9 +3,9 @@ package main
 import (
 	"strings"
 
-	xmlx "github.com/go-forks/go-pkg-xmlx"
-	"github.com/go-utils/uslice"
-	"github.com/go-utils/ustr"
+	xmlx "github.com/jteeuwen/go-pkg-xmlx"
+	"github.com/metaleap/go-util-slice"
+	"github.com/metaleap/go-util-str"
 )
 
 type glFunc struct {

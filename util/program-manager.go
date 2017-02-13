@@ -3,7 +3,7 @@ package ugl
 import (
 	"time"
 
-	"github.com/go-utils/uslice"
+	"github.com/metaleap/go-util-slice"
 )
 
 const progManCap = 16
