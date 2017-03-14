@@ -3,7 +3,7 @@ package main
 
 import (
 	"fmt"
-	glfw "github.com/go-gl/glfw3"
+	glfw "github.com/go-gl/glfw/v3.0/glfw"
 )
 
 func errorCallback(err glfw.ErrorCode, desc string) {

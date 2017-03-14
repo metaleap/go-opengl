@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	gl "github.com/chsc/gogl/gl43"
-	glfw "github.com/go-gl/glfw3"
+	glfw "github.com/go-gl/glfw/v3.0/glfw"
 )
 
 type geometry struct {

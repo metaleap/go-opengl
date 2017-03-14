@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"runtime"
 
-	glfw "github.com/go-gl/glfw3"
+	glfw "github.com/go-gl/glfw/v3.0/glfw"
 	gl "github.com/metaleap/go-opengl/core"
 )
 
