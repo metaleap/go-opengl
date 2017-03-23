@@ -1,7 +1,7 @@
 package main
 
 import (
-	xmlx "github.com/jteeuwen/go-pkg-xmlx"
+	xmlx "github.com/go-forks/go-pkg-xmlx"
 	"github.com/metaleap/go-util-slice"
 )
 
