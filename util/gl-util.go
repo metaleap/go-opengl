@@ -1,8 +1,8 @@
 package ugl
 
 import (
-	"github.com/metaleap/go-util-slice"
 	gl "github.com/metaleap/go-opengl/core"
+	"github.com/metaleap/go-util/slice"
 )
 
 //	A singleton type, only used for the package-global ugl.Util variable.

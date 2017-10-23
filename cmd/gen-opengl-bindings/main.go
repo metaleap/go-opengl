@@ -6,8 +6,8 @@ import (
 	"strings"
 
 	xmlx "github.com/go-forks/go-pkg-xmlx"
-	"github.com/metaleap/go-util-fs"
-	"github.com/metaleap/go-util-misc"
+	"github.com/metaleap/go-util"
+	"github.com/metaleap/go-util/fs"
 )
 
 const (

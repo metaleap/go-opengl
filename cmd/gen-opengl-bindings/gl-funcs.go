@@ -4,8 +4,8 @@ import (
 	"strings"
 
 	xmlx "github.com/go-forks/go-pkg-xmlx"
-	"github.com/metaleap/go-util-slice"
-	"github.com/metaleap/go-util-str"
+	"github.com/metaleap/go-util/slice"
+	"github.com/metaleap/go-util/str"
 )
 
 type glFunc struct {

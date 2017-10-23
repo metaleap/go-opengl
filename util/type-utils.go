@@ -3,7 +3,7 @@ package ugl
 import (
 	gl "github.com/metaleap/go-opengl/core"
 
-	"github.com/metaleap/go-util-num"
+	"github.com/metaleap/go-util/num"
 )
 
 const (

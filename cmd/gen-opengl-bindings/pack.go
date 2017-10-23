@@ -4,8 +4,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/metaleap/go-util-fs"
-	"github.com/metaleap/go-util-str"
+	"github.com/metaleap/go-util/fs"
+	"github.com/metaleap/go-util/str"
 )
 
 type glPack struct {

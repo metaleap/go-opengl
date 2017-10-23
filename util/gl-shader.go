@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/metaleap/go-util-misc"
+	"github.com/metaleap/go-util"
 
 	gl "github.com/metaleap/go-opengl/core"
 )
